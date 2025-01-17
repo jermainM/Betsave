@@ -1,13 +1,24 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'SpaceGrotesk' !important;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@font-face {
+  font-family: 'SpaceGrotesk-bold';
+  src: url('assets/font/static/SpaceGrotesk-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'SpaceGrotesk-light';
+  src: url('assets/font/static/SpaceGrotesk-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'SpaceGrotesk';
+  src: url('assets/font/static/SpaceGrotesk-Regular.ttf') format('truetype');
 }

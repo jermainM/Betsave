@@ -1,6 +1,5 @@
 import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
 import React from 'react';
-
 interface ProviderProps {
   children: React.ReactNode;
 }

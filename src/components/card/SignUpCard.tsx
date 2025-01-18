@@ -59,6 +59,7 @@ const SignUpCardContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   [theme.breakpoints.down(1140)]: {
     width: '100%',
+    maxWidth: '504px',
   },
   [theme.breakpoints.down(390)]: {
     padding: '18px',

@@ -22,3 +22,15 @@ code {
   font-family: 'SpaceGrotesk';
   src: url('assets/font/static/SpaceGrotesk-Regular.ttf') format('truetype');
 }
+
+  /* Styling for the custom scrollbar */
+::-webkit-scrollbar {
+  display: none;
+}
+
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+

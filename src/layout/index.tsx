@@ -15,8 +15,10 @@ export const Layout = (props: LayoutProps) => {
     <LayoutContainer>
       <LayourImage src={LayourImg} alt="layour-image" />
       <Header />
-      <Wrapper>{children}</Wrapper>
-      <Footer />
+      <Wrapper>
+        {children}
+        <Footer />
+      </Wrapper>
     </LayoutContainer>
   );
 };
@@ -38,7 +40,13 @@ const LayourImage = styled('img')(({ theme }) => ({
 }));
 
 const Wrapper = styled(Box)(({ theme }) => ({
-  maxWidth: '1440px',
+  maxWidth: '1200px',
   width: '100%',
-  padding: '0px 20px',
+  padding: '0px 40px',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  [theme.breakpoints.down(450)]: {
+    padding: '0px 20px',
+  },
 }));

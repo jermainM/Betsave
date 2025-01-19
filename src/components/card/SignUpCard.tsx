@@ -100,13 +100,10 @@ const HorDivider = styled(Divider)(({ theme }) => ({
 
 const SignUpInfo = styled(Typography)(({ theme }) => ({
   marginTop: '27px',
-  fontSize: '16px',
+  fontSize: '12px',
   fontWeight: 'bold',
   color: '#627691',
   span: {
     color: '#fff',
-  },
-  [theme.breakpoints.down(390)]: {
-    fontSize: '12px',
   },
 }));

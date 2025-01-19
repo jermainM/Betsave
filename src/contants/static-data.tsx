@@ -49,5 +49,16 @@ export const STATIC_DATA = {
       title: 'Seamless Experience',
       content: 'User-friendly platforms, no hidden fees, no hassle.',
     },
+    {
+      img: MaximizeIcon,
+      title: 'Maximize Your Wins',
+      content:
+        'Even when the odds are against you, earn guaranteed cashback on every bet.',
+    },
+    {
+      img: SeamlessIcon,
+      title: 'Seamless Experience',
+      content: 'User-friendly platforms, no hidden fees, no hassle.',
+    },
   ],
 };

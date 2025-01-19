@@ -133,6 +133,7 @@ export const Footer = () => {
 
 const FooterContainer = styled(Box)(({ theme }) => ({
   margin: '20px 0px',
+  marginTop: '70px',
   padding: '32px',
   borderRadius: '15px',
   backgroundColor: '#0f1629',

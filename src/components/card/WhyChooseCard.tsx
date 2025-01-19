@@ -19,7 +19,6 @@ export const WhyChooseCard = (props: WhyChooseCardProps) => {
 };
 
 const WhyChooseCardContainer = styled(Box)(({ theme }) => ({
-  width: '100%',
   padding: '36px 42px',
   borderRadius: '15px',
   backgroundColor: '#141c30',
@@ -30,7 +29,6 @@ const WhyChooseCardContainer = styled(Box)(({ theme }) => ({
   gap: '24px',
   [theme.breakpoints.down(1280)]: {
     padding: '24px 32px',
-    width: '100%',
     gap: '16px',
   },
 }));

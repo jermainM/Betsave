@@ -9,13 +9,8 @@ import {
   Typography,
 } from '@mui/material';
 import { StyledBadge } from '../components/badge';
-import { BetaCardSlider } from '../components/slider/betacard';
-import {
-  ExpandMore,
-  KeyboardArrowLeft,
-  KeyboardArrowRight,
-  Star,
-} from '@mui/icons-material';
+import { BetaCardSlider } from '../components/swiper/BetaCard';
+import { ExpandMore, Star } from '@mui/icons-material';
 import { SignUpCard } from '../components/card/SignUpCard';
 
 import EarnIcon from '../assets/earn.png';
@@ -27,9 +22,9 @@ import PlaceBetIcon from '../assets/place-bets.png';
 import Beauty1Img from '../assets/beauty1.png';
 import PlaceBetImg from '../assets/bet-bg.png';
 import MoneyBackImg from '../assets/money-back.png';
-import { WhyChooseCard } from '../components/card/WhyChooseCard';
 import { useState } from 'react';
-import { STATIC_DATA } from '../contants/static-data';
+import { CashbackSlider } from '../components/swiper/Cashback';
+import { WhyChooseSwiper } from '../components/swiper/WhyChoose';
 
 export const Landing = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
@@ -183,7 +178,7 @@ export const Landing = () => {
 
       <WhyChooseUsContainer>
         <WhyChooseUsText>Why Choose Us?</WhyChooseUsText>
-        <WhyChooseSlider />
+        <WhyChooseSwiper />
         <WhyChooseReview>
           <WhyChooseReviewText>
             See our <span>150,000+</span> reviews on
@@ -196,10 +191,10 @@ export const Landing = () => {
         </WhyChooseReview>
       </WhyChooseUsContainer>
 
-      {/* <CashbackStructureContainer>
+      <CashbackStructureContainer>
         <CashbacktructureText>Cashback Structure</CashbacktructureText>
         <CashbackSlider />
-      </CashbackStructureContainer> */}
+      </CashbackStructureContainer>
 
       <FAQContainer>
         <FAQTitle>Frequently Asked Questions</FAQTitle>
@@ -674,134 +669,6 @@ const WhyChooseUsContainer = styled(Box)(({ theme }) => ({
 
 const WhyChooseUsText = HowitworksText;
 
-const WhyChooseSlider = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  // Define the number of cards to show at a time
-  const itemsPerPage = 4;
-
-  // Handle the next slide (next 4 items)
-  const handleNext = () => {
-    if (currentIndex + itemsPerPage < STATIC_DATA.whychoose.length) {
-      setCurrentIndex(currentIndex + itemsPerPage);
-    }
-  };
-
-  // Handle the previous slide (previous 4 items)
-  const handlePrev = () => {
-    if (currentIndex - itemsPerPage >= 0) {
-      setCurrentIndex(currentIndex - itemsPerPage);
-    }
-  };
-
-  // Slice the data based on the currentIndex
-  const cardsToDisplay = STATIC_DATA.whychoose.slice(
-    currentIndex,
-    currentIndex + itemsPerPage
-  );
-
-  return (
-    <WhyChooseSliderContainer>
-      <SliderButton
-        variant="contained"
-        onClick={handlePrev}
-        disabled={currentIndex === 0}
-      >
-        <KeyboardArrowLeft />
-      </SliderButton>
-      <CardsDesktopGrid>
-        {cardsToDisplay.map((card, index) => (
-          <WhyChooseCard
-            key={index}
-            img={card.img}
-            title={card.title}
-            content={card.content}
-          />
-        ))}
-      </CardsDesktopGrid>
-      <CardsMobileGrid>
-        {STATIC_DATA.whychoose.map((card, index) => (
-          <WhyChooseCard
-            key={index}
-            img={card.img}
-            title={card.title}
-            content={card.content}
-          />
-        ))}
-      </CardsMobileGrid>
-      <SliderButton
-        variant="contained"
-        onClick={handleNext}
-        disabled={currentIndex + itemsPerPage >= STATIC_DATA.whychoose.length}
-      >
-        <KeyboardArrowRight />
-      </SliderButton>
-    </WhyChooseSliderContainer>
-  );
-};
-
-const WhyChooseSliderContainer = styled(Box)(({ theme }) => ({
-  marginTop: '50px',
-  display: 'flex',
-  alignItems: 'center',
-  width: '100%',
-  gap: '20px',
-  [theme.breakpoints.down(1280)]: {
-    marginTop: '20px',
-  },
-}));
-
-const CustomSliderButtons = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'space-between',
-  width: '100%',
-  position: 'absolute',
-  top: '50%',
-  left: '0',
-  right: '0',
-  zIndex: 10,
-  transform: 'translateY(-50%)',
-}));
-
-const SliderButton = styled(Button)(({ theme }) => ({
-  borderRadius: '10px',
-  width: '50px',
-  minWidth: 'inherit',
-  height: '50px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: '#141c30',
-  color: '#fff',
-  [theme.breakpoints.down(960)]: {
-    width: '42px',
-    height: '42px',
-  },
-  [theme.breakpoints.down(640)]: {
-    display: 'none',
-  },
-}));
-
-const CardsDesktopGrid = styled(Box)(({ theme }) => ({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(2, 1fr)', // 2 columns layout
-  gap: '20px',
-  flex: 1,
-  [theme.breakpoints.down(640)]: {
-    display: 'none',
-  },
-}));
-
-const CardsMobileGrid = styled(Box)(({ theme }) => ({
-  display: 'none',
-  gridTemplateColumns: 'repeat(1, 1fr)', // 2 columns layout
-  gap: '20px',
-  flex: 1,
-  [theme.breakpoints.down(640)]: {
-    display: 'grid',
-  },
-}));
-
 const WhyChooseReview = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
@@ -859,27 +726,13 @@ const CashbackStructureContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   gap: '54px',
   marginTop: '110px',
+  width: '100%',
   [theme.breakpoints.down(640)]: {
     marginTop: '70px',
   },
 }));
 
 const CashbacktructureText = WhyChooseUsText;
-
-const CashbackSlider = () => {
-  return <CashbackSliderContainer></CashbackSliderContainer>;
-};
-
-const CashbackSliderContainer = styled(Box)(({ theme }) => ({
-  marginTop: '50px',
-  display: 'flex',
-  alignItems: 'center',
-  width: '100%',
-  gap: '20px',
-  [theme.breakpoints.down(1280)]: {
-    marginTop: '20px',
-  },
-}));
 
 const FAQContainer = styled(Box)(({ theme }) => ({
   display: 'flex',

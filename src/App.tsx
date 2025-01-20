@@ -3,6 +3,7 @@ import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import { Landing } from './pages';
 import { AppThemeProvider } from './provider';
 import { Layout } from './layout';
+import { EarnMoney } from './pages/earn';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
           <Layout>
             <Routes>
               <Route path="/" element={<Landing />} />
+              <Route path="/earn" element={<EarnMoney />} />
             </Routes>
           </Layout>
         </AppThemeProvider>

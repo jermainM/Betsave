@@ -25,6 +25,7 @@ import MoneyBackImg from '../assets/money-back.png';
 import { useState } from 'react';
 import { CashbackSlider } from '../components/swiper/Cashback';
 import { WhyChooseSwiper } from '../components/swiper/WhyChoose';
+import { FAQItem } from '../components/Faq';
 
 export const Landing = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
@@ -754,55 +755,4 @@ const FAQItemWrapper = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   gap: '20px',
   width: '100%',
-}));
-
-interface FAQItemProps {
-  title: string;
-  content: string;
-  expanded: boolean;
-  handleChange: (event: React.SyntheticEvent, isExpanded: boolean) => void;
-}
-
-const FAQItem = (props: FAQItemProps) => {
-  const { title, content, expanded, handleChange } = props;
-  return (
-    <FAQAccordion expanded={expanded} onChange={handleChange}>
-      <FAQAccordionSummary
-        expandIcon={<ExpandMore />}
-        aria-controls="panel1bh-content"
-        id="panel1bh-header"
-      >
-        {title}
-      </FAQAccordionSummary>
-      <FAQAccordionDetails>{content}</FAQAccordionDetails>
-    </FAQAccordion>
-  );
-};
-
-const FAQAccordion = styled(Accordion)(({ theme }) => ({
-  border: '2px solid #141c30',
-  borderRadius: '15px',
-  backgroundColor: 'transparent',
-  backgroundImage: 'inherit',
-  width: '100%',
-  padding: '10px',
-
-  '::before': {
-    position: 'relative',
-  },
-}));
-
-const FAQAccordionSummary = styled(AccordionSummary)(({ theme }) => ({
-  fontSize: '18px',
-  color: '#fff',
-  [theme.breakpoints.down(640)]: {
-    fontSize: '16px',
-  },
-}));
-
-const FAQAccordionDetails = styled(AccordionDetails)(({ theme }) => ({
-  fontSize: '14px',
-  [theme.breakpoints.down(640)]: {
-    fontSize: '12px',
-  },
 }));

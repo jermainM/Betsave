@@ -242,11 +242,11 @@ const Heading = styled(Typography)(({ theme }) => ({
     width: '100%',
     padding: '0px 20px',
   },
-  [theme.breakpoints.down(500)]: {
+  [theme.breakpoints.down(540)]: {
     fontSize: '36px',
   },
 
-  [theme.breakpoints.down(450)]: {
+  [theme.breakpoints.down(480)]: {
     fontSize: '32px',
   },
 

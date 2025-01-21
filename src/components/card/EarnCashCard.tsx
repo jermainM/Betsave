@@ -63,7 +63,7 @@ const EarnCashbackImgWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const Background = styled('img')(({ theme }) => ({
-  width: '90%',
+  width: '80%',
   height: 'auto',
   position: 'absolute',
   bottom: '-30px',

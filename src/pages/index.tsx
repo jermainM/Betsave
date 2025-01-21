@@ -17,6 +17,8 @@ import { useState } from 'react';
 import { CashbackSlider } from '../components/swiper/Cashback';
 import { WhyChooseSwiper } from '../components/swiper/WhyChoose';
 import { FAQItem } from '../components/Faq';
+import { LayerImage } from '../layout';
+import LayourImg from '../assets/layer.png';
 
 export const Landing = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
@@ -28,6 +30,7 @@ export const Landing = () => {
 
   return (
     <Container>
+      <LayerImage src={LayourImg} alt="layour-image" />
       <Heading variant="h1">
         <span>“Earn Cashback</span> on Every Bet You Place”
       </Heading>

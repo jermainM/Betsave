@@ -14,8 +14,9 @@ import HorseIcon from '../assets/horse-icon.png';
 import CashbackIcon from '../assets/cashback-big-icon.png';
 
 import HorseImg from '../assets/horse.png';
-import { LuFileAxis3D } from 'react-icons/lu';
 import { EarnCashbackCard } from '../components/card/EarnCashCard';
+import { LayerImage } from '../layout';
+import LayerImg1 from '../assets/layer1.png';
 
 export const EarnMoney = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
@@ -26,6 +27,7 @@ export const EarnMoney = () => {
     };
   return (
     <EarnMoneyContainer>
+      <LayerImage src={LayerImg1} alt="layour-image" />
       <Heading variant="h1">
         “Earn money with Betsave in the next <span>15 minutes</span>”
       </Heading>
@@ -49,6 +51,7 @@ export const EarnMoney = () => {
           <StarIcon />
         </TrustMaryContainer>
       </ReviewContainer>
+      <SignUpButton>Sign Up Now</SignUpButton>
 
       <FeaturedPartnerContainer>
         <FeaturedPartnerTitle>Featured Partners</FeaturedPartnerTitle>
@@ -251,6 +254,7 @@ const ReviewContainer = styled(Box)(({ theme }) => ({
   gap: '4px',
   flexDirection: 'column',
   marginTop: '20px',
+  marginBottom: '10px',
 }));
 
 const ReviewText = styled(Typography)(({ theme }) => ({
@@ -367,8 +371,11 @@ const EarnCashbackAction = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  marginTop: '70px',
+  marginTop: '30px',
   gap: '4px',
+  [theme.breakpoints.down(640)]: {
+    margin: '0',
+  },
 }));
 
 const EarnCashbackActionSubText = styled(Typography)(({ theme }) => ({

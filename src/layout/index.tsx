@@ -3,7 +3,6 @@ import { Box, styled } from '@mui/material';
 
 import { Header } from './header';
 import { Footer } from './footer';
-import LayourImg from '../assets/layer.png';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -13,7 +12,6 @@ export const Layout = (props: LayoutProps) => {
   const { children } = props;
   return (
     <LayoutContainer>
-      <LayourImage src={LayourImg} alt="layour-image" />
       <Header />
       <Wrapper>
         {children}
@@ -31,7 +29,7 @@ const LayoutContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
 }));
 
-const LayourImage = styled('img')(({ theme }) => ({
+export const LayerImage = styled('img')(({ theme }) => ({
   width: '100%',
   height: 'auto',
   position: 'absolute',

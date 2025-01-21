@@ -6,7 +6,6 @@ import {
   IconButton,
   Popover,
   styled,
-  Typography,
 } from '@mui/material';
 import LogoImg from '../assets/Betsave-logo.png';
 import MobileLogoImg from '../assets/mobile-betsave-logo.png';

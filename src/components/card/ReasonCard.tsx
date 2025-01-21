@@ -1,15 +1,20 @@
 import { Box, styled, Typography } from '@mui/material';
-import SeamslessIcon from '../../assets/maximize.png';
 import { ArrowRightAlt } from '@mui/icons-material';
 
-export const ReasonCard = () => {
+interface ReasonCardProps {
+  img: string;
+  title: string;
+  content: string;
+  link: string;
+}
+
+export const ReasonCard = (props: ReasonCardProps) => {
+  const { img, title, content, link } = props;
   return (
     <ReasonCardContainer>
-      <Img src={SeamslessIcon} alt="reason-icon" />
-      <ReasonCardTitle>Highest Cashback Rates</ReasonCardTitle>
-      <ReasonCardContent>
-        Earn up to 7% cashback on your sports and horce racing bets.
-      </ReasonCardContent>
+      <Img src={img} alt="reason-icon" />
+      <ReasonCardTitle>{title}</ReasonCardTitle>
+      <ReasonCardContent>{content}</ReasonCardContent>
       <ReasonCardAction>
         Learn More <ArrowRightAlt />{' '}
       </ReasonCardAction>
@@ -26,11 +31,15 @@ const ReasonCardContainer = styled(Box)(({ theme }) => ({
   padding: '30px',
   borderRadius: '20px',
   backgroundColor: '#141c30',
+  [theme.breakpoints.down(420)]: {
+    padding: '24px',
+  },
 }));
 
 const Img = styled('img')(({ theme }) => ({
   width: '54px',
-  height: 'auto',
+  height: '54px',
+  objectFit: 'contain',
 }));
 
 const ReasonCardTitle = styled(Typography)(({ theme }) => ({

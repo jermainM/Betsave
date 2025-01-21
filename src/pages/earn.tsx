@@ -1,11 +1,21 @@
-import { Star } from '@mui/icons-material';
+import { useState } from 'react';
+import { East, Star } from '@mui/icons-material';
 import { Box, Button, styled, Typography } from '@mui/material';
 
-import TrustmaryIcon from '../assets/Trustmary.png';
 import { CategoryCard } from '../components/card/CategoryCard';
 import { ReasonCard } from '../components/card/ReasonCard';
 import { FAQItem } from '../components/Faq';
-import { useState } from 'react';
+import FeaturedPartners from '../components/marquee/Partners';
+import { STATIC_DATA } from '../contants/static-data';
+
+import TrustmaryIcon from '../assets/Trustmary.png';
+import TrophyIcon from '../assets/Trophy.png';
+import HorseIcon from '../assets/horse-icon.png';
+import CashbackIcon from '../assets/cashback-big-icon.png';
+
+import HorseImg from '../assets/horse.png';
+import { LuFileAxis3D } from 'react-icons/lu';
+import { EarnCashbackCard } from '../components/card/EarnCashCard';
 
 export const EarnMoney = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
@@ -40,6 +50,11 @@ export const EarnMoney = () => {
         </TrustMaryContainer>
       </ReviewContainer>
 
+      <FeaturedPartnerContainer>
+        <FeaturedPartnerTitle>Featured Partners</FeaturedPartnerTitle>
+        <FeaturedPartners />
+      </FeaturedPartnerContainer>
+
       <CategoryContainer>
         <CategoryTitle>Categories</CategoryTitle>
         <CategorySubtitle>
@@ -47,14 +62,39 @@ export const EarnMoney = () => {
           business
         </CategorySubtitle>
         <CategoryCardContainer>
-          <CategoryCard />
-          <CategoryCard />
-          <CategoryCard />
-          <CategoryCard />
-          <CategoryCard />
-          <CategoryCard />
+          {STATIC_DATA.categories.map((item, idx) => (
+            <CategoryCard
+              img={item.img}
+              title={item.title}
+              content={item.content}
+              action={item.action}
+              link={item.link}
+              key={idx}
+            />
+          ))}
         </CategoryCardContainer>
       </CategoryContainer>
+
+      <MarketImageContainer>
+        <MarketBarContainer>
+          <MarketBarWrapper>
+            <MarketIcon src={TrophyIcon} alt="market-icon" />
+            <EastIcon />
+            <MarketIcon src={HorseIcon} alt="market-icon" />
+            <EastIcon />
+            <MarketIcon src={CashbackIcon} alt="market-icon" />
+          </MarketBarWrapper>
+        </MarketBarContainer>
+        <MarketItemContainer>
+          <MarketItemActionContainer>
+            <MarketItemText>
+              <span>$1M+ Cashback</span> for Sports & Horse Bettors!
+            </MarketItemText>
+            <MarketActionButton>Start Earning Now</MarketActionButton>
+          </MarketItemActionContainer>
+          <MarketItemImage src={HorseImg} alt="horse-img" />
+        </MarketItemContainer>
+      </MarketImageContainer>
 
       <EarnCashbackContainer>
         <EarnCashbackTitle>How to Earn Cashback</EarnCashbackTitle>
@@ -62,12 +102,24 @@ export const EarnMoney = () => {
           Three simple steps to start earning cashback on every sports and horse
           racing bet you place.
         </EarnCashbackSubTitle>
-        <EarnCashbackContent></EarnCashbackContent>
+        <EarnCashbackContent>
+          {STATIC_DATA.earnCashback.map((item, idx) => (
+            <EarnCashbackCard
+              img={item.img}
+              icon={item.icon}
+              title={item.title}
+              content={item.content}
+              key={idx}
+            />
+          ))}
+        </EarnCashbackContent>
         <EarnCashbackAction>
           <EarnCashbackActionSubText>
             Join thousands of bettors earning rewards daily, sign up free!
           </EarnCashbackActionSubText>
-          <EarnCashbackButton>Start Earning Now</EarnCashbackButton>
+          <EarnCashbackButton endIcon={<East />}>
+            Start Earning Now
+          </EarnCashbackButton>
         </EarnCashbackAction>
       </EarnCashbackContainer>
 
@@ -80,9 +132,15 @@ export const EarnMoney = () => {
           place.
         </ReasonSubtitle>
         <ReasonCardContainer>
-          <ReasonCard />
-          <ReasonCard />
-          <ReasonCard />
+          {STATIC_DATA.reason.map((item, idx) => (
+            <ReasonCard
+              img={item.img}
+              title={item.title}
+              content={item.content}
+              link={item.link}
+              key={idx}
+            />
+          ))}
         </ReasonCardContainer>
         <ReviewContainer>
           <ReviewText>
@@ -296,7 +354,14 @@ const EarnCashbackContainer = styled(Box)(({ theme }) => ({
 const EarnCashbackTitle = CategoryTitle;
 const EarnCashbackSubTitle = CategorySubtitle;
 
-const EarnCashbackContent = styled(Box)(({ theme }) => ({}));
+const EarnCashbackContent = styled(Box)(({ theme }) => ({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(3, 1fr)',
+  gap: '20px',
+  [theme.breakpoints.down(1024)]: {
+    gridTemplateColumns: 'repeat(1, 1fr)',
+  },
+}));
 
 const EarnCashbackAction = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -309,6 +374,7 @@ const EarnCashbackAction = styled(Box)(({ theme }) => ({
 const EarnCashbackActionSubText = styled(Typography)(({ theme }) => ({
   fontSize: '14px',
   color: '#627691',
+  textAlign: 'center',
 }));
 
 const EarnCashbackButton = styled(Button)(({ theme }) => ({
@@ -324,6 +390,10 @@ const EarnCashbackButton = styled(Button)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   padding: '16px 72px',
+  [theme.breakpoints.down(420)]: {
+    fontSize: '14px',
+    padding: '16px 32px',
+  },
 }));
 
 const ReasonContainer = styled(Box)(({ theme }) => ({
@@ -332,12 +402,14 @@ const ReasonContainer = styled(Box)(({ theme }) => ({
   gap: '10px',
   alignItems: 'center',
   marginTop: '70px',
+  width: '100%',
 }));
 
 const ReasonTitle = styled(Typography)(({ theme }) => ({
   fontSize: '24px',
   color: '#fff',
   fontWeight: 'bold',
+  textAlign: 'center',
   span: {
     color: '#1ae5a1',
   },
@@ -355,6 +427,9 @@ const ReasonCardContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   gap: '20px',
   marginTop: '40px',
+  [theme.breakpoints.down(1064)]: {
+    flexDirection: 'column',
+  },
 }));
 
 const SignUpButton = styled(Button)(({ theme }) => ({
@@ -370,6 +445,9 @@ const SignUpButton = styled(Button)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'center',
   width: '390px',
+  [theme.breakpoints.down(640)]: {
+    width: '100%',
+  },
 }));
 
 const FAQContainer = styled(Box)(({ theme }) => ({
@@ -400,4 +478,176 @@ const FAQItemWrapper = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   gap: '20px',
   width: '100%',
+}));
+
+const FeaturedPartnerContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '30px',
+  alignItems: 'center',
+  width: '100%',
+  marginTop: '70px',
+}));
+
+const FeaturedPartnerTitle = styled(Box)(({ theme }) => ({
+  fontSize: '24px',
+  color: '#fff',
+  fontWeight: 'bold',
+}));
+
+const MarketImageContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  width: '100%',
+}));
+
+const MarketBarContainer = styled(Box)(({ theme }) => ({
+  height: '72px',
+  padding: '10px',
+  background: 'linear-gradient(90deg, #0D1422, #141c30, #0D1422)',
+  display: 'flex',
+  justifyContent: 'center',
+  marginTop: '45px',
+  borderRadius: '15px',
+}));
+
+const MarketBarWrapper = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '125px',
+  [theme.breakpoints.down(960)]: {
+    gap: '80px',
+  },
+  [theme.breakpoints.down(640)]: {
+    gap: '42px',
+  },
+  [theme.breakpoints.down(480)]: {
+    gap: '24px',
+  },
+}));
+
+const MarketIcon = styled('img')(({ theme }) => ({
+  width: '48px',
+  height: 'auto',
+  [theme.breakpoints.down(960)]: {
+    width: '32px',
+  },
+}));
+
+const EastIcon = styled(East)(({ theme }) => ({
+  fontSize: '36px',
+  [theme.breakpoints.down(960)]: {
+    fontSize: '28px',
+  },
+  [theme.breakpoints.down(640)]: {
+    fontSize: '20px',
+  },
+}));
+
+const MarketItemContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  width: '100%',
+  height: '320px',
+  borderRadius: '25px',
+  background: 'linear-gradient(90deg, #0D1422, #141c30, #0D1422)',
+  marginTop: '32px',
+  padding: '32px',
+  overflow: 'hidden',
+  position: 'relative',
+  [theme.breakpoints.down(1024)]: {
+    height: '240px',
+  },
+  [theme.breakpoints.down(768)]: {
+    height: '480px',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  [theme.breakpoints.down(480)]: {
+    height: '360px',
+  },
+  // [theme.breakpoints.down(640)]: {
+
+  // },
+}));
+
+const MarketItemActionContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '20px',
+  width: '420px',
+  marginTop: '20px',
+  zIndex: 2,
+  [theme.breakpoints.down(1024)]: {
+    width: '320px',
+  },
+  [theme.breakpoints.down(768)]: {
+    width: '420px',
+  },
+  [theme.breakpoints.down(640)]: {
+    width: '100%',
+  },
+}));
+
+const MarketItemText = styled(Typography)(({ theme }) => ({
+  fontSize: '36px',
+  color: '#fff',
+  fontWeight: 'bold',
+  span: {
+    color: '#1ae5a1',
+  },
+  [theme.breakpoints.down(1024)]: {
+    fontSize: '28px',
+  },
+  [theme.breakpoints.down(768)]: {
+    textAlign: 'center',
+    fontSize: '32px',
+  },
+  [theme.breakpoints.down(640)]: {
+    fontSize: '28px',
+  },
+  [theme.breakpoints.down(480)]: {
+    fontSize: '24px',
+  },
+  [theme.breakpoints.down(380)]: {
+    fontSize: '18px',
+  },
+}));
+
+const MarketActionButton = styled(Button)(({ theme }) => ({
+  display: 'flex',
+  width: '100%',
+  height: '42px',
+  backgroundColor: '#1ae5a1',
+  color: '#000',
+  fontSize: '16px',
+  fontWeight: 'bold',
+  textTransform: 'none',
+  marginTop: '20px',
+  [theme.breakpoints.down(1024)]: {
+    marginTop: '10px',
+  },
+  [theme.breakpoints.down(420)]: {
+    height: '36px',
+    fontSize: '14px',
+  },
+}));
+
+const MarketItemImage = styled('img')(({ theme }) => ({
+  width: '540px',
+  height: 'auto',
+  position: 'absolute',
+  right: 0,
+  zIndex: 1,
+  [theme.breakpoints.down(1024)]: {
+    width: '420px',
+  },
+  [theme.breakpoints.down(768)]: {
+    width: '480px',
+    position: 'static',
+    marginTop: '35px',
+  },
+  [theme.breakpoints.down(480)]: {
+    width: '320px',
+    marginTop: '20px',
+  },
 }));

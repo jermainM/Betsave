@@ -36,6 +36,21 @@ const DARK_THEME: any = {
   typography: {
     fontFamily: 'inherit', // Your custom font family
   },
+  components: {
+    // Global styles for animations
+    MuiCssBaseline: {
+      styleOverrides: {
+        '@keyframes scroll-images': {
+          '0%': {
+            transform: 'translateX(0)',
+          },
+          '100%': {
+            transform: 'translateX(-50%)',
+          },
+        },
+      },
+    },
+  },
   breakpoints: {
     values: {
       xs: 451,

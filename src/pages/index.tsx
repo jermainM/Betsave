@@ -1,16 +1,7 @@
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Button,
-  Divider,
-  styled,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Divider, styled, Typography } from '@mui/material';
 import { StyledBadge } from '../components/badge';
 import { BetaCardSlider } from '../components/swiper/BetaCard';
-import { ExpandMore, Star } from '@mui/icons-material';
+import { Star } from '@mui/icons-material';
 import { SignUpCard } from '../components/card/SignUpCard';
 
 import EarnIcon from '../assets/earn.png';

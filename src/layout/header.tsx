@@ -15,10 +15,12 @@ import { IconInput } from '../components/input/IconInput';
 import { Menu, Search } from '@mui/icons-material';
 import { LuUserRound } from 'react-icons/lu';
 import { AiOutlineKey } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 
 export const Header = () => {
   const [searchText, setSearchText] = useState('');
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const navigate = useNavigate();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -42,21 +44,23 @@ export const Header = () => {
           alt="betsave-logo"
           width={'180px'}
           height={'auto'}
+          onClick={() => navigate('/')}
         />
         <MobileLogoImage
           src={MobileLogoImg}
           alt="betsave-logo"
           width={'42px'}
           height={'auto'}
+          onClick={() => navigate('/')}
         />
         <VerticalDivider orientation="vertical" />
         <Content>
           <LinkItemContainer>
-            <LinkItem>
+            <LinkItem onClick={() => navigate('/earn')}>
               <Icon src={EarnIcon} alt="earn-icon" />
               Earn
             </LinkItem>
-            <LinkItem>
+            <LinkItem onClick={() => navigate('/bet')}>
               <Icon src={CashoutIcon} alt="cashout-icon" />
               Cashout
             </LinkItem>

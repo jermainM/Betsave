@@ -21,6 +21,10 @@ import BookMakerIcon from '../assets/bookmaker.png';
 import CheckIcon from '../assets/check.png';
 import WalletOutlinedIcon from '../assets/wallet-outline.png';
 
+import Layer85Img from '../assets/Layer-85.png';
+import Layer87Img from '../assets/Layer-87.jpg';
+import Layer94Img from '../assets/Layer-94.jpg';
+
 export const STATIC_DATA = {
   whychoose: [
     {
@@ -166,6 +170,29 @@ export const STATIC_DATA = {
       title: 'Get Your Cashback',
       content:
         'Your cashback will be tracked and added to your account automatically. Withdraw anytime!',
+    },
+  ],
+  giftcard: [
+    {
+      img: Layer85Img,
+      icon: BookMakerIcon,
+      title: 'Place Your Bets',
+      content:
+        'Choose your favorite bookmaker, bet on sports, horce racing, or live events. The more you bet, the more cashback you earn!',
+    },
+    {
+      img: Layer87Img,
+      icon: CheckIcon,
+      title: 'Get Instant Cashback',
+      content:
+        'Track your earnings in real-time. Every bet earns you cashback based on our rewards tiers up to 10% for top bettors.',
+    },
+    {
+      img: Layer94Img,
+      icon: WalletOutlinedIcon,
+      title: 'Cash Out Anytime',
+      content:
+        'Withdraw your cashback easily via back transfers e-wallets, or gift cards for sportswear, race day ticket, and more.',
     },
   ],
 };

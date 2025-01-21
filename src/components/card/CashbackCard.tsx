@@ -25,7 +25,6 @@ const CashbackCardContainer = styled(Box)(({ theme }) => ({
   backgroundColor: '#141c30',
   gap: '6px',
   position: 'relative',
-  maxWidth: '550px',
   overflow: 'hidden',
   [theme.breakpoints.down(960)]: {
     height: '280px',

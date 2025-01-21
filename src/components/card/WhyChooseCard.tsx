@@ -1,5 +1,4 @@
 import { Box, styled, Typography } from '@mui/material';
-import MaximizeIcon from '../../assets/maximize.png';
 
 interface WhyChooseCardProps {
   img: string;

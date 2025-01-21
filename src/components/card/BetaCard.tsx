@@ -1,6 +1,5 @@
 import React from 'react';
 import { Box, styled, SxProps, Typography } from '@mui/material';
-import NedsImg from '../../assets/neds.png';
 import { Star } from '@mui/icons-material';
 import { Theme } from '@emotion/react';
 

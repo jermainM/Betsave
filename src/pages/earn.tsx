@@ -29,7 +29,7 @@ export const EarnMoney = () => {
     <EarnMoneyContainer>
       <LayerImage src={LayerImg1} alt="layour-image" />
       <Heading variant="h1">
-        “Earn money with Betsave in the next <span>15 minutes</span>”
+        “Earn money with Betsave in the next <span>15 minutes”</span>
       </Heading>
       <SubHeading>
         Bet on sports or horse races and earn up to 7% cashback with our trusted
@@ -365,6 +365,7 @@ const EarnCashbackContent = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down(1024)]: {
     gridTemplateColumns: 'repeat(1, 1fr)',
   },
+  marginTop: '30px',
 }));
 
 const EarnCashbackAction = styled(Box)(({ theme }) => ({

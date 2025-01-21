@@ -1,6 +1,7 @@
 import { Box, styled, Typography } from '@mui/material';
 
 interface EarnCashbackCardProps {
+  isFull?: boolean;
   img: string;
   icon: string;
   title: string;
@@ -8,11 +9,15 @@ interface EarnCashbackCardProps {
 }
 
 export const EarnCashbackCard = (props: EarnCashbackCardProps) => {
-  const { img, icon, title, content } = props;
+  const { isFull, img, icon, title, content } = props;
   return (
     <EarnCashbackCardContainer>
       <EarnCashbackImgWrapper>
-        <Background src={img} alt="earn-cashback-bg" />
+        {isFull ? (
+          <FullBackground src={img} alt="earn-cashback-bg" />
+        ) : (
+          <Background src={img} alt="earn-cashback-bg" />
+        )}
       </EarnCashbackImgWrapper>
       <EarnCashbackContent>
         <EarnCashbackTitle>
@@ -106,4 +111,10 @@ const EarnCashbackSubTitle = styled(Typography)(({ theme }) => ({
   color: '#627691',
   textAlign: 'center',
   height: '100px',
+}));
+
+const FullBackground = styled('img')(({ theme }) => ({
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
 }));

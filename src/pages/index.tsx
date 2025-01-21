@@ -315,7 +315,7 @@ const SmallHeadingItem = styled(Box)(({ theme }) => ({
 const CardGroupContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   gap: '80px',
-  justifyContent: 'space-between',
+  justifyContent: 'center',
   marginTop: '50px',
   width: '100%',
   [theme.breakpoints.down(1140)]: {
@@ -331,10 +331,12 @@ const ReviewContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: '76px',
-  width: '100%',
   [theme.breakpoints.down(1140)]: {
     alignItems: 'center',
     gap: '42px',
+  },
+  [theme.breakpoints.down(640)]: {
+    width: '100%',
   },
 }));
 

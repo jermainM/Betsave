@@ -38,7 +38,7 @@ export const LayerImage = styled('img')(({ theme }) => ({
 }));
 
 const Wrapper = styled(Box)(({ theme }) => ({
-  maxWidth: '1200px',
+  maxWidth: '1520px',
   width: '100%',
   padding: '0px 40px',
   display: 'flex',

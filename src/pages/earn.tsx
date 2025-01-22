@@ -557,7 +557,12 @@ const MarketItemContainer = styled(Box)(({ theme }) => ({
   width: '100%',
   height: '320px',
   borderRadius: '25px',
-  background: 'linear-gradient(90deg, #0D1422, #141c30, #0D1422)',
+  // background: 'linear-gradient(90deg, #0D1422, #141c30, #0D1422)',
+  background: `
+          linear-gradient(90deg, #0D1422 0%, #141C30 60%, transparent 100%),
+          radial-gradient(circle at 75% 100%, rgba(14, 247, 169, 0.3) 0%, rgba(20, 28, 48, 0) 36%)
+        `,
+  backgroundBlendMode: 'overlay',
   marginTop: '32px',
   padding: '32px',
   overflow: 'hidden',

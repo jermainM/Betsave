@@ -39,7 +39,9 @@ const EarnCashbackCardContainer = styled(Box)(({ theme }) => ({
 const EarnCashbackImgWrapper = styled(Box)(({ theme }) => ({
   height: '350px',
   borderRadius: '15px',
-  backgroundColor: '#141c30',
+  // backgroundColor: '#141c30',
+  background:
+    'radial-gradient(circle at 55% 90%, rgba(14, 247, 169, 0.3) 0%, #0F3D3E, #081B1F)',
   position: 'relative',
   overflow: 'hidden',
   [theme.breakpoints.down(1380)]: {
@@ -90,14 +92,14 @@ const EarnCashbackContent = styled(Box)(({ theme }) => ({
 }));
 
 const EarnCashbackTitle = styled(Box)(({ theme }) => ({
-  fontSize: '24px',
+  fontSize: '22px',
   color: '#fff',
   display: 'flex',
   alignItems: 'center',
   gap: '16px',
   fontWeight: 'bold',
   [theme.breakpoints.down(640)]: {
-    fontSize: '20px',
+    fontSize: '18px',
   },
 }));
 
@@ -107,7 +109,7 @@ const Img = styled('img')(({ theme }) => ({
 }));
 
 const EarnCashbackSubTitle = styled(Typography)(({ theme }) => ({
-  fontSize: '14px',
+  fontSize: '13px',
   color: '#627691',
   textAlign: 'center',
   height: '100px',

@@ -22,7 +22,9 @@ const CashbackCardContainer = styled(Box)(({ theme }) => ({
   paddingTop: '45px',
   width: '100%',
   height: '375px',
-  backgroundColor: '#141c30',
+  // backgroundColor: '#141c30',
+  background:
+    'radial-gradient(circle at 50% 100%, rgba(14, 247, 169, 0.3) 0%, #0F3D3E 10% 10%, #141c30)',
   gap: '6px',
   position: 'relative',
   overflow: 'hidden',

@@ -225,6 +225,7 @@ const Container = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'center',
   width: '100%',
+  maxWidth: '1120px',
 }));
 
 const Heading = styled(Typography)(({ theme }) => ({
@@ -444,7 +445,7 @@ const Cashback = styled(Box)(({ theme }) => ({
   fontWeight: 'bold',
   color: '#fff',
   [theme.breakpoints.down(840)]: {
-    fontSize: '24px',
+    fontSize: '22px',
   },
   [theme.breakpoints.down(640)]: {
     fontSize: '32px',
@@ -468,6 +469,12 @@ const CashbackText = styled(Typography)(({ theme }) => ({
   fontSize: '14px',
   color: '#627691',
   textAlign: 'center',
+  [theme.breakpoints.down(840)]: {
+    fontSize: '12px',
+  },
+  [theme.breakpoints.down(640)]: {
+    fontSize: '14px',
+  },
 }));
 
 const CustomVerticalDivider = styled(Divider)(({ theme }) => ({

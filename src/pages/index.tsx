@@ -559,10 +559,10 @@ const HowitworksActionTitle = styled(Typography)(({ theme }) => ({
   },
   [theme.breakpoints.down(840)]: {
     width: '100%',
-    fontSize: '42px',
+    fontSize: '36px',
     textAlign: 'center',
   },
-  [theme.breakpoints.down(480)]: {
+  [theme.breakpoints.down(540)]: {
     fontSize: '32px',
   },
   [theme.breakpoints.down(390)]: {

@@ -684,7 +684,7 @@ const WhyChooseReview = styled(Box)(({ theme }) => ({
   },
 }));
 
-const WhyChooseReviewText = styled(Typography)(({ theme }) => ({
+const WhyChooseReviewText = styled(Box)(({ theme }) => ({
   fontSize: '16px',
   color: '#627691',
   display: 'flex',

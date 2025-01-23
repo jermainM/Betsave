@@ -25,6 +25,12 @@ import Layer85Img from '../assets/Layer-85.png';
 import Layer87Img from '../assets/Layer-87.jpg';
 import Layer94Img from '../assets/Layer-94.jpg';
 
+import { GiMoneyStack } from 'react-icons/gi';
+import { IoGameController, IoCashOutline } from 'react-icons/io5';
+import { MdLocalOffer, MdLeaderboard } from 'react-icons/md';
+import { FaAward } from 'react-icons/fa6';
+import { FaUsers } from 'react-icons/fa';
+
 export const STATIC_DATA = {
   whychoose: [
     {
@@ -193,6 +199,37 @@ export const STATIC_DATA = {
       title: 'Cash Out Anytime',
       content:
         'Withdraw your cashback easily via back transfers e-wallets, or gift cards for sportswear, race day ticket, and more.',
+    },
+  ],
+  listItems: [
+    {
+      icon: <GiMoneyStack style={{ width: '100%', height: '100%' }} />,
+      name: 'Cashback',
+    },
+    {
+      icon: <IoGameController style={{ width: '100%', height: '100%' }} />,
+      name: 'My Offers',
+    },
+    {
+      icon: <MdLocalOffer style={{ width: '100%', height: '100%' }} />,
+      name: 'All Offers',
+      hasBadge: true,
+    },
+    {
+      icon: <IoCashOutline style={{ width: '100%', height: '100%' }} />,
+      name: 'Cashout',
+    },
+    {
+      icon: <MdLeaderboard style={{ width: '100%', height: '100%' }} />,
+      name: 'Leaderboard',
+    },
+    {
+      icon: <FaAward style={{ width: '100%', height: '100%' }} />,
+      name: 'Rewards',
+    },
+    {
+      icon: <FaUsers style={{ width: '100%', height: '100%' }} />,
+      name: 'Affiliates',
     },
   ],
 };

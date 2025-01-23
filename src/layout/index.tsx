@@ -3,6 +3,8 @@ import { Box, styled } from '@mui/material';
 
 import { Header } from './header';
 import { Footer } from './footer';
+import { useLocation } from 'react-router-dom';
+import { NavBar } from './navbar';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -10,13 +12,24 @@ interface LayoutProps {
 
 export const Layout = (props: LayoutProps) => {
   const { children } = props;
+  const location = useLocation();
+
+  const beforeLogin = ['/', '/earn', '/bet'];
+
+  const isBeforeLogin = beforeLogin.includes(location.pathname);
   return (
     <LayoutContainer>
-      <Header />
-      <Wrapper>
-        {children}
-        <Footer />
-      </Wrapper>
+      {isBeforeLogin ? (
+        <>
+          <Header />
+          <Wrapper>
+            {children}
+            <Footer />
+          </Wrapper>
+        </>
+      ) : (
+        <NavBar>{children}</NavBar>
+      )}
     </LayoutContainer>
   );
 };

@@ -65,8 +65,8 @@ const DARK_THEME: any = {
   palette: {
     mode: 'dark',
     background: {
-      paper: '#0D1321', // Gray 800 - Background of "Paper" based component
-      default: '#0D1321',
+      paper: '#0C1221', // Gray 800 - Background of "Paper" based component
+      default: '#0C1221',
     },
     ...FRONT_COLORS_DARK,
   },

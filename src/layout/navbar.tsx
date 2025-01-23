@@ -150,7 +150,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
               src={GiftIcon}
               alt="gift-img"
               sx={{
-                width: isExpand ? '100px' : '45px',
+                width: isExpand ? '120px' : '45px',
                 height: 'auto',
                 position: 'absolute',
                 bottom: isExpand ? '-35px' : '22px',

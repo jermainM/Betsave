@@ -31,12 +31,21 @@ import GiftIcon from '../assets/gift.png';
 
 import { STATIC_DATA } from '../contants/static-data';
 import { Footer } from './footer';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../store';
+import { setActiveItem } from '../store/slices/navbarSlice';
 
 export const NavBar = (props: { children: React.ReactNode }) => {
   const { children } = props;
   const [searchText, setSearchText] = useState('');
   const [selectedItem, setSelectedItem] = useState(0);
   const [isExpand, setExpand] = useState(true);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleNavItemClick = (idx: number, item: string) => {
+    setSelectedItem(idx);
+    dispatch(setActiveItem(item));
+  };
 
   const handleSearch = (value: string) => {
     setSearchText(value);
@@ -165,7 +174,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
               <SideBarListItem key={idx} disablePadding>
                 <SideBarListItemButton
                   selected={selectedItem === idx}
-                  onClick={() => setSelectedItem(idx)}
+                  onClick={() => handleNavItemClick(idx, item.name)}
                 >
                   <SideBarListItemIcon sx={{ marginLeft: '18px' }}>
                     {item.icon}
@@ -194,7 +203,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
         {STATIC_DATA.listItems.map((item, idx) => (
           <MobileSidebarItem
             isSelected={selectedItem === idx}
-            onClick={() => setSelectedItem(idx)}
+            onClick={() => handleNavItemClick(idx, item.name)}
             icon={item.icon}
             name={item.name}
             key={idx}

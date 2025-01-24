@@ -1,5 +1,5 @@
 import { Box, Button, IconButton, styled, Typography } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import { DiAndroid } from 'react-icons/di';
 import { FaCircleCheck } from 'react-icons/fa6';
 import { FaDesktop, FaApple } from 'react-icons/fa';
@@ -22,8 +22,10 @@ import {
   Autoplay,
   FreeMode,
 } from 'swiper/modules';
+import { EmptyBox } from '../../components/box/EmptyBox';
 
 export const Cashback = () => {
+  const [isEmpty, setEmpty] = useState(true);
   return (
     <CashbackContainer>
       <CashbackHeader>
@@ -44,37 +46,43 @@ export const Cashback = () => {
             </CashbackTitleIcon>
             Cashback Offers
           </CashbackContentTitle>
-          <CashbackContentAction>
-            <p>View All</p>
-            <CashbackNavButton className="cashoffer-swiper-button-prev">
-              <KeyboardArrowLeft />
-            </CashbackNavButton>
-            <CashbackNavButton className="cashoffer-swiper-button-next">
-              <KeyboardArrowRight />
-            </CashbackNavButton>
-          </CashbackContentAction>
+          {!isEmpty && (
+            <CashbackContentAction>
+              <p>View All</p>
+              <CashbackNavButton className="cashoffer-swiper-button-prev">
+                <KeyboardArrowLeft />
+              </CashbackNavButton>
+              <CashbackNavButton className="cashoffer-swiper-button-next">
+                <KeyboardArrowRight />
+              </CashbackNavButton>
+            </CashbackContentAction>
+          )}
         </CashbackContentHeader>
-        <CashOfferSwiper>
-          <CustomSwiper
-            slidesPerView={'auto'}
-            freeMode={true}
-            keyboard={{
-              enabled: true,
-            }}
-            navigation={{
-              nextEl: '.cashoffer-swiper-button-next',
-              prevEl: '.cashoffer-swiper-button-prev',
-            }}
-            modules={[Keyboard, Pagination, Navigation, Autoplay, FreeMode]}
-            className="mySwiper"
-          >
-            {[...Array(15)].map((_, idx) => (
-              <SwiperSlide key={idx}>
-                <CashOfferCard />
-              </SwiperSlide>
-            ))}
-          </CustomSwiper>
-        </CashOfferSwiper>
+        {isEmpty ? (
+          <EmptyBox />
+        ) : (
+          <CashOfferSwiper>
+            <CustomSwiper
+              slidesPerView={'auto'}
+              freeMode={true}
+              keyboard={{
+                enabled: true,
+              }}
+              navigation={{
+                nextEl: '.cashoffer-swiper-button-next',
+                prevEl: '.cashoffer-swiper-button-prev',
+              }}
+              modules={[Keyboard, Pagination, Navigation, Autoplay, FreeMode]}
+              className="mySwiper"
+            >
+              {[...Array(15)].map((_, idx) => (
+                <SwiperSlide key={idx}>
+                  <CashOfferCard />
+                </SwiperSlide>
+              ))}
+            </CustomSwiper>
+          </CashOfferSwiper>
+        )}
       </CashbackContent>
     </CashbackContainer>
   );
@@ -183,10 +191,12 @@ const CashbackContentHeader = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'space-between',
   width: '100%',
+  height: '63px',
   [theme.breakpoints.down(390)]: {
     flexDirection: 'column',
     alignItems: 'flex-start',
     gap: '8px',
+    height: 'auto',
   },
 }));
 
@@ -240,13 +250,6 @@ const CashbackNavButton = styled(IconButton)(({ theme }) => ({
 
 const CashOfferSwiper = styled(Box)(({ theme }) => ({
   display: 'flex',
-  width: '100%',
-}));
-
-const CashOfferCardContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '10px',
   width: '100%',
 }));
 

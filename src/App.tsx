@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import { Landing } from './pages';
-import { AppThemeProvider } from './provider';
+import { Provider } from './provider';
 import { Layout } from './layout';
 import { EarnMoney } from './pages/earn';
 import { BetSmart } from './pages/bet';
@@ -11,7 +11,7 @@ function App() {
   return (
     <Suspense fallback={<>Loading</>}>
       <Router>
-        <AppThemeProvider>
+        <Provider>
           <Layout>
             <Routes>
               <Route path="/" element={<Landing />} />
@@ -20,7 +20,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
           </Layout>
-        </AppThemeProvider>
+        </Provider>
       </Router>
     </Suspense>
   );

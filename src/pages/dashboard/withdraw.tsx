@@ -94,7 +94,7 @@ const HeadingAction = styled(Typography)(({ theme }) => ({
 const WithdrawContent = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  gap: '40px',
+  gap: '60px',
 }));
 
 const WithdrawItemGroup = styled(Box)(({ theme }) => ({

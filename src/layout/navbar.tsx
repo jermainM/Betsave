@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 import {
+  alpha,
   Avatar,
   Box,
   Button,
+  Fab,
   IconButton,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  Menu,
+  MenuProps,
+  SpeedDial,
+  SpeedDialAction,
   styled,
   Typography,
 } from '@mui/material';
@@ -40,16 +46,32 @@ export const NavBar = (props: { children: React.ReactNode }) => {
   const [searchText, setSearchText] = useState('');
   const [selectedItem, setSelectedItem] = useState(0);
   const [isExpand, setExpand] = useState(true);
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const isOpen = Boolean(anchorEl);
+
+  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   const dispatch = useDispatch<AppDispatch>();
 
-  const handleNavItemClick = (idx: number, item: string) => {
+  const handleNavItemClick = (idx: number) => {
     setSelectedItem(idx);
-    dispatch(setActiveItem(item));
+    dispatch(setActiveItem(idx));
   };
 
   const handleSearch = (value: string) => {
     setSearchText(value);
   };
+
+  const mobileListItem = STATIC_DATA.listItems.slice(0, 4);
+  const restListItem = STATIC_DATA.listItems.slice(4);
 
   return (
     <Container>
@@ -170,11 +192,11 @@ export const NavBar = (props: { children: React.ReactNode }) => {
           </GiftClaimContainer>
 
           <SideBarList>
-            {STATIC_DATA.listItems.map((item, idx) => (
-              <SideBarListItem key={idx} disablePadding>
+            {STATIC_DATA.listItems.map((item) => (
+              <SideBarListItem key={item.idx} disablePadding>
                 <SideBarListItemButton
-                  selected={selectedItem === idx}
-                  onClick={() => handleNavItemClick(idx, item.name)}
+                  selected={selectedItem === item.idx}
+                  onClick={() => handleNavItemClick(item.idx)}
                 >
                   <SideBarListItemIcon sx={{ marginLeft: '18px' }}>
                     {item.icon}
@@ -200,16 +222,52 @@ export const NavBar = (props: { children: React.ReactNode }) => {
       </MainboardContainer>
 
       <MobileSidebarContainer>
-        {STATIC_DATA.listItems.map((item, idx) => (
+        {STATIC_DATA.listItems.map((item) => (
           <MobileSidebarItem
-            isSelected={selectedItem === idx}
-            onClick={() => handleNavItemClick(idx, item.name)}
+            isSelected={selectedItem === item.idx}
+            onClick={() => handleNavItemClick(item.idx)}
             icon={item.icon}
             name={item.name}
-            key={idx}
+            key={item.idx}
           />
         ))}
       </MobileSidebarContainer>
+
+      <MobileSmallSidebarContainer>
+        <SidebarMenuButton onClick={handleMenuClick}>
+          <MenuImg src={ExpandSidebarIcon} alt="expand-sidebar-icon" />
+        </SidebarMenuButton>
+        <StyledMenu
+          id="demo-customized-menu"
+          MenuListProps={{
+            'aria-labelledby': 'demo-customized-button',
+          }}
+          anchorEl={anchorEl}
+          open={isOpen}
+          onClose={handleMenuClose}
+        >
+          <SmallSidebarItemContainer>
+            {restListItem.map((item) => (
+              <SmallSidebarItem
+                isSelected={selectedItem === item.idx}
+                onClick={() => handleNavItemClick(item.idx)}
+                icon={item.icon}
+                name={item.name}
+                key={item.idx}
+              />
+            ))}
+          </SmallSidebarItemContainer>
+        </StyledMenu>
+        {mobileListItem.map((item) => (
+          <MobileSidebarItem
+            isSelected={selectedItem === item.idx}
+            onClick={() => handleNavItemClick(item.idx)}
+            icon={item.icon}
+            name={item.name}
+            key={item.idx}
+          />
+        ))}
+      </MobileSmallSidebarContainer>
     </Container>
   );
 };
@@ -525,7 +583,7 @@ const MobileSidebarContainer = styled(Box)(({ theme }) => ({
   position: 'fixed',
   bottom: 0,
   width: '100%',
-  height: '64px',
+  height: 'auto',
   backgroundColor: '#0E1629',
   display: 'none',
   justifyContent: 'center',
@@ -543,9 +601,27 @@ const MobileSidebarContainer = styled(Box)(({ theme }) => ({
     justifyContent: 'space-between',
   },
   [theme.breakpoints.down(480)]: {
-    flexWrap: 'wrap',
+    display: 'none',
+  },
+}));
+
+const MobileSmallSidebarContainer = styled(Box)(({ theme }) => ({
+  position: 'fixed',
+  bottom: 0,
+  width: '100%',
+  height: 'auto',
+  backgroundColor: '#0E1629',
+  justifyContent: 'center',
+  boxShadow: '0px -1px 4px 0px rgba(5,5,5,0.75);',
+  padding: '4px',
+  gap: '40px',
+  display: 'none',
+  [theme.breakpoints.down(480)]: {
+    display: 'flex',
     height: 'auto',
-    gap: '10px',
+    alignItems: 'center',
+    gap: '0px',
+    justifyContent: 'space-between',
   },
 }));
 
@@ -574,7 +650,7 @@ const MobileSidebarItem = (props: MobileSidebarItemProps) => {
 
 const MobileSidebarItemContainer = styled(Button)(({ theme }) => ({
   width: '84px',
-  height: '54px',
+  height: 'auto',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -600,7 +676,10 @@ const MobileSidebarIcon = styled(Box)(({ theme }) => ({
 const MobileSidebarItemText = styled(Box)(({ theme }) => ({
   fontSize: '12px',
   color: 'inherit',
-  textWrap: 'nowrap',
+  width: '64px',
+  lineHeight: '15px',
+  textAlign: 'center',
+  height: '30px',
   [theme.breakpoints.down(640)]: {
     fontSize: '10px',
   },
@@ -632,5 +711,66 @@ const FooterContainer = styled(Box)(({ theme }) => ({
   },
   [theme.breakpoints.down(480)]: {
     marginBottom: '105px',
+  },
+}));
+
+const SidebarMenuButton = styled(Button)(({ theme }) => ({
+  width: '64px',
+  height: '54px',
+  background: 'transparent',
+  borderRadius: '8px',
+  minWidth: '64px',
+}));
+
+const SmallSidebarItemContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '20px',
+}));
+
+const MenuImg = styled('img')(({ theme }) => ({
+  width: '20px',
+  height: 'auto',
+}));
+
+const SmallSidebarItem = (props: MobileSidebarItemProps) => {
+  const { isSelected, icon, name, onClick } = props;
+  return (
+    <MobileSidebarItemContainer
+      sx={{
+        backgroundColor: isSelected ? '#01A482' : 'none',
+        color: isSelected ? '#fff' : '#627691',
+      }}
+      onClick={onClick}
+    >
+      <MobileSidebarIcon>{icon}</MobileSidebarIcon>
+      <MobileSidebarItemText>{name}</MobileSidebarItemText>
+    </MobileSidebarItemContainer>
+  );
+};
+
+const StyledMenu = styled((props: MenuProps) => (
+  <Menu
+    elevation={0}
+    anchorOrigin={{
+      vertical: 'top',
+      horizontal: 'left',
+    }}
+    transformOrigin={{
+      vertical: 'bottom',
+      horizontal: 'left',
+    }}
+    {...props}
+  />
+))(({ theme }) => ({
+  '& .MuiPaper-root': {
+    borderRadius: 6,
+    marginBottom: 10,
+    display: 'flex',
+    alignItems: 'center',
+    background: '#171E31',
+    padding: '0px 10px',
+    left: '0px !important',
+    top: '700px !important',
   },
 }));

@@ -204,32 +204,39 @@ export const STATIC_DATA = {
   listItems: [
     {
       icon: <GiMoneyStack style={{ width: '100%', height: '100%' }} />,
-      name: 'Cashback',
+      name: 'Promotional Offers',
+      idx: 0,
     },
     {
       icon: <IoGameController style={{ width: '100%', height: '100%' }} />,
       name: 'My Offers',
+      idx: 1,
     },
     {
       icon: <MdLocalOffer style={{ width: '100%', height: '100%' }} />,
-      name: 'All Offers',
+      name: 'Available Offers',
       hasBadge: true,
+      idx: 2,
     },
     {
       icon: <IoCashOutline style={{ width: '100%', height: '100%' }} />,
-      name: 'Cashout',
+      name: 'Withdraw Cashback',
+      idx: 3,
     },
     {
       icon: <MdLeaderboard style={{ width: '100%', height: '100%' }} />,
-      name: 'Leaderboard',
+      name: 'Leader board',
+      idx: 4,
     },
     {
       icon: <FaAward style={{ width: '100%', height: '100%' }} />,
       name: 'Rewards',
+      idx: 5,
     },
     {
       icon: <FaUsers style={{ width: '100%', height: '100%' }} />,
       name: 'Affiliates',
+      idx: 6,
     },
   ],
 };

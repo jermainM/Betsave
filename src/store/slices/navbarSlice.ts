@@ -1,18 +1,18 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface NavbarState {
-  activeItem: string; // Current active nav item
+  activeItem: number; // Current active nav item
 }
 
 const initialState: NavbarState = {
-  activeItem: 'Cashback', // Default active nav item
+  activeItem: 0, // Default active nav item
 };
 
 const navbarSlice = createSlice({
   name: 'navbar',
   initialState,
   reducers: {
-    setActiveItem(state, action: PayloadAction<string>) {
+    setActiveItem(state, action: PayloadAction<number>) {
       state.activeItem = action.payload;
     },
   },

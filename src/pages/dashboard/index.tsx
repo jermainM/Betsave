@@ -1,15 +1,18 @@
-import { Box, styled } from '@mui/material';
-import { Cashback } from './cashback';
-import { RootState } from '../../store';
 import { useSelector } from 'react-redux';
+import { Box, styled } from '@mui/material';
+
+import { RootState } from '../../store';
+import { Cashback } from './cashback';
 import { MyOffers } from './myoffers';
+import { Withdraw } from './withdraw';
 
 export const Dashboard = () => {
   const activeItem = useSelector((state: RootState) => state.navbar.activeItem);
   return (
     <DashboardContainer>
       {activeItem === 0 && <Cashback />}
-      {activeItem === 1 && <MyOffers />}
+      {activeItem === 2 && <MyOffers />}
+      {activeItem === 3 && <Withdraw />}
     </DashboardContainer>
   );
 };

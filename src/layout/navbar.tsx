@@ -491,7 +491,6 @@ const MobileSearchBar = styled(Box)(({ theme }) => ({
 }));
 
 const SideBarContainer = styled(Box)(({ theme }) => ({
-  height: '100%',
   padding: '20px 10px',
   backgroundColor: '#0F1629',
   minHeight: 'calc(100vh - 86px )',

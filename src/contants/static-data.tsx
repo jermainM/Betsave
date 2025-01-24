@@ -208,24 +208,24 @@ export const STATIC_DATA = {
       idx: 0,
     },
     {
-      icon: <IoGameController style={{ width: '100%', height: '100%' }} />,
-      name: 'My Offers',
-      idx: 1,
-    },
-    {
       icon: <MdLocalOffer style={{ width: '100%', height: '100%' }} />,
       name: 'Available Offers',
       hasBadge: true,
+      idx: 1,
+    },
+    {
+      icon: <IoGameController style={{ width: '100%', height: '100%' }} />,
+      name: 'My Offers',
       idx: 2,
     },
     {
       icon: <IoCashOutline style={{ width: '100%', height: '100%' }} />,
-      name: 'Withdraw Cashback',
+      name: 'Withdraw',
       idx: 3,
     },
     {
       icon: <MdLeaderboard style={{ width: '100%', height: '100%' }} />,
-      name: 'Leader board',
+      name: 'Leaderboard',
       idx: 4,
     },
     {

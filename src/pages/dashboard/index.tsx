@@ -5,6 +5,7 @@ import { RootState } from '../../store';
 import { Cashback } from './cashback';
 import { MyOffers } from './myoffers';
 import { Withdraw } from './withdraw';
+import { LeaderBoard } from './leaderboard';
 
 export const Dashboard = () => {
   const activeItem = useSelector((state: RootState) => state.navbar.activeItem);
@@ -13,6 +14,7 @@ export const Dashboard = () => {
       {activeItem === 0 && <Cashback />}
       {activeItem === 2 && <MyOffers />}
       {activeItem === 3 && <Withdraw />}
+      {activeItem === 4 && <LeaderBoard />}
     </DashboardContainer>
   );
 };

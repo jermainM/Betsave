@@ -10,9 +10,9 @@ import TimerIcon from '../assets/timer.png';
 import WalletIcon from '../assets/wallet.png';
 import UserIcon from '../assets/user-profile.png';
 import PlaceBetIcon from '../assets/place-bets.png';
-import Beauty1Img from '../assets/beauty1.png';
-import PlaceBetImg from '../assets/bet-bg.png';
-import MoneyBackImg from '../assets/money-back.png';
+import Poster1Img from '../assets/Poster-1.jpg';
+import Poster2Img from '../assets/Poster-2.jpg';
+import Poster3Img from '../assets/Poster-3.jpg';
 import { useState } from 'react';
 import { CashbackSlider } from '../components/swiper/Cashback';
 import { WhyChooseSwiper } from '../components/swiper/WhyChoose';
@@ -116,19 +116,19 @@ export const Landing = () => {
                 icon={UserIcon}
                 title="1. Sign Up"
                 text="Create a free account and choose from our partnered sportsbooks and racing platforms"
-                img={Beauty1Img}
+                img={Poster1Img}
               />
               <HowitworksItem
                 icon={PlaceBetIcon}
                 title="2. Place Your Bets"
                 text="Place bets like you normally do - we'll take care of the rest."
-                img={PlaceBetImg}
+                img={Poster2Img}
               />
               <HowitworksItem
                 icon={WalletIcon}
                 title="3. Get Cashback"
                 text="Recive up to 7% cashback on your betting activity each month, directly to your account."
-                img={MoneyBackImg}
+                img={Poster3Img}
               />
             </Howitworks>
             <ReviewWrapper>
@@ -153,19 +153,19 @@ export const Landing = () => {
               icon={UserIcon}
               title="1. Sign Up"
               text="Create a free account and choose from our partnered sportsbooks and racing platforms"
-              img={Beauty1Img}
+              img={Poster1Img}
             />
             <HowitworksItem
               icon={PlaceBetIcon}
               title="2. Place Your Bets"
               text="Place bets like you normally do - we'll take care of the rest."
-              img={PlaceBetImg}
+              img={Poster2Img}
             />
             <HowitworksItem
               icon={WalletIcon}
               title="3. Get Cashback"
               text="Recive up to 7% cashback on your betting activity each month, directly to your account."
-              img={MoneyBackImg}
+              img={Poster3Img}
             />
           </Howitworks>
         </HowitworksContent>

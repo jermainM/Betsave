@@ -31,7 +31,7 @@ export const MyOffers = () => {
           <HeadingTitleIcon>
             <IoGameController />
           </HeadingTitleIcon>
-          My Offers
+          Promotional Offers
         </HeadingTitle>
         {!isEmpty && (
           <HeadingAction>

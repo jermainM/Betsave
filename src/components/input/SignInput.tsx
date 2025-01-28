@@ -1,6 +1,6 @@
 import { Box, styled } from '@mui/material';
 
-interface FormInputProps {
+interface SignInputProps {
   icon: React.ReactNode;
   placeholder: string;
   value: string;
@@ -9,11 +9,11 @@ interface FormInputProps {
   type: string;
 }
 
-export const FormInput = (props: FormInputProps) => {
+export const SignInput = (props: SignInputProps) => {
   const { icon, placeholder, type, value, name, setValue } = props;
 
   return (
-    <FormInputContainer>
+    <SignInputContainer>
       <IconContainer>{icon}</IconContainer>
       <InputBox
         type={type}
@@ -22,35 +22,33 @@ export const FormInput = (props: FormInputProps) => {
         value={value}
         onChange={(e) => setValue(e.target.value)}
       />
-    </FormInputContainer>
+    </SignInputContainer>
   );
 };
 
-const FormInputContainer = styled(Box)(({ theme }) => ({
+const SignInputContainer = styled(Box)(({ theme }) => ({
   borderRadius: '10px',
   display: 'flex',
   alignItems: 'center',
-  gap: '20px',
+  gap: '10px',
   padding: '15px',
   height: '50px',
   backgroundColor: '#0f1629',
   width: '100%',
+  minWidth: '20px',
   color: '#a9a9b0',
-  [theme.breakpoints.down(390)]: {
-    gap: '12px',
-  },
 }));
 
 const IconContainer = styled(Box)(({ theme }) => ({
-  width: '24px',
-  height: '24px',
-  minWidth: '24px',
+  width: '18px',
+  height: '18px',
+  minWidth: '18px',
 }));
 
 const InputBox = styled('input')(({ theme }) => ({
   outline: 'none',
   height: '100%',
-  fontSize: '18px',
+  fontSize: '16px',
   color: '#fff',
   background: 'none',
   minWidth: '20px',
@@ -58,7 +56,7 @@ const InputBox = styled('input')(({ theme }) => ({
   '::placeholder': {
     color: '#a9a9b0',
   },
-  [theme.breakpoints.down(390)]: {
-    fontSize: '16px',
+  [theme.breakpoints.down(480)]: {
+    fontSize: '14px',
   },
 }));

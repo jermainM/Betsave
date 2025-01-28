@@ -10,11 +10,13 @@ import {
   Popper,
   SelectChangeEvent,
   styled,
+  Tab,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
+  Tabs,
   Typography,
 } from '@mui/material';
 import { LuBadgeDollarSign } from 'react-icons/lu';
@@ -146,11 +148,23 @@ export const LeaderBoardTable = () => {
     return pagination;
   };
 
+  function a11yProps(index: number) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    console.log({ newValue });
+    setTab(newValue);
+  };
+
   return (
     <Container>
       <LeaderBoardAction>
         <TabbarContainer>
-          <Tabbar
+          {/* <Tabbar
             value={500}
             onClick={() => setTab(500)}
             isClicked={tab === 500}
@@ -159,7 +173,23 @@ export const LeaderBoardTable = () => {
             value={5000}
             onClick={() => setTab(5000)}
             isClicked={tab === 5000}
-          />
+          /> */}
+          <StyledTabs value={tab} onChange={handleTabChange}>
+            <StyledTab
+              icon={<LuBadgeDollarSign />}
+              iconPosition="start"
+              label="$500"
+              {...a11yProps(0)}
+              value={500}
+            />
+            <StyledTab
+              icon={<LuBadgeDollarSign />}
+              iconPosition="start"
+              label="$5,000"
+              {...a11yProps(1)}
+              value={5000}
+            />
+          </StyledTabs>
         </TabbarContainer>
         <OptionButton
           ref={anchorRef}
@@ -491,4 +521,21 @@ const PrizeText = styled(Box)(({ theme }) => ({
   width: 'fit-content',
   backgroundColor: '#102A33',
   borderRadius: '5px',
+}));
+
+const StyledTabs = styled(Tabs)(({ theme }) => ({
+  '& .MuiTabs-indicator': {
+    backgroundColor: '#1AE5A1',
+  },
+  '& .Mui-selected': {
+    background: 'linear-gradient(to bottom,#0f1629 40%,#15A373 200%)',
+  },
+}));
+
+const StyledTab = styled(Tab)(({ theme }) => ({
+  minHeight: '48px',
+  svg: {
+    width: '18px',
+    height: '18px',
+  },
 }));

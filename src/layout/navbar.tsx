@@ -698,7 +698,7 @@ const MainboardContent = styled(Box)<{ expand: number }>(
     width: `calc(100% - 20px - ${expand === 1 ? 320 : 64}px)`,
     padding: '0 20px 20px 20px',
     maxWidth: '1400px',
-    [theme.breakpoints.down(1094)]: {
+    [theme.breakpoints.down(1096)]: {
       width: '100%',
     },
   })

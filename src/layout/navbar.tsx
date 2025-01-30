@@ -74,8 +74,8 @@ export const NavBar = (props: { children: React.ReactNode }) => {
     setSearchText(value);
   };
 
-  const mobileListItem = STATIC_DATA.listItems.slice(0, 4);
-  const restListItem = STATIC_DATA.listItems.slice(4);
+  const mobileListItem = STATIC_DATA.navListItems.slice(0, 4);
+  const restListItem = STATIC_DATA.navListItems.slice(4);
 
   return (
     <Container>
@@ -84,7 +84,11 @@ export const NavBar = (props: { children: React.ReactNode }) => {
           <SidebarButton onClick={() => setExpand(!isExpand)}>
             <Img src={ExpandSidebarIcon} alt="expand-sidebar-icon" />
           </SidebarButton>
-          <Logo src={BetsaveLogoImg} alt="betsave-logo" />
+          <Logo
+            src={BetsaveLogoImg}
+            alt="betsave-logo"
+            onClick={() => navigate('/')}
+          />
           <SearchBarContainer>
             <IconInput
               type="text"
@@ -199,7 +203,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
           </GiftClaimContainer>
 
           <SideBarList>
-            {STATIC_DATA.listItems.map((item) => (
+            {STATIC_DATA.navListItems.map((item) => (
               <SideBarListItem key={item.idx} disablePadding>
                 <SideBarListItemButton
                   selected={selectedItem === item.idx}
@@ -229,7 +233,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
       </MainboardContainer>
 
       <MobileSidebarContainer>
-        {STATIC_DATA.listItems.map((item) => (
+        {STATIC_DATA.navListItems.map((item) => (
           <MobileSidebarItem
             isSelected={selectedItem === item.idx}
             onClick={() => handleNavItemClick(item.idx)}

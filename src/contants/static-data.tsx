@@ -26,10 +26,13 @@ import Layer87Img from '../assets/Layer-87.jpg';
 import Layer94Img from '../assets/Layer-94.jpg';
 
 import { GiMoneyStack } from 'react-icons/gi';
-import { IoGameController, IoCashOutline } from 'react-icons/io5';
+import { IoGameController, IoCashOutline, IoAnalytics } from 'react-icons/io5';
 import { MdLocalOffer, MdLeaderboard } from 'react-icons/md';
 import { FaAward } from 'react-icons/fa6';
-import { FaUsers } from 'react-icons/fa';
+import { FaUsers, FaHistory, FaBookmark } from 'react-icons/fa';
+
+import { IoMdHome, IoMdSettings } from 'react-icons/io';
+import { SlEarphonesAlt } from 'react-icons/sl';
 
 export const STATIC_DATA = {
   whychoose: [
@@ -201,7 +204,7 @@ export const STATIC_DATA = {
         'Withdraw your cashback easily via back transfers e-wallets, or gift cards for sportswear, race day ticket, and more.',
     },
   ],
-  listItems: [
+  navListItems: [
     {
       icon: <GiMoneyStack style={{ width: '100%', height: '100%' }} />,
       name: 'Promotional Offers',
@@ -236,6 +239,44 @@ export const STATIC_DATA = {
     {
       icon: <FaUsers style={{ width: '100%', height: '100%' }} />,
       name: 'Affiliates',
+      idx: 6,
+    },
+  ],
+  accountListItems: [
+    {
+      icon: <IoMdHome style={{ width: '100%', height: '100%' }} />,
+      name: 'Dashboard',
+      idx: 0,
+    },
+    {
+      icon: <FaHistory style={{ width: '100%', height: '100%' }} />,
+      name: 'Cashback History',
+      hasBadge: true,
+      idx: 1,
+    },
+    {
+      icon: <FaBookmark style={{ width: '100%', height: '100%' }} />,
+      name: 'Bookmaker List',
+      idx: 2,
+    },
+    {
+      icon: <IoAnalytics style={{ width: '100%', height: '100%' }} />,
+      name: 'Referral Program',
+      idx: 3,
+    },
+    {
+      icon: <MdLocalOffer style={{ width: '100%', height: '100%' }} />,
+      name: 'Promo codes',
+      idx: 4,
+    },
+    {
+      icon: <IoMdSettings style={{ width: '100%', height: '100%' }} />,
+      name: 'Account Settings',
+      idx: 5,
+    },
+    {
+      icon: <SlEarphonesAlt style={{ width: '100%', height: '100%' }} />,
+      name: 'Help Center',
       idx: 6,
     },
   ],

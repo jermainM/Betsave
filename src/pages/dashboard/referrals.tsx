@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  Menu,
-  MenuItem,
-  styled,
-  Typography,
-} from '@mui/material';
+import { Box, Button, Menu, MenuItem, styled, Typography } from '@mui/material';
 import { FaUsers } from 'react-icons/fa';
 import { FaMoneyBills } from 'react-icons/fa6';
 import TempUserIcon from '../../assets/Jonah.png';

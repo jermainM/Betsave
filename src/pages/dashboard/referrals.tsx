@@ -280,7 +280,7 @@ export const Referrals = () => {
                 <MenuItem onClick={() => handleSortClose(1)}>
                   <MenuItemContent>
                     <IoAnalyticsSharp />
-                    Analystics
+                    Analytics
                   </MenuItemContent>
                 </MenuItem>
               </Menu>
@@ -715,9 +715,9 @@ const ReferralCode = (props: ReferralCodeProps) => {
 };
 
 const ReferralCodeContainer = styled('input')(({ theme }) => ({
-  fontSize: '14px',
+  fontSize: '16px',
   color: '#627691',
-  padding: '4px 8px',
+  padding: '8px 14px',
   borderRadius: '4px',
   backgroundColor: '#0d1321',
   outline: 'none',

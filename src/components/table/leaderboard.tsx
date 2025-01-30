@@ -164,16 +164,6 @@ export const LeaderBoardTable = () => {
     <Container>
       <LeaderBoardAction>
         <TabbarContainer>
-          {/* <Tabbar
-            value={500}
-            onClick={() => setTab(500)}
-            isClicked={tab === 500}
-          />
-          <Tabbar
-            value={5000}
-            onClick={() => setTab(5000)}
-            isClicked={tab === 5000}
-          /> */}
           <StyledTabs value={tab} onChange={handleTabChange}>
             <StyledTab
               icon={<LuBadgeDollarSign />}
@@ -311,47 +301,6 @@ const TabbarContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
 }));
-
-interface TabbarProps {
-  value: number;
-  onClick: () => void;
-  isClicked: boolean;
-}
-
-const Tabbar = (props: TabbarProps) => {
-  const { value, onClick, isClicked } = props;
-  return (
-    <TabbarWrapper
-      onClick={onClick}
-      clicked={isClicked ? 1 : 0}
-      startIcon={<LuBadgeDollarSign />}
-      sx={{
-        borderRadius: value === 500 ? '7px 0px 0px 7px' : '0px 7px 7px 0px',
-      }}
-    >
-      ${value.toLocaleString()}
-    </TabbarWrapper>
-  );
-};
-
-const TabbarWrapper = styled(Button)<{ clicked: number }>(
-  ({ theme, clicked }) => ({
-    padding: '16px 32px',
-    fontSize: '14px',
-    color: clicked === 1 ? '#fff' : '#627691',
-    background:
-      clicked === 1
-        ? 'linear-gradient(to bottom,#0f1629 40%,#15A373 200%)'
-        : 'transparent',
-    border: '1px',
-    borderStyle: 'solid',
-    borderColor: clicked === 1 ? '#1AE5A1' : 'transparent',
-    height: '100%',
-    [theme.breakpoints.down(450)]: {
-      padding: '8px 16px',
-    },
-  })
-);
 
 const OptionButton = styled(Button)(({ theme }) => ({
   padding: '6px 12px',

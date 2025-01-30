@@ -40,6 +40,7 @@ import { Footer } from './footer';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store';
 import { setActiveItem } from '../store/slices/navbarSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const NavBar = (props: { children: React.ReactNode }) => {
   const { children } = props;
@@ -48,6 +49,8 @@ export const NavBar = (props: { children: React.ReactNode }) => {
   const [isExpand, setExpand] = useState(true);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const navigate = useNavigate();
 
   const isOpen = Boolean(anchorEl);
 
@@ -63,6 +66,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
 
   const handleNavItemClick = (idx: number) => {
     setSelectedItem(idx);
+    navigate('/dashboard');
     dispatch(setActiveItem(idx));
   };
 
@@ -119,7 +123,10 @@ export const NavBar = (props: { children: React.ReactNode }) => {
             </WalletButton>
           </DesktopWalletContainer>
           <UserInfoContainer>
-            <UserInfoButton endIcon={<KeyboardArrowDown fontSize="small" />}>
+            <UserInfoButton
+              endIcon={<KeyboardArrowDown fontSize="small" />}
+              onClick={() => navigate('/account')}
+            >
               <Avatar
                 src={JonahAvatarIcon}
                 sx={{ width: '25px', height: '25px', marginRight: '8px' }}

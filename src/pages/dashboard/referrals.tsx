@@ -305,6 +305,12 @@ export const Referrals = () => {
           </ReferralManageAction>
           <ReferralContentContainer>
             {sortOption === 0 ? <ReferralTable /> : <ReferralChart />}
+            {/* <NoDataPage>
+              <NoDataPageTitle>No data yet</NoDataPageTitle>
+              <NoDataPageContent>
+                Start sharing your affiliate link to track new bettors!
+              </NoDataPageContent>
+            </NoDataPage> */}
           </ReferralContentContainer>
         </ReferralManageContent>
       </ReferralManageContainer>
@@ -418,7 +424,8 @@ const ReferralsInfo = (props: ReferralsInfoProps) => {
 const ReferralsInfoWrapper = styled(Box)(({ theme }) => ({
   padding: '7px',
   width: '100%',
-  backgroundColor: '#171e31',
+  background:
+    'radial-gradient(circle at 34% 179%, rgba(14, 247, 169, 0.3) -61%, #141c30 62%)',
   borderRadius: '15px',
   display: 'flex',
   alignItems: 'center',
@@ -468,7 +475,9 @@ const ReferralsInfoContent = styled(Typography)(({ theme }) => ({
 
 const ClaimCardContainer = styled(Box)(({ theme }) => ({
   padding: '20px',
-  backgroundColor: '#0f1629',
+  // backgroundColor: '#0f1629',
+  background:
+    'radial-gradient(circle at 30% 106%, rgba(14, 247, 169, 0.3) 0%, #141c30 66%)',
   borderRadius: '15px',
   display: 'flex',
   alignItems: 'center',
@@ -661,7 +670,8 @@ const ClaimButton = styled(Button)(({ theme }) => ({
 
 const ReferralCardContainer = styled(Box)(({ theme }) => ({
   borderRadius: '15px',
-  backgroundColor: '#0f1629',
+  background:
+    'radial-gradient(circle at 170% 200%, rgba(14, 247, 169, 0.3) 0%, #141c30 66%)',
   padding: '20px 25px',
   display: 'flex',
   flexDirection: 'column',
@@ -948,3 +958,36 @@ const MovingBackground = styled(Box)(({ theme }) => ({
 }));
 
 const ReferralContentContainer = styled(Box)(({ theme }) => ({}));
+
+const NoDataPage = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexDirection: 'column',
+  gap: '10px',
+  width: '100%',
+  height: '500px',
+  backgroundColor: '#0f1629',
+  borderRadius: '15px',
+  padding: '20px',
+  [theme.breakpoints.down(540)]: {
+    height: '300px',
+  },
+}));
+
+const NoDataPageTitle = styled(Typography)(({ theme }) => ({
+  fontSize: '32px',
+  color: '#fff',
+  [theme.breakpoints.down(540)]: {
+    fontSize: '24px',
+  },
+}));
+
+const NoDataPageContent = styled(Typography)(({ theme }) => ({
+  fontSize: '16px',
+  color: '#627691',
+  [theme.breakpoints.down(540)]: {
+    fontSize: '14px',
+    textAlign: 'center',
+  },
+}));

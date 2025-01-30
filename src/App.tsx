@@ -6,6 +6,7 @@ import { Layout } from './layout';
 import { EarnMoney } from './pages/earn';
 import { BetSmart } from './pages/bet';
 import { Dashboard } from './pages/dashboard';
+import { AccountManage } from './pages/account';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
               <Route path="/earn" element={<EarnMoney />} />
               <Route path="/bet" element={<BetSmart />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/account" element={<AccountManage />} />
             </Routes>
           </Layout>
         </Provider>

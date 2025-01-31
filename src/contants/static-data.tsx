@@ -34,6 +34,28 @@ import { FaUsers, FaHistory, FaBookmark } from 'react-icons/fa';
 import { IoMdHome, IoMdSettings } from 'react-icons/io';
 import { SlEarphonesAlt } from 'react-icons/sl';
 
+import GrayAffiliateSvg from '../assets/GrayIcons/Affiliates.svg';
+import GrayAbleOfferSvg from '../assets/GrayIcons/Available-offers.svg';
+import GrayLeaderboardSvg from '../assets/GrayIcons/Leaderboard.svg';
+import GrayMyOfferSvg from '../assets/GrayIcons/My-offers.svg';
+import GrayPromoOfferSvg from '../assets/GrayIcons/Promotional-offers.svg';
+import GrayRewardSvg from '../assets/GrayIcons/Reward.svg';
+import GrayWithdrawSvg from '../assets/GrayIcons/Withdraw.svg';
+
+import GreenAffiliateSvg from '../assets/GreenIcons/Affiliates.svg';
+import GreenAbleOfferSvg from '../assets/GreenIcons/Available-offers.svg';
+import GreenLeaderboardSvg from '../assets/GreenIcons/Leaderboard.svg';
+import GreenMyOfferSvg from '../assets/GreenIcons/My-offers.svg';
+import GreenPromoOfferSvg from '../assets/GreenIcons/Promotional-offers.svg';
+import GreenRewardSvg from '../assets/GreenIcons/Reward.svg';
+import GreenWithdrawSvg from '../assets/GreenIcons/Withdraw.svg';
+import { styled } from '@mui/material';
+
+const IconImg = styled('img')(({ theme }) => ({
+  width: '100%',
+  height: '100%',
+}));
+
 export const STATIC_DATA = {
   whychoose: [
     {
@@ -206,38 +228,45 @@ export const STATIC_DATA = {
   ],
   navListItems: [
     {
-      icon: <GiMoneyStack style={{ width: '100%', height: '100%' }} />,
+      icon: <IconImg src={GrayPromoOfferSvg} alt="nav-item-img" />,
+      selectedIcon: <IconImg src={GreenPromoOfferSvg} alt="nav-item-img" />,
       name: 'Promotional Offers',
       idx: 0,
     },
     {
-      icon: <MdLocalOffer style={{ width: '100%', height: '100%' }} />,
+      icon: <IconImg src={GrayAbleOfferSvg} alt="nav-item-img" />,
+      selectedIcon: <IconImg src={GreenAbleOfferSvg} alt="nav-item-img" />,
       name: 'Available Offers',
       hasBadge: true,
       idx: 1,
     },
     {
-      icon: <IoGameController style={{ width: '100%', height: '100%' }} />,
+      icon: <IconImg src={GrayMyOfferSvg} alt="nav-item-img" />,
+      selectedIcon: <IconImg src={GreenMyOfferSvg} alt="nav-item-img" />,
       name: 'My Offers',
       idx: 2,
     },
     {
-      icon: <IoCashOutline style={{ width: '100%', height: '100%' }} />,
+      icon: <IconImg src={GrayWithdrawSvg} alt="nav-item-img" />,
+      selectedIcon: <IconImg src={GreenWithdrawSvg} alt="nav-item-img" />,
       name: 'Withdraw',
       idx: 3,
     },
     {
-      icon: <MdLeaderboard style={{ width: '100%', height: '100%' }} />,
+      icon: <IconImg src={GrayLeaderboardSvg} alt="nav-item-img" />,
+      selectedIcon: <IconImg src={GreenLeaderboardSvg} alt="nav-item-img" />,
       name: 'Leaderboard',
       idx: 4,
     },
     {
-      icon: <FaAward style={{ width: '100%', height: '100%' }} />,
+      icon: <IconImg src={GrayRewardSvg} alt="nav-item-img" />,
+      selectedIcon: <IconImg src={GreenRewardSvg} alt="nav-item-img" />,
       name: 'Rewards',
       idx: 5,
     },
     {
-      icon: <FaUsers style={{ width: '100%', height: '100%' }} />,
+      icon: <IconImg src={GrayAffiliateSvg} alt="nav-item-img" />,
+      selectedIcon: <IconImg src={GreenAffiliateSvg} alt="nav-item-img" />,
       name: 'Affiliates',
       idx: 6,
     },

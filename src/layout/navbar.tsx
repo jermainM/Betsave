@@ -210,7 +210,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
                   onClick={() => handleNavItemClick(item.idx)}
                 >
                   <SideBarListItemIcon sx={{ marginLeft: '18px' }}>
-                    {item.icon}
+                    {selectedItem === item.idx ? item.selectedIcon : item.icon}
                   </SideBarListItemIcon>
                   <SideBarListItemText
                     sx={{
@@ -237,7 +237,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
           <MobileSidebarItem
             isSelected={selectedItem === item.idx}
             onClick={() => handleNavItemClick(item.idx)}
-            icon={item.icon}
+            icon={selectedItem === item.idx ? item.selectedIcon : item.icon}
             name={item.name}
             key={item.idx}
           />
@@ -262,7 +262,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
               <SmallSidebarItem
                 isSelected={selectedItem === item.idx}
                 onClick={() => handleNavItemClick(item.idx)}
-                icon={item.icon}
+                icon={selectedItem === item.idx ? item.selectedIcon : item.icon}
                 name={item.name}
                 key={item.idx}
               />
@@ -273,7 +273,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
           <MobileSidebarItem
             isSelected={selectedItem === item.idx}
             onClick={() => handleNavItemClick(item.idx)}
-            icon={item.icon}
+            icon={selectedItem === item.idx ? item.selectedIcon : item.icon}
             name={item.name}
             key={item.idx}
           />
@@ -579,10 +579,10 @@ const SideBarListItemButton = styled(ListItemButton)(({ theme }) => ({
 }));
 
 const SideBarListItemIcon = styled(ListItemIcon)(({ theme }) => ({
-  width: '24px',
-  height: '24px',
+  width: '32px',
+  height: '32px',
   color: 'inherit',
-  minWidth: '24px',
+  minWidth: '32px',
 }));
 
 const SideBarListItemText = styled(ListItemText)(({ theme }) => ({
@@ -600,6 +600,7 @@ const MobileSidebarContainer = styled(Box)(({ theme }) => ({
   boxShadow: '0px -1px 4px 0px rgba(5,5,5,0.75);',
   padding: '4px',
   gap: '40px',
+  zIndex: '10',
   [theme.breakpoints.down(1096)]: {
     display: 'flex',
   },
@@ -626,6 +627,7 @@ const MobileSmallSidebarContainer = styled(Box)(({ theme }) => ({
   padding: '4px',
   gap: '40px',
   display: 'none',
+  zIndex: '10',
   [theme.breakpoints.down(480)]: {
     display: 'flex',
     height: 'auto',
@@ -674,12 +676,12 @@ const MobileSidebarItemContainer = styled(Button)(({ theme }) => ({
 }));
 
 const MobileSidebarIcon = styled(Box)(({ theme }) => ({
-  width: '24px',
-  height: '24px',
+  width: '28px',
+  height: '28px',
   color: 'inherit',
   [theme.breakpoints.down(640)]: {
-    width: '20px',
-    height: '20px',
+    width: '24px',
+    height: '24px',
   },
 }));
 

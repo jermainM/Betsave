@@ -21,11 +21,13 @@ import { LevelProgressBar } from '../../components/progressbar/LevelBar';
 import { STATIC_DATA } from '../../contants/static-data';
 import { useState } from 'react';
 import { Setting } from './setting';
+import { AccountDashboard } from './dashboard';
 
 export const AccountManage = () => {
   const [selectedItem, setSelectedItem] = useState(0);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
   const isOpen = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -149,7 +151,8 @@ export const AccountManage = () => {
         </SideBarListContainer>
 
         <AccountBoard>
-          <Setting />
+          {selectedItem === 0 && <AccountDashboard />}
+          {selectedItem === 5 && <Setting />}
         </AccountBoard>
       </AccountController>
     </AccountManageContainer>

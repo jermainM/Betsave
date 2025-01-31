@@ -12,6 +12,7 @@ import {
 import { Box, Typography, styled, Button } from '@mui/material';
 import { MdArrowOutward } from 'react-icons/md';
 import DateRangePicker from '../date/RangePicker';
+import { GiMoneyStack } from 'react-icons/gi';
 
 const data = [
   { month: 'Jan', revenue: 0, expenses: 10 },
@@ -57,7 +58,10 @@ export const ReferralChart = () => {
     <ChartContainer>
       <Header>
         <Box>
-          <Title>Total Revenue</Title>
+          <Title>
+            <GiMoneyStack />
+            Total Revenue
+          </Title>
           <RevenueContainer>
             <RevenueValue>$240.8K</RevenueValue>
             <RevenueBadge>
@@ -152,6 +156,12 @@ const Title = styled(Typography)({
   color: '#627691',
   fontSize: '14px',
   marginBottom: '5px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+  svg: {
+    fontSize: '18px',
+  },
 });
 
 const RevenueContainer = styled(Box)({
@@ -198,9 +208,8 @@ const ChartBackground = styled(Box)({
 });
 
 const CustomTooltipContainer = styled(Box)(({ theme }) => ({
-  width: '200px',
   height: '90px',
-  padding: '20px 10px',
+  padding: '14px 10px',
   display: 'flex',
   flexDirection: 'column',
   backgroundColor: '#171e31',

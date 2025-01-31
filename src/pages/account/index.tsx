@@ -499,12 +499,8 @@ const MobileSideBarButton = styled(Button)(({ theme }) => ({
   color: '#627691',
   textTransform: 'none',
   fontFamily: 'SpaceGrotesk',
-  fontSize: '20px',
-  height: '64px',
-  [theme.breakpoints.down(540)]: {
-    height: '54px',
-    fontSize: '16px',
-  },
+  fontSize: '16px',
+  height: '54px',
   [theme.breakpoints.down(390)]: {
     fontSize: '14px',
   },

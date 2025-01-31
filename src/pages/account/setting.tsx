@@ -142,7 +142,7 @@ const EmailInput = styled('input')(({ theme }) => ({
   border: 'none',
   outline: 'none',
   background: 'none',
-  fontSize: '20px',
+  fontSize: '16px',
   color: '#fff',
   padding: '0px 12px',
   width: '80%',
@@ -161,23 +161,23 @@ const EmailInput = styled('input')(({ theme }) => ({
 const ConfirmButton = styled(Button)(({ theme }) => ({
   backgroundColor: '#1AE5A1',
   borderRadius: '7px',
-  width: '120px',
-  height: '45px',
+  width: '90px',
+  height: '36px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   color: '#000',
-  fontSize: '18px',
+  fontSize: '14px',
   fontWeight: 'bold',
   textTransform: 'none',
-  [theme.breakpoints.down(540)]: {
-    width: '100px',
-    height: '35px',
-    fontSize: '16px',
-  },
-  [theme.breakpoints.down(390)]: {
-    fontSize: '14px',
-  },
+  //   [theme.breakpoints.down(540)]: {
+  //     width: '100px',
+  //     height: '35px',
+  //     fontSize: '16px',
+  //   },
+  //   [theme.breakpoints.down(390)]: {
+  //     fontSize: '14px',
+  //   },
 }));
 
 const InputWrapper = styled(Box)(({ theme }) => ({
@@ -196,16 +196,16 @@ const SettingFormInput = styled('input')(({ theme }) => ({
   width: '80%',
   backgroundColor: '#0f1629',
   borderRadius: '10px',
-  fontSize: '20px',
+  fontSize: '16px',
   color: '#fff',
   fontFamily: 'SpaceGrotesk',
-  padding: '20px',
+  padding: '16px 18px ',
   '::placeholder': {
     color: '#627691',
   },
-  [theme.breakpoints.down(540)]: {
-    fontSize: '16px',
-  },
+  //   [theme.breakpoints.down(540)]: {
+  //     fontSize: '16px',
+  //   },
   [theme.breakpoints.down(480)]: {
     width: '100%',
   },
@@ -224,22 +224,22 @@ const PaymentOptionContainer = styled(Box)(({ theme }) => ({
   justifyContent: 'space-between',
   width: '100%',
   gap: '30px',
+  [theme.breakpoints.down(390)]: {
+    gap: '0px',
+  },
 }));
 
 const PreferenceInput = styled('input')(({ theme }) => ({
   border: 'none',
   outline: 'none',
   background: 'none',
-  fontSize: '20px',
+  fontSize: '16px',
   color: '#fff',
   padding: '0px 12px',
   width: '80%',
   fontFamily: 'SpaceGrotesk',
   '::placeholder': {
     color: '#627691',
-  },
-  [theme.breakpoints.down(540)]: {
-    fontSize: '16px',
   },
   [theme.breakpoints.down(390)]: {
     fontSize: '14px',
@@ -249,23 +249,16 @@ const PreferenceInput = styled('input')(({ theme }) => ({
 const SelectButton = styled(Button)(({ theme }) => ({
   backgroundColor: '#172034',
   borderRadius: '7px',
-  width: '120px',
-  height: '45px',
+  width: '90px',
+  height: '36px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   color: '#fff',
-  fontSize: '18px',
+  fontSize: '14px',
   fontWeight: 'bold',
   textTransform: 'none',
-  [theme.breakpoints.down(540)]: {
-    width: '100px',
-    height: '35px',
-    fontSize: '16px',
-  },
-  [theme.breakpoints.down(390)]: {
-    fontSize: '14px',
-  },
+  minWidth: '90px',
 }));
 
 const SaveButton = styled(Button)(({ theme }) => ({

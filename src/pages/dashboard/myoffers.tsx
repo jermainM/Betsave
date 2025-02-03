@@ -21,6 +21,7 @@ import { useState } from 'react';
 
 import { CashOfferCard } from '../../components/card/CashOfferCard';
 import { EmptyBox } from '../../components/box/EmptyBox';
+import GreenPromoOfferSvg from '../../assets/GreenIcons/Promotional-offers.svg';
 
 export const MyOffers = () => {
   const [isEmpty, setEmpty] = useState(false);
@@ -29,7 +30,7 @@ export const MyOffers = () => {
       <Heading>
         <HeadingTitle>
           <HeadingTitleIcon>
-            <IoGameController />
+            <img src={GreenPromoOfferSvg} alt="title-icon" />
           </HeadingTitleIcon>
           Promotional Offers
         </HeadingTitle>
@@ -87,10 +88,11 @@ const Heading = styled(Box)(({ theme }) => ({
   justifyContent: 'space-between',
   width: '100%',
   height: '63px',
-  [theme.breakpoints.down(390)]: {
+  [theme.breakpoints.down(540)]: {
     flexDirection: 'column',
     alignItems: 'flex-start',
     gap: '8px',
+    marginBottom: '20px',
   },
 }));
 
@@ -101,20 +103,15 @@ const HeadingTitle = styled(Box)(({ theme }) => ({
   fontSize: '24px',
   color: '#fff',
   fontWeight: 'bold',
-  //   [theme.breakpoints.down(480)]: {
-  //     fontSize: '20px',
-  //     gap: '8px',
-  //   },
 }));
 
 const HeadingTitleIcon = styled(Box)(({ theme }) => ({
-  fontSize: '32px',
-  color: '#1ae5a1',
-  display: 'flex',
-  alignItems: 'center',
-  //   [theme.breakpoints.down(480)]: {
-  //     fontSize: '20px',
-  //   },
+  width: '36px',
+  height: '36px',
+  img: {
+    width: '100%',
+    height: 'auto',
+  },
 }));
 
 const HeadingAction = styled(Box)(({ theme }) => ({

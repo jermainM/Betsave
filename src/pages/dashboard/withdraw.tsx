@@ -1,7 +1,7 @@
 import { East } from '@mui/icons-material';
 import { Box, styled, Typography } from '@mui/material';
-import { IoCashOutline } from 'react-icons/io5';
 import { WithdrawProcessCard } from '../../components/card/WithdrawProcessCard';
+import GreenWithdrawSvg from '../../assets/GreenIcons/Withdraw.svg';
 
 export const Withdraw = () => {
   return (
@@ -9,7 +9,7 @@ export const Withdraw = () => {
       <Heading>
         <HeadingTitle>
           <HeadingTitleIcon>
-            <IoCashOutline />
+            <img src={GreenWithdrawSvg} alt="title-icon" />
           </HeadingTitleIcon>
           Withdraw
         </HeadingTitle>
@@ -71,10 +71,12 @@ const HeadingTitle = styled(Box)(({ theme }) => ({
 }));
 
 const HeadingTitleIcon = styled(Box)(({ theme }) => ({
-  fontSize: '32px',
-  color: '#1ae5a1',
-  display: 'flex',
-  alignItems: 'center',
+  width: '36px',
+  height: '36px',
+  img: {
+    width: '100%',
+    height: 'auto',
+  },
 }));
 
 const HeadingContent = styled(Typography)(({ theme }) => ({

@@ -13,8 +13,8 @@ export const Dashboard = () => {
   const activeItem = useSelector((state: RootState) => state.navbar.activeItem);
   return (
     <DashboardContainer>
-      {activeItem === 0 && <Cashback />}
-      {activeItem === 2 && <MyOffers />}
+      {activeItem === 0 && <MyOffers />}
+      {activeItem === 2 && <Cashback />}
       {activeItem === 3 && <Withdraw />}
       {activeItem === 4 && <LeaderBoard />}
       {/* {activeItem === 6 && <Affiliates />} */}

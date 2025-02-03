@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import { DiAndroid } from 'react-icons/di';
 import { FaCircleCheck } from 'react-icons/fa6';
 import { FaDesktop, FaApple } from 'react-icons/fa';
-import { BsFire } from 'react-icons/bs';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { CashOfferCard } from '../../components/card/CashOfferCard';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
+import GreenMyOfferSvg from '../../assets/GreenIcons/My-offers.svg';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -42,7 +42,7 @@ export const Cashback = () => {
         <CashbackContentHeader>
           <CashbackContentTitle>
             <CashbackTitleIcon>
-              <BsFire />
+              <img src={GreenMyOfferSvg} alt="title-icon" />
             </CashbackTitleIcon>
             Cashback Offers
           </CashbackContentTitle>
@@ -213,12 +213,11 @@ const CashbackContentTitle = styled(Box)(({ theme }) => ({
 }));
 
 const CashbackTitleIcon = styled(Box)(({ theme }) => ({
-  fontSize: '24px',
-  color: '#1ae5a1',
-  display: 'flex',
-  alignItems: 'center',
-  [theme.breakpoints.down(480)]: {
-    fontSize: '20px',
+  width: '36px',
+  height: '36px',
+  img: {
+    width: '100%',
+    height: 'auto',
   },
 }));
 

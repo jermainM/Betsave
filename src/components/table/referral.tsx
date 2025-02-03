@@ -93,6 +93,14 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const StyledTableRow = styled(TableRow)(() => ({
   backgroundColor: '#0f1629',
+  'td:first-of-type': {
+    borderTopLeftRadius: '7px',
+    borderBottomLeftRadius: '7px',
+  },
+  'td:last-of-type': {
+    borderTopRightRadius: '7px',
+    borderBottomRightRadius: '7px',
+  },
 }));
 
 const TableContainer = styled(Box)(({ theme }) => ({

@@ -22,6 +22,7 @@ import { STATIC_DATA } from '../../contants/static-data';
 import { useState } from 'react';
 import { Setting } from './setting';
 import { AccountDashboard } from './dashboard';
+import { History } from './history';
 
 export const AccountManage = () => {
   const [selectedItem, setSelectedItem] = useState(0);
@@ -152,6 +153,7 @@ export const AccountManage = () => {
 
         <AccountBoard>
           {selectedItem === 0 && <AccountDashboard />}
+          {selectedItem === 1 && <History />}
           {selectedItem === 5 && <Setting />}
         </AccountBoard>
       </AccountController>

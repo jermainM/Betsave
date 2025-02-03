@@ -8,7 +8,6 @@ import {
   MenuList,
   Paper,
   Popper,
-  SelectChangeEvent,
   styled,
   Tab,
   Table,
@@ -29,14 +28,14 @@ import VectorIcon from '../../assets/vector.png';
 import TempUserIcon from '../../assets/user.png';
 
 interface Row {
-  rank: number;
-  user: string;
-  earnings: string;
-  prize: string;
+  id: string;
+  date: string;
+  deposit: string;
+  payout: string;
+  commission: string;
 }
 
-export const LeaderBoardTable = () => {
-  const [tab, setTab] = useState(500);
+export const CashbackHistoryTable = () => {
   const [isOpen, setOpen] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const anchorRef = useRef<HTMLButtonElement>(null);
@@ -73,10 +72,11 @@ export const LeaderBoardTable = () => {
   // Table related
 
   const rows: Row[] = Array.from({ length: 100 }, (_, i) => ({
-    rank: i + 4,
-    user: 'abirdesigns',
-    earnings: '$2,893.00',
-    prize: '$2,893.00',
+    id: '#642847966',
+    date: '28/01/2025',
+    deposit: '$2,893.00',
+    payout: '$2,893.00',
+    commission: '+4.70%',
   }));
 
   const totalPages: number = Math.ceil(rows.length / rowsPerPage);
@@ -148,111 +148,88 @@ export const LeaderBoardTable = () => {
     return pagination;
   };
 
-  function a11yProps(index: number) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-    };
-  }
-
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
-    console.log({ newValue });
-    setTab(newValue);
-  };
-
   return (
     <Container>
-      <LeaderBoardAction>
-        <TabbarContainer>
-          <StyledTabs value={tab} onChange={handleTabChange}>
-            <StyledTab
-              icon={<LuBadgeDollarSign />}
-              iconPosition="start"
-              label="$500"
-              {...a11yProps(0)}
-              value={500}
-            />
-            <StyledTab
-              icon={<LuBadgeDollarSign />}
-              iconPosition="start"
-              label="$5,000"
-              {...a11yProps(1)}
-              value={5000}
-            />
-          </StyledTabs>
-        </TabbarContainer>
-        <OptionButton
-          ref={anchorRef}
-          id="composition-button"
-          aria-controls={isOpen ? 'composition-menu' : undefined}
-          aria-expanded={isOpen ? 'true' : undefined}
-          aria-haspopup="true"
-          onClick={handleMenuToggle}
-          endIcon={<KeyboardArrowDown />}
-        >
-          {rowsPerPage}
-        </OptionButton>
-        <Popper
-          open={isOpen}
-          anchorEl={anchorRef.current}
-          role={undefined}
-          placement="bottom-start"
-          transition
-          disablePortal
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin:
-                  placement === 'bottom-start' ? 'left top' : 'left bottom',
-              }}
-            >
-              <StyledPaper>
-                <ClickAwayListener onClickAway={() => setOpen(false)}>
-                  <MenuList
-                    autoFocusItem={isOpen}
-                    id="composition-menu"
-                    aria-labelledby="composition-button"
-                    onKeyDown={handleListKeyDown}
-                  >
-                    <MenuItem onClick={() => handleClose(5)}>5</MenuItem>
-                    <MenuItem onClick={() => handleClose(10)}>10</MenuItem>
-                    <MenuItem onClick={() => handleClose(25)}>25</MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </StyledPaper>
-            </Grow>
-          )}
-        </Popper>
-      </LeaderBoardAction>
-
+      <TransactionTableHeader>
+        <HistoryTitleContainer>
+          <HistoryTitle>Cashback History</HistoryTitle>
+          <HistorySubTitle>All your transaction</HistorySubTitle>
+        </HistoryTitleContainer>
+        <TransactionAction>
+          <OptionButton
+            ref={anchorRef}
+            id="composition-button"
+            aria-controls={isOpen ? 'composition-menu' : undefined}
+            aria-expanded={isOpen ? 'true' : undefined}
+            aria-haspopup="true"
+            onClick={handleMenuToggle}
+            endIcon={<KeyboardArrowDown />}
+          >
+            {rowsPerPage}
+          </OptionButton>
+          <Popper
+            open={isOpen}
+            anchorEl={anchorRef.current}
+            role={undefined}
+            placement="bottom-start"
+            transition
+            disablePortal
+          >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                style={{
+                  transformOrigin:
+                    placement === 'bottom-start' ? 'left top' : 'left bottom',
+                }}
+              >
+                <StyledPaper>
+                  <ClickAwayListener onClickAway={() => setOpen(false)}>
+                    <MenuList
+                      autoFocusItem={isOpen}
+                      id="composition-menu"
+                      aria-labelledby="composition-button"
+                      onKeyDown={handleListKeyDown}
+                    >
+                      <MenuItem onClick={() => handleClose(5)}>5</MenuItem>
+                      <MenuItem onClick={() => handleClose(10)}>10</MenuItem>
+                      <MenuItem onClick={() => handleClose(25)}>25</MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </StyledPaper>
+              </Grow>
+            )}
+          </Popper>
+        </TransactionAction>
+      </TransactionTableHeader>
       <TableContainer>
         <CustomTable>
           <TableHead>
             <TableRow>
-              <StyledTableCell>Rank</StyledTableCell>
-              <StyledTableCell>User</StyledTableCell>
-              <StyledTableCell>Earnings</StyledTableCell>
-              <StyledTableCell align="left">Prize</StyledTableCell>
+              <StyledTableCell>PlayerID</StyledTableCell>
+              <StyledTableCell>Date</StyledTableCell>
+              <StyledTableCell>Deposit</StyledTableCell>
+              <StyledTableCell>Payout</StyledTableCell>
+              <StyledTableCell align="left">Commission</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {rows
               .slice((page - 1) * rowsPerPage, page * rowsPerPage)
-              .map((row) => (
-                <StyledTableRow key={row.rank}>
-                  <StyledTableCell width={30}>
-                    <RankItem label={row.rank} />
+              .map((row, idx) => (
+                <StyledTableRow key={idx}>
+                  <StyledTableCell width={100}>
+                    <IDItem label={row.id} />
+                  </StyledTableCell>
+                  <StyledTableCell>{row.date}</StyledTableCell>
+                  <StyledTableCell>
+                    <MinusText>{row.deposit}</MinusText>
                   </StyledTableCell>
                   <StyledTableCell>
-                    <UserItem avatar={TempUserIcon} name={row.user} />
+                    <PlusText>{row.payout}</PlusText>
                   </StyledTableCell>
                   <StyledTableCell>
-                    <EarningText>{row.earnings}</EarningText>
-                  </StyledTableCell>
-                  <StyledTableCell align="left">
-                    <PrizeText>{row.prize}</PrizeText>
+                    <PlusText>{row.commission}</PlusText>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
@@ -285,21 +262,19 @@ const Container = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: '20px',
-  marginTop: '100px',
 }));
 
-const LeaderBoardAction = styled(Box)(({ theme }) => ({
+const TransactionAction = styled(Box)(({ theme }) => ({
   display: 'flex',
-  width: '100%',
   alignItems: 'center',
   justifyContent: 'space-between',
 }));
 
-const TabbarContainer = styled(Box)(({ theme }) => ({
-  borderRadius: '7px',
-  backgroundColor: '#0f1629',
+const TransactionTableHeader = styled(Box)(({ theme }) => ({
+  width: '100%',
   display: 'flex',
   alignItems: 'center',
+  justifyContent: 'space-between',
 }));
 
 const OptionButton = styled(Button)(({ theme }) => ({
@@ -317,22 +292,16 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  color: '#fff',
-  fontSize: '14px',
+  color: '#627691',
+  fontSize: '12px',
   border: 'none',
-  [theme.breakpoints.down(520)]: {
-    padding: '8px',
-  },
+  padding: '8px',
+  borderBottom: 'inherit',
+  [theme.breakpoints.down(520)]: {},
 }));
 
 const StyledTableRow = styled(TableRow)({
-  '&:nth-of-type(even)': {
-    backgroundColor: 'transparent',
-  },
-  '&:nth-of-type(odd)': {
-    backgroundColor: '#0f1629',
-  },
-
+  backgroundColor: '#0f1629',
   'td:first-of-type': {
     borderTopLeftRadius: '7px',
     borderBottomLeftRadius: '7px',
@@ -362,14 +331,14 @@ const PaginationButton = styled(Button)(({ theme }) => ({
   color: '#627691',
   border: 'none',
   borderRadius: '5px',
-  minWidth: '45px',
-  width: '45px',
-  height: '45px',
+  minWidth: '36px',
+  width: '36px',
+  height: '36px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   cursor: 'pointer',
-  fontSize: '14px',
+  fontSize: '12px',
   fontWeight: 'bold',
   '&.active': {
     backgroundColor: '#1ae5a1',
@@ -393,107 +362,57 @@ const TableContainer = styled(Box)(({ theme }) => ({
 
 const CustomTable = styled(Table)(({ theme }) => ({
   minWidth: '420px',
+  borderCollapse: 'separate', // Enables gaps between rows
+  borderSpacing: '0 10px',
 }));
 
-interface RankItemProps {
-  label: number;
+interface IDItemProps {
+  label: string;
 }
 
-const RankItem = (props: RankItemProps) => {
+const IDItem = (props: IDItemProps) => {
   const { label } = props;
-  return (
-    <RankItemContainer>
-      <RankImg src={VectorIcon} alt="rank-img" />
-      <RankLabel>{label}</RankLabel>
-    </RankItemContainer>
-  );
+  return <IDItemContainer>{label}</IDItemContainer>;
 };
 
-const RankItemContainer = styled(Box)(({ theme }) => ({
-  width: '25px',
-  height: '25px',
-  position: 'relative',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const RankImg = styled('img')(({ theme }) => ({
-  width: '100%',
-  height: '100%',
-  zIndex: '0',
-}));
-
-const RankLabel = styled(Typography)(({ theme }) => ({
-  color: '#fff',
+const IDItemContainer = styled(Box)(({ theme }) => ({
   fontSize: '12px',
-  position: 'absolute',
-  zIndex: '1',
-}));
-
-interface UserItemProps {
-  avatar: string;
-  name: string;
-}
-
-const UserItem = (props: UserItemProps) => {
-  const { avatar, name } = props;
-  return (
-    <UserItemContainer>
-      <UserImg src={avatar} alt="user-avatar" />
-      <UserName>{name}</UserName>
-    </UserItemContainer>
-  );
-};
-
-const UserItemContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '10px',
-}));
-
-const UserImg = styled('img')(({ theme }) => ({
-  borderRadius: '50%',
-  width: '24px',
-  height: '24px',
-}));
-
-const UserName = styled(Typography)(({ theme }) => ({
-  fontSize: '14px',
-  color: '#fff',
-}));
-
-const EarningText = styled(Box)(({ theme }) => ({
-  padding: '4px 8px',
-  fontSize: '14px',
-  color: '#fff',
-  width: 'fit-content',
   backgroundColor: '#171e31',
+  padding: '4px 6px',
   borderRadius: '5px',
 }));
 
-const PrizeText = styled(Box)(({ theme }) => ({
+const MinusText = styled(Box)(({ theme }) => ({
+  backgroundColor: '#271C2D',
+  color: '#ff5a65',
   padding: '4px 8px',
-  fontSize: '14px',
-  color: '#1AE5A1',
-  width: 'fit-content',
-  backgroundColor: '#102A33',
+  fontSize: '12px',
   borderRadius: '5px',
+  width: 'fit-content',
 }));
 
-const StyledTabs = styled(Tabs)(({ theme }) => ({
-  '& .MuiTabs-indicator': {
-    backgroundColor: '#1AE5A1',
-  },
-  '& .Mui-selected': {
-    background: 'linear-gradient(to bottom,#0f1629 40%,#15A373 200%)',
-  },
+const PlusText = styled(Box)(({ theme }) => ({
+  padding: '4px 8px',
+  fontSize: '12px',
+  color: '#1ae5a1',
+  width: 'fit-content',
+  borderRadius: '5px',
+  backgroundColor: '#102A33',
 }));
 
-const StyledTab = styled(Tab)(({ theme }) => ({
-  minHeight: '48px',
-  svg: {
-    width: '18px',
-    height: '18px',
-  },
+const HistoryTitleContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2px',
+}));
+
+const HistoryTitle = styled(Typography)(({ theme }) => ({
+  fontSize: '18px',
+  color: '#fff',
+  fontWeight: 'normal',
+}));
+
+const HistorySubTitle = styled(Typography)(({ theme }) => ({
+  fontSize: '12px',
+  color: '#627691',
 }));

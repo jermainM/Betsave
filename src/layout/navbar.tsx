@@ -365,7 +365,8 @@ const DesktopWalletContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   gap: '12px',
   background:
-    'radial-gradient(circle at 10% 20%, rgba(14, 247, 169, 0.3) 0%, #0F3D3E 60% 10%, #141c30)',
+    'radial-gradient(circle at 0% 0%, rgba(14, 247, 169, 0.3) 5%, #141c30 150%)',
+  border: '1px solid rgba(255, 255, 255, 0.2)',
   [theme.breakpoints.down(1096)]: {
     display: 'none',
   },
@@ -378,7 +379,8 @@ const MobileWalletContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   gap: '12px',
   background:
-    'radial-gradient(circle at 10% 20%, rgba(14, 247, 169, 0.3) 0%, #0F3D3E 60% 10%, #141c30)',
+    'radial-gradient(circle at 0% 0%, rgba(14, 247, 169, 0.3) 5%, #141c30 150%)',
+  border: '1px solid rgba(255, 255, 255, 0.2)',
   [theme.breakpoints.down(1096)]: {
     display: 'flex',
   },
@@ -406,6 +408,7 @@ const WalletButton = styled(Button)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: '8px',
+  border: '1px solid rgba(255, 255, 255, 0.2)',
   [theme.breakpoints.down(450)]: {
     width: '35px',
     height: '35px',

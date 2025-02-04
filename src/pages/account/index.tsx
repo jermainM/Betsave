@@ -23,6 +23,7 @@ import { useState } from 'react';
 import { Setting } from './setting';
 import { AccountDashboard } from './dashboard';
 import { History } from './history';
+import { BookMaker } from './bookmaker';
 
 export const AccountManage = () => {
   const [selectedItem, setSelectedItem] = useState(0);
@@ -154,6 +155,7 @@ export const AccountManage = () => {
         <AccountBoard>
           {selectedItem === 0 && <AccountDashboard />}
           {selectedItem === 1 && <History />}
+          {selectedItem === 2 && <BookMaker />}
           {selectedItem === 5 && <Setting />}
         </AccountBoard>
       </AccountController>

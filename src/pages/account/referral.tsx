@@ -328,12 +328,13 @@ const UserInfoItem = (props: UserInfoItemProps) => {
 
 const UserInfoItemContainer = styled(Box)(({ theme }) => ({
   width: '100%',
-  padding: '20px 20px 20px 30px',
+  padding: '10px 20px 20px 30px',
   display: 'flex',
   flexDirection: 'column',
   gap: '10px',
   backgroundColor: '#0f1629',
   borderRadius: '15px',
+  border: '1px solid rgba(255, 255, 255, 0.1)',
 }));
 
 const UserInfoItemHeader = styled(Box)(({ theme }) => ({

@@ -17,6 +17,7 @@ import {
 import { AiFillInstagram } from 'react-icons/ai';
 import { ReferralTable } from '../../components/table/referral';
 import { ReferralChart } from '../../components/chart/referral';
+import { ReferralLink } from '../../components/link/referral';
 
 export const Referrals = () => {
   const [referCode, setReferCode] = useState('betsave.com/r/8e4df6');
@@ -796,31 +797,6 @@ const ReferralShareBox = styled(Box)(({ theme }) => ({
     gap: '0px',
     justifyContent: 'space-between',
   },
-}));
-
-interface ReferralLinkProps {
-  icon: React.ReactNode;
-  link: string;
-}
-
-const ReferralLink = (props: ReferralLinkProps) => {
-  const { icon, link } = props;
-  return (
-    <ReferralLinkContainer href={link} rel="noopenner noreferrer">
-      <ReferralLinkIcon>{icon}</ReferralLinkIcon>
-    </ReferralLinkContainer>
-  );
-};
-
-const ReferralLinkContainer = styled('a')(({ theme }) => ({
-  outline: 'none',
-  textDecoration: 'none',
-}));
-
-const ReferralLinkIcon = styled(Box)(({ theme }) => ({
-  width: '20px',
-  height: '20px',
-  color: '#627691',
 }));
 
 const ReferralItemContainer = styled(Box)(({ theme }) => ({

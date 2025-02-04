@@ -24,6 +24,7 @@ import { Setting } from './setting';
 import { AccountDashboard } from './dashboard';
 import { History } from './history';
 import { BookMaker } from './bookmaker';
+import { ReferralProgram } from './referral';
 
 export const AccountManage = () => {
   const [selectedItem, setSelectedItem] = useState(0);
@@ -156,6 +157,7 @@ export const AccountManage = () => {
           {selectedItem === 0 && <AccountDashboard />}
           {selectedItem === 1 && <History />}
           {selectedItem === 2 && <BookMaker />}
+          {selectedItem === 3 && <ReferralProgram />}
           {selectedItem === 5 && <Setting />}
         </AccountBoard>
       </AccountController>

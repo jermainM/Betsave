@@ -25,6 +25,7 @@ import { AccountDashboard } from './dashboard';
 import { History } from './history';
 import { BookMaker } from './bookmaker';
 import { ReferralProgram } from './referral';
+import { PromoCode } from './promocode';
 
 export const AccountManage = () => {
   const [selectedItem, setSelectedItem] = useState(0);
@@ -158,6 +159,7 @@ export const AccountManage = () => {
           {selectedItem === 1 && <History />}
           {selectedItem === 2 && <BookMaker />}
           {selectedItem === 3 && <ReferralProgram />}
+          {selectedItem === 4 && <PromoCode />}
           {selectedItem === 5 && <Setting />}
         </AccountBoard>
       </AccountController>
@@ -484,8 +486,11 @@ const SideBarListItemText = styled(ListItemText)(({ theme }) => ({
 }));
 
 const AccountBoard = styled(Box)(({ theme }) => ({
-  width: '100%',
+  width: 'calc(100% - 330px)',
   paddingTop: '20px',
+  [theme.breakpoints.down(840)]: {
+    width: '100%',
+  },
 }));
 
 const MobileSideBarListContainer = styled(Box)(({ theme }) => ({

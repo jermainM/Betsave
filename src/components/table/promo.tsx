@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { MdYoutubeSearchedFor } from 'react-icons/md';
+import { IoSearchOutline } from 'react-icons/io5';
 import {
   Box,
   Button,
@@ -16,6 +17,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
+import { useRef, useState } from 'react';
 import {
   KeyboardArrowDown,
   KeyboardArrowLeft,
@@ -23,28 +25,25 @@ import {
 } from '@mui/icons-material';
 
 interface Row {
-  id: string;
+  usedCode: string;
   date: string;
-  deposit: string;
-  payout: string;
-  commission: string;
+  reward: string;
 }
 
-export const CashbackHistoryTable = () => {
+export const PromoCodeTable = () => {
   const [isOpen, setOpen] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const anchorRef = useRef<HTMLButtonElement>(null);
   const [page, setPage] = useState<number>(1);
-
-  const handleMenuToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
 
   const handleClose = (value: number) => {
     setRowsPerPage(value);
     setOpen(false);
   };
 
+  const handleMenuToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
   function handleListKeyDown(event: React.KeyboardEvent) {
     if (event.key === 'Tab') {
       event.preventDefault();
@@ -54,24 +53,10 @@ export const CashbackHistoryTable = () => {
     }
   }
 
-  // return focus to the button when we transitioned from !open -> open
-  const prevOpen = useRef(isOpen);
-  useEffect(() => {
-    if (prevOpen.current === true && isOpen === false) {
-      anchorRef.current!.focus();
-    }
-
-    prevOpen.current = isOpen;
-  }, [isOpen]);
-
-  // Table related
-
   const rows: Row[] = Array.from({ length: 100 }, (_, i) => ({
-    id: '#642847966',
+    usedCode: 'WELCOME10',
     date: '28/01/2025',
-    deposit: '$2,893.00',
-    payout: '$2,893.00',
-    commission: '+4.70%',
+    reward: '$2,893.00',
   }));
 
   const totalPages: number = Math.ceil(rows.length / rowsPerPage);
@@ -144,13 +129,28 @@ export const CashbackHistoryTable = () => {
   };
 
   return (
-    <Container>
-      <TransactionTableHeader>
-        <HistoryTitleContainer>
-          <HistoryTitle>Cashback History</HistoryTitle>
-          <HistorySubTitle>All your transaction</HistorySubTitle>
-        </HistoryTitleContainer>
+    <PromoCodeHistory>
+      <HistoryTitle>Promo Code History</HistoryTitle>
+      <HistoryAction>
+        <HistoryActionWrapper>
+          <FilterButtonContainer>
+            <FilterButton startIcon={<MdYoutubeSearchedFor />}>
+              Filters
+            </FilterButton>
+          </FilterButtonContainer>
+          <SearchInputContainer>
+            <SearchIcon>
+              <IoSearchOutline />
+            </SearchIcon>
+            <SearchInput placeholder="Search a code..." />
+          </SearchInputContainer>
+        </HistoryActionWrapper>
         <TransactionAction>
+          <MobileSFilterButtonContainer>
+            <FilterButton startIcon={<MdYoutubeSearchedFor />}>
+              Filters
+            </FilterButton>
+          </MobileSFilterButtonContainer>
           <OptionButton
             ref={anchorRef}
             id="composition-button"
@@ -196,16 +196,14 @@ export const CashbackHistoryTable = () => {
             )}
           </Popper>
         </TransactionAction>
-      </TransactionTableHeader>
+      </HistoryAction>
       <TableContainer>
         <CustomTable>
           <TableHead>
             <TableRow>
-              <StyledTableCell>PlayerID</StyledTableCell>
-              <StyledTableCell>Date</StyledTableCell>
-              <StyledTableCell>Deposit</StyledTableCell>
-              <StyledTableCell>Payout</StyledTableCell>
-              <StyledTableCell align="left">Commission</StyledTableCell>
+              <StyledTableCell>Code Used</StyledTableCell>
+              <StyledTableCell>Date Applied</StyledTableCell>
+              <StyledTableCell>Reward Earned</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -213,18 +211,12 @@ export const CashbackHistoryTable = () => {
               .slice((page - 1) * rowsPerPage, page * rowsPerPage)
               .map((row, idx) => (
                 <StyledTableRow key={idx}>
-                  <StyledTableCell width={100}>
-                    <IDItem label={row.id} />
+                  <StyledTableCell width={150}>
+                    <IDItem label={row.usedCode} />
                   </StyledTableCell>
                   <StyledTableCell>{row.date}</StyledTableCell>
                   <StyledTableCell>
-                    <MinusText>{row.deposit}</MinusText>
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    <PlusText>{row.payout}</PlusText>
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    <PlusText>{row.commission}</PlusText>
+                    <PlusText>{row.reward}</PlusText>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
@@ -248,28 +240,111 @@ export const CashbackHistoryTable = () => {
           <KeyboardArrowRight fontSize="small" />
         </PaginationButton>
       </PaginationContainer>
-    </Container>
+    </PromoCodeHistory>
   );
 };
 
-const Container = styled(Box)(({ theme }) => ({
-  width: '100%',
+const PromoCodeHistory = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: '20px',
+  alignItems: 'center',
+  width: '100%',
+  marginTop: '20px',
+}));
+
+const HistoryTitle = styled(Typography)(({ theme }) => ({
+  fontSize: '18px',
+  color: '#fff',
+  fontWeight: 'normal',
+}));
+
+const HistoryAction = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  width: '100%',
+  [theme.breakpoints.down(1140)]: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: '20px',
+  },
+
+  [theme.breakpoints.down(1096)]: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: '20px',
+  },
+
+  [theme.breakpoints.down(540)]: {
+    flexDirection: 'column-reverse',
+    alignItems: 'flex-start',
+    gap: '20px',
+  },
+}));
+
+const HistoryActionWrapper = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+}));
+
+const FilterButton = styled(Button)(({ theme }) => ({
+  backgroundColor: '#0f1629',
+  borderRadius: '7px',
+  padding: '6px 15px',
+  fontSize: '14px',
+  textTransform: 'none',
+  svg: {
+    color: '#627691',
+  },
+}));
+
+const SearchInputContainer = styled(Box)(({ theme }) => ({
+  backgroundColor: '#0f1629',
+  borderRadius: '7px',
+  padding: '10px 15px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '10px',
+}));
+
+const FilterButtonContainer = styled(Box)(({ theme }) => ({
+  display: 'block',
+  [theme.breakpoints.down(540)]: {
+    display: 'none',
+  },
+}));
+
+const MobileSFilterButtonContainer = styled(Box)(({ theme }) => ({
+  display: 'none',
+  [theme.breakpoints.down(540)]: {
+    display: 'flex',
+  },
+}));
+
+const SearchIcon = styled(Typography)(({ theme }) => ({
+  fontSize: '16px',
+  color: '#627691',
+  display: 'flex',
+  alignItems: 'center',
+}));
+
+const SearchInput = styled('input')(({ theme }) => ({
+  border: 'none',
+  outline: 'none',
+  background: 'none',
+  color: '#fff',
+  '::placeholder': {
+    color: '#627691',
+  },
 }));
 
 const TransactionAction = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-}));
-
-const TransactionTableHeader = styled(Box)(({ theme }) => ({
-  width: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
+  gap: '20px',
 }));
 
 const OptionButton = styled(Button)(({ theme }) => ({
@@ -284,6 +359,52 @@ const OptionButton = styled(Button)(({ theme }) => ({
 const StyledPaper = styled(Paper)(({ theme }) => ({
   marginTop: '10px',
   width: '60px',
+}));
+
+const TableContainer = styled(Box)(({ theme }) => ({
+  width: '100%',
+  overflowX: 'auto',
+}));
+
+const CustomTable = styled(Table)(({ theme }) => ({
+  minWidth: '420px',
+  borderCollapse: 'separate', // Enables gaps between rows
+  borderSpacing: '0 10px',
+}));
+
+interface IDItemProps {
+  label: string;
+}
+
+const IDItem = (props: IDItemProps) => {
+  const { label } = props;
+  return <IDItemContainer>{label}</IDItemContainer>;
+};
+
+const IDItemContainer = styled(Box)(({ theme }) => ({
+  fontSize: '12px',
+  backgroundColor: '#171e31',
+  padding: '4px 6px',
+  borderRadius: '5px',
+  width: 'fit-content',
+}));
+
+const MinusText = styled(Box)(({ theme }) => ({
+  backgroundColor: '#271C2D',
+  color: '#ff5a65',
+  padding: '4px 8px',
+  fontSize: '12px',
+  borderRadius: '5px',
+  width: 'fit-content',
+}));
+
+const PlusText = styled(Box)(({ theme }) => ({
+  padding: '4px 8px',
+  fontSize: '12px',
+  color: '#1ae5a1',
+  width: 'fit-content',
+  borderRadius: '5px',
+  backgroundColor: '#102A33',
 }));
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -348,66 +469,4 @@ const PaginationButton = styled(Button)(({ theme }) => ({
     height: '32px',
     minWidth: '32px',
   },
-}));
-
-const TableContainer = styled(Box)(({ theme }) => ({
-  width: '100%',
-  overflowX: 'auto',
-}));
-
-const CustomTable = styled(Table)(({ theme }) => ({
-  minWidth: '420px',
-  borderCollapse: 'separate', // Enables gaps between rows
-  borderSpacing: '0 10px',
-}));
-
-interface IDItemProps {
-  label: string;
-}
-
-const IDItem = (props: IDItemProps) => {
-  const { label } = props;
-  return <IDItemContainer>{label}</IDItemContainer>;
-};
-
-const IDItemContainer = styled(Box)(({ theme }) => ({
-  fontSize: '12px',
-  backgroundColor: '#171e31',
-  padding: '4px 6px',
-  borderRadius: '5px',
-}));
-
-const MinusText = styled(Box)(({ theme }) => ({
-  backgroundColor: '#271C2D',
-  color: '#ff5a65',
-  padding: '4px 8px',
-  fontSize: '12px',
-  borderRadius: '5px',
-  width: 'fit-content',
-}));
-
-const PlusText = styled(Box)(({ theme }) => ({
-  padding: '4px 8px',
-  fontSize: '12px',
-  color: '#1ae5a1',
-  width: 'fit-content',
-  borderRadius: '5px',
-  backgroundColor: '#102A33',
-}));
-
-const HistoryTitleContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '2px',
-}));
-
-const HistoryTitle = styled(Typography)(({ theme }) => ({
-  fontSize: '18px',
-  color: '#fff',
-  fontWeight: 'normal',
-}));
-
-const HistorySubTitle = styled(Typography)(({ theme }) => ({
-  fontSize: '12px',
-  color: '#627691',
 }));

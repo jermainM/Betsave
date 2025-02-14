@@ -11,6 +11,12 @@ import 'swiper/css/navigation';
 // import required modules
 import { Keyboard, Pagination, Navigation, Autoplay } from 'swiper/modules';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
+import {
+  BronzeImg,
+  GoldenImg,
+  PlatinumImg,
+  SilverImg,
+} from '../../contants/images';
 
 export const CashbackSlider = () => {
   return (
@@ -38,26 +44,26 @@ export const CashbackSlider = () => {
       >
         <SwiperSlide>
           <CashbackSliderItem>
-            <CashbackCard />
-            <CashbackCard />
-            <CashbackCard />
-            <CashbackCard />
+            <CashbackCard img={GoldenImg} />
+            <CashbackCard img={SilverImg} />
+            <CashbackCard img={BronzeImg} />
+            <CashbackCard img={PlatinumImg} />
           </CashbackSliderItem>
         </SwiperSlide>
         <SwiperSlide>
           <CashbackSliderItem>
-            <CashbackCard />
-            <CashbackCard />
-            <CashbackCard />
-            <CashbackCard />
+            <CashbackCard img={GoldenImg} />
+            <CashbackCard img={SilverImg} />
+            <CashbackCard img={BronzeImg} />
+            <CashbackCard img={PlatinumImg} />
           </CashbackSliderItem>
         </SwiperSlide>
         <SwiperSlide>
           <CashbackSliderItem>
-            <CashbackCard />
-            <CashbackCard />
-            <CashbackCard />
-            <CashbackCard />
+            <CashbackCard img={GoldenImg} />
+            <CashbackCard img={SilverImg} />
+            <CashbackCard img={BronzeImg} />
+            <CashbackCard img={PlatinumImg} />
           </CashbackSliderItem>
         </SwiperSlide>
       </Swiper>

@@ -11,7 +11,7 @@ import { STATIC_DATA } from '../contants/static-data';
 import TrustmaryIcon from '../assets/Trustmary.png';
 import TrophyIcon from '../assets/Trophy.png';
 import HorseIcon from '../assets/horse-icon.png';
-import CashbackIcon from '../assets/cashback-big-icon.png';
+import CashbackIcon from '../assets/esp/green/money-return.svg';
 
 import HorseImg from '../assets/horse.png';
 import { EarnCashbackCard } from '../components/card/EarnCashCard';

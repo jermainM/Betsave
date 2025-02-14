@@ -18,9 +18,7 @@ export const BetaCard = (props: BetaCardProps) => {
       <CardImage src={img} alt="card-img" />
       <CardText variant="subtitle1">{title}</CardText>
       <CardValue>
-        <ValueText variant="subtitle1">
-          {value}.<span>00</span>
-        </ValueText>
+        <ValueText variant="subtitle1">{value}</ValueText>
         <Credit>
           <Star sx={{ color: 'yellow', width: '16px', height: '16px' }} />
           <CreditValue variant="subtitle1">{credit}.0</CreditValue>

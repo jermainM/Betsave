@@ -10,7 +10,7 @@ import HighStakeBettorsIcon from '../assets/high-stakes-bettors.png';
 import ReferralBonusIcon from '../assets/referral.png';
 import PromotionIcon from '../assets/promotion.png';
 
-import CashbackRateIcon from '../assets/cashback-big-icon.png';
+import CashbackRateIcon from '../assets/esp/green/money-return.svg';
 import BetOffersIcon from '../assets/offer-icon.png';
 import PayoutIcon from '../assets/payout.png';
 
@@ -50,6 +50,12 @@ import GreenPromoOfferSvg from '../assets/GreenIcons/Promotional-offers.svg';
 import GreenRewardSvg from '../assets/GreenIcons/Reward.svg';
 import GreenWithdrawSvg from '../assets/GreenIcons/Withdraw.svg';
 import { styled } from '@mui/material';
+import {
+  GreenMaxmizeWinIcon,
+  GreenSeemslessIcon,
+  GreenTopTierIcon,
+  GreenTransparentPayoutIcon,
+} from './images';
 
 const IconImg = styled('img')(({ theme }) => ({
   width: '100%',
@@ -59,57 +65,57 @@ const IconImg = styled('img')(({ theme }) => ({
 export const STATIC_DATA = {
   whychoose: [
     {
-      img: MaximizeIcon,
+      img: GreenMaxmizeWinIcon,
       title: 'Maximize Your Wins',
       content:
         'Even when the odds are against you, earn guaranteed cashback on every bet.',
     },
     {
-      img: PartnerIcon,
+      img: GreenTopTierIcon,
       title: 'Top-Tier Partners',
       content: 'Access the best bookmakers in the industry',
     },
     {
-      img: SeamlessIcon,
+      img: GreenSeemslessIcon,
       title: 'Seamless Experience',
       content: 'User-friendly platforms, no hidden fees, no hassle.',
     },
     {
-      img: PaymoenyIcon,
+      img: GreenTransparentPayoutIcon,
       title: 'Transparent Payouts',
       content:
         'See exactly how much you’re earning and cashout your rewards every fortnight',
     },
     {
-      img: PartnerIcon,
+      img: GreenTopTierIcon,
       title: 'Top-Tier Partners',
       content: 'Access the best bookmakers in the industry',
     },
     {
-      img: PaymoenyIcon,
+      img: GreenTransparentPayoutIcon,
       title: 'Transparent Payouts',
       content:
         'See exactly how much you’re earning and cashout your rewards every fortnight',
     },
     {
-      img: MaximizeIcon,
+      img: GreenMaxmizeWinIcon,
       title: 'Maximize Your Wins',
       content:
         'Even when the odds are against you, earn guaranteed cashback on every bet.',
     },
     {
-      img: SeamlessIcon,
+      img: GreenSeemslessIcon,
       title: 'Seamless Experience',
       content: 'User-friendly platforms, no hidden fees, no hassle.',
     },
     {
-      img: MaximizeIcon,
+      img: GreenMaxmizeWinIcon,
       title: 'Maximize Your Wins',
       content:
         'Even when the odds are against you, earn guaranteed cashback on every bet.',
     },
     {
-      img: SeamlessIcon,
+      img: GreenSeemslessIcon,
       title: 'Seamless Experience',
       content: 'User-friendly platforms, no hidden fees, no hassle.',
     },

@@ -1,15 +1,20 @@
 import { Box, styled, Typography } from '@mui/material';
 import HorseRiderPng from '../../assets/horse.png';
 
-export const CashbackCard = () => {
+interface CashbackCardProps {
+  img: string;
+}
+
+export const CashbackCard = (props: CashbackCardProps) => {
+  const { img } = props;
   return (
     <CashbackCardContainer>
-      <Img src={HorseRiderPng} alt="card-img" />
-      <CashbackCardTitle>Bet</CashbackCardTitle>
+      <Img src={img} alt="card-img" />
+      {/* <CashbackCardTitle>Bet</CashbackCardTitle>
       <CashbackCardText>$1,000/month</CashbackCardText>
       <CashbackCardSubTitle>
         <span>1%</span> cashback
-      </CashbackCardSubTitle>
+      </CashbackCardSubTitle> */}
     </CashbackCardContainer>
   );
 };
@@ -19,7 +24,6 @@ const CashbackCardContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  paddingTop: '45px',
   width: '100%',
   height: '375px',
   // backgroundColor: '#141c30',
@@ -76,10 +80,5 @@ const CashbackCardSubTitle = styled(Typography)(({ theme }) => ({
 const Img = styled('img')(({ theme }) => ({
   width: '100%',
   height: 'auto',
-  position: 'absolute',
   objectFit: 'cover',
-  top: '180px',
-  [theme.breakpoints.down(960)]: {
-    top: '160px',
-  },
 }));

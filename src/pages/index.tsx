@@ -19,6 +19,11 @@ import { WhyChooseSwiper } from '../components/swiper/WhyChoose';
 import { FAQItem } from '../components/Faq';
 import { LayerImage } from '../layout';
 import LayourImg from '../assets/layer.png';
+import {
+  GreenTimeIcon,
+  GreenTransparentPayoutIcon,
+  GreenWalletIcon,
+} from '../contants/images';
 
 export const Landing = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
@@ -32,15 +37,15 @@ export const Landing = () => {
     <Container>
       <LayerImage src={LayourImg} alt="layour-image" />
       <Heading variant="h1">
-        <span>“Earn Cashback</span> on Every Bet You Place”
+        <span>Earn Rewards</span> on Every Bet You Place
       </Heading>
       <SmallHeadingContainer>
         <SmallHeadingItem>
           <IconWrapper>
-            <Icon src={EarnIcon} alt="earn-icon" />
+            <Icon src={GreenTransparentPayoutIcon} alt="earn-icon" />
           </IconWrapper>
           <p>
-            Cashback rewards up to <span>7%</span>
+            Earn rewards up to <span>10%</span>
           </p>
         </SmallHeadingItem>
         <SmallHeadingItem>
@@ -80,14 +85,14 @@ export const Landing = () => {
       </CardGroupContainer>
       <CashbackContainer>
         <CashbackItem
-          img={TimerIcon}
+          img={GreenTimeIcon}
           text="10m30s"
           subText="Average time until users receive their first cashback."
         />
         <CustomVerticalDivider orientation="vertical" />
         <CustomVHorizDivider orientation="horizontal" />
         <CashbackItem
-          img={WalletIcon}
+          img={GreenWalletIcon}
           text="$75.40"
           subText="Average cashback earned by users yesterday"
         />
@@ -115,13 +120,13 @@ export const Landing = () => {
               <HowitworksItem
                 icon={UserIcon}
                 title="1. Sign Up"
-                text="Create a free account and choose from our partnered sportsbooks and racing platforms"
+                text="Create an account with BetSave, then register with our partnered bookmakers through exclusive offers."
                 img={Poster1Img}
               />
               <HowitworksItem
                 icon={PlaceBetIcon}
                 title="2. Place Your Bets"
-                text="Place bets like you normally do - we'll take care of the rest."
+                text="Choose your favorite sports or races and place your bets through our partnered platforms. We’ll handle the tracking for you."
                 img={Poster2Img}
               />
               <HowitworksItem
@@ -164,7 +169,7 @@ export const Landing = () => {
             <HowitworksItem
               icon={WalletIcon}
               title="3. Get Cashback"
-              text="Recive up to 7% cashback on your betting activity each month, directly to your account."
+              text="Earn up to 10% cashback each month, based on the Net Gaming Revenue (NGR) of your betting activity, credited directly to your account."
               img={Poster3Img}
             />
           </Howitworks>
@@ -272,13 +277,10 @@ const SmallHeadingContainer = styled(Box)(({ theme }) => ({
 }));
 
 const IconWrapper = styled(Box)(({ theme }) => ({
-  width: '24px',
+  width: '36px',
   height: 'auto',
   [theme.breakpoints.down(1024)]: {
-    width: '20px',
-  },
-  [theme.breakpoints.down(640)]: {
-    width: '16px',
+    width: '32px',
   },
   display: 'flex',
   alignItems: 'center',
@@ -298,7 +300,7 @@ const Img = styled('img')(({ theme }) => ({
 const SmallHeadingItem = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
-  gap: '24px',
+  gap: '12px',
   fontSize: '20px',
   color: '#627691',
   p: {
@@ -308,8 +310,7 @@ const SmallHeadingItem = styled(Box)(({ theme }) => ({
     color: '#fff',
   },
   [theme.breakpoints.down(1024)]: {
-    gap: '16px',
-    fontSize: '16px',
+    fontSize: '18px',
   },
 }));
 
@@ -453,15 +454,11 @@ const Cashback = styled(Box)(({ theme }) => ({
 }));
 
 const CashbackImg = styled('img')(({ theme }) => ({
-  width: '28px',
-  height: '28px',
+  width: '42px',
+  height: '42px',
   [theme.breakpoints.down(840)]: {
-    width: '24px',
-    height: '24px',
-  },
-  [theme.breakpoints.down(640)]: {
-    width: '28px',
-    height: '28px',
+    width: '36px',
+    height: '36px',
   },
 }));
 

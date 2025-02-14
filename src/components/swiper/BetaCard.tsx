@@ -11,8 +11,8 @@ export const BetaCardSlider = () => {
     {
       id: 1,
       img: SbImg,
-      title: <>Sign up & get up to cashback</>,
-      value: '$50',
+      title: <>Sign up and get rewarded</>,
+      value: '3.75%',
       credit: 5,
     },
     {
@@ -23,14 +23,14 @@ export const BetaCardSlider = () => {
           Get <span>$100</span>
         </>
       ),
-      value: '$50',
+      value: '4.3%',
       credit: 5,
     },
     {
       id: 3,
       img: NedsImg,
       title: <>Earn cashback for every bet</>,
-      value: '%5',
+      value: '7%',
       credit: 5,
     },
   ];

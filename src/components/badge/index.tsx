@@ -4,7 +4,7 @@ export const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
     backgroundColor: '#1ae5a1',
     color: '#1ae5a1',
-    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    boxShadow: `0 0 0 4px ${theme.palette.background.paper}`,
     '&::after': {
       position: 'absolute',
       top: 0,
@@ -23,7 +23,7 @@ export const StyledBadge = styled(Badge)(({ theme }) => ({
       opacity: 1,
     },
     '100%': {
-      transform: 'scale(2.4)',
+      transform: 'scale(2.8)',
       opacity: 0,
     },
   },

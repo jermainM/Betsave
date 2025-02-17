@@ -12,7 +12,7 @@ import 'swiper/css/navigation';
 import { Keyboard, Pagination, Navigation, Autoplay } from 'swiper/modules';
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 
-import { STATIC_DATA } from '../../contants/static-data';
+import { STATIC_DATA } from '../../constants/static-data';
 
 interface whychoose {
   img: string;

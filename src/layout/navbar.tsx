@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import {
-  alpha,
   Avatar,
   Box,
   Button,
-  Fab,
   IconButton,
   List,
   ListItem,
@@ -13,8 +11,6 @@ import {
   ListItemText,
   Menu,
   MenuProps,
-  SpeedDial,
-  SpeedDialAction,
   styled,
   Typography,
 } from '@mui/material';
@@ -29,18 +25,19 @@ import { BsFillChatDotsFill } from 'react-icons/bs';
 
 import { IconInput } from '../components/input/IconInput';
 
-import ExpandSidebarIcon from '../assets/expand-sidebar.png';
-import BetsaveLogoImg from '../assets/Betsave-logo.png';
-import HandMoneyIcon from '../assets/hand-money-icon.png';
-import JonahAvatarIcon from '../assets/Jonah.png';
-import GiftIcon from '../assets/gift.png';
-
-import { STATIC_DATA } from '../contants/static-data';
+import { STATIC_DATA } from '../constants/static-data';
 import { Footer } from './footer';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store';
 import { setActiveItem } from '../store/slices/navbarSlice';
 import { useNavigate } from 'react-router-dom';
+import {
+  BetSaveLogoImg,
+  ExpandSidebarIcon,
+  GiftIcon,
+  HandMoneyIcon,
+  JonahAvatarIcon,
+} from '../constants/images';
 
 export const NavBar = (props: { children: React.ReactNode }) => {
   const { children } = props;
@@ -85,7 +82,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
             <Img src={ExpandSidebarIcon} alt="expand-sidebar-icon" />
           </SidebarButton>
           <Logo
-            src={BetsaveLogoImg}
+            src={BetSaveLogoImg}
             alt="betsave-logo"
             onClick={() => navigate('/')}
           />

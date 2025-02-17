@@ -1,5 +1,5 @@
 import { Box, styled, Typography } from '@mui/material';
-import EmptyImg from '../../assets/empty.png';
+import { EmptyImg } from '../../constants/images';
 
 export const EmptyBox = () => {
   return (

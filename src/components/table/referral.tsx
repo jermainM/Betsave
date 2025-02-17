@@ -8,9 +8,7 @@ import {
   TableRow,
   Typography,
 } from '@mui/material';
-
-import VectorIcon from '../../assets/vector.png';
-import TempUserIcon from '../../assets/user.png';
+import { TempUserIcon, VectorIcon } from '../../constants/images';
 
 interface Row {
   rank: number;

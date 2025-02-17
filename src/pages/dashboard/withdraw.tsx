@@ -1,7 +1,7 @@
 import { East } from '@mui/icons-material';
 import { Box, styled, Typography } from '@mui/material';
 import { WithdrawProcessCard } from '../../components/card/WithdrawProcessCard';
-import GreenWithdrawSvg from '../../assets/GreenIcons/Withdraw.svg';
+import { GreenWithdrawSvg } from '../../constants/images';
 
 export const Withdraw = () => {
   return (

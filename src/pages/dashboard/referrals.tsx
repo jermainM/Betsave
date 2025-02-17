@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Box, Button, Menu, MenuItem, styled, Typography } from '@mui/material';
 import { FaUsers } from 'react-icons/fa';
 import { FaMoneyBills } from 'react-icons/fa6';
-import TempUserIcon from '../../assets/Jonah.png';
 import { KeyboardArrowDown, KeyboardArrowLeft } from '@mui/icons-material';
 import { BiSolidEditAlt } from 'react-icons/bi';
 import { FaSackDollar } from 'react-icons/fa6';
@@ -18,6 +17,7 @@ import { AiFillInstagram } from 'react-icons/ai';
 import { ReferralTable } from '../../components/table/referral';
 import { ReferralChart } from '../../components/chart/referral';
 import { ReferralLink } from '../../components/link/referral';
+import { TempUserIcon } from '../../constants/images';
 
 export const Referrals = () => {
   const [referCode, setReferCode] = useState('betsave.com/r/8e4df6');

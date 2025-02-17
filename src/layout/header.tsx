@@ -7,15 +7,17 @@ import {
   Popover,
   styled,
 } from '@mui/material';
-import LogoImg from '../assets/Betsave-logo.png';
-import MobileLogoImg from '../assets/mobile-betsave-logo.png';
-import EarnIcon from '../assets/earn.png';
-import CashoutIcon from '../assets/cashout.png';
 import { IconInput } from '../components/input/IconInput';
 import { Menu, Search } from '@mui/icons-material';
 import { LuUserRound } from 'react-icons/lu';
 import { AiOutlineKey } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
+import {
+  CashoutIcon,
+  EarnIcon,
+  LogoImg,
+  MobileLogoImg,
+} from '../constants/images';
 
 export const Header = () => {
   const [searchText, setSearchText] = useState('');

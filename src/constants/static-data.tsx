@@ -1,60 +1,49 @@
-import MaximizeIcon from '../assets/maximize.png';
-import PartnerIcon from '../assets/partner.png';
-import SeamlessIcon from '../assets/seamless.png';
-import PaymoenyIcon from '../assets/pay-money-icon.png';
-
-import SportsBetIcon from '../assets/sports-bet.png';
-import HorseRaceIcon from '../assets/horce-race.png';
-import SignupOfferIcon from '../assets/signup-offer.png';
-import HighStakeBettorsIcon from '../assets/high-stakes-bettors.png';
-import ReferralBonusIcon from '../assets/referral.png';
-import PromotionIcon from '../assets/promotion.png';
-
-import CashbackRateIcon from '../assets/esp/green/money-return.svg';
-import BetOffersIcon from '../assets/offer-icon.png';
-import PayoutIcon from '../assets/payout.png';
-
-import Mobile1Img from '../assets/mobile-1.png';
-import Mobile2Img from '../assets/mobile-2.png';
-import Mobile3Img from '../assets/mobile-3.png';
-import BookMakerIcon from '../assets/bookmaker.png';
-import CheckIcon from '../assets/check.png';
-import WalletOutlinedIcon from '../assets/wallet-outline.png';
-
-import Layer85Img from '../assets/Layer-85.png';
-import Layer87Img from '../assets/Layer-87.jpg';
-import Layer94Img from '../assets/Layer-94.jpg';
-
-import { GiMoneyStack } from 'react-icons/gi';
-import { IoGameController, IoCashOutline, IoAnalytics } from 'react-icons/io5';
-import { MdLocalOffer, MdLeaderboard } from 'react-icons/md';
-import { FaAward } from 'react-icons/fa6';
-import { FaUsers, FaHistory, FaBookmark } from 'react-icons/fa';
+import { IoAnalytics } from 'react-icons/io5';
+import { MdLocalOffer } from 'react-icons/md';
+import { FaHistory, FaBookmark } from 'react-icons/fa';
 
 import { IoMdHome, IoMdSettings } from 'react-icons/io';
 import { SlEarphonesAlt } from 'react-icons/sl';
 
-import GrayAffiliateSvg from '../assets/GrayIcons/Affiliates.svg';
-import GrayAbleOfferSvg from '../assets/GrayIcons/Available-offers.svg';
-import GrayLeaderboardSvg from '../assets/GrayIcons/Leaderboard.svg';
-import GrayMyOfferSvg from '../assets/GrayIcons/My-offers.svg';
-import GrayPromoOfferSvg from '../assets/GrayIcons/Promotional-offers.svg';
-import GrayRewardSvg from '../assets/GrayIcons/Reward.svg';
-import GrayWithdrawSvg from '../assets/GrayIcons/Withdraw.svg';
-
-import GreenAffiliateSvg from '../assets/GreenIcons/Affiliates.svg';
-import GreenAbleOfferSvg from '../assets/GreenIcons/Available-offers.svg';
-import GreenLeaderboardSvg from '../assets/GreenIcons/Leaderboard.svg';
-import GreenMyOfferSvg from '../assets/GreenIcons/My-offers.svg';
-import GreenPromoOfferSvg from '../assets/GreenIcons/Promotional-offers.svg';
-import GreenRewardSvg from '../assets/GreenIcons/Reward.svg';
-import GreenWithdrawSvg from '../assets/GreenIcons/Withdraw.svg';
 import { styled } from '@mui/material';
+
 import {
+  BetOffersIcon,
+  BookMakerIcon,
+  CashbackRateIcon,
+  CheckIcon,
+  GrayAbleOfferSvg,
+  GrayAffiliateSvg,
+  GrayLeaderboardSvg,
+  GrayMyOfferSvg,
+  GrayPromoOfferSvg,
+  GrayRewardSvg,
+  GrayWithdrawSvg,
+  GreenAbleOfferSvg,
+  GreenAffiliateSvg,
+  GreenLeaderboardSvg,
   GreenMaxmizeWinIcon,
+  GreenMyOfferSvg,
+  GreenPromoOfferSvg,
+  GreenRewardSvg,
   GreenSeemslessIcon,
   GreenTopTierIcon,
   GreenTransparentPayoutIcon,
+  GreenWithdrawSvg,
+  HighStakeBettorsIcon,
+  HorseRaceIcon,
+  Layer85Img,
+  Layer87Img,
+  Layer94Img,
+  Mobile1Img,
+  Mobile2Img,
+  Mobile3Img,
+  PayoutIcon,
+  PromotionIcon,
+  ReferralBonusIcon,
+  SignupOfferIcon,
+  SportsBetIcon,
+  WalletOutlinedIcon,
 } from './images';
 
 const IconImg = styled('img')(({ theme }) => ({

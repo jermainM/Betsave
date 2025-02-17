@@ -1,4 +1,4 @@
-import { Box, styled, Typography } from '@mui/material';
+import { Box, styled } from '@mui/material';
 import { CashbackHistoryTable } from '../../components/table/transaction';
 
 export const History = () => {

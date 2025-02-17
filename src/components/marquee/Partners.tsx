@@ -1,15 +1,17 @@
 import React from 'react';
 import { Box, styled } from '@mui/material';
 import Marquee from 'react-fast-marquee';
-import VisaPng from '../../assets/partners/visa.png';
-import Bet365Png from '../../assets/partners/bet365.png';
-import BetitonPng from '../../assets/partners/betiton.png';
-import LPng from '../../assets/partners/l.png';
-import NPng from '../../assets/partners/n.png';
-import NedsPng from '../../assets/partners/neds.png';
-import SbPng from '../../assets/partners/sb.png';
-import TabPng from '../../assets/partners/tab.png';
-import ThumbupPng from '../../assets/partners/thumbup.png';
+import {
+  Bet365Png,
+  BetitonPng,
+  LPng,
+  NedsPng,
+  NPng,
+  SbPng,
+  TabPng,
+  ThumbupPng,
+  VisaPng,
+} from '../../constants/images';
 
 const FeaturedPartners: React.FC = () => {
   const Images = [

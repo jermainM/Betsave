@@ -8,17 +8,14 @@ import {
   ListItemIcon,
   ListItemText,
   Menu,
-  MenuItem,
   styled,
   Typography,
 } from '@mui/material';
-import TempUserIcon from '../../assets/Jonah.png';
-import NetImg from '../../assets/netshape.png';
 import { IoMdSettings, IoMdWallet } from 'react-icons/io';
 import { IoSettingsSharp } from 'react-icons/io5';
 import { HiCash } from 'react-icons/hi';
 import { LevelProgressBar } from '../../components/progressbar/LevelBar';
-import { STATIC_DATA } from '../../contants/static-data';
+import { STATIC_DATA } from '../../constants/static-data';
 import { useState } from 'react';
 import { Setting } from './setting';
 import { AccountDashboard } from './dashboard';
@@ -26,6 +23,9 @@ import { History } from './history';
 import { BookMaker } from './bookmaker';
 import { ReferralProgram } from './referral';
 import { PromoCode } from './promocode';
+import { HelpCenter } from './helpcenter';
+
+import { NetImg, TempUserIcon } from '../../constants/images';
 
 export const AccountManage = () => {
   const [selectedItem, setSelectedItem] = useState(0);
@@ -161,6 +161,7 @@ export const AccountManage = () => {
           {selectedItem === 3 && <ReferralProgram />}
           {selectedItem === 4 && <PromoCode />}
           {selectedItem === 5 && <Setting />}
+          {selectedItem === 6 && <HelpCenter />}
         </AccountBoard>
       </AccountController>
     </AccountManageContainer>
@@ -437,6 +438,7 @@ const SideBarListContainer = styled(Box)(({ theme }) => ({
   backgroundColor: '#0f1629',
   padding: '4px 11px',
   borderRadius: '15px',
+  height: 'fit-content',
   [theme.breakpoints.down(840)]: {
     display: 'none',
   },

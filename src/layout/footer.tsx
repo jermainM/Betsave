@@ -1,6 +1,4 @@
 import { Box, Button, IconButton, styled, Typography } from '@mui/material';
-import TrustmaryIcon from '../assets/Trustmary.png';
-import BetSaveLogoImg from '../assets/Betsave-logo.png';
 import { ExpandMore, Star } from '@mui/icons-material';
 import { FaXTwitter } from 'react-icons/fa6';
 import { FaFacebookF } from 'react-icons/fa';
@@ -8,7 +6,11 @@ import { RiInstagramFill } from 'react-icons/ri';
 import { BiLogoTelegram } from 'react-icons/bi';
 import { BiLogoDiscordAlt } from 'react-icons/bi';
 import { LuMessageCircleMore } from 'react-icons/lu';
-import EnglishIcon from '../assets/flags/english.png';
+import {
+  BetSaveLogoImg,
+  EnglishIcon,
+  TrustmaryIcon,
+} from '../constants/images';
 
 export const Footer = () => {
   return (

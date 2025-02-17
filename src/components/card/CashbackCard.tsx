@@ -1,5 +1,4 @@
 import { Box, styled, Typography } from '@mui/material';
-import HorseRiderPng from '../../assets/horse.png';
 
 interface CashbackCardProps {
   img: string;

@@ -7,7 +7,6 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { CashOfferCard } from '../../components/card/CashOfferCard';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import GreenMyOfferSvg from '../../assets/GreenIcons/My-offers.svg';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -23,6 +22,7 @@ import {
   FreeMode,
 } from 'swiper/modules';
 import { EmptyBox } from '../../components/box/EmptyBox';
+import { GreenMyOfferSvg } from '../../constants/images';
 
 export const Cashback = () => {
   const [isEmpty, setEmpty] = useState(true);

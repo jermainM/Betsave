@@ -16,7 +16,7 @@ import {
   GoldenImg,
   PlatinumImg,
   SilverImg,
-} from '../../contants/images';
+} from '../../constants/images';
 
 export const CashbackSlider = () => {
   return (

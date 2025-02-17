@@ -1,7 +1,5 @@
 import { Box, Rating, styled, Typography } from '@mui/material';
-import Bet365Logo from '../../assets/bet365-logo.png';
-import LockIcon from '../../assets/lock.png';
-import { BetSaveTooltip } from '../../components/tooltip';
+import { Bet365Logo, LockIcon } from '../../constants/images';
 
 export const BookMaker = () => {
   return (

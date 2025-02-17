@@ -1,10 +1,13 @@
 import { Box, styled, Typography } from '@mui/material';
-import TempUserIcon from '../../assets/user.png';
 import { formatEarning } from '../../utils/number';
-import Rank1Img from '../../assets/1th.png';
-import Rank2Img from '../../assets/2th.png';
-import Rank3Img from '../../assets/3th.png';
 import { LeaderBoardTable } from '../../components/table/leaderboard';
+
+import {
+  TempUserIcon,
+  Rank1Img,
+  Rank2Img,
+  Rank3Img,
+} from '../../constants/images';
 
 export const LeaderBoard = () => {
   return (

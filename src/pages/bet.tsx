@@ -5,13 +5,15 @@ import { Star } from '@mui/icons-material';
 import { WithdrawCard } from '../components/card/WithdrawCard';
 import { LayerImage } from '../layout';
 
-import LayerImg2 from '../assets/layer2.png';
-import TrustmaryIcon from '../assets/Trustmary.png';
-import CashoutIcon from '../assets/cashout.png';
-import GiftcardIcon from '../assets/gift_card.png';
-import { STATIC_DATA } from '../contants/static-data';
+import { STATIC_DATA } from '../constants/static-data';
 import { EarnCashbackCard } from '../components/card/EarnCashCard';
 import { FAQItem } from '../components/Faq';
+import {
+  CashoutIcon,
+  GiftcardIcon,
+  LayerImg2,
+  TrustmaryIcon,
+} from '../constants/images';
 
 export const BetSmart = () => {
   const [expanded, setExpanded] = useState<string | false>(false);

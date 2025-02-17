@@ -1,23 +1,20 @@
 import { useEffect, useState } from 'react';
 import { BetaCard } from '../card/BetaCard';
 import { Box, styled } from '@mui/material';
-
-import NedsImg from '../../assets/neds.png';
-import Bet365Img from '../../assets/bet365.png';
-import SbImg from '../../assets/sb.png';
+import { Bet365Png, NedsPng, SbPng } from '../../constants/images';
 
 export const BetaCardSlider = () => {
   const cards = [
     {
       id: 1,
-      img: SbImg,
+      img: SbPng,
       title: <>Sign up and get rewarded</>,
       value: '3.75%',
       credit: 5,
     },
     {
       id: 2,
-      img: Bet365Img,
+      img: Bet365Png,
       title: (
         <>
           Get <span>$100</span>
@@ -28,7 +25,7 @@ export const BetaCardSlider = () => {
     },
     {
       id: 3,
-      img: NedsImg,
+      img: NedsPng,
       title: <>Earn cashback for every bet</>,
       value: '7%',
       credit: 5,

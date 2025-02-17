@@ -6,17 +6,18 @@ import { CategoryCard } from '../components/card/CategoryCard';
 import { ReasonCard } from '../components/card/ReasonCard';
 import { FAQItem } from '../components/Faq';
 import FeaturedPartners from '../components/marquee/Partners';
-import { STATIC_DATA } from '../contants/static-data';
+import { STATIC_DATA } from '../constants/static-data';
 
-import TrustmaryIcon from '../assets/Trustmary.png';
-import TrophyIcon from '../assets/Trophy.png';
-import HorseIcon from '../assets/horse-icon.png';
-import CashbackIcon from '../assets/esp/green/money-return.svg';
-
-import HorseImg from '../assets/horse.png';
 import { EarnCashbackCard } from '../components/card/EarnCashCard';
 import { LayerImage } from '../layout';
-import LayerImg1 from '../assets/layer1.png';
+import {
+  CashbackIcon,
+  HorseIcon,
+  HorseImg,
+  LayerImg1,
+  TrophyIcon,
+  TrustmaryIcon,
+} from '../constants/images';
 
 export const EarnMoney = () => {
   const [expanded, setExpanded] = useState<string | false>(false);

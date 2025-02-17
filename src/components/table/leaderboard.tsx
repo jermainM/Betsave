@@ -8,7 +8,6 @@ import {
   MenuList,
   Paper,
   Popper,
-  SelectChangeEvent,
   styled,
   Tab,
   Table,
@@ -25,8 +24,7 @@ import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
 } from '@mui/icons-material';
-import VectorIcon from '../../assets/vector.png';
-import TempUserIcon from '../../assets/user.png';
+import { TempUserIcon, VectorIcon } from '../../constants/images';
 
 interface Row {
   rank: number;

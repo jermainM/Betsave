@@ -1,6 +1,5 @@
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 import { Box, IconButton, styled } from '@mui/material';
-import { IoGameController } from 'react-icons/io5';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -21,7 +20,7 @@ import { useState } from 'react';
 
 import { CashOfferCard } from '../../components/card/CashOfferCard';
 import { EmptyBox } from '../../components/box/EmptyBox';
-import GreenPromoOfferSvg from '../../assets/GreenIcons/Promotional-offers.svg';
+import { GreenPromoOfferSvg } from '../../constants/images';
 
 export const MyOffers = () => {
   const [isEmpty, setEmpty] = useState(false);

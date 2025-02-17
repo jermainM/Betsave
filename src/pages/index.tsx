@@ -4,26 +4,25 @@ import { BetaCardSlider } from '../components/swiper/BetaCard';
 import { Star } from '@mui/icons-material';
 import { SignUpCard } from '../components/card/SignUpCard';
 
-import EarnIcon from '../assets/earn.png';
-import TrustmaryIcon from '../assets/Trustmary.png';
-import TimerIcon from '../assets/timer.png';
-import WalletIcon from '../assets/wallet.png';
-import UserIcon from '../assets/user-profile.png';
-import PlaceBetIcon from '../assets/place-bets.png';
-import Poster1Img from '../assets/Poster-1.jpg';
-import Poster2Img from '../assets/Poster-2.jpg';
-import Poster3Img from '../assets/Poster-3.jpg';
 import { useState } from 'react';
 import { CashbackSlider } from '../components/swiper/Cashback';
 import { WhyChooseSwiper } from '../components/swiper/WhyChoose';
 import { FAQItem } from '../components/Faq';
 import { LayerImage } from '../layout';
-import LayourImg from '../assets/layer.png';
+
 import {
   GreenTimeIcon,
   GreenTransparentPayoutIcon,
   GreenWalletIcon,
-} from '../contants/images';
+  LayourImg,
+  PlaceBetIcon,
+  Poster1Img,
+  Poster2Img,
+  Poster3Img,
+  TrustmaryIcon,
+  UserIcon,
+  WalletIcon,
+} from '../constants/images';
 
 export const Landing = () => {
   const [expanded, setExpanded] = useState<string | false>(false);

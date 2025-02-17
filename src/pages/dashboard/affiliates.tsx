@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { KeyboardArrowLeft } from '@mui/icons-material';
-import { Box, Button, Dialog, styled, Typography } from '@mui/material';
-import MoreProfitImg from '../../assets/2554.png';
-import ThunderBallImg from '../../assets/4524.png';
-import ClockFlagImg from '../../assets/5456.png';
-import SunLightImg from '../../assets/sunlight.png';
-import NetImg from '../../assets/netshape.png';
+import { Box, Button, styled, Typography } from '@mui/material';
 import { SignUpDialog } from '../../components/dialog/SignUp';
+
+import {
+  MoreProfitImg,
+  ThunderBallImg,
+  ClockFlagImg,
+  SunLightImg,
+  NetImg,
+} from '../../constants/images';
 
 export const Affiliates = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);

@@ -30,7 +30,7 @@ export const EarnMoney = () => {
     <EarnMoneyContainer>
       <LayerImage src={LayerImg1} alt="layour-image" />
       <Heading variant="h1">
-        “Earn money with Betsave in the next <span>15 minutes”</span>
+        Earn money with Betsave in the next <span>15 minutes</span>
       </Heading>
       <SubHeading>
         Bet on sports or horse races and earn up to 7% cashback with our trusted

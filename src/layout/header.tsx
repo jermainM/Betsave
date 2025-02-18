@@ -13,8 +13,8 @@ import { LuUserRound } from 'react-icons/lu';
 import { AiOutlineKey } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import {
-  CashoutIcon,
-  EarnIcon,
+  GreenWalletIcon,
+  CashbackIcon,
   LogoImg,
   MobileLogoImg,
 } from '../constants/images';
@@ -59,11 +59,11 @@ export const Header = () => {
         <Content>
           <LinkItemContainer>
             <LinkItem onClick={() => navigate('/earn')}>
-              <Icon src={EarnIcon} alt="earn-icon" />
+              <Icon src={CashbackIcon} alt="earn-icon" />
               Earn
             </LinkItem>
             <LinkItem onClick={() => navigate('/bet')}>
-              <Icon src={CashoutIcon} alt="cashout-icon" />
+              <Icon src={GreenWalletIcon} alt="cashout-icon" />
               Cashout
             </LinkItem>
           </LinkItemContainer>
@@ -231,11 +231,11 @@ const LinkItem = styled(Box)(({ theme }) => ({
 }));
 
 const Icon = styled('img')(({ theme }) => ({
-  width: '22px',
+  width: '32px',
   height: 'auto',
   color: '#1AE5A1',
   [theme.breakpoints.down(1240)]: {
-    width: '18px',
+    width: '28px',
   },
 }));
 

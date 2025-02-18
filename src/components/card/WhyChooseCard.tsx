@@ -33,10 +33,11 @@ const WhyChooseCardContainer = styled(Box)(({ theme }) => ({
 }));
 
 const WhyChooseCardImg = styled('img')(({ theme }) => ({
-  width: 'auto',
-  height: '115px',
+  width: '120px',
+  height: 'auto',
+  objectFit: 'none',
   [theme.breakpoints.down(960)]: {
-    height: '80px',
+    width: '80px',
   },
 }));
 

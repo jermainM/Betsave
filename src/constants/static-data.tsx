@@ -43,7 +43,7 @@ import {
   ReferralBonusIcon,
   SignupOfferIcon,
   SportsBetIcon,
-  WalletOutlinedIcon,
+  GreenCoin,
 } from './images';
 
 const IconImg = styled('img')(({ theme }) => ({
@@ -192,7 +192,7 @@ export const STATIC_DATA = {
     },
     {
       img: Mobile3Img,
-      icon: WalletOutlinedIcon,
+      icon: GreenCoin,
       title: 'Get Your Cashback',
       content:
         'Your cashback will be tracked and added to your account automatically. Withdraw anytime!',
@@ -215,7 +215,7 @@ export const STATIC_DATA = {
     },
     {
       img: Layer94Img,
-      icon: WalletOutlinedIcon,
+      icon: GreenCoin,
       title: 'Cash Out Anytime',
       content:
         'Withdraw your cashback easily via back transfers e-wallets, or gift cards for sportswear, race day ticket, and more.',

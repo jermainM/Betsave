@@ -26,7 +26,7 @@ export const BetSmart = () => {
     <BetSmartContainer>
       <LayerImage src={LayerImg2} alt="layour-image" />
       <Heading variant="h1">
-        “Bet Smart & Earn Big <span>Get Cash Back”</span>
+        Bet Smart & Earn Big <span>Get Cash Back</span>
       </Heading>
       <SubHeading>
         Receive up to 10% cashback on your sports and racing bets. Sign up today

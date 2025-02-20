@@ -92,7 +92,7 @@ export const AccountManage = () => {
                 <LevelBadge level={1} status="current" />
                 <LevelBadge level={2} status="next" />
               </LevelBadgeContainer>
-              <LevelProgressBar value={65} />
+              <LevelProgressBar value={65} unit="xp" />
             </LevelProgressContainer>
           </ProfileContent>
         </ProfileInfoCard>

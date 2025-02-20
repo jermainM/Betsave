@@ -5,7 +5,7 @@ import LinearProgress, {
 import { Box, Typography } from '@mui/material';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 10,
+  height: 20,
   borderRadius: 5,
   [`&.${linearProgressClasses.colorPrimary}`]: {
     backgroundColor: '#0d1321',
@@ -19,38 +19,54 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
-interface LevelProgressBarProps {
+interface RewardBarProps {
   value: number;
   unit: string;
+  earn: number;
 }
 
-export const LevelProgressBar = (props: LevelProgressBarProps) => {
-  const { value, unit } = props;
+export const RewardBar = (props: RewardBarProps) => {
+  const { value, unit, earn } = props;
   return (
-    <LevelProgressBarContainer>
-      <LevelLabel value={value}>
-        {value * 10} {unit}
-      </LevelLabel>
+    <RewardBarContainer>
+      <LevelLabelContainer>
+        <LevelLabel value={value} type="current">
+          {unit}
+          {value / 10}
+        </LevelLabel>
+        <LevelLabel value={100} type="max">
+          {unit}
+          {earn}
+        </LevelLabel>
+      </LevelLabelContainer>
       <BorderLinearProgress variant="determinate" value={value} />
-    </LevelProgressBarContainer>
+    </RewardBarContainer>
   );
 };
 
-const LevelProgressBarContainer = styled(Box)(({ theme }) => ({
+const RewardBarContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
-  position: 'relative',
   gap: '8px',
 }));
 
-const LevelLabel = styled(Typography)<{ value: number }>(
-  ({ theme, value }) => ({
+const LevelLabelContainer = styled(Box)(({ theme }) => ({
+  position: 'relative',
+}));
+
+const LevelLabel = styled(Typography)<{ value: number; type: string }>(
+  ({ theme, value, type }) => ({
     fontSize: '12px',
-    color: '#fff',
+    color: type === 'max' ? '#fff' : '#102A33',
     position: 'absolute',
     top: '-25px',
-    left: `${value > 50 ? value - 4 : value}%`,
+    left: `${value > 50 ? value - 4 : value - 3}%`,
     textWrap: 'nowrap',
+    backgroundColor: type === 'max' ? '#172034' : '#1AE5A1',
+    padding: '2px 4px',
+    borderRadius: '4px',
+    fontWeight: type === 'max' ? 'normal' : 'bold',
+    zIndex: type === 'max' ? 1 : 2,
     [theme.breakpoints.down(540)]: {
       left: `${value > 50 ? value - 8 : value}%`,
     },

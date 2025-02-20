@@ -24,19 +24,20 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
 // import required modules
-import {
-  Keyboard,
-  Pagination,
-  Navigation,
-  Autoplay,
-  FreeMode,
-} from 'swiper/modules';
+import { Keyboard, Pagination, Navigation, Autoplay } from 'swiper/modules';
+import { ReferRewardClaimCard } from '../../components/card/ReferRewardClaimCard';
 
-interface CardDataProps {
+interface ChallengeCardDataProps {
   initialTimer: number;
 }
 
-const CardData = [
+interface ReferCardDataProps {
+  goal: number;
+  current: number;
+  earn: number;
+}
+
+const ChallengeCardData = [
   {
     initialTimer: 78591,
   },
@@ -81,6 +82,75 @@ const CardData = [
   },
 ];
 
+const ReferCardData = [
+  {
+    goal: 1,
+    current: 1,
+    earn: 10,
+  },
+  {
+    goal: 3,
+    current: 1,
+    earn: 15,
+  },
+  {
+    goal: 5,
+    current: 1,
+    earn: 20,
+  },
+  {
+    goal: 7,
+    current: 1,
+    earn: 25,
+  },
+
+  {
+    goal: 10,
+    current: 1,
+    earn: 30,
+  },
+  {
+    goal: 14,
+    current: 1,
+    earn: 35,
+  },
+  {
+    goal: 40,
+    current: 1,
+    earn: 10,
+  },
+  {
+    goal: 45,
+    current: 1,
+    earn: 10,
+  },
+  {
+    goal: 50,
+    current: 1,
+    earn: 10,
+  },
+  {
+    goal: 55,
+    current: 1,
+    earn: 10,
+  },
+  {
+    goal: 60,
+    current: 1,
+    earn: 10,
+  },
+  {
+    goal: 65,
+    current: 1,
+    earn: 10,
+  },
+  {
+    goal: 70,
+    current: 1,
+    earn: 10,
+  },
+];
+
 export const Reward = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [sortOption, setSortOption] = useState(0);
@@ -95,7 +165,10 @@ export const Reward = () => {
     setAnchorEl(null);
   };
 
-  const chunkArray = (array: CardDataProps[], chunkSize: number) => {
+  const chunkChallengeArray = (
+    array: ChallengeCardDataProps[],
+    chunkSize: number
+  ) => {
     return array.reduce((resultArray, item, index) => {
       const chunkIndex = Math.floor(index / chunkSize);
       if (!resultArray[chunkIndex]) {
@@ -103,10 +176,23 @@ export const Reward = () => {
       }
       resultArray[chunkIndex].push(item);
       return resultArray;
-    }, [] as CardDataProps[][]);
+    }, [] as ChallengeCardDataProps[][]);
   };
 
-  const chunkedCardData = chunkArray(CardData, 6);
+  const chunkReferArray = (array: ReferCardDataProps[], chunkSize: number) => {
+    return array.reduce((resultArray, item, index) => {
+      const chunkIndex = Math.floor(index / chunkSize);
+      if (!resultArray[chunkIndex]) {
+        resultArray[chunkIndex] = []; // Create a new subarray
+      }
+      resultArray[chunkIndex].push(item);
+      return resultArray;
+    }, [] as ReferCardDataProps[][]);
+  };
+
+  const chunkedChallengeCardData = chunkChallengeArray(ChallengeCardData, 6);
+  const chunkedReferCardData = chunkReferArray(ReferCardData, 6);
+
   return (
     <Container>
       <RewardBoxContainer>
@@ -119,10 +205,15 @@ export const Reward = () => {
         </ButtonContainer>
         <ChallengeContainer>
           <LabelContainer>
-            <LabelTitle>Cashback Multiplier Challenges</LabelTitle>
+            <LabelTitle>
+              {sortOption === 0
+                ? 'Cashback Multiplier Challenges'
+                : 'Referral Missions'}
+            </LabelTitle>
             <LabelSubTitle>
-              Boost Your Cashback by Completing Challenges and Unlock Amazing
-              Rewards
+              {sortOption === 0
+                ? 'Boost Your Cashback by Completing Challenges and Unlock Amazing Rewards'
+                : 'Loren Ipsum Loren Ipsum Loren Ipsum Loren Ipsum Loren Ipsum '}
             </LabelSubTitle>
           </LabelContainer>
           <ActionContainer>
@@ -137,7 +228,9 @@ export const Reward = () => {
                 <p>
                   Sort by: &nbsp;&nbsp;
                   <span>
-                    {sortOption === 0 ? 'Cashback Challenges' : 'Analystics'}
+                    {sortOption === 0
+                      ? 'Cashback Challenges'
+                      : 'Referral Missions'}
                   </span>
                 </p>
                 <KeyboardArrowDown />
@@ -171,7 +264,7 @@ export const Reward = () => {
                   <MenuItemContent>Cashback Challenges</MenuItemContent>
                 </MenuItem>
                 <MenuItem onClick={() => handleSortClose(1)}>
-                  <MenuItemContent>Analytics</MenuItemContent>
+                  <MenuItemContent>Referral Missions</MenuItemContent>
                 </MenuItem>
               </Menu>
             </SortButtonContainer>
@@ -194,18 +287,32 @@ export const Reward = () => {
                 nextEl: '.challenge-swiper-button-next',
                 prevEl: '.challenge-swiper-button-prev',
               }}
-              modules={[Keyboard, Pagination, Navigation, Autoplay, FreeMode]}
+              modules={[Keyboard, Pagination, Navigation, Autoplay]}
               className="mySwiper"
             >
-              {chunkedCardData.map((subcards, idx) => (
-                <SwiperSlide key={idx} style={{ width: '100%' }}>
-                  <CardContainer>
-                    {subcards.map((item) => (
-                      <ChallengeCard initialTimer={item.initialTimer} />
-                    ))}
-                  </CardContainer>
-                </SwiperSlide>
-              ))}
+              {sortOption === 0
+                ? chunkedChallengeCardData.map((subcards, idx) => (
+                    <SwiperSlide key={idx} style={{ width: '100%' }}>
+                      <CardContainer>
+                        {subcards.map((item) => (
+                          <ChallengeCard initialTimer={item.initialTimer} />
+                        ))}
+                      </CardContainer>
+                    </SwiperSlide>
+                  ))
+                : chunkedReferCardData.map((subcards, idx) => (
+                    <SwiperSlide key={idx} style={{ width: '100%' }}>
+                      <CardContainer>
+                        {subcards.map((item) => (
+                          <ReferRewardClaimCard
+                            goal={item.goal}
+                            current={item.current}
+                            earn={item.earn}
+                          />
+                        ))}
+                      </CardContainer>
+                    </SwiperSlide>
+                  ))}
             </CustomSwiper>
           </ChallengeSwiper>
         </ChallengeContainer>
@@ -351,18 +458,15 @@ const CardContainer = styled(Box)(({ theme }) => ({
   display: 'grid',
   gridTemplateColumns: 'repeat(2, 1fr)',
   width: '100%',
+  gap: '20px',
   [theme.breakpoints.down(768)]: {
     gridTemplateColumns: 'repeat(1, 1fr)',
-  },
-  [theme.breakpoints.down(570)]: {
-    gap: '20px',
   },
 }));
 
 const CustomSwiper = styled(Swiper)(({ theme }) => ({
   '.swiper-wrapper': {
     width: 'auto',
-    gap: '10px',
   },
   '.swiper-slide': {
     width: 'auto',

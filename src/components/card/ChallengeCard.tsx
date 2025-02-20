@@ -64,7 +64,7 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
 
 const ChallengeCardContainer = styled(Box)(({ theme }) => ({
   width: 'auto',
-  margin: '0px 20px 20px 0px',
+  // margin: '0px 20px 20px 0px',
   padding: '20px',
   borderRadius: '15px',
   backgroundColor: '#0f1629',
@@ -96,21 +96,16 @@ const ChallengeCardContainer = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down(570)]: {
     flexDirection: 'column',
     alignItems: 'flex-start',
-    margin: '0px 20px 0px 0px',
+    margin: '0px',
   },
 }));
 
 const CardImg = styled(Box)(({ theme }) => ({
-  width: '250px',
-  minWidth: '250px',
-  height: '250px',
+  width: '220px',
+  minWidth: '220px',
+  height: '220px',
   borderRadius: '15px',
   backgroundColor: '#171e31',
-  [theme.breakpoints.down(1680)]: {
-    width: '220px',
-    minWidth: '220px',
-    height: '220px',
-  },
 
   [theme.breakpoints.down(1540)]: {
     width: '180px',
@@ -174,13 +169,9 @@ const BadgePercentContainer = styled(Box)<{ value: number; completed: number }>(
 );
 
 const CardText = styled(Typography)(({ theme }) => ({
-  fontSize: '28px',
   fontWeight: 'bold',
-  width: '310px',
-  [theme.breakpoints.down(1680)]: {
-    fontSize: '24px',
-    width: '260px',
-  },
+  fontSize: '24px',
+  width: '260px',
   [theme.breakpoints.down(1560)]: {
     fontSize: '22px',
     width: '240px',
@@ -225,20 +216,15 @@ const CardText = styled(Typography)(({ theme }) => ({
 }));
 
 const JoinButton = styled(Button)(({ theme }) => ({
-  width: '200px',
-  height: '54px',
+  width: '160px',
+  height: '42px',
+  fontSize: '18px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontSize: '20px',
   textTransform: 'none',
   fontWeight: 'bold',
   borderRadius: '9px',
-  [theme.breakpoints.down(1560)]: {
-    width: '160px',
-    height: '42px',
-    fontSize: '18px',
-  },
   [theme.breakpoints.down(1366)]: {
     width: '100%',
     height: '42px',
@@ -308,14 +294,11 @@ const TimerContent = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   alignItems: 'center',
   textTransform: 'uppercase',
-  fontSize: '12px',
+  fontSize: '10px',
   color: '#627691',
   fontWeight: 'bold',
   gap: '3px',
   width: '50px',
-  [theme.breakpoints.down(1540)]: {
-    fontSize: '10px',
-  },
   [theme.breakpoints.down(1366)]: {
     fontSize: '12px',
   },
@@ -324,21 +307,16 @@ const TimerContent = styled(Box)(({ theme }) => ({
 const TimerWrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
-  width: '40px',
-  height: '42px',
+  width: '36px',
+  height: '38px',
+  fontSize: '14px',
   backgroundColor: '#171e31',
   color: '#627691',
   borderRadius: '7px',
   position: 'relative',
   overflow: 'hidden',
   fontWeight: 'bold',
-  fontSize: '16px',
   paddingTop: '6px',
-  [theme.breakpoints.down(1540)]: {
-    width: '36px',
-    height: '38px',
-    fontSize: '14px',
-  },
   [theme.breakpoints.down(1366)]: {
     width: '40px',
     height: '42px',
@@ -347,13 +325,10 @@ const TimerWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const TimerIcon = styled(Box)(({ theme }) => ({
-  fontSize: '16px',
+  fontSize: '14px',
   color: '#627691',
   position: 'absolute',
   bottom: '-12px',
-  [theme.breakpoints.down(1540)]: {
-    fontSize: '14px',
-  },
   [theme.breakpoints.down(1366)]: {
     fontSize: '16px',
   },

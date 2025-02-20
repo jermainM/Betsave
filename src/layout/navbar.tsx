@@ -579,10 +579,10 @@ const SideBarListItemButton = styled(ListItemButton)(({ theme }) => ({
 }));
 
 const SideBarListItemIcon = styled(ListItemIcon)(({ theme }) => ({
-  width: '32px',
-  height: '32px',
+  width: '36px',
+  height: '36px',
   color: 'inherit',
-  minWidth: '32px',
+  minWidth: '36px',
 }));
 
 const SideBarListItemText = styled(ListItemText)(({ theme }) => ({

@@ -14,7 +14,7 @@ import { AiOutlineKey } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
 import {
   GreenWalletIcon,
-  CashbackIcon,
+  GreenCashbackIcon,
   LogoImg,
   MobileLogoImg,
 } from '../constants/images';
@@ -59,7 +59,7 @@ export const Header = () => {
         <Content>
           <LinkItemContainer>
             <LinkItem onClick={() => navigate('/earn')}>
-              <Icon src={CashbackIcon} alt="earn-icon" />
+              <Icon src={GreenCashbackIcon} alt="earn-icon" />
               Earn
             </LinkItem>
             <LinkItem onClick={() => navigate('/bet')}>

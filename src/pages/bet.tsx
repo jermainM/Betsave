@@ -9,8 +9,8 @@ import { STATIC_DATA } from '../constants/static-data';
 import { EarnCashbackCard } from '../components/card/EarnCashCard';
 import { FAQItem } from '../components/Faq';
 import {
-  CashoutIcon,
   GiftcardIcon,
+  GreenWithdrawPng,
   LayerImg2,
   TrustmaryIcon,
 } from '../constants/images';
@@ -53,7 +53,7 @@ export const BetSmart = () => {
       <WithdrawCardContainer>
         <WithdrawCardWrapper>
           <WithdrawCardTitle>
-            <Img src={CashoutIcon} alt={'withdraw-card-icon'} />
+            <Img src={GreenWithdrawPng} alt={'withdraw-card-icon'} />
             Withdraw Cash
           </WithdrawCardTitle>
           <WithdrawCardsItemContainer>
@@ -238,7 +238,7 @@ const StarIcon = styled(Star)(({ theme }) => ({
 }));
 
 const Img = styled('img')(({ theme }) => ({
-  width: '20px',
+  width: '36px',
   height: 'auto',
 }));
 

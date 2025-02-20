@@ -35,7 +35,7 @@ const WhyChooseCardContainer = styled(Box)(({ theme }) => ({
 const WhyChooseCardImg = styled('img')(({ theme }) => ({
   width: '120px',
   height: 'auto',
-  objectFit: 'none',
+  objectFit: 'cover',
   [theme.breakpoints.down(960)]: {
     width: '80px',
   },

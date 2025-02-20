@@ -92,7 +92,7 @@ export const AccountManage = () => {
                 <LevelBadge level={1} status="current" />
                 <LevelBadge level={2} status="next" />
               </LevelBadgeContainer>
-              <LevelProgressBar value={65} unit="xp" />
+              <LevelProgressBar value={65} unit="$" />
             </LevelProgressContainer>
           </ProfileContent>
         </ProfileInfoCard>
@@ -388,7 +388,7 @@ const LevelBadge = (props: LevelBadgeProps) => {
   const { level, status } = props;
   return (
     <BadgeContainer>
-      level
+      tiers
       <CurrentLevelBox
         sx={{
           backgroundColor: status === 'current' ? '#1AE5A1' : '#627691',

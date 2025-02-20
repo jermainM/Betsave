@@ -22,7 +22,7 @@ import {
   FreeMode,
 } from 'swiper/modules';
 import { EmptyBox } from '../../components/box/EmptyBox';
-import { GreenMyOfferSvg } from '../../constants/images';
+import { GreenMyOfferPng } from '../../constants/images';
 
 export const Cashback = () => {
   const [isEmpty, setEmpty] = useState(true);
@@ -42,7 +42,7 @@ export const Cashback = () => {
         <CashbackContentHeader>
           <CashbackContentTitle>
             <CashbackTitleIcon>
-              <img src={GreenMyOfferSvg} alt="title-icon" />
+              <img src={GreenMyOfferPng} alt="title-icon" />
             </CashbackTitleIcon>
             Cashback Offers
           </CashbackContentTitle>

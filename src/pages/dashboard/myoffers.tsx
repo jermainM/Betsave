@@ -20,7 +20,7 @@ import { useState } from 'react';
 
 import { CashOfferCard } from '../../components/card/CashOfferCard';
 import { EmptyBox } from '../../components/box/EmptyBox';
-import { GreenPromoOfferSvg } from '../../constants/images';
+import { GreenPromoOfferPng } from '../../constants/images';
 
 export const MyOffers = () => {
   const [isEmpty, setEmpty] = useState(false);
@@ -29,7 +29,7 @@ export const MyOffers = () => {
       <Heading>
         <HeadingTitle>
           <HeadingTitleIcon>
-            <img src={GreenPromoOfferSvg} alt="title-icon" />
+            <img src={GreenPromoOfferPng} alt="title-icon" />
           </HeadingTitleIcon>
           Promotional Offers
         </HeadingTitle>

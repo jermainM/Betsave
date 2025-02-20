@@ -11,7 +11,9 @@ import { STATIC_DATA } from '../constants/static-data';
 import { EarnCashbackCard } from '../components/card/EarnCashCard';
 import { LayerImage } from '../layout';
 import {
-  CashbackIcon,
+  GreenCashbackIcon,
+  GreenHorseRaceIcon,
+  GreenMaxmizeWinIcon,
   HorseIcon,
   HorseImg,
   LayerImg1,
@@ -82,11 +84,11 @@ export const EarnMoney = () => {
       <MarketImageContainer>
         <MarketBarContainer>
           <MarketBarWrapper>
-            <MarketIcon src={TrophyIcon} alt="market-icon" />
+            <MarketIcon src={GreenMaxmizeWinIcon} alt="market-icon" />
             <EastIcon />
-            <MarketIcon src={HorseIcon} alt="market-icon" />
+            <MarketIcon src={GreenHorseRaceIcon} alt="market-icon" />
             <EastIcon />
-            <MarketIcon src={CashbackIcon} alt="market-icon" />
+            <MarketIcon src={GreenCashbackIcon} alt="market-icon" />
           </MarketBarWrapper>
         </MarketBarContainer>
         <MarketItemContainer>
@@ -536,10 +538,10 @@ const MarketBarWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const MarketIcon = styled('img')(({ theme }) => ({
-  width: '48px',
+  width: '64px',
   height: 'auto',
   [theme.breakpoints.down(960)]: {
-    width: '32px',
+    width: '54px',
   },
 }));
 

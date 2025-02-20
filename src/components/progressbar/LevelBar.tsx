@@ -29,7 +29,7 @@ export const LevelProgressBar = (props: LevelProgressBarProps) => {
   return (
     <LevelProgressBarContainer>
       <LevelLabel value={value}>
-        {value * 10} {unit}
+        {unit} {value * 10}
       </LevelLabel>
       <BorderLinearProgress variant="determinate" value={value} />
     </LevelProgressBarContainer>

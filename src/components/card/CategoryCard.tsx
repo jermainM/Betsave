@@ -44,14 +44,14 @@ const CategoryCardContainer = styled(Box)(({ theme }) => ({
 }));
 
 const CategoryTitle = styled(Box)(({ theme }) => ({
+  textWrapMode: 'nowrap',
   display: 'flex',
   alignItems: 'center',
-  gap: '16px',
+  gap: '8px',
   fontSize: '22px',
   color: '#fff',
   fontWeight: 'bold',
   [theme.breakpoints.down(1240)]: {
-    gap: '12px',
     fontSize: '20px',
   },
   [theme.breakpoints.down(420)]: {
@@ -60,11 +60,14 @@ const CategoryTitle = styled(Box)(({ theme }) => ({
 }));
 
 const Img = styled('img')(({ theme }) => ({
-  width: '24px',
-  height: '24px',
-  [theme.breakpoints.down(1240)]: {
-    width: '20px',
-    height: '20px',
+  width: '36px',
+  height: 'auto',
+  objectFit: 'cover',
+  [theme.breakpoints.down(1080)]: {
+    width: '32px',
+  },
+  [theme.breakpoints.down(1024)]: {
+    width: '36px',
   },
 }));
 

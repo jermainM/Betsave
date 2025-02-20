@@ -1,7 +1,7 @@
 import { East } from '@mui/icons-material';
 import { Box, styled, Typography } from '@mui/material';
 import { WithdrawProcessCard } from '../../components/card/WithdrawProcessCard';
-import { GreenWithdrawSvg } from '../../constants/images';
+import { GreenWithdrawPng } from '../../constants/images';
 
 export const Withdraw = () => {
   return (
@@ -9,7 +9,7 @@ export const Withdraw = () => {
       <Heading>
         <HeadingTitle>
           <HeadingTitleIcon>
-            <img src={GreenWithdrawSvg} alt="title-icon" />
+            <img src={GreenWithdrawPng} alt="title-icon" />
           </HeadingTitleIcon>
           Withdraw
         </HeadingTitle>

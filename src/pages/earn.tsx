@@ -131,7 +131,7 @@ export const EarnMoney = () => {
 
       <ReasonContainer>
         <ReasonTitle>
-          “Why Bettors Love Us” <span>Here’s why:</span>
+          Why Bettors Love Us <span>Here’s why:</span>
         </ReasonTitle>
         <ReasonSubtitle>
           We’re dedicated to helping you maximize rewards on every bet you

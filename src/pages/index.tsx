@@ -107,7 +107,7 @@ export const Landing = () => {
         <HowitworksContent>
           <HowitworksAction>
             <HowitworksActionTitle>
-              “Bet, Earn & Repeat It’s That Simple" <span>Here’s How--</span>
+              Bet, Earn & Repeat It’s That Simple <span>Here’s How--</span>
             </HowitworksActionTitle>
             <GetstartedButton
               variant="contained"

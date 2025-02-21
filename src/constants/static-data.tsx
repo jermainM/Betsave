@@ -73,7 +73,7 @@ export const STATIC_DATA = {
       img: GreenTransparentPayoutIcon,
       title: 'Transparent Payouts',
       content:
-        'See exactly how much you’re earning and cashout your rewards every fortnight',
+        'See exactly how much you’re earning and cashout your rewards every monthly',
     },
     {
       img: GreenTopTierIcon,
@@ -84,7 +84,7 @@ export const STATIC_DATA = {
       img: GreenTransparentPayoutIcon,
       title: 'Transparent Payouts',
       content:
-        'See exactly how much you’re earning and cashout your rewards every fortnight',
+        'See exactly how much you’re earning and cashout your rewards every monthly',
     },
     {
       img: GreenMaxmizeWinIcon,

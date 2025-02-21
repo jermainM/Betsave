@@ -82,6 +82,9 @@ const HeadingTitleIcon = styled(Box)(({ theme }) => ({
 const HeadingContent = styled(Typography)(({ theme }) => ({
   color: '#627691',
   fontSize: '16px',
+  [theme.breakpoints.down(480)]: {
+    fontSize: '14px',
+  },
 }));
 
 const HeadingAction = styled(Typography)(({ theme }) => ({

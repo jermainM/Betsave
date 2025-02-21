@@ -158,7 +158,7 @@ export const STATIC_DATA = {
     {
       img: GreenCashbackRateIcon,
       title: 'Highest Cashback Rates',
-      content: 'Earn up to 7% cashback on your sports and horce racing bets.',
+      content: 'Earn up to 10% cashback on your sports and horce racing bets.',
       link: '/',
     },
     {
@@ -195,7 +195,7 @@ export const STATIC_DATA = {
       icon: GreenCoin,
       title: 'Get Your Cashback',
       content:
-        'Your cashback will be tracked and added to your account automatically. Withdraw anytime!',
+        'Your cashback will be tracked and added to your account automatically. Withdraw monthly!',
     },
   ],
   giftcard: [
@@ -216,9 +216,9 @@ export const STATIC_DATA = {
     {
       img: Layer94Img,
       icon: GreenCoin,
-      title: 'Cash Out Anytime',
+      title: 'Cash Out Monthly',
       content:
-        'Withdraw your cashback easily via back transfers e-wallets, or gift cards for sportswear, race day ticket, and more.',
+        'Withdraw your cashback easily via bank transfers, PayPal, or gift cards',
     },
   ],
   navListItems: [

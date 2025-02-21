@@ -26,6 +26,7 @@ import 'swiper/css/navigation';
 // import required modules
 import { Keyboard, Pagination, Navigation, Autoplay } from 'swiper/modules';
 import { ReferRewardClaimCard } from '../../components/card/ReferRewardClaimCard';
+import { GreenRewardPng } from '../../constants/images';
 
 interface ChallengeCardDataProps {
   initialTimer: number;
@@ -195,6 +196,20 @@ export const Reward = () => {
 
   return (
     <Container>
+      <Heading>
+        <HeadingTitleContainer>
+          <HeadingTitle>
+            <HeadingTitleIcon>
+              <img src={GreenRewardPng} alt="title-icon" />
+            </HeadingTitleIcon>
+            Rewards
+          </HeadingTitle>
+          <HeadingContent>
+            Complete challenges to unlock cashback boosts and exclusive perks.{' '}
+            The more you play, the more you earn!
+          </HeadingContent>
+        </HeadingTitleContainer>
+      </Heading>
       <RewardBoxContainer>
         <ButtonContainer>
           <BackButton>
@@ -326,6 +341,51 @@ const Container = styled(Box)(({ theme }) => ({
   flexDirection: 'column',
   gap: '40px',
   width: '100%',
+}));
+
+const Heading = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  width: '100%',
+  height: 'fit-content',
+  [theme.breakpoints.down(680)]: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: '8px',
+  },
+}));
+
+const HeadingTitle = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '12px',
+  fontSize: '24px',
+  color: '#fff',
+  fontWeight: 'bold',
+}));
+
+const HeadingTitleIcon = styled(Box)(({ theme }) => ({
+  width: '36px',
+  height: '36px',
+  img: {
+    width: '100%',
+    height: 'auto',
+  },
+}));
+
+const HeadingTitleContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '30px',
+}));
+
+const HeadingContent = styled(Typography)(({ theme }) => ({
+  color: '#627691',
+  fontSize: '16px',
+  [theme.breakpoints.down(480)]: {
+    fontSize: '14px',
+  },
 }));
 
 const RewardBoxContainer = styled(Box)(({ theme }) => ({

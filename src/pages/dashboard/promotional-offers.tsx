@@ -1,5 +1,5 @@
 import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
-import { Box, IconButton, styled } from '@mui/material';
+import { Box, IconButton, styled, Typography } from '@mui/material';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -22,17 +22,24 @@ import { CashOfferCard } from '../../components/card/CashOfferCard';
 import { EmptyBox } from '../../components/box/EmptyBox';
 import { GreenPromoOfferPng } from '../../constants/images';
 
-export const MyOffers = () => {
+export const PromotionalOffer = () => {
   const [isEmpty, setEmpty] = useState(false);
   return (
-    <MyOffersContainer>
+    <PromotionalOfferContainer>
       <Heading>
-        <HeadingTitle>
-          <HeadingTitleIcon>
-            <img src={GreenPromoOfferPng} alt="title-icon" />
-          </HeadingTitleIcon>
-          Promotional Offers
-        </HeadingTitle>
+        <HeadingTitleContainer>
+          <HeadingTitle>
+            <HeadingTitleIcon>
+              <img src={GreenPromoOfferPng} alt="title-icon" />
+            </HeadingTitleIcon>
+            Promotional Offers
+          </HeadingTitle>
+          <HeadingContent>
+            Unlock exclusive deals and rewards tailored just for you.
+            <br />
+            Don’t miss out on limited-time offers
+          </HeadingContent>
+        </HeadingTitleContainer>
         {!isEmpty && (
           <HeadingAction>
             <p>View All</p>
@@ -48,7 +55,7 @@ export const MyOffers = () => {
       {isEmpty ? (
         <EmptyBox />
       ) : (
-        <MyOfferSwiper>
+        <PromotionalOfferwiper>
           <CustomSwiper
             slidesPerView={'auto'}
             freeMode={true}
@@ -68,13 +75,13 @@ export const MyOffers = () => {
               </SwiperSlide>
             ))}
           </CustomSwiper>
-        </MyOfferSwiper>
+        </PromotionalOfferwiper>
       )}
-    </MyOffersContainer>
+    </PromotionalOfferContainer>
   );
 };
 
-const MyOffersContainer = styled(Box)(({ theme }) => ({
+const PromotionalOfferContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: '40px',
@@ -86,12 +93,11 @@ const Heading = styled(Box)(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'space-between',
   width: '100%',
-  height: '63px',
-  [theme.breakpoints.down(540)]: {
+  height: 'fit-content',
+  [theme.breakpoints.down(680)]: {
     flexDirection: 'column',
     alignItems: 'flex-start',
     gap: '8px',
-    marginBottom: '20px',
   },
 }));
 
@@ -139,7 +145,7 @@ const HeadingActionButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-const MyOfferSwiper = styled(Box)(({ theme }) => ({
+const PromotionalOfferwiper = styled(Box)(({ theme }) => ({
   display: 'flex',
   width: '100%',
 }));
@@ -151,5 +157,19 @@ const CustomSwiper = styled(Swiper)(({ theme }) => ({
   },
   '.swiper-slide': {
     width: 'auto',
+  },
+}));
+
+const HeadingTitleContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '30px',
+}));
+
+const HeadingContent = styled(Typography)(({ theme }) => ({
+  color: '#627691',
+  fontSize: '16px',
+  [theme.breakpoints.down(480)]: {
+    fontSize: '14px',
   },
 }));

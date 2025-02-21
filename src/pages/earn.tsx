@@ -135,8 +135,7 @@ export const EarnMoney = () => {
           Why Bettors Love Us <span>Here’s why:</span>
         </ReasonTitle>
         <ReasonSubtitle>
-          We’re dedicated to helping you maximize rewards on every bet you
-          place.
+          We’re dedicated to helping you maximize rewards based on your NGR
         </ReasonSubtitle>
         <ReasonCardContainer>
           {STATIC_DATA.reason.map((item, idx) => (

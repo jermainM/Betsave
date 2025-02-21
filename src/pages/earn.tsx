@@ -32,11 +32,12 @@ export const EarnMoney = () => {
     <EarnMoneyContainer>
       <LayerImage src={LayerImg1} alt="layour-image" />
       <Heading variant="h1">
-        Earn money with Betsave in the next <span>15 minutes</span>
+        Get Up to 10% Cashback with Betsave in Just
+        <span> 15 Minutes</span>
       </Heading>
       <SubHeading>
-        Bet on sports or horse races and earn up to 7% cashback with our trusted
-        partners
+        Bet on sports or horse races and earn up to 10% cashback on NGR with our
+        trusted partners.
       </SubHeading>
       <ReviewContainer>
         <ReviewText>
@@ -203,7 +204,7 @@ const EarnMoneyContainer = styled(Box)(({ theme }) => ({
 }));
 
 const Heading = styled(Typography)(({ theme }) => ({
-  fontSize: '54px',
+  fontSize: '48px',
   color: '#fff',
   fontWeight: 'bold',
   textAlign: 'center',
@@ -212,24 +213,20 @@ const Heading = styled(Typography)(({ theme }) => ({
     color: '#1ae5a1',
   },
   [theme.breakpoints.down(1024)]: {
-    fontSize: '42px',
-    width: '550px',
+    fontSize: '36px',
+    width: '640px',
   },
   [theme.breakpoints.down(640)]: {
-    fontSize: '42px',
+    fontSize: '28px',
     width: '100%',
     padding: '0px 20px',
   },
-  [theme.breakpoints.down(500)]: {
-    fontSize: '36px',
+  [theme.breakpoints.down(520)]: {
+    fontSize: '24px',
   },
 
-  [theme.breakpoints.down(450)]: {
-    fontSize: '32px',
-  },
-
-  [theme.breakpoints.down(420)]: {
-    fontSize: '28px',
+  [theme.breakpoints.down(350)]: {
+    fontSize: '20px',
   },
 }));
 
@@ -248,6 +245,11 @@ const SubHeading = styled(Typography)(({ theme }) => ({
 
   [theme.breakpoints.down(640)]: {
     width: '100%',
+    fontSize: '16px',
+  },
+
+  [theme.breakpoints.down(490)]: {
+    fontSize: '14px',
   },
 }));
 

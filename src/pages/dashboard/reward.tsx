@@ -26,8 +26,15 @@ import 'swiper/css/navigation';
 // import required modules
 import { Keyboard, Pagination, Navigation, Autoplay } from 'swiper/modules';
 import { ReferRewardClaimCard } from '../../components/card/ReferRewardClaimCard';
-import { GreenRewardPng } from '../../constants/images';
+import {
+  BronzeImg,
+  GoldenImg,
+  GreenRewardPng,
+  PlatinumImg,
+  SilverImg,
+} from '../../constants/images';
 import { StreakCard } from '../../components/card/StreakCard';
+import { LoyaltyBar } from '../../components/progressbar/LoyaltyBar';
 
 interface ChallengeCardDataProps {
   initialTimer: number;
@@ -261,6 +268,7 @@ export const Reward = () => {
               {sortOption === 0 && 'Cashback Multiplier Challenges'}
               {sortOption === 1 && 'Referral Missions'}
               {sortOption === 2 && 'Streak Bonuses'}
+              {sortOption === 3 && 'Loyalty Program'}
             </LabelTitle>
             <LabelSubTitle>
               {sortOption === 0 &&
@@ -268,6 +276,7 @@ export const Reward = () => {
               {sortOption === 1 &&
                 'Loren Ipsum Loren Ipsum Loren Ipsum Loren Ipsum Loren Ipsum '}
               {sortOption === 2 && 'Bet consistently and earn extra rewards!'}
+              {sortOption === 3 && 'The more you bet, the higher your rewards.'}
             </LabelSubTitle>
           </LabelContainer>
           <ActionContainer>
@@ -285,6 +294,7 @@ export const Reward = () => {
                     {sortOption === 0 && 'Cashback Challenges'}
                     {sortOption === 1 && 'Referral Missions'}
                     {sortOption === 2 && 'Streak Bonuses'}
+                    {sortOption === 3 && 'Loyalty Program'}
                   </span>
                 </p>
                 <KeyboardArrowDown />
@@ -323,75 +333,83 @@ export const Reward = () => {
                 <MenuItem onClick={() => handleSortClose(2)}>
                   <MenuItemContent>Streak Bonuses</MenuItemContent>
                 </MenuItem>
+                <MenuItem onClick={() => handleSortClose(3)}>
+                  <MenuItemContent>Loyalty Program</MenuItemContent>
+                </MenuItem>
               </Menu>
             </SortButtonContainer>
-            <HeadingAction>
-              <p>View All</p>
-              <HeadingActionButton className="challenge-swiper-button-prev">
-                <KeyboardArrowLeft />
-              </HeadingActionButton>
-              <HeadingActionButton className="challenge-swiper-button-next">
-                <KeyboardArrowRight />
-              </HeadingActionButton>
-            </HeadingAction>
+            {sortOption !== 3 && (
+              <HeadingAction>
+                <p>View All</p>
+                <HeadingActionButton className="challenge-swiper-button-prev">
+                  <KeyboardArrowLeft />
+                </HeadingActionButton>
+                <HeadingActionButton className="challenge-swiper-button-next">
+                  <KeyboardArrowRight />
+                </HeadingActionButton>
+              </HeadingAction>
+            )}
           </ActionContainer>
-          <ChallengeSwiper>
-            <CustomSwiper
-              keyboard={{
-                enabled: true,
-              }}
-              navigation={{
-                nextEl: '.challenge-swiper-button-next',
-                prevEl: '.challenge-swiper-button-prev',
-              }}
-              modules={[Keyboard, Pagination, Navigation, Autoplay]}
-              className="mySwiper"
-            >
-              {sortOption === 0 &&
-                chunkedChallengeCardData.map((subcards, idx) => (
-                  <SwiperSlide key={idx} style={{ width: '100%' }}>
-                    <CardContainer>
-                      {subcards.map((item, subIdx) => (
-                        <ChallengeCard
-                          initialTimer={item.initialTimer}
-                          key={subIdx}
-                        />
-                      ))}
-                    </CardContainer>
-                  </SwiperSlide>
-                ))}
-              {sortOption === 1 &&
-                chunkedReferCardData.map((subcards, idx) => (
-                  <SwiperSlide key={idx} style={{ width: '100%' }}>
-                    <CardContainer>
-                      {subcards.map((item, subIdx) => (
-                        <ReferRewardClaimCard
-                          goal={item.goal}
-                          current={item.current}
-                          earn={item.earn}
-                          key={subIdx}
-                        />
-                      ))}
-                    </CardContainer>
-                  </SwiperSlide>
-                ))}
-              {sortOption === 2 &&
-                chunkedStreakCardData.map((subcards, idx) => (
-                  <SwiperSlide key={idx} style={{ width: '100%' }}>
-                    <StreakCardContainer>
-                      {subcards.map((item, subIdx) => (
-                        <StreakCard
-                          hasBadge={item.hasBadge}
-                          streak={item.streak}
-                          subTitle={item.subTitle}
-                          key={subIdx}
-                        />
-                      ))}
-                    </StreakCardContainer>
-                  </SwiperSlide>
-                ))}
-            </CustomSwiper>
-          </ChallengeSwiper>
+          {sortOption !== 3 && (
+            <ChallengeSwiper>
+              <CustomSwiper
+                keyboard={{
+                  enabled: true,
+                }}
+                navigation={{
+                  nextEl: '.challenge-swiper-button-next',
+                  prevEl: '.challenge-swiper-button-prev',
+                }}
+                modules={[Keyboard, Pagination, Navigation, Autoplay]}
+                className="mySwiper"
+              >
+                {sortOption === 0 &&
+                  chunkedChallengeCardData.map((subcards, idx) => (
+                    <SwiperSlide key={idx} style={{ width: '100%' }}>
+                      <CardContainer>
+                        {subcards.map((item, subIdx) => (
+                          <ChallengeCard
+                            initialTimer={item.initialTimer}
+                            key={subIdx}
+                          />
+                        ))}
+                      </CardContainer>
+                    </SwiperSlide>
+                  ))}
+                {sortOption === 1 &&
+                  chunkedReferCardData.map((subcards, idx) => (
+                    <SwiperSlide key={idx} style={{ width: '100%' }}>
+                      <CardContainer>
+                        {subcards.map((item, subIdx) => (
+                          <ReferRewardClaimCard
+                            goal={item.goal}
+                            current={item.current}
+                            earn={item.earn}
+                            key={subIdx}
+                          />
+                        ))}
+                      </CardContainer>
+                    </SwiperSlide>
+                  ))}
+                {sortOption === 2 &&
+                  chunkedStreakCardData.map((subcards, idx) => (
+                    <SwiperSlide key={idx} style={{ width: '100%' }}>
+                      <StreakCardContainer>
+                        {subcards.map((item, subIdx) => (
+                          <StreakCard
+                            hasBadge={item.hasBadge}
+                            streak={item.streak}
+                            subTitle={item.subTitle}
+                            key={subIdx}
+                          />
+                        ))}
+                      </StreakCardContainer>
+                    </SwiperSlide>
+                  ))}
+              </CustomSwiper>
+            </ChallengeSwiper>
+          )}
+          {sortOption === 3 && <LoyaltyProgram />}
         </ChallengeContainer>
       </RewardBoxContainer>
     </Container>
@@ -607,4 +625,269 @@ const CustomSwiper = styled(Swiper)(({ theme }) => ({
 const ChallengeSwiper = styled(Box)(({ theme }) => ({
   display: 'flex',
   width: '100%',
+}));
+
+const LoyaltyProgram = () => {
+  interface Tier {
+    name: string;
+    cashback: string;
+    perks: string;
+  }
+
+  const tiers: Tier[] = [
+    { name: 'Bronze', cashback: '2.5%', perks: 'Bronze Perks' },
+    { name: 'Silver', cashback: '5%', perks: 'Silver Perks' },
+    { name: 'Gold', cashback: '7%', perks: 'Gold Perks' },
+    { name: 'Platinum', cashback: '10%', perks: 'Platinum Perks' },
+  ];
+
+  const strcutureData = [
+    { img: BronzeImg, locked: false },
+    { img: BronzeImg, locked: true },
+    { img: BronzeImg, locked: true },
+    { img: BronzeImg, locked: true },
+  ];
+
+  return (
+    <LoyaltyContainer>
+      <ProgressSection>
+        <LoyaltyBar value={40} unit="%" />
+      </ProgressSection>
+      <TierTitle>Benefits of Each Tier</TierTitle>
+      <TableContainer>
+        <Table>
+          <TableHeader>
+            <tr>
+              <th>All Tires</th>
+              <th>Cashback Percentage</th>
+              <th>VIP Perks</th>
+            </tr>
+          </TableHeader>
+          <TableBody>
+            {tiers.map((tier, idx) => (
+              <tr key={idx}>
+                <td>{tier.name}</td>
+                <td>{tier.cashback}</td>
+                <td>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <PerksButton>{tier.perks}</PerksButton>
+                  </Box>
+                </td>
+              </tr>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <StructureContainer>
+        <StructureTitle>Tiered Structure</StructureTitle>
+        <StructureWrapper>
+          {strcutureData.map((item, idx) => (
+            <Structure key={idx}>
+              <StructureImage
+                src={item.img}
+                alt="structure-image"
+                locked={item.locked ? 1 : 0}
+              />
+              <StructureButton disabled={item.locked}>
+                {item.locked ? 'Locked' : 'Unlocked'}
+              </StructureButton>
+            </Structure>
+          ))}
+        </StructureWrapper>
+      </StructureContainer>
+    </LoyaltyContainer>
+  );
+};
+
+const LoyaltyContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '20px',
+  alignItems: 'center',
+  width: '100%',
+}));
+
+const ProgressSection = styled(Box)(({ theme }) => ({
+  width: '100%',
+  height: '160px',
+  borderRadius: '15px',
+  background:
+    'radial-gradient(circle at 9% 0%, rgba(14, 247, 169, 0.6) -82%, #141c30 45%)',
+  padding: '20px',
+}));
+
+const TierTitle = styled(Typography)(({ theme }) => ({
+  fontSize: '28px',
+  marginTop: '40px',
+  marginBottom: '30px',
+  fontWeight: 'bold',
+  [theme.breakpoints.down(480)]: {
+    fontSize: '24px',
+    marginTop: '30px',
+    marginBottom: '20px',
+  },
+}));
+
+const PerksButton = styled(Button)(({ theme }) => ({
+  width: '220px',
+  height: '54px',
+  borderRadius: '12px',
+  backgroundColor: '#1AE5A1',
+  color: '#102A33',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  textTransform: 'none',
+  fontSize: '20px',
+  fontWeight: 'bold',
+  [theme.breakpoints.down(640)]: {
+    width: '160px',
+    height: '42px',
+    fontSize: '16px',
+  },
+}));
+
+const TableContainer = styled(Box)(({ theme }) => ({
+  borderRadius: '12px',
+  overflow: 'auto',
+  border: '1px solid rgba(255, 255, 255, 0.1)',
+  width: '100%',
+}));
+
+const Table = styled('table')(({ theme }) => ({
+  width: '100%',
+  borderRadius: '12px',
+  borderCollapse: 'collapse',
+  minWidth: '500px',
+}));
+
+const TableHeader = styled('thead')(({ theme }) => ({
+  tr: {
+    backgroundColor: '#121929',
+    th: {
+      padding: '12px 8px',
+      textAlign: 'center',
+      fontSize: '18px',
+      color: '#1AE5A1',
+      fontWeight: 'bold',
+      borderCollapse: 'collapse',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
+      '&:first-child': {
+        borderTopLeftRadius: '12px',
+      },
+      '&:last-child': {
+        borderTopRightRadius: '12px',
+      },
+      [theme.breakpoints.down(640)]: {
+        fontSize: '16px',
+        padding: '8px 4px',
+      },
+    },
+  },
+}));
+
+const TableBody = styled('tbody')(({ theme }) => ({
+  tr: {
+    td: {
+      padding: '12px 8px',
+      fontSize: '18px',
+      color: '#fff',
+      textAlign: 'center',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
+      borderCollapse: 'collapse',
+      '&:first-child': {
+        borderBottomLeftRadius: '12px',
+      },
+      '&:last-child': {
+        borderBottomRightRadius: '12px',
+      },
+      [theme.breakpoints.down(640)]: {
+        fontSize: '16px',
+        padding: '8px 4px',
+      },
+    },
+  },
+}));
+
+const StructureContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  flexDirection: 'column',
+  width: '100%',
+}));
+
+const StructureTitle = TierTitle;
+
+const StructureWrapper = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '15px',
+  justifyContent: 'center',
+  [theme.breakpoints.down(1710)]: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, 2fr)',
+  },
+  [theme.breakpoints.down(720)]: {
+    gap: '10px',
+  },
+  [theme.breakpoints.down(640)]: {
+    gridTemplateColumns: 'repeat(1, 1fr)',
+  },
+}));
+
+const Structure = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '15px',
+  [theme.breakpoints.down(720)]: {
+    gap: '10px',
+  },
+}));
+
+const StructureImage = styled('img')<{ locked: number }>(
+  ({ theme, locked }) => ({
+    width: '320px',
+    height: 'auto',
+    borderRadius: '20px',
+    filter: locked === 1 ? 'grayScale(100%)' : 'none',
+    [theme.breakpoints.down(720)]: {
+      width: '280px',
+    },
+    [theme.breakpoints.down(640)]: {
+      width: '320px',
+    },
+    [theme.breakpoints.down(380)]: {
+      width: '100%',
+    },
+  })
+);
+
+const StructureButton = styled(Button)(({ theme }) => ({
+  width: '100%',
+  height: '54px',
+  borderRadius: '12px',
+  backgroundColor: '#1AE5A1',
+  color: '#102A33',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  textTransform: 'none',
+  fontSize: '20px',
+  fontWeight: 'bold',
+  ':disabled': {
+    backgroundColor: '#172034',
+    color: '#fff',
+    cursor: 'no-drop',
+    pointerEvents: 'inherit',
+  },
+  [theme.breakpoints.down(720)]: {
+    height: '42px',
+    fontSize: '16px',
+  },
 }));

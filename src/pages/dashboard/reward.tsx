@@ -27,6 +27,7 @@ import 'swiper/css/navigation';
 import { Keyboard, Pagination, Navigation, Autoplay } from 'swiper/modules';
 import { ReferRewardClaimCard } from '../../components/card/ReferRewardClaimCard';
 import { GreenRewardPng } from '../../constants/images';
+import { StreakCard } from '../../components/card/StreakCard';
 
 interface ChallengeCardDataProps {
   initialTimer: number;
@@ -36,6 +37,12 @@ interface ReferCardDataProps {
   goal: number;
   current: number;
   earn: number;
+}
+
+interface StreakCardDataProps {
+  hasBadge?: boolean;
+  streak: number;
+  subTitle: string;
 }
 
 const ChallengeCardData = [
@@ -152,6 +159,42 @@ const ReferCardData = [
   },
 ];
 
+const StreakCardData = [
+  {
+    hasBadge: true,
+    streak: 3,
+    subTitle: '+1% Cashback',
+  },
+  {
+    streak: 5,
+    subTitle: '$10 Free Bet',
+  },
+  {
+    streak: 10,
+    subTitle: '+3% Cashback',
+  },
+  {
+    streak: 15,
+    subTitle: '$25 Free Bet',
+  },
+  {
+    streak: 30,
+    subTitle: '+5% Cashback',
+  },
+  {
+    streak: 3,
+    subTitle: '+1% Cashback',
+  },
+  {
+    streak: 5,
+    subTitle: '$10 Free Bet',
+  },
+  {
+    streak: 10,
+    subTitle: '+3% Cashback',
+  },
+];
+
 export const Reward = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [sortOption, setSortOption] = useState(0);
@@ -166,33 +209,27 @@ export const Reward = () => {
     setAnchorEl(null);
   };
 
-  const chunkChallengeArray = (
-    array: ChallengeCardDataProps[],
-    chunkSize: number
-  ) => {
+  const chunkArray = <T,>(array: T[], chunkSize: number): T[][] => {
     return array.reduce((resultArray, item, index) => {
       const chunkIndex = Math.floor(index / chunkSize);
       if (!resultArray[chunkIndex]) {
-        resultArray[chunkIndex] = []; // Create a new subarray
+        resultArray[chunkIndex] = [];
       }
       resultArray[chunkIndex].push(item);
       return resultArray;
-    }, [] as ChallengeCardDataProps[][]);
+    }, [] as T[][]);
   };
 
-  const chunkReferArray = (array: ReferCardDataProps[], chunkSize: number) => {
-    return array.reduce((resultArray, item, index) => {
-      const chunkIndex = Math.floor(index / chunkSize);
-      if (!resultArray[chunkIndex]) {
-        resultArray[chunkIndex] = []; // Create a new subarray
-      }
-      resultArray[chunkIndex].push(item);
-      return resultArray;
-    }, [] as ReferCardDataProps[][]);
-  };
+  const chunkedChallengeCardData = chunkArray<ChallengeCardDataProps>(
+    ChallengeCardData,
+    6
+  );
+  const chunkedReferCardData = chunkArray<ReferCardDataProps>(ReferCardData, 6);
 
-  const chunkedChallengeCardData = chunkChallengeArray(ChallengeCardData, 6);
-  const chunkedReferCardData = chunkReferArray(ReferCardData, 6);
+  const chunkedStreakCardData = chunkArray<StreakCardDataProps>(
+    StreakCardData,
+    10
+  );
 
   return (
     <Container>
@@ -221,14 +258,16 @@ export const Reward = () => {
         <ChallengeContainer>
           <LabelContainer>
             <LabelTitle>
-              {sortOption === 0
-                ? 'Cashback Multiplier Challenges'
-                : 'Referral Missions'}
+              {sortOption === 0 && 'Cashback Multiplier Challenges'}
+              {sortOption === 1 && 'Referral Missions'}
+              {sortOption === 2 && 'Streak Bonuses'}
             </LabelTitle>
             <LabelSubTitle>
-              {sortOption === 0
-                ? 'Boost Your Cashback by Completing Challenges and Unlock Amazing Rewards'
-                : 'Loren Ipsum Loren Ipsum Loren Ipsum Loren Ipsum Loren Ipsum '}
+              {sortOption === 0 &&
+                'Boost Your Cashback by Completing Challenges and Unlock Amazing Rewards'}
+              {sortOption === 1 &&
+                'Loren Ipsum Loren Ipsum Loren Ipsum Loren Ipsum Loren Ipsum '}
+              {sortOption === 2 && 'Bet consistently and earn extra rewards!'}
             </LabelSubTitle>
           </LabelContainer>
           <ActionContainer>
@@ -243,9 +282,9 @@ export const Reward = () => {
                 <p>
                   Sort by: &nbsp;&nbsp;
                   <span>
-                    {sortOption === 0
-                      ? 'Cashback Challenges'
-                      : 'Referral Missions'}
+                    {sortOption === 0 && 'Cashback Challenges'}
+                    {sortOption === 1 && 'Referral Missions'}
+                    {sortOption === 2 && 'Streak Bonuses'}
                   </span>
                 </p>
                 <KeyboardArrowDown />
@@ -281,6 +320,9 @@ export const Reward = () => {
                 <MenuItem onClick={() => handleSortClose(1)}>
                   <MenuItemContent>Referral Missions</MenuItemContent>
                 </MenuItem>
+                <MenuItem onClick={() => handleSortClose(2)}>
+                  <MenuItemContent>Streak Bonuses</MenuItemContent>
+                </MenuItem>
               </Menu>
             </SortButtonContainer>
             <HeadingAction>
@@ -305,29 +347,49 @@ export const Reward = () => {
               modules={[Keyboard, Pagination, Navigation, Autoplay]}
               className="mySwiper"
             >
-              {sortOption === 0
-                ? chunkedChallengeCardData.map((subcards, idx) => (
-                    <SwiperSlide key={idx} style={{ width: '100%' }}>
-                      <CardContainer>
-                        {subcards.map((item) => (
-                          <ChallengeCard initialTimer={item.initialTimer} />
-                        ))}
-                      </CardContainer>
-                    </SwiperSlide>
-                  ))
-                : chunkedReferCardData.map((subcards, idx) => (
-                    <SwiperSlide key={idx} style={{ width: '100%' }}>
-                      <CardContainer>
-                        {subcards.map((item) => (
-                          <ReferRewardClaimCard
-                            goal={item.goal}
-                            current={item.current}
-                            earn={item.earn}
-                          />
-                        ))}
-                      </CardContainer>
-                    </SwiperSlide>
-                  ))}
+              {sortOption === 0 &&
+                chunkedChallengeCardData.map((subcards, idx) => (
+                  <SwiperSlide key={idx} style={{ width: '100%' }}>
+                    <CardContainer>
+                      {subcards.map((item, subIdx) => (
+                        <ChallengeCard
+                          initialTimer={item.initialTimer}
+                          key={subIdx}
+                        />
+                      ))}
+                    </CardContainer>
+                  </SwiperSlide>
+                ))}
+              {sortOption === 1 &&
+                chunkedReferCardData.map((subcards, idx) => (
+                  <SwiperSlide key={idx} style={{ width: '100%' }}>
+                    <CardContainer>
+                      {subcards.map((item, subIdx) => (
+                        <ReferRewardClaimCard
+                          goal={item.goal}
+                          current={item.current}
+                          earn={item.earn}
+                          key={subIdx}
+                        />
+                      ))}
+                    </CardContainer>
+                  </SwiperSlide>
+                ))}
+              {sortOption === 2 &&
+                chunkedStreakCardData.map((subcards, idx) => (
+                  <SwiperSlide key={idx} style={{ width: '100%' }}>
+                    <StreakCardContainer>
+                      {subcards.map((item, subIdx) => (
+                        <StreakCard
+                          hasBadge={item.hasBadge}
+                          streak={item.streak}
+                          subTitle={item.subTitle}
+                          key={subIdx}
+                        />
+                      ))}
+                    </StreakCardContainer>
+                  </SwiperSlide>
+                ))}
             </CustomSwiper>
           </ChallengeSwiper>
         </ChallengeContainer>
@@ -521,6 +583,15 @@ const CardContainer = styled(Box)(({ theme }) => ({
   gap: '20px',
   [theme.breakpoints.down(768)]: {
     gridTemplateColumns: 'repeat(1, 1fr)',
+  },
+}));
+
+const StreakCardContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  flexWrap: 'wrap',
+  [theme.breakpoints.down(1500)]: {
+    justifyContent: 'center',
   },
 }));
 

@@ -18,14 +18,6 @@ import GreenCoin from '../assets/betsave-icon/green/coin.png'
 import GreenSportsBetIcon from '../assets/betsave-icon/green/sports-betting.png';
 import GreenHorseRaceIcon from '../assets/betsave-icon/green/horse-race.png';
 
-import GrayAffiliatePng from '../assets/betsave-icon/white/affiliates.png';
-import GrayAbleOfferPng from '../assets/betsave-icon/white/available-offers.png';
-import GrayLeaderboardPng from '../assets/betsave-icon/white/leaderboard.png';
-import GrayMyOfferPng from '../assets/betsave-icon/white/my-offers.png';
-import GrayPromoOfferPng from '../assets/betsave-icon/white/promotional-offers.png';
-import GrayRewardPng from '../assets/betsave-icon/white/reward.png';
-import GrayWithdrawPng from '../assets/betsave-icon/white/withdraw.png';
-
 import BronzeImg from '../assets/bronze.png'
 import GoldenImg from '../assets/gold.png'
 import PlatinumImg from '../assets/platinum.png'
@@ -99,4 +91,4 @@ import Layer94Img from '../assets/Layer-94.jpg';
 import GiftIcon from '../assets/gift.png';
 import HorseImg from '../assets/horse.png';
 
-export { GreenTransparentPayoutIcon, GreenMaxmizeWinIcon, GreenTopTierIcon, GreenSeemslessIcon, GreenTimeIcon, GreenWalletIcon, BronzeImg, GoldenImg, PlatinumImg, SilverImg, Bet365Logo, LockIcon, TempUserIcon, NetImg, MoreProfitImg, ThunderBallImg, ClockFlagImg, SunLightImg, Rank1Img, Rank2Img, Rank3Img, GreenWithdrawPng, LayerImg2, TrustmaryIcon, CashoutIcon, GiftcardIcon, TrophyIcon, HorseIcon, GreenCashbackIcon, LayerImg1, WalletIcon, UserIcon, PlaceBetIcon, Poster1Img, Poster2Img, Poster3Img, LayourImg, BetSaveLogoImg, EnglishIcon, LogoImg, MobileLogoImg, ExpandSidebarIcon, HandMoneyIcon, JonahAvatarIcon, EmptyImg, VisaPng, Bet365Png, BetitonPng, LPng, NPng, NedsPng, SbPng, TabPng, ThumbupPng, VectorIcon, GrayAffiliatePng,GrayAbleOfferPng , GrayLeaderboardPng, GrayMyOfferPng, GrayPromoOfferPng, GrayRewardPng, GrayWithdrawPng, GreenAffiliatePng, GreenAbleOfferPng, GreenLeaderboardPng, GreenMyOfferPng, GreenPromoOfferPng, GreenRewardPng, GreenSportsBetIcon, GreenHorseRaceIcon, GreenSignupOfferIcon, GreenHighStakeBettorsIcon, GreenReferralBonusIcon, GreenExPromotionIcon, GreenCashbackRateIcon, BetOffersIcon, PayoutIcon, Mobile1Img, Mobile2Img, Mobile3Img, BookMakerIcon, CheckIcon, WalletOutlinedIcon, Layer85Img, Layer87Img, Layer94Img, GiftIcon, HorseImg, GreenChipCoinIcon, GreenCoin }
+export { GreenTransparentPayoutIcon, GreenMaxmizeWinIcon, GreenTopTierIcon, GreenSeemslessIcon, GreenTimeIcon, GreenWalletIcon, BronzeImg, GoldenImg, PlatinumImg, SilverImg, Bet365Logo, LockIcon, TempUserIcon, NetImg, MoreProfitImg, ThunderBallImg, ClockFlagImg, SunLightImg, Rank1Img, Rank2Img, Rank3Img, GreenWithdrawPng, LayerImg2, TrustmaryIcon, CashoutIcon, GiftcardIcon, TrophyIcon, HorseIcon, GreenCashbackIcon, LayerImg1, WalletIcon, UserIcon, PlaceBetIcon, Poster1Img, Poster2Img, Poster3Img, LayourImg, BetSaveLogoImg, EnglishIcon, LogoImg, MobileLogoImg, ExpandSidebarIcon, HandMoneyIcon, JonahAvatarIcon, EmptyImg, VisaPng, Bet365Png, BetitonPng, LPng, NPng, NedsPng, SbPng, TabPng, ThumbupPng, VectorIcon, GreenAffiliatePng, GreenAbleOfferPng, GreenLeaderboardPng, GreenMyOfferPng, GreenPromoOfferPng, GreenRewardPng, GreenSportsBetIcon, GreenHorseRaceIcon, GreenSignupOfferIcon, GreenHighStakeBettorsIcon, GreenReferralBonusIcon, GreenExPromotionIcon, GreenCashbackRateIcon, BetOffersIcon, PayoutIcon, Mobile1Img, Mobile2Img, Mobile3Img, BookMakerIcon, CheckIcon, WalletOutlinedIcon, Layer85Img, Layer87Img, Layer94Img, GiftIcon, HorseImg, GreenChipCoinIcon, GreenCoin }

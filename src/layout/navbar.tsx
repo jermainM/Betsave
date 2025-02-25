@@ -206,8 +206,14 @@ export const NavBar = (props: { children: React.ReactNode }) => {
                   selected={selectedItem === item.idx}
                   onClick={() => handleNavItemClick(item.idx)}
                 >
-                  <SideBarListItemIcon sx={{ marginLeft: '18px' }}>
-                    {selectedItem === item.idx ? item.selectedIcon : item.icon}
+                  <SideBarListItemIcon
+                    sx={{
+                      marginLeft: '18px',
+                      filter:
+                        selectedItem === item.idx ? 'none' : 'grayScale(100%)',
+                    }}
+                  >
+                    {item.icon}
                   </SideBarListItemIcon>
                   <SideBarListItemText
                     sx={{
@@ -234,7 +240,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
           <MobileSidebarItem
             isSelected={selectedItem === item.idx}
             onClick={() => handleNavItemClick(item.idx)}
-            icon={selectedItem === item.idx ? item.selectedIcon : item.icon}
+            icon={item.icon}
             name={item.name}
             key={item.idx}
           />
@@ -259,7 +265,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
               <SmallSidebarItem
                 isSelected={selectedItem === item.idx}
                 onClick={() => handleNavItemClick(item.idx)}
-                icon={selectedItem === item.idx ? item.selectedIcon : item.icon}
+                icon={item.icon}
                 name={item.name}
                 key={item.idx}
               />
@@ -270,7 +276,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
           <MobileSidebarItem
             isSelected={selectedItem === item.idx}
             onClick={() => handleNavItemClick(item.idx)}
-            icon={selectedItem === item.idx ? item.selectedIcon : item.icon}
+            icon={item.icon}
             name={item.name}
             key={item.idx}
           />
@@ -654,7 +660,11 @@ const MobileSidebarItem = (props: MobileSidebarItemProps) => {
       }}
       onClick={onClick}
     >
-      <MobileSidebarIcon>{icon}</MobileSidebarIcon>
+      <MobileSidebarIcon
+        sx={{ filter: isSelected ? 'none' : 'grayScale(100%)' }}
+      >
+        {icon}
+      </MobileSidebarIcon>
       <MobileSidebarItemText>{name}</MobileSidebarItemText>
     </MobileSidebarItemContainer>
   );
@@ -755,7 +765,11 @@ const SmallSidebarItem = (props: MobileSidebarItemProps) => {
       }}
       onClick={onClick}
     >
-      <MobileSidebarIcon>{icon}</MobileSidebarIcon>
+      <MobileSidebarIcon
+        sx={{ filter: isSelected ? 'none' : 'grayScale(100%)' }}
+      >
+        {icon}
+      </MobileSidebarIcon>
       <MobileSidebarItemText>{name}</MobileSidebarItemText>
     </MobileSidebarItemContainer>
   );
@@ -783,6 +797,6 @@ const StyledMenu = styled((props: MenuProps) => (
     background: '#171E31',
     padding: '0px 10px',
     left: '0px !important',
-    top: '700px !important',
+    top: '750px !important',
   },
 }));

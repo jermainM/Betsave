@@ -514,7 +514,7 @@ const MarketImageContainer = styled(Box)(({ theme }) => ({
 }));
 
 const MarketBarContainer = styled(Box)(({ theme }) => ({
-  height: '72px',
+  height: 'fit-content',
   padding: '10px',
   background: 'linear-gradient(90deg, #0D1422, #141c30, #0D1422)',
   display: 'flex',
@@ -543,6 +543,9 @@ const MarketIcon = styled('img')(({ theme }) => ({
   height: 'auto',
   [theme.breakpoints.down(960)]: {
     width: '54px',
+  },
+  [theme.breakpoints.down(640)]: {
+    width: '36px',
   },
 }));
 

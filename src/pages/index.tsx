@@ -453,8 +453,8 @@ const Cashback = styled(Box)(({ theme }) => ({
 }));
 
 const CashbackImg = styled('img')(({ theme }) => ({
-  width: '42px',
-  height: '42px',
+  width: '36px',
+  height: '36px',
   [theme.breakpoints.down(840)]: {
     width: '36px',
     height: '36px',

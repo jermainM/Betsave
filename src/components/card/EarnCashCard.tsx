@@ -104,8 +104,8 @@ const EarnCashbackTitle = styled(Box)(({ theme }) => ({
 }));
 
 const Img = styled('img')(({ theme }) => ({
-  width: '20px',
-  height: '20px',
+  width: '24px',
+  height: '24px',
 }));
 
 const EarnCashbackSubTitle = styled(Typography)(({ theme }) => ({

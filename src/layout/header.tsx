@@ -231,12 +231,9 @@ const LinkItem = styled(Box)(({ theme }) => ({
 }));
 
 const Icon = styled('img')(({ theme }) => ({
-  width: '32px',
+  width: '24px',
   height: 'auto',
   color: '#1AE5A1',
-  [theme.breakpoints.down(1240)]: {
-    width: '28px',
-  },
 }));
 
 const LinkItemContainer = styled(Box)(({ theme }) => ({

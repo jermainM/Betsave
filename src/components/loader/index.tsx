@@ -19,7 +19,7 @@ export const Loader = (props: LoaderProps) => {
     };
 
     const interval = setInterval(updateProgress, 100); // Update every 100ms
-
+    console.log('Before handleLoad');
     const handleLoad = () => {
       clearInterval(interval);
       setProgress(100);

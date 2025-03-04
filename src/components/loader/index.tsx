@@ -20,12 +20,19 @@ export const Loader = (props: LoaderProps) => {
 
     const interval = setInterval(updateProgress, 100); // Update every 100ms
 
-    window.onload = () => {
+    const handleLoad = () => {
       clearInterval(interval);
       setProgress(100);
-      console.log('hello', interval);
-      setTimeout(onComplete, 500); // Delay hiding loader for smooth transition
+      console.log('Page Loaded', interval);
+      setTimeout(onComplete, 500);
     };
+
+    if (document.readyState === 'complete') {
+      // Page is already loaded, trigger immediately
+      handleLoad();
+    } else {
+      window.addEventListener('load', handleLoad);
+    }
 
     return () => clearInterval(interval);
   }, [onComplete]);

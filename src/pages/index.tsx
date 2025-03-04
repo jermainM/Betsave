@@ -4,7 +4,7 @@ import { BetaCardSlider } from '../components/swiper/BetaCard';
 import { Star } from '@mui/icons-material';
 import { SignUpCard } from '../components/card/SignUpCard';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CashbackSlider } from '../components/swiper/Cashback';
 import { WhyChooseSwiper } from '../components/swiper/WhyChoose';
 import { FAQItem } from '../components/Faq';
@@ -24,13 +24,27 @@ import {
   WalletIcon,
 } from '../constants/images';
 
-export const Landing = () => {
+interface LandingProps {
+  onLoadComplete: () => void;
+}
+
+export const Landing = (props: LandingProps) => {
+  const { onLoadComplete } = props;
   const [expanded, setExpanded] = useState<string | false>(false);
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
+
+  useEffect(() => {
+    // Simulate a 5-second delay before marking the page as loaded
+    const timeout = setTimeout(() => {
+      onLoadComplete(); // Notify App.tsx that Landing is ready
+    }, 5000);
+
+    return () => clearTimeout(timeout);
+  }, [onLoadComplete]);
 
   return (
     <Container>

@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: 'SpaceGrotesk' !important;
+  font-family: 'SpaceGrotesk', sans-serif !important;
 }
 
 code {
@@ -9,17 +9,17 @@ code {
 }
 
 @font-face {
-  font-family: 'SpaceGrotesk-bold';
+  font-family: 'SpaceGrotesk-bold', sans-serif;
   src: url('assets/font/static/SpaceGrotesk-Bold.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'SpaceGrotesk-light';
+  font-family: 'SpaceGrotesk-light', sans-serif;
   src: url('assets/font/static/SpaceGrotesk-Light.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'SpaceGrotesk';
+  font-family: 'SpaceGrotesk', sans-serif;
   src: url('assets/font/static/SpaceGrotesk-Regular.ttf') format('truetype');
 }
 

@@ -146,7 +146,7 @@ const EmailInput = styled('input')(({ theme }) => ({
   color: '#fff',
   padding: '0px 12px',
   width: '80%',
-  fontFamily: 'SpaceGrotesk',
+  fontFamily: 'SpaceGrotesk, sans-serif',
   '::placeholder': {
     color: '#627691',
   },
@@ -198,7 +198,7 @@ const SettingFormInput = styled('input')(({ theme }) => ({
   borderRadius: '10px',
   fontSize: '16px',
   color: '#fff',
-  fontFamily: 'SpaceGrotesk',
+  fontFamily: 'SpaceGrotesk, sans-serif',
   padding: '16px 18px ',
   '::placeholder': {
     color: '#627691',
@@ -237,7 +237,7 @@ const PreferenceInput = styled('input')(({ theme }) => ({
   color: '#fff',
   padding: '0px 12px',
   width: '80%',
-  fontFamily: 'SpaceGrotesk',
+  fontFamily: 'SpaceGrotesk, sans-serif',
   '::placeholder': {
     color: '#627691',
   },

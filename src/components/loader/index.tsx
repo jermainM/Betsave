@@ -23,6 +23,7 @@ export const Loader = (props: LoaderProps) => {
     window.onload = () => {
       clearInterval(interval);
       setProgress(100);
+      console.log('hello', interval);
       setTimeout(onComplete, 500); // Delay hiding loader for smooth transition
     };
 

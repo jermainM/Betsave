@@ -54,11 +54,24 @@ const LoaderContainer = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   gap: '30px',
   width: '500px',
+  [theme.breakpoints.down(640)]: {
+    width: '320px',
+  },
+
+  [theme.breakpoints.down(390)]: {
+    width: '280px',
+  },
 }));
 
 const LogoImg = styled('img')(({ theme }) => ({
   width: '320px',
   height: 'auto',
+  [theme.breakpoints.down(640)]: {
+    width: '240px',
+  },
+  [theme.breakpoints.down(390)]: {
+    width: '200px',
+  },
 }));
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({

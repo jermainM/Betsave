@@ -24,27 +24,13 @@ import {
   WalletIcon,
 } from '../constants/images';
 
-interface LandingProps {
-  onLoadComplete: () => void;
-}
-
-export const Landing = (props: LandingProps) => {
-  const { onLoadComplete } = props;
+export const Landing = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
-
-  useEffect(() => {
-    // Simulate a 5-second delay before marking the page as loaded
-    const timeout = setTimeout(() => {
-      onLoadComplete(); // Notify App.tsx that Landing is ready
-    }, 5000);
-
-    return () => clearTimeout(timeout);
-  }, [onLoadComplete]);
 
   return (
     <Container>

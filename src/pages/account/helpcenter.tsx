@@ -217,7 +217,7 @@ const TextArea = styled('textarea')(({ theme }) => ({
   background: 'none',
   padding: '12px',
   fontSize: '18px',
-  fontFamily: 'SpaceGrotesk',
+  fontFamily: 'SpaceGrotesk, sans-serif',
 }));
 
 const TextInput = styled('input')(({ theme }) => ({

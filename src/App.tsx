@@ -1,4 +1,4 @@
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
 import { Landing } from './pages';
 import { Provider } from './provider';
@@ -11,6 +11,9 @@ import { Loader } from './components/loader';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    console.log({ isLoading });
+  }, [isLoading]);
   return (
     <Suspense fallback={<Loader onComplete={() => setIsLoading(false)} />}>
       {isLoading ? (
@@ -20,12 +23,7 @@ function App() {
           <Provider>
             <Layout>
               <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <Landing onLoadComplete={() => setIsLoading(false)} />
-                  }
-                />
+                <Route path="/" element={<Landing />} />
                 <Route path="/earn" element={<EarnMoney />} />
                 <Route path="/bet" element={<BetSmart />} />
                 <Route path="/dashboard" element={<Dashboard />} />

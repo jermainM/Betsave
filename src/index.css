@@ -9,17 +9,17 @@ code {
 }
 
 @font-face {
-  font-family: 'SpaceGrotesk-bold', sans-serif;
+  font-family: 'SpaceGrotesk-bold';
   src: url('assets/font/static/SpaceGrotesk-Bold.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'SpaceGrotesk-light', sans-serif;
+  font-family: 'SpaceGrotesk-light';
   src: url('assets/font/static/SpaceGrotesk-Light.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'SpaceGrotesk', sans-serif;
+  font-family: 'SpaceGrotesk';
   src: url('assets/font/static/SpaceGrotesk-Regular.ttf') format('truetype');
 }
 

@@ -1,4 +1,4 @@
-import { Box, styled, Typography } from '@mui/material';
+import { Box, styled, Typography } from "@mui/material";
 
 interface WhyChooseCardProps {
   img: string;
@@ -18,44 +18,44 @@ export const WhyChooseCard = (props: WhyChooseCardProps) => {
 };
 
 const WhyChooseCardContainer = styled(Box)(({ theme }) => ({
-  padding: '36px 42px',
-  borderRadius: '15px',
-  backgroundColor: '#141c30',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  flexDirection: 'column',
-  gap: '24px',
+  padding: "36px 42px",
+  borderRadius: "15px",
+  backgroundColor: "#141c30",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  flexDirection: "column",
+  gap: "24px",
   [theme.breakpoints.down(1280)]: {
-    padding: '24px 32px',
-    gap: '16px',
+    padding: "24px 32px",
+    gap: "16px",
   },
 }));
 
-const WhyChooseCardImg = styled('img')(({ theme }) => ({
-  width: '120px',
-  height: 'auto',
-  objectFit: 'cover',
+const WhyChooseCardImg = styled("img")(({ theme }) => ({
+  width: "120px",
+  height: "auto",
+  objectFit: "cover",
   [theme.breakpoints.down(960)]: {
-    width: '80px',
+    width: "80px",
   },
 }));
 
 const WhyChooseCardTitle = styled(Typography)(({ theme }) => ({
-  fontSize: '22px',
-  color: '#fff',
-  fontWeight: 'bold',
+  fontSize: "22px",
+  color: "#fff",
+  fontWeight: "bold",
   [theme.breakpoints.down(960)]: {
-    fontSize: '18px',
-    textAlign: 'center',
+    fontSize: "18px",
+    textAlign: "center",
   },
 }));
 
 const WhyChooseCardContent = styled(Typography)(({ theme }) => ({
-  fontSize: '16px',
-  color: '#627691',
-  textAlign: 'center',
+  fontSize: "16px",
+  color: "#627691",
+  textAlign: "center",
   [theme.breakpoints.down(960)]: {
-    fontSize: '14px',
+    fontSize: "14px",
   },
 }));

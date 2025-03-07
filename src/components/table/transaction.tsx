@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -15,12 +15,12 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from '@mui/material';
+} from "@mui/material";
 import {
   KeyboardArrowDown,
   KeyboardArrowLeft,
   KeyboardArrowRight,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 
 interface Row {
   id: string;
@@ -46,10 +46,10 @@ export const CashbackHistoryTable = () => {
   };
 
   function handleListKeyDown(event: React.KeyboardEvent) {
-    if (event.key === 'Tab') {
+    if (event.key === "Tab") {
       event.preventDefault();
       setOpen(false);
-    } else if (event.key === 'Escape') {
+    } else if (event.key === "Escape") {
       setOpen(false);
     }
   }
@@ -67,11 +67,11 @@ export const CashbackHistoryTable = () => {
   // Table related
 
   const rows: Row[] = Array.from({ length: 100 }, (_, i) => ({
-    id: '#642847966',
-    date: '28/01/2025',
-    deposit: '$2,893.00',
-    payout: '$2,893.00',
-    commission: '+4.70%',
+    id: "#642847966",
+    date: "28/01/2025",
+    deposit: "$2,893.00",
+    payout: "$2,893.00",
+    commission: "+4.70%",
   }));
 
   const totalPages: number = Math.ceil(rows.length / rowsPerPage);
@@ -86,11 +86,11 @@ export const CashbackHistoryTable = () => {
     pagination.push(
       <PaginationButton
         key={1}
-        className={page === 1 ? 'active' : ''}
+        className={page === 1 ? "active" : ""}
         onClick={() => handlePageClick(1)}
       >
         1
-      </PaginationButton>
+      </PaginationButton>,
     );
 
     if (page > 3) {
@@ -100,7 +100,7 @@ export const CashbackHistoryTable = () => {
           onClick={() => handlePageClick(page - 2)}
         >
           ...
-        </PaginationButton>
+        </PaginationButton>,
       );
     }
 
@@ -111,11 +111,11 @@ export const CashbackHistoryTable = () => {
       pagination.push(
         <PaginationButton
           key={i}
-          className={page === i ? 'active' : ''}
+          className={page === i ? "active" : ""}
           onClick={() => handlePageClick(i)}
         >
           {i}
-        </PaginationButton>
+        </PaginationButton>,
       );
     }
 
@@ -126,18 +126,18 @@ export const CashbackHistoryTable = () => {
           onClick={() => handlePageClick(page + 2)}
         >
           ...
-        </PaginationButton>
+        </PaginationButton>,
       );
     }
 
     pagination.push(
       <PaginationButton
         key={totalPages}
-        className={page === totalPages ? 'active' : ''}
+        className={page === totalPages ? "active" : ""}
         onClick={() => handlePageClick(totalPages)}
       >
         {totalPages}
-      </PaginationButton>
+      </PaginationButton>,
     );
 
     return pagination;
@@ -154,8 +154,8 @@ export const CashbackHistoryTable = () => {
           <OptionButton
             ref={anchorRef}
             id="composition-button"
-            aria-controls={isOpen ? 'composition-menu' : undefined}
-            aria-expanded={isOpen ? 'true' : undefined}
+            aria-controls={isOpen ? "composition-menu" : undefined}
+            aria-expanded={isOpen ? "true" : undefined}
             aria-haspopup="true"
             onClick={handleMenuToggle}
             endIcon={<KeyboardArrowDown />}
@@ -175,7 +175,7 @@ export const CashbackHistoryTable = () => {
                 {...TransitionProps}
                 style={{
                   transformOrigin:
-                    placement === 'bottom-start' ? 'left top' : 'left bottom',
+                    placement === "bottom-start" ? "left top" : "left bottom",
                 }}
               >
                 <StyledPaper>
@@ -253,112 +253,112 @@ export const CashbackHistoryTable = () => {
 };
 
 const Container = styled(Box)(({ theme }) => ({
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '20px',
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  gap: "20px",
 }));
 
 const TransactionAction = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
 }));
 
 const TransactionTableHeader = styled(Box)(({ theme }) => ({
-  width: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
+  width: "100%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
 }));
 
 const OptionButton = styled(Button)(({ theme }) => ({
-  padding: '6px 12px',
-  fontSize: '12px',
-  color: '#fff',
-  borderRadius: '7px',
-  backgroundColor: '#0f1629',
-  minWidth: '0px',
+  padding: "6px 12px",
+  fontSize: "12px",
+  color: "#fff",
+  borderRadius: "7px",
+  backgroundColor: "#0f1629",
+  minWidth: "0px",
 }));
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  marginTop: '10px',
-  width: '60px',
+  marginTop: "10px",
+  width: "60px",
 }));
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  color: '#627691',
-  fontSize: '12px',
-  border: 'none',
-  padding: '8px',
-  borderBottom: 'inherit',
+  color: "#627691",
+  fontSize: "12px",
+  border: "none",
+  padding: "8px",
+  borderBottom: "inherit",
   [theme.breakpoints.down(520)]: {},
 }));
 
 const StyledTableRow = styled(TableRow)({
-  backgroundColor: '#0f1629',
-  'td:first-of-type': {
-    borderTopLeftRadius: '7px',
-    borderBottomLeftRadius: '7px',
+  backgroundColor: "#0f1629",
+  "td:first-of-type": {
+    borderTopLeftRadius: "7px",
+    borderBottomLeftRadius: "7px",
   },
-  'td:last-of-type': {
-    borderTopRightRadius: '7px',
-    borderBottomRightRadius: '7px',
+  "td:last-of-type": {
+    borderTopRightRadius: "7px",
+    borderBottomRightRadius: "7px",
   },
 });
 
 const PaginationContainer = styled(Box)({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '10px',
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "10px",
 });
 
 const PaginationWrapper = styled(Box)(({ theme }) => ({
-  borderRadius: '5px',
-  backgroundColor: '#0f1629',
-  display: 'flex',
-  alignItems: 'center',
+  borderRadius: "5px",
+  backgroundColor: "#0f1629",
+  display: "flex",
+  alignItems: "center",
 }));
 
 const PaginationButton = styled(Button)(({ theme }) => ({
-  backgroundColor: '#0f1629',
-  color: '#627691',
-  border: 'none',
-  borderRadius: '5px',
-  minWidth: '36px',
-  width: '36px',
-  height: '36px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  cursor: 'pointer',
-  fontSize: '12px',
-  fontWeight: 'bold',
-  '&.active': {
-    backgroundColor: '#1ae5a1',
-    color: '#fff',
+  backgroundColor: "#0f1629",
+  color: "#627691",
+  border: "none",
+  borderRadius: "5px",
+  minWidth: "36px",
+  width: "36px",
+  height: "36px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  cursor: "pointer",
+  fontSize: "12px",
+  fontWeight: "bold",
+  "&.active": {
+    backgroundColor: "#1ae5a1",
+    color: "#fff",
   },
-  '&:disabled': {
-    opacity: '0.4',
+  "&:disabled": {
+    opacity: "0.4",
   },
 
   [theme.breakpoints.down(520)]: {
-    width: '32px',
-    height: '32px',
-    minWidth: '32px',
+    width: "32px",
+    height: "32px",
+    minWidth: "32px",
   },
 }));
 
 const TableContainer = styled(Box)(({ theme }) => ({
-  width: '100%',
-  overflowX: 'auto',
+  width: "100%",
+  overflowX: "auto",
 }));
 
 const CustomTable = styled(Table)(({ theme }) => ({
-  minWidth: '420px',
-  borderCollapse: 'separate', // Enables gaps between rows
-  borderSpacing: '0 10px',
+  minWidth: "420px",
+  borderCollapse: "separate", // Enables gaps between rows
+  borderSpacing: "0 10px",
 }));
 
 interface IDItemProps {
@@ -371,43 +371,43 @@ const IDItem = (props: IDItemProps) => {
 };
 
 const IDItemContainer = styled(Box)(({ theme }) => ({
-  fontSize: '12px',
-  backgroundColor: '#171e31',
-  padding: '4px 6px',
-  borderRadius: '5px',
+  fontSize: "12px",
+  backgroundColor: "#171e31",
+  padding: "4px 6px",
+  borderRadius: "5px",
 }));
 
 const MinusText = styled(Box)(({ theme }) => ({
-  backgroundColor: '#271C2D',
-  color: '#ff5a65',
-  padding: '4px 8px',
-  fontSize: '12px',
-  borderRadius: '5px',
-  width: 'fit-content',
+  backgroundColor: "#271C2D",
+  color: "#ff5a65",
+  padding: "4px 8px",
+  fontSize: "12px",
+  borderRadius: "5px",
+  width: "fit-content",
 }));
 
 const PlusText = styled(Box)(({ theme }) => ({
-  padding: '4px 8px',
-  fontSize: '12px',
-  color: '#1ae5a1',
-  width: 'fit-content',
-  borderRadius: '5px',
-  backgroundColor: '#102A33',
+  padding: "4px 8px",
+  fontSize: "12px",
+  color: "#1ae5a1",
+  width: "fit-content",
+  borderRadius: "5px",
+  backgroundColor: "#102A33",
 }));
 
 const HistoryTitleContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '2px',
+  display: "flex",
+  flexDirection: "column",
+  gap: "2px",
 }));
 
 const HistoryTitle = styled(Typography)(({ theme }) => ({
-  fontSize: '18px',
-  color: '#fff',
-  fontWeight: 'normal',
+  fontSize: "18px",
+  color: "#fff",
+  fontWeight: "normal",
 }));
 
 const HistorySubTitle = styled(Typography)(({ theme }) => ({
-  fontSize: '12px',
-  color: '#627691',
+  fontSize: "12px",
+  color: "#627691",
 }));

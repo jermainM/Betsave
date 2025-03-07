@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { BetaCard } from '../card/BetaCard';
-import { Box, styled } from '@mui/material';
-import { Bet365Png, NedsPng, SbPng } from '../../constants/images';
+import { useEffect, useState } from "react";
+import { BetaCard } from "../card/BetaCard";
+import { Box, styled } from "@mui/material";
+import { Bet365Png, NedsPng, SbPng } from "../../constants/images";
 
 export const BetaCardSlider = () => {
   const cards = [
@@ -9,7 +9,7 @@ export const BetaCardSlider = () => {
       id: 1,
       img: SbPng,
       title: <>Sign up and get rewarded</>,
-      value: '3.75%',
+      value: "3.75%",
       credit: 5,
     },
     {
@@ -20,14 +20,14 @@ export const BetaCardSlider = () => {
           Get <span>$100</span>
         </>
       ),
-      value: '4.3%',
+      value: "4.3%",
       credit: 5,
     },
     {
       id: 3,
       img: NedsPng,
       title: <>Earn cashback for every bet</>,
-      value: '7%',
+      value: "7%",
       credit: 5,
     },
   ];
@@ -46,13 +46,13 @@ export const BetaCardSlider = () => {
     <CardContainer>
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'relative',
-          width: '100%',
-          height: '300px',
-          overflow: 'hidden',
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          position: "relative",
+          width: "100%",
+          height: "300px",
+          overflow: "hidden",
         }}
       >
         {cards.map((card, index) => {
@@ -68,8 +68,8 @@ export const BetaCardSlider = () => {
               key={card.id}
               sx={{
                 transform: `scale(${size}) translateX(${offset}%)`,
-                transition: 'transform 0.5s ease-in-out',
-                position: 'absolute',
+                transition: "transform 0.5s ease-in-out",
+                position: "absolute",
                 zIndex: `${size}`,
               }}
             >
@@ -88,18 +88,18 @@ export const BetaCardSlider = () => {
 };
 
 const CardContainer = styled(Box)(({ theme }) => ({
-  width: '504px',
+  width: "504px",
   [theme.breakpoints.down(540)]: {
-    width: '100%',
+    width: "100%",
   },
 }));
 
 const BetaCardContainer = styled(Box)(({ theme }) => ({
-  width: '250px',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+  width: "250px",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
   [theme.breakpoints.down(640)]: {
-    width: '200px',
+    width: "200px",
   },
 }));

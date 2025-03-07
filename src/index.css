@@ -1,33 +1,32 @@
 body {
   margin: 0;
-  font-family: 'SpaceGrotesk', sans-serif !important;
+  font-family: "SpaceGrotesk", sans-serif !important;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
 @font-face {
-  font-family: 'SpaceGrotesk-bold';
-  src: url('assets/font/static/SpaceGrotesk-Bold.ttf') format('truetype');
+  font-family: "SpaceGrotesk-bold";
+  src: url("assets/font/static/SpaceGrotesk-Bold.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'SpaceGrotesk-light';
-  src: url('assets/font/static/SpaceGrotesk-Light.ttf') format('truetype');
+  font-family: "SpaceGrotesk-light";
+  src: url("assets/font/static/SpaceGrotesk-Light.ttf") format("truetype");
 }
 
 @font-face {
-  font-family: 'SpaceGrotesk';
-  src: url('assets/font/static/SpaceGrotesk-Regular.ttf') format('truetype');
+  font-family: "SpaceGrotesk";
+  src: url("assets/font/static/SpaceGrotesk-Regular.ttf") format("truetype");
 }
 
-  /* Styling for the custom scrollbar */
+/* Styling for the custom scrollbar */
 ::-webkit-scrollbar {
   display: none;
 }
-
 
 .swiper {
   width: 100%;

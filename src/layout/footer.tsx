@@ -1,16 +1,16 @@
-import { Box, Button, IconButton, styled, Typography } from '@mui/material';
-import { ExpandMore, Star } from '@mui/icons-material';
-import { FaXTwitter } from 'react-icons/fa6';
-import { FaFacebookF } from 'react-icons/fa';
-import { RiInstagramFill } from 'react-icons/ri';
-import { BiLogoTelegram } from 'react-icons/bi';
-import { BiLogoDiscordAlt } from 'react-icons/bi';
-import { LuMessageCircleMore } from 'react-icons/lu';
+import { Box, Button, IconButton, styled, Typography } from "@mui/material";
+import { ExpandMore, Star } from "@mui/icons-material";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaFacebookF } from "react-icons/fa";
+import { RiInstagramFill } from "react-icons/ri";
+import { BiLogoTelegram } from "react-icons/bi";
+import { BiLogoDiscordAlt } from "react-icons/bi";
+import { LuMessageCircleMore } from "react-icons/lu";
 import {
   BetSaveLogoImg,
   EnglishIcon,
   TrustmaryIcon,
-} from '../constants/images';
+} from "../constants/images";
 
 export const Footer = () => {
   return (
@@ -134,123 +134,123 @@ export const Footer = () => {
 };
 
 const FooterContainer = styled(Box)(({ theme }) => ({
-  margin: '20px 0px',
-  marginTop: '70px',
-  padding: '32px',
-  borderRadius: '15px',
-  backgroundColor: '#0f1629',
-  width: '100%',
-  display: 'flex',
-  alignItems: 'flex-start',
-  justifyContent: 'space-between',
+  margin: "20px 0px",
+  marginTop: "70px",
+  padding: "32px",
+  borderRadius: "15px",
+  backgroundColor: "#0f1629",
+  width: "100%",
+  display: "flex",
+  alignItems: "flex-start",
+  justifyContent: "space-between",
 }));
 
 const AboutFooter = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '20px',
+  display: "flex",
+  flexDirection: "column",
+  gap: "20px",
   [theme.breakpoints.down(960)]: {
-    display: 'none',
+    display: "none",
   },
 }));
 
-const LogoImg = styled('img')(({ theme }) => ({
-  width: '95px',
-  height: 'auto',
+const LogoImg = styled("img")(({ theme }) => ({
+  width: "95px",
+  height: "auto",
 }));
 
 const ReviewDetails = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '8px',
+  display: "flex",
+  flexDirection: "column",
+  gap: "8px",
 }));
 
 const ReviewText = styled(Typography)(({ theme }) => ({
-  fontSize: '14px',
-  color: '#627691',
-  fontWeight: 'bold',
+  fontSize: "14px",
+  color: "#627691",
+  fontWeight: "bold",
   span: {
-    color: '#fff',
+    color: "#fff",
   },
 }));
 
 const TrustMaryContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '2px',
+  display: "flex",
+  alignItems: "center",
+  gap: "2px",
 }));
 
 const TrustMaryLogo = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '4px',
-  color: '#fff',
-  fontSize: '14px',
-  fontWeight: 'bold',
+  display: "flex",
+  alignItems: "center",
+  gap: "4px",
+  color: "#fff",
+  fontSize: "14px",
+  fontWeight: "bold",
 }));
 
-const Img = styled('img')(({ theme }) => ({
-  width: '18px',
-  height: '18px',
+const Img = styled("img")(({ theme }) => ({
+  width: "18px",
+  height: "18px",
 }));
 
 const StarIcon = styled(Star)(({ theme }) => ({
-  color: 'yellow',
-  width: '18px',
-  height: '18px',
+  color: "yellow",
+  width: "18px",
+  height: "18px",
 }));
 
 const CopyRightText = styled(Box)(({ theme }) => ({
-  fontSize: '14px',
-  color: '#4d5a84',
-  textAlign: 'center',
+  fontSize: "14px",
+  color: "#4d5a84",
+  textAlign: "center",
 }));
 
 const FooterActionCotainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  gap: '20px',
+  display: "flex",
+  gap: "20px",
   [theme.breakpoints.down(960)]: {
-    display: 'none',
+    display: "none",
   },
 }));
 
 const FooterActionItem = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '8px',
+  display: "flex",
+  flexDirection: "column",
+  gap: "8px",
 }));
 
 const FooterActionTitle = styled(Typography)(({ theme }) => ({
-  fontSize: '12px',
-  color: '#fff',
+  fontSize: "12px",
+  color: "#fff",
 }));
 
 const FooterActionContent = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '8px',
+  display: "flex",
+  flexDirection: "column",
+  gap: "8px",
 }));
 
 const FooterActionContentItem = styled(Typography)(({ theme }) => ({
-  fontSize: '12px',
-  color: '#666d91',
-  cursor: 'pointer',
+  fontSize: "12px",
+  color: "#666d91",
+  cursor: "pointer",
 }));
 
 const FooterCommunity = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  gap: '12px',
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "12px",
   [theme.breakpoints.down(960)]: {
-    display: 'none',
+    display: "none",
   },
 }));
 
 const FooterCommunityContainer = styled(Box)(({ theme }) => ({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(3, 1fr)',
-  gap: '4px',
+  display: "grid",
+  gridTemplateColumns: "repeat(3, 1fr)",
+  gap: "4px",
 }));
 
 const FooterCommunityItem = (props: { icon: React.ReactNode }) => {
@@ -262,97 +262,97 @@ const FooterCommunityItem = (props: { icon: React.ReactNode }) => {
 };
 
 const FooterCommunityItemContainer = styled(IconButton)(({ theme }) => ({
-  backgroundColor: '#171e31',
-  color: '#666d91',
+  backgroundColor: "#171e31",
+  color: "#666d91",
 }));
 
 const LanguageChoose = styled(Box)(({ theme }) => ({}));
 
 const LanguageButton = styled(Button)(({ theme }) => ({
-  fontSize: '14px',
-  backgroundColor: '#171e31',
-  color: '#627691',
-  height: '17px',
-  display: 'flex',
-  alignItems: 'center',
-  textTransform: 'none',
-  padding: '12px 8px',
-  gap: '8px',
+  fontSize: "14px",
+  backgroundColor: "#171e31",
+  color: "#627691",
+  height: "17px",
+  display: "flex",
+  alignItems: "center",
+  textTransform: "none",
+  padding: "12px 8px",
+  gap: "8px",
 }));
 
-const FlagImg = styled('img')(({ theme }) => ({
-  width: '24px',
-  height: 'auto',
+const FlagImg = styled("img")(({ theme }) => ({
+  width: "24px",
+  height: "auto",
 }));
 
 const MobileFooter = styled(Box)(({ theme }) => ({
-  display: 'none',
-  flexDirection: 'column',
-  alignItems: 'center',
-  gap: '24px',
-  width: '100%',
+  display: "none",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "24px",
+  width: "100%",
   [theme.breakpoints.down(960)]: {
-    display: 'flex',
+    display: "flex",
   },
 }));
 
-const MobileLogoImg = styled('img')(({ theme }) => ({
-  width: '180px',
-  height: 'auto',
+const MobileLogoImg = styled("img")(({ theme }) => ({
+  width: "180px",
+  height: "auto",
 }));
 
 const MobileLanguageChoose = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  fontSize: '14px',
-  color: '#fff',
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  fontSize: "14px",
+  color: "#fff",
 }));
 
 const MobileLanguageButton = styled(Button)(({ theme }) => ({
-  fontSize: '14px',
-  backgroundColor: '#171e31',
-  color: '#627691',
-  height: '24px',
-  display: 'flex',
-  alignItems: 'center',
-  textTransform: 'none',
-  padding: '18px 14px',
-  gap: '8px',
-  borderRadius: '20px',
+  fontSize: "14px",
+  backgroundColor: "#171e31",
+  color: "#627691",
+  height: "24px",
+  display: "flex",
+  alignItems: "center",
+  textTransform: "none",
+  padding: "18px 14px",
+  gap: "8px",
+  borderRadius: "20px",
 }));
 
 const MobileFooterAction = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  flexDirection: 'column',
-  gap: '20px',
+  display: "flex",
+  alignItems: "center",
+  flexDirection: "column",
+  gap: "20px",
 }));
 
 const MobileFooterButtonAction = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
   [theme.breakpoints.down(540)]: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(2, 2fr)',
-    gap: '16px',
+    display: "grid",
+    gridTemplateColumns: "repeat(2, 2fr)",
+    gap: "16px",
   },
 }));
 
 const MobileFooterButton = styled(Button)(({ theme }) => ({
-  fontSize: '12px',
-  borderRadius: '20px',
-  backgroundColor: '#141c30',
-  padding: '6px',
-  textTransform: 'none',
-  width: '100px',
-  color: '#627691',
+  fontSize: "12px",
+  borderRadius: "20px",
+  backgroundColor: "#141c30",
+  padding: "6px",
+  textTransform: "none",
+  width: "100px",
+  color: "#627691",
 }));
 
 const MobileFooterReview = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  gap: '4px',
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "4px",
 }));

@@ -1,4 +1,4 @@
-import { Box, styled } from '@mui/material';
+import { Box, styled } from "@mui/material";
 
 interface FormInputProps {
   icon: React.ReactNode;
@@ -27,38 +27,38 @@ export const FormInput = (props: FormInputProps) => {
 };
 
 const FormInputContainer = styled(Box)(({ theme }) => ({
-  borderRadius: '10px',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '20px',
-  padding: '15px',
-  height: '50px',
-  backgroundColor: '#0f1629',
-  width: '100%',
-  color: '#a9a9b0',
+  borderRadius: "10px",
+  display: "flex",
+  alignItems: "center",
+  gap: "20px",
+  padding: "15px",
+  height: "50px",
+  backgroundColor: "#0f1629",
+  width: "100%",
+  color: "#a9a9b0",
   [theme.breakpoints.down(390)]: {
-    gap: '12px',
+    gap: "12px",
   },
 }));
 
 const IconContainer = styled(Box)(({ theme }) => ({
-  width: '24px',
-  height: '24px',
-  minWidth: '24px',
+  width: "24px",
+  height: "24px",
+  minWidth: "24px",
 }));
 
-const InputBox = styled('input')(({ theme }) => ({
-  outline: 'none',
-  height: '100%',
-  fontSize: '18px',
-  color: '#fff',
-  background: 'none',
-  minWidth: '20px',
-  border: 'none',
-  '::placeholder': {
-    color: '#a9a9b0',
+const InputBox = styled("input")(({ theme }) => ({
+  outline: "none",
+  height: "100%",
+  fontSize: "18px",
+  color: "#fff",
+  background: "none",
+  minWidth: "20px",
+  border: "none",
+  "::placeholder": {
+    color: "#a9a9b0",
   },
   [theme.breakpoints.down(390)]: {
-    fontSize: '16px',
+    fontSize: "16px",
   },
 }));

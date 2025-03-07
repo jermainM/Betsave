@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface NavbarState {
   activeItem: number; // Current active nav item
@@ -9,7 +9,7 @@ const initialState: NavbarState = {
 };
 
 const navbarSlice = createSlice({
-  name: 'navbar',
+  name: "navbar",
   initialState,
   reducers: {
     setActiveItem(state, action: PayloadAction<number>) {

@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from 'react';
-import { Scrollbar } from 'smooth-scrollbar-react';
+import React, { useEffect, useRef } from "react";
+import { Scrollbar } from "smooth-scrollbar-react";
 
 export const SmoothScrollProvider = (props: { children: React.ReactNode }) => {
   const scrollbar = useRef(null);
@@ -10,7 +10,7 @@ export const SmoothScrollProvider = (props: { children: React.ReactNode }) => {
   return (
     <div
       className="sample-container"
-      style={{ maxHeight: '100vh', display: 'flex', width: '100%' }}
+      style={{ maxHeight: "100vh", display: "flex", width: "100%" }}
     >
       <Scrollbar ref={scrollbar}>{props.children}</Scrollbar>
     </div>

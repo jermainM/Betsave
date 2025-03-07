@@ -1,7 +1,7 @@
-import { East } from '@mui/icons-material';
-import { Box, styled, Typography } from '@mui/material';
-import { WithdrawProcessCard } from '../../components/card/WithdrawProcessCard';
-import { GreenWithdrawPng } from '../../constants/images';
+import { East } from "@mui/icons-material";
+import { Box, styled, Typography } from "@mui/material";
+import { WithdrawProcessCard } from "../../components/card/WithdrawProcessCard";
+import { GreenWithdrawPng } from "../../constants/images";
 
 export const Withdraw = () => {
   return (
@@ -14,7 +14,7 @@ export const Withdraw = () => {
           Withdraw
         </HeadingTitle>
         <HeadingContent>
-          Redeem your Betsave earnings to PayPal, Amazon, Bitcoin, and more.{' '}
+          Redeem your Betsave earnings to PayPal, Amazon, Bitcoin, and more.{" "}
           <br />
           Withdraw to your crypto wallet from $0.50 or to Stake starting at
           $0.25!
@@ -27,20 +27,20 @@ export const Withdraw = () => {
         <WithdrawItemGroup>
           <GroupTitle>Most Popular</GroupTitle>
           <WithdrawItemContainer>
-            <WithdrawProcessCard title={'Paypal'} img={''} progress={100} />
-            <WithdrawProcessCard title={'Visa'} img={''} progress={1.5} />
-            <WithdrawProcessCard title={'Amazon'} img={''} progress={0} />
-            <WithdrawProcessCard title={'Stake'} img={''} progress={39.18} />
-            <WithdrawProcessCard title={'Google Play'} img={''} progress={0} />
+            <WithdrawProcessCard title={"Paypal"} img={""} progress={100} />
+            <WithdrawProcessCard title={"Visa"} img={""} progress={1.5} />
+            <WithdrawProcessCard title={"Amazon"} img={""} progress={0} />
+            <WithdrawProcessCard title={"Stake"} img={""} progress={39.18} />
+            <WithdrawProcessCard title={"Google Play"} img={""} progress={0} />
           </WithdrawItemContainer>
         </WithdrawItemGroup>
         <WithdrawItemGroup>
           <GroupTitle>Crypto</GroupTitle>
           <WithdrawItemContainer>
-            <WithdrawProcessCard title={'Bitcoin'} img={''} progress={49.1} />
-            <WithdrawProcessCard title={'Dogecoin'} img={''} progress={0} />
-            <WithdrawProcessCard title={'Litecoin'} img={''} progress={4.16} />
-            <WithdrawProcessCard title={'Ethereum'} img={''} progress={2.08} />
+            <WithdrawProcessCard title={"Bitcoin"} img={""} progress={49.1} />
+            <WithdrawProcessCard title={"Dogecoin"} img={""} progress={0} />
+            <WithdrawProcessCard title={"Litecoin"} img={""} progress={4.16} />
+            <WithdrawProcessCard title={"Ethereum"} img={""} progress={2.08} />
           </WithdrawItemContainer>
         </WithdrawItemGroup>
       </WithdrawContent>
@@ -49,74 +49,74 @@ export const Withdraw = () => {
 };
 
 const WithdrawContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '40px',
-  width: '100%',
+  display: "flex",
+  flexDirection: "column",
+  gap: "40px",
+  width: "100%",
 }));
 
 const Heading = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '30px',
+  display: "flex",
+  flexDirection: "column",
+  gap: "30px",
 }));
 
 const HeadingTitle = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  fontSize: '24px',
-  color: '#fff',
-  fontWeight: 'bold',
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  fontSize: "24px",
+  color: "#fff",
+  fontWeight: "bold",
 }));
 
 const HeadingTitleIcon = styled(Box)(({ theme }) => ({
-  width: '36px',
-  height: '36px',
+  width: "36px",
+  height: "36px",
   img: {
-    width: '100%',
-    height: 'auto',
+    width: "100%",
+    height: "auto",
   },
 }));
 
 const HeadingContent = styled(Typography)(({ theme }) => ({
-  color: '#627691',
-  fontSize: '16px',
+  color: "#627691",
+  fontSize: "16px",
   [theme.breakpoints.down(480)]: {
-    fontSize: '14px',
+    fontSize: "14px",
   },
 }));
 
 const HeadingAction = styled(Typography)(({ theme }) => ({
-  fontSize: '16px',
-  color: '#1AE5A1',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '10px',
-  cursor: 'pointer',
+  fontSize: "16px",
+  color: "#1AE5A1",
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
+  cursor: "pointer",
 }));
 
 const WithdrawContent = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '60px',
+  display: "flex",
+  flexDirection: "column",
+  gap: "60px",
 }));
 
 const WithdrawItemGroup = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '20px',
+  display: "flex",
+  flexDirection: "column",
+  gap: "20px",
 }));
 
 const GroupTitle = styled(Typography)(({ theme }) => ({
-  fontSize: '20px',
-  color: '#fff',
-  fontWeight: 'bold',
+  fontSize: "20px",
+  color: "#fff",
+  fontWeight: "bold",
 }));
 
 const WithdrawItemContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  flexWrap: 'wrap',
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+  flexWrap: "wrap",
 }));

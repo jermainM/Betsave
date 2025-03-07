@@ -1,5 +1,5 @@
-import { MdYoutubeSearchedFor } from 'react-icons/md';
-import { IoSearchOutline } from 'react-icons/io5';
+import { MdYoutubeSearchedFor } from "react-icons/md";
+import { IoSearchOutline } from "react-icons/io5";
 import {
   Box,
   Button,
@@ -16,13 +16,13 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from '@mui/material';
-import { useRef, useState } from 'react';
+} from "@mui/material";
+import { useRef, useState } from "react";
 import {
   KeyboardArrowDown,
   KeyboardArrowLeft,
   KeyboardArrowRight,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 
 interface Row {
   usedCode: string;
@@ -45,18 +45,18 @@ export const PromoCodeTable = () => {
     setOpen((prevOpen) => !prevOpen);
   };
   function handleListKeyDown(event: React.KeyboardEvent) {
-    if (event.key === 'Tab') {
+    if (event.key === "Tab") {
       event.preventDefault();
       setOpen(false);
-    } else if (event.key === 'Escape') {
+    } else if (event.key === "Escape") {
       setOpen(false);
     }
   }
 
   const rows: Row[] = Array.from({ length: 100 }, (_, i) => ({
-    usedCode: 'WELCOME10',
-    date: '28/01/2025',
-    reward: '$2,893.00',
+    usedCode: "WELCOME10",
+    date: "28/01/2025",
+    reward: "$2,893.00",
   }));
 
   const totalPages: number = Math.ceil(rows.length / rowsPerPage);
@@ -71,11 +71,11 @@ export const PromoCodeTable = () => {
     pagination.push(
       <PaginationButton
         key={1}
-        className={page === 1 ? 'active' : ''}
+        className={page === 1 ? "active" : ""}
         onClick={() => handlePageClick(1)}
       >
         1
-      </PaginationButton>
+      </PaginationButton>,
     );
 
     if (page > 3) {
@@ -85,7 +85,7 @@ export const PromoCodeTable = () => {
           onClick={() => handlePageClick(page - 2)}
         >
           ...
-        </PaginationButton>
+        </PaginationButton>,
       );
     }
 
@@ -96,11 +96,11 @@ export const PromoCodeTable = () => {
       pagination.push(
         <PaginationButton
           key={i}
-          className={page === i ? 'active' : ''}
+          className={page === i ? "active" : ""}
           onClick={() => handlePageClick(i)}
         >
           {i}
-        </PaginationButton>
+        </PaginationButton>,
       );
     }
 
@@ -111,18 +111,18 @@ export const PromoCodeTable = () => {
           onClick={() => handlePageClick(page + 2)}
         >
           ...
-        </PaginationButton>
+        </PaginationButton>,
       );
     }
 
     pagination.push(
       <PaginationButton
         key={totalPages}
-        className={page === totalPages ? 'active' : ''}
+        className={page === totalPages ? "active" : ""}
         onClick={() => handlePageClick(totalPages)}
       >
         {totalPages}
-      </PaginationButton>
+      </PaginationButton>,
     );
 
     return pagination;
@@ -154,8 +154,8 @@ export const PromoCodeTable = () => {
           <OptionButton
             ref={anchorRef}
             id="composition-button"
-            aria-controls={isOpen ? 'composition-menu' : undefined}
-            aria-expanded={isOpen ? 'true' : undefined}
+            aria-controls={isOpen ? "composition-menu" : undefined}
+            aria-expanded={isOpen ? "true" : undefined}
             aria-haspopup="true"
             onClick={handleMenuToggle}
             endIcon={<KeyboardArrowDown />}
@@ -175,7 +175,7 @@ export const PromoCodeTable = () => {
                 {...TransitionProps}
                 style={{
                   transformOrigin:
-                    placement === 'bottom-start' ? 'left top' : 'left bottom',
+                    placement === "bottom-start" ? "left top" : "left bottom",
                 }}
               >
                 <StyledPaper>
@@ -245,131 +245,131 @@ export const PromoCodeTable = () => {
 };
 
 const PromoCodeHistory = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '20px',
-  alignItems: 'center',
-  width: '100%',
-  marginTop: '20px',
+  display: "flex",
+  flexDirection: "column",
+  gap: "20px",
+  alignItems: "center",
+  width: "100%",
+  marginTop: "20px",
 }));
 
 const HistoryTitle = styled(Typography)(({ theme }) => ({
-  fontSize: '18px',
-  color: '#fff',
-  fontWeight: 'normal',
+  fontSize: "18px",
+  color: "#fff",
+  fontWeight: "normal",
 }));
 
 const HistoryAction = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  width: '100%',
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  width: "100%",
   [theme.breakpoints.down(1140)]: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    gap: '20px',
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "20px",
   },
 
   [theme.breakpoints.down(1096)]: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: '20px',
+    flexDirection: "row",
+    alignItems: "center",
+    gap: "20px",
   },
 
   [theme.breakpoints.down(540)]: {
-    flexDirection: 'column-reverse',
-    alignItems: 'flex-start',
-    gap: '20px',
+    flexDirection: "column-reverse",
+    alignItems: "flex-start",
+    gap: "20px",
   },
 }));
 
 const HistoryActionWrapper = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '10px',
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
 }));
 
 const FilterButton = styled(Button)(({ theme }) => ({
-  backgroundColor: '#0f1629',
-  borderRadius: '7px',
-  padding: '6px 15px',
-  fontSize: '14px',
-  textTransform: 'none',
+  backgroundColor: "#0f1629",
+  borderRadius: "7px",
+  padding: "6px 15px",
+  fontSize: "14px",
+  textTransform: "none",
   svg: {
-    color: '#627691',
+    color: "#627691",
   },
 }));
 
 const SearchInputContainer = styled(Box)(({ theme }) => ({
-  backgroundColor: '#0f1629',
-  borderRadius: '7px',
-  padding: '10px 15px',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '10px',
+  backgroundColor: "#0f1629",
+  borderRadius: "7px",
+  padding: "10px 15px",
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
 }));
 
 const FilterButtonContainer = styled(Box)(({ theme }) => ({
-  display: 'block',
+  display: "block",
   [theme.breakpoints.down(540)]: {
-    display: 'none',
+    display: "none",
   },
 }));
 
 const MobileSFilterButtonContainer = styled(Box)(({ theme }) => ({
-  display: 'none',
+  display: "none",
   [theme.breakpoints.down(540)]: {
-    display: 'flex',
+    display: "flex",
   },
 }));
 
 const SearchIcon = styled(Typography)(({ theme }) => ({
-  fontSize: '16px',
-  color: '#627691',
-  display: 'flex',
-  alignItems: 'center',
+  fontSize: "16px",
+  color: "#627691",
+  display: "flex",
+  alignItems: "center",
 }));
 
-const SearchInput = styled('input')(({ theme }) => ({
-  border: 'none',
-  outline: 'none',
-  background: 'none',
-  color: '#fff',
-  '::placeholder': {
-    color: '#627691',
+const SearchInput = styled("input")(({ theme }) => ({
+  border: "none",
+  outline: "none",
+  background: "none",
+  color: "#fff",
+  "::placeholder": {
+    color: "#627691",
   },
 }));
 
 const TransactionAction = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  gap: '20px',
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  gap: "20px",
 }));
 
 const OptionButton = styled(Button)(({ theme }) => ({
-  padding: '6px 12px',
-  fontSize: '12px',
-  color: '#fff',
-  borderRadius: '7px',
-  backgroundColor: '#0f1629',
-  minWidth: '0px',
+  padding: "6px 12px",
+  fontSize: "12px",
+  color: "#fff",
+  borderRadius: "7px",
+  backgroundColor: "#0f1629",
+  minWidth: "0px",
 }));
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  marginTop: '10px',
-  width: '60px',
+  marginTop: "10px",
+  width: "60px",
 }));
 
 const TableContainer = styled(Box)(({ theme }) => ({
-  width: '100%',
-  overflowX: 'auto',
+  width: "100%",
+  overflowX: "auto",
 }));
 
 const CustomTable = styled(Table)(({ theme }) => ({
-  minWidth: '420px',
-  borderCollapse: 'separate', // Enables gaps between rows
-  borderSpacing: '0 10px',
+  minWidth: "420px",
+  borderCollapse: "separate", // Enables gaps between rows
+  borderSpacing: "0 10px",
 }));
 
 interface IDItemProps {
@@ -382,91 +382,91 @@ const IDItem = (props: IDItemProps) => {
 };
 
 const IDItemContainer = styled(Box)(({ theme }) => ({
-  fontSize: '12px',
-  backgroundColor: '#171e31',
-  padding: '4px 6px',
-  borderRadius: '5px',
-  width: 'fit-content',
+  fontSize: "12px",
+  backgroundColor: "#171e31",
+  padding: "4px 6px",
+  borderRadius: "5px",
+  width: "fit-content",
 }));
 
 const MinusText = styled(Box)(({ theme }) => ({
-  backgroundColor: '#271C2D',
-  color: '#ff5a65',
-  padding: '4px 8px',
-  fontSize: '12px',
-  borderRadius: '5px',
-  width: 'fit-content',
+  backgroundColor: "#271C2D",
+  color: "#ff5a65",
+  padding: "4px 8px",
+  fontSize: "12px",
+  borderRadius: "5px",
+  width: "fit-content",
 }));
 
 const PlusText = styled(Box)(({ theme }) => ({
-  padding: '4px 8px',
-  fontSize: '12px',
-  color: '#1ae5a1',
-  width: 'fit-content',
-  borderRadius: '5px',
-  backgroundColor: '#102A33',
+  padding: "4px 8px",
+  fontSize: "12px",
+  color: "#1ae5a1",
+  width: "fit-content",
+  borderRadius: "5px",
+  backgroundColor: "#102A33",
 }));
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  color: '#627691',
-  fontSize: '12px',
-  border: 'none',
-  padding: '8px',
-  borderBottom: 'inherit',
+  color: "#627691",
+  fontSize: "12px",
+  border: "none",
+  padding: "8px",
+  borderBottom: "inherit",
   [theme.breakpoints.down(520)]: {},
 }));
 
 const StyledTableRow = styled(TableRow)({
-  backgroundColor: '#0f1629',
-  'td:first-of-type': {
-    borderTopLeftRadius: '7px',
-    borderBottomLeftRadius: '7px',
+  backgroundColor: "#0f1629",
+  "td:first-of-type": {
+    borderTopLeftRadius: "7px",
+    borderBottomLeftRadius: "7px",
   },
-  'td:last-of-type': {
-    borderTopRightRadius: '7px',
-    borderBottomRightRadius: '7px',
+  "td:last-of-type": {
+    borderTopRightRadius: "7px",
+    borderBottomRightRadius: "7px",
   },
 });
 
 const PaginationContainer = styled(Box)({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '10px',
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "10px",
 });
 
 const PaginationWrapper = styled(Box)(({ theme }) => ({
-  borderRadius: '5px',
-  backgroundColor: '#0f1629',
-  display: 'flex',
-  alignItems: 'center',
+  borderRadius: "5px",
+  backgroundColor: "#0f1629",
+  display: "flex",
+  alignItems: "center",
 }));
 
 const PaginationButton = styled(Button)(({ theme }) => ({
-  backgroundColor: '#0f1629',
-  color: '#627691',
-  border: 'none',
-  borderRadius: '5px',
-  minWidth: '36px',
-  width: '36px',
-  height: '36px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  cursor: 'pointer',
-  fontSize: '12px',
-  fontWeight: 'bold',
-  '&.active': {
-    backgroundColor: '#1ae5a1',
-    color: '#fff',
+  backgroundColor: "#0f1629",
+  color: "#627691",
+  border: "none",
+  borderRadius: "5px",
+  minWidth: "36px",
+  width: "36px",
+  height: "36px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  cursor: "pointer",
+  fontSize: "12px",
+  fontWeight: "bold",
+  "&.active": {
+    backgroundColor: "#1ae5a1",
+    color: "#fff",
   },
-  '&:disabled': {
-    opacity: '0.4',
+  "&:disabled": {
+    opacity: "0.4",
   },
 
   [theme.breakpoints.down(520)]: {
-    width: '32px',
-    height: '32px',
-    minWidth: '32px',
+    width: "32px",
+    height: "32px",
+    minWidth: "32px",
   },
 }));

@@ -1,51 +1,51 @@
-import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
-import React from 'react';
+import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
+import React from "react";
 interface ProviderProps {
   children: React.ReactNode;
 }
 
 const FRONT_COLORS_DARK = {
   primary: {
-    main: '#FFFFFF', // Green 300
-    contrastText: '#000000',
+    main: "#FFFFFF", // Green 300
+    contrastText: "#000000",
   },
   secondary: {
-    main: '#440866', // Orange 300
-    contrastText: '#FFF',
+    main: "#440866", // Orange 300
+    contrastText: "#FFF",
   },
   info: {
-    main: '#0277bd', // Light Blue 800
-    contrastText: '#FFFFFF',
+    main: "#0277bd", // Light Blue 800
+    contrastText: "#FFFFFF",
   },
   success: {
-    main: '#3861FB', // Green 800
-    contrastText: '#FFFFFF',
+    main: "#3861FB", // Green 800
+    contrastText: "#FFFFFF",
   },
   warning: {
-    main: '#f9a825', // Yellow 800
+    main: "#f9a825", // Yellow 800
     // contrastText: '#000000',
-    contrastText: '#FFFFFF',
+    contrastText: "#FFFFFF",
   },
   error: {
-    main: '#c62828', // Red 800
-    contrastText: '#FFFFFF',
+    main: "#c62828", // Red 800
+    contrastText: "#FFFFFF",
   },
 };
 
 const DARK_THEME: any = {
   typography: {
-    fontFamily: 'inherit', // Your custom font family
+    fontFamily: "inherit", // Your custom font family
   },
   components: {
     // Global styles for animations
     MuiCssBaseline: {
       styleOverrides: {
-        '@keyframes scroll-images': {
-          '0%': {
-            transform: 'translateX(0)',
+        "@keyframes scroll-images": {
+          "0%": {
+            transform: "translateX(0)",
           },
-          '100%': {
-            transform: 'translateX(-50%)',
+          "100%": {
+            transform: "translateX(-50%)",
           },
         },
       },
@@ -63,10 +63,10 @@ const DARK_THEME: any = {
     },
   },
   palette: {
-    mode: 'dark',
+    mode: "dark",
     background: {
-      paper: '#0C1221', // Gray 800 - Background of "Paper" based component
-      default: '#0C1221',
+      paper: "#0C1221", // Gray 800 - Background of "Paper" based component
+      default: "#0C1221",
     },
     ...FRONT_COLORS_DARK,
   },

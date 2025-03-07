@@ -1,4 +1,4 @@
-import { Box, styled } from '@mui/material';
+import { Box, styled } from "@mui/material";
 
 interface ReferralLinkProps {
   icon: React.ReactNode;
@@ -14,13 +14,13 @@ export const ReferralLink = (props: ReferralLinkProps) => {
   );
 };
 
-const ReferralLinkContainer = styled('a')(({ theme }) => ({
-  outline: 'none',
-  textDecoration: 'none',
+const ReferralLinkContainer = styled("a")(({ theme }) => ({
+  outline: "none",
+  textDecoration: "none",
 }));
 
 const ReferralLinkIcon = styled(Box)(({ theme }) => ({
-  width: '20px',
-  height: '20px',
-  color: '#627691',
+  width: "20px",
+  height: "20px",
+  color: "#627691",
 }));

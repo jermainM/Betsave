@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Button,
@@ -17,14 +17,14 @@ import {
   TableRow,
   Tabs,
   Typography,
-} from '@mui/material';
-import { LuBadgeDollarSign } from 'react-icons/lu';
+} from "@mui/material";
+import { LuBadgeDollarSign } from "react-icons/lu";
 import {
   KeyboardArrowDown,
   KeyboardArrowLeft,
   KeyboardArrowRight,
-} from '@mui/icons-material';
-import { TempUserIcon, VectorIcon } from '../../constants/images';
+} from "@mui/icons-material";
+import { TempUserIcon, VectorIcon } from "../../constants/images";
 
 interface Row {
   rank: number;
@@ -50,10 +50,10 @@ export const LeaderBoardTable = () => {
   };
 
   function handleListKeyDown(event: React.KeyboardEvent) {
-    if (event.key === 'Tab') {
+    if (event.key === "Tab") {
       event.preventDefault();
       setOpen(false);
-    } else if (event.key === 'Escape') {
+    } else if (event.key === "Escape") {
       setOpen(false);
     }
   }
@@ -72,9 +72,9 @@ export const LeaderBoardTable = () => {
 
   const rows: Row[] = Array.from({ length: 100 }, (_, i) => ({
     rank: i + 4,
-    user: 'abirdesigns',
-    earnings: '$2,893.00',
-    prize: '$2,893.00',
+    user: "abirdesigns",
+    earnings: "$2,893.00",
+    prize: "$2,893.00",
   }));
 
   const totalPages: number = Math.ceil(rows.length / rowsPerPage);
@@ -89,11 +89,11 @@ export const LeaderBoardTable = () => {
     pagination.push(
       <PaginationButton
         key={1}
-        className={page === 1 ? 'active' : ''}
+        className={page === 1 ? "active" : ""}
         onClick={() => handlePageClick(1)}
       >
         1
-      </PaginationButton>
+      </PaginationButton>,
     );
 
     if (page > 3) {
@@ -103,7 +103,7 @@ export const LeaderBoardTable = () => {
           onClick={() => handlePageClick(page - 2)}
         >
           ...
-        </PaginationButton>
+        </PaginationButton>,
       );
     }
 
@@ -114,11 +114,11 @@ export const LeaderBoardTable = () => {
       pagination.push(
         <PaginationButton
           key={i}
-          className={page === i ? 'active' : ''}
+          className={page === i ? "active" : ""}
           onClick={() => handlePageClick(i)}
         >
           {i}
-        </PaginationButton>
+        </PaginationButton>,
       );
     }
 
@@ -129,18 +129,18 @@ export const LeaderBoardTable = () => {
           onClick={() => handlePageClick(page + 2)}
         >
           ...
-        </PaginationButton>
+        </PaginationButton>,
       );
     }
 
     pagination.push(
       <PaginationButton
         key={totalPages}
-        className={page === totalPages ? 'active' : ''}
+        className={page === totalPages ? "active" : ""}
         onClick={() => handlePageClick(totalPages)}
       >
         {totalPages}
-      </PaginationButton>
+      </PaginationButton>,
     );
 
     return pagination;
@@ -149,7 +149,7 @@ export const LeaderBoardTable = () => {
   function a11yProps(index: number) {
     return {
       id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
     };
   }
 
@@ -182,8 +182,8 @@ export const LeaderBoardTable = () => {
         <OptionButton
           ref={anchorRef}
           id="composition-button"
-          aria-controls={isOpen ? 'composition-menu' : undefined}
-          aria-expanded={isOpen ? 'true' : undefined}
+          aria-controls={isOpen ? "composition-menu" : undefined}
+          aria-expanded={isOpen ? "true" : undefined}
           aria-haspopup="true"
           onClick={handleMenuToggle}
           endIcon={<KeyboardArrowDown />}
@@ -203,7 +203,7 @@ export const LeaderBoardTable = () => {
               {...TransitionProps}
               style={{
                 transformOrigin:
-                  placement === 'bottom-start' ? 'left top' : 'left bottom',
+                  placement === "bottom-start" ? "left top" : "left bottom",
               }}
             >
               <StyledPaper>
@@ -279,118 +279,118 @@ export const LeaderBoardTable = () => {
 };
 
 const Container = styled(Box)(({ theme }) => ({
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '20px',
-  marginTop: '100px',
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  gap: "20px",
+  marginTop: "100px",
 }));
 
 const LeaderBoardAction = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  width: '100%',
-  alignItems: 'center',
-  justifyContent: 'space-between',
+  display: "flex",
+  width: "100%",
+  alignItems: "center",
+  justifyContent: "space-between",
 }));
 
 const TabbarContainer = styled(Box)(({ theme }) => ({
-  borderRadius: '7px',
-  backgroundColor: '#0f1629',
-  display: 'flex',
-  alignItems: 'center',
+  borderRadius: "7px",
+  backgroundColor: "#0f1629",
+  display: "flex",
+  alignItems: "center",
 }));
 
 const OptionButton = styled(Button)(({ theme }) => ({
-  padding: '6px 12px',
-  fontSize: '12px',
-  color: '#fff',
-  borderRadius: '7px',
-  backgroundColor: '#0f1629',
-  minWidth: '0px',
+  padding: "6px 12px",
+  fontSize: "12px",
+  color: "#fff",
+  borderRadius: "7px",
+  backgroundColor: "#0f1629",
+  minWidth: "0px",
 }));
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  marginTop: '10px',
-  width: '60px',
+  marginTop: "10px",
+  width: "60px",
 }));
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  color: '#fff',
-  fontSize: '14px',
-  border: 'none',
+  color: "#fff",
+  fontSize: "14px",
+  border: "none",
   [theme.breakpoints.down(520)]: {
-    padding: '8px',
+    padding: "8px",
   },
 }));
 
 const StyledTableRow = styled(TableRow)({
-  '&:nth-of-type(even)': {
-    backgroundColor: 'transparent',
+  "&:nth-of-type(even)": {
+    backgroundColor: "transparent",
   },
-  '&:nth-of-type(odd)': {
-    backgroundColor: '#0f1629',
+  "&:nth-of-type(odd)": {
+    backgroundColor: "#0f1629",
   },
 
-  'td:first-of-type': {
-    borderTopLeftRadius: '7px',
-    borderBottomLeftRadius: '7px',
+  "td:first-of-type": {
+    borderTopLeftRadius: "7px",
+    borderBottomLeftRadius: "7px",
   },
-  'td:last-of-type': {
-    borderTopRightRadius: '7px',
-    borderBottomRightRadius: '7px',
+  "td:last-of-type": {
+    borderTopRightRadius: "7px",
+    borderBottomRightRadius: "7px",
   },
 });
 
 const PaginationContainer = styled(Box)({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  gap: '10px',
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  gap: "10px",
 });
 
 const PaginationWrapper = styled(Box)(({ theme }) => ({
-  borderRadius: '5px',
-  backgroundColor: '#0f1629',
-  display: 'flex',
-  alignItems: 'center',
+  borderRadius: "5px",
+  backgroundColor: "#0f1629",
+  display: "flex",
+  alignItems: "center",
 }));
 
 const PaginationButton = styled(Button)(({ theme }) => ({
-  backgroundColor: '#0f1629',
-  color: '#627691',
-  border: 'none',
-  borderRadius: '5px',
-  minWidth: '45px',
-  width: '45px',
-  height: '45px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  cursor: 'pointer',
-  fontSize: '14px',
-  fontWeight: 'bold',
-  '&.active': {
-    backgroundColor: '#1ae5a1',
-    color: '#fff',
+  backgroundColor: "#0f1629",
+  color: "#627691",
+  border: "none",
+  borderRadius: "5px",
+  minWidth: "45px",
+  width: "45px",
+  height: "45px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  cursor: "pointer",
+  fontSize: "14px",
+  fontWeight: "bold",
+  "&.active": {
+    backgroundColor: "#1ae5a1",
+    color: "#fff",
   },
-  '&:disabled': {
-    opacity: '0.4',
+  "&:disabled": {
+    opacity: "0.4",
   },
 
   [theme.breakpoints.down(520)]: {
-    width: '32px',
-    height: '32px',
-    minWidth: '32px',
+    width: "32px",
+    height: "32px",
+    minWidth: "32px",
   },
 }));
 
 const TableContainer = styled(Box)(({ theme }) => ({
-  width: '100%',
-  overflowX: 'auto',
+  width: "100%",
+  overflowX: "auto",
 }));
 
 const CustomTable = styled(Table)(({ theme }) => ({
-  minWidth: '420px',
+  minWidth: "420px",
 }));
 
 interface RankItemProps {
@@ -408,25 +408,25 @@ const RankItem = (props: RankItemProps) => {
 };
 
 const RankItemContainer = styled(Box)(({ theme }) => ({
-  width: '25px',
-  height: '25px',
-  position: 'relative',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  width: "25px",
+  height: "25px",
+  position: "relative",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 }));
 
-const RankImg = styled('img')(({ theme }) => ({
-  width: '100%',
-  height: '100%',
-  zIndex: '0',
+const RankImg = styled("img")(({ theme }) => ({
+  width: "100%",
+  height: "100%",
+  zIndex: "0",
 }));
 
 const RankLabel = styled(Typography)(({ theme }) => ({
-  color: '#fff',
-  fontSize: '12px',
-  position: 'absolute',
-  zIndex: '1',
+  color: "#fff",
+  fontSize: "12px",
+  position: "absolute",
+  zIndex: "1",
 }));
 
 interface UserItemProps {
@@ -445,53 +445,53 @@ const UserItem = (props: UserItemProps) => {
 };
 
 const UserItemContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '10px',
+  display: "flex",
+  alignItems: "center",
+  gap: "10px",
 }));
 
-const UserImg = styled('img')(({ theme }) => ({
-  borderRadius: '50%',
-  width: '24px',
-  height: '24px',
+const UserImg = styled("img")(({ theme }) => ({
+  borderRadius: "50%",
+  width: "24px",
+  height: "24px",
 }));
 
 const UserName = styled(Typography)(({ theme }) => ({
-  fontSize: '14px',
-  color: '#fff',
+  fontSize: "14px",
+  color: "#fff",
 }));
 
 const EarningText = styled(Box)(({ theme }) => ({
-  padding: '4px 8px',
-  fontSize: '14px',
-  color: '#fff',
-  width: 'fit-content',
-  backgroundColor: '#171e31',
-  borderRadius: '5px',
+  padding: "4px 8px",
+  fontSize: "14px",
+  color: "#fff",
+  width: "fit-content",
+  backgroundColor: "#171e31",
+  borderRadius: "5px",
 }));
 
 const PrizeText = styled(Box)(({ theme }) => ({
-  padding: '4px 8px',
-  fontSize: '14px',
-  color: '#1AE5A1',
-  width: 'fit-content',
-  backgroundColor: '#102A33',
-  borderRadius: '5px',
+  padding: "4px 8px",
+  fontSize: "14px",
+  color: "#1AE5A1",
+  width: "fit-content",
+  backgroundColor: "#102A33",
+  borderRadius: "5px",
 }));
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
-  '& .MuiTabs-indicator': {
-    backgroundColor: '#1AE5A1',
+  "& .MuiTabs-indicator": {
+    backgroundColor: "#1AE5A1",
   },
-  '& .Mui-selected': {
-    background: 'linear-gradient(to bottom,#0f1629 40%,#15A373 200%)',
+  "& .Mui-selected": {
+    background: "linear-gradient(to bottom,#0f1629 40%,#15A373 200%)",
   },
 }));
 
 const StyledTab = styled(Tab)(({ theme }) => ({
-  minHeight: '48px',
+  minHeight: "48px",
   svg: {
-    width: '18px',
-    height: '18px',
+    width: "18px",
+    height: "18px",
   },
 }));

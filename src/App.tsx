@@ -1,13 +1,13 @@
-import { Suspense, useEffect, useState } from 'react';
-import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
-import { Landing } from './pages';
-import { Provider } from './provider';
-import { Layout } from './layout';
-import { EarnMoney } from './pages/earn';
-import { BetSmart } from './pages/bet';
-import { Dashboard } from './pages/dashboard';
-import { AccountManage } from './pages/account';
-import { Loader } from './components/loader';
+import { Suspense, useEffect, useState } from "react";
+import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+import { Landing } from "./pages";
+import { Provider } from "./provider";
+import { Layout } from "./layout";
+import { EarnMoney } from "./pages/earn";
+import { BetSmart } from "./pages/bet";
+import { Dashboard } from "./pages/dashboard";
+import { AccountManage } from "./pages/account";
+import { Loader } from "./components/loader";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);

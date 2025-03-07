@@ -1,15 +1,15 @@
-import { useSelector } from 'react-redux';
-import { Box, styled } from '@mui/material';
+import { useSelector } from "react-redux";
+import { Box, styled } from "@mui/material";
 
-import { RootState } from '../../store';
-import { MyOffer } from './myoffer';
-import { PromotionalOffer } from './promotional-offers';
-import { Withdraw } from './withdraw';
-import { LeaderBoard } from './leaderboard';
-import { Affiliates } from './affiliates';
-import { Referrals } from './referrals';
-import { Reward } from './reward';
-import { AvailableOffer } from './available-offer';
+import { RootState } from "../../store";
+import { MyOffer } from "./myoffer";
+import { PromotionalOffer } from "./promotional-offers";
+import { Withdraw } from "./withdraw";
+import { LeaderBoard } from "./leaderboard";
+import { Affiliates } from "./affiliates";
+import { Referrals } from "./referrals";
+import { Reward } from "./reward";
+import { AvailableOffer } from "./available-offer";
 
 export const Dashboard = () => {
   const activeItem = useSelector((state: RootState) => state.navbar.activeItem);
@@ -28,8 +28,8 @@ export const Dashboard = () => {
 };
 
 const DashboardContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  width: '100%',
-  padding: '20px 0px',
-  marginTop: '20px',
+  display: "flex",
+  width: "100%",
+  padding: "20px 0px",
+  marginTop: "20px",
 }));

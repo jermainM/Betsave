@@ -1,5 +1,5 @@
-import { Box, styled } from '@mui/material';
-import { CashbackHistoryTable } from '../../components/table/transaction';
+import { Box, styled } from "@mui/material";
+import { CashbackHistoryTable } from "../../components/table/transaction";
 
 export const History = () => {
   return (
@@ -10,8 +10,8 @@ export const History = () => {
 };
 
 const Container = styled(Box)(({ theme }) => ({
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '20px',
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  gap: "20px",
 }));

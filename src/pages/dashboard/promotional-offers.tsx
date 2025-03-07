@@ -1,12 +1,12 @@
-import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
-import { Box, IconButton, styled, Typography } from '@mui/material';
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
+import { Box, IconButton, styled, Typography } from "@mui/material";
 
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 // import required modules
 import {
@@ -15,12 +15,12 @@ import {
   Navigation,
   Autoplay,
   FreeMode,
-} from 'swiper/modules';
-import { useState } from 'react';
+} from "swiper/modules";
+import { useState } from "react";
 
-import { CashOfferCard } from '../../components/card/CashOfferCard';
-import { EmptyBox } from '../../components/box/EmptyBox';
-import { GreenPromoOfferPng } from '../../constants/images';
+import { CashOfferCard } from "../../components/card/CashOfferCard";
+import { EmptyBox } from "../../components/box/EmptyBox";
+import { GreenPromoOfferPng } from "../../constants/images";
 
 export const PromotionalOffer = () => {
   const [isEmpty, setEmpty] = useState(false);
@@ -57,14 +57,14 @@ export const PromotionalOffer = () => {
       ) : (
         <PromotionalOfferwiper>
           <CustomSwiper
-            slidesPerView={'auto'}
+            slidesPerView={"auto"}
             freeMode={true}
             keyboard={{
               enabled: true,
             }}
             navigation={{
-              nextEl: '.myoffer-swiper-button-next',
-              prevEl: '.myoffer-swiper-button-prev',
+              nextEl: ".myoffer-swiper-button-next",
+              prevEl: ".myoffer-swiper-button-prev",
             }}
             modules={[Keyboard, Pagination, Navigation, Autoplay, FreeMode]}
             className="mySwiper"
@@ -82,94 +82,94 @@ export const PromotionalOffer = () => {
 };
 
 const PromotionalOfferContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '40px',
-  width: '100%',
+  display: "flex",
+  flexDirection: "column",
+  gap: "40px",
+  width: "100%",
 }));
 
 const Heading = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  width: '100%',
-  height: 'fit-content',
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  width: "100%",
+  height: "fit-content",
   [theme.breakpoints.down(680)]: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    gap: '8px',
+    flexDirection: "column",
+    alignItems: "flex-start",
+    gap: "8px",
   },
 }));
 
 const HeadingTitle = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  fontSize: '24px',
-  color: '#fff',
-  fontWeight: 'bold',
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  fontSize: "24px",
+  color: "#fff",
+  fontWeight: "bold",
 }));
 
 const HeadingTitleIcon = styled(Box)(({ theme }) => ({
-  width: '36px',
-  height: '36px',
+  width: "36px",
+  height: "36px",
   img: {
-    width: '100%',
-    height: 'auto',
+    width: "100%",
+    height: "auto",
   },
 }));
 
 const HeadingAction = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  color: '#627691',
-  fontSize: '18px',
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  color: "#627691",
+  fontSize: "18px",
   [theme.breakpoints.down(480)]: {
-    fontSize: '14px',
+    fontSize: "14px",
   },
 }));
 
 const HeadingActionButton = styled(IconButton)(({ theme }) => ({
-  backgroundColor: '#171e31',
-  borderRadius: '7px',
-  width: '40px',
-  height: '40px',
-  '&:hover': {
-    backgroundColor: '#171e31',
+  backgroundColor: "#171e31",
+  borderRadius: "7px",
+  width: "40px",
+  height: "40px",
+  "&:hover": {
+    backgroundColor: "#171e31",
   },
   [theme.breakpoints.down(480)]: {
-    fontSize: '14px',
-    width: '32px',
-    height: '32px',
+    fontSize: "14px",
+    width: "32px",
+    height: "32px",
   },
 }));
 
 const PromotionalOfferwiper = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  width: '100%',
+  display: "flex",
+  width: "100%",
 }));
 
 const CustomSwiper = styled(Swiper)(({ theme }) => ({
-  '.swiper-wrapper': {
-    width: 'auto',
-    gap: '10px',
+  ".swiper-wrapper": {
+    width: "auto",
+    gap: "10px",
   },
-  '.swiper-slide': {
-    width: 'auto',
+  ".swiper-slide": {
+    width: "auto",
   },
 }));
 
 const HeadingTitleContainer = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '30px',
+  display: "flex",
+  flexDirection: "column",
+  gap: "30px",
 }));
 
 const HeadingContent = styled(Typography)(({ theme }) => ({
-  color: '#627691',
-  fontSize: '16px',
+  color: "#627691",
+  fontSize: "16px",
   [theme.breakpoints.down(480)]: {
-    fontSize: '14px',
+    fontSize: "14px",
   },
 }));

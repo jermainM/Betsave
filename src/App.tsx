@@ -11,9 +11,7 @@ import { Loader } from "./components/loader";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    console.log({ isLoading });
-  }, [isLoading]);
+
   return (
     <Suspense fallback={<Loader onComplete={() => setIsLoading(false)} />}>
       {isLoading ? (

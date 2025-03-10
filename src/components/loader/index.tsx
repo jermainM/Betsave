@@ -14,28 +14,38 @@ export const Loader = (props: LoaderProps) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    const minDuration = 2000; // Minimum loader time (2s)
+    const startTime = Date.now();
+
     const updateProgress = () => {
-      setProgress((prev) => (prev < 100 ? prev + 5 : 100));
+      setProgress((prev) => (prev < 95 ? prev + 5 : prev)); // Don't jump to 100% immediately
     };
 
     const interval = setInterval(updateProgress, 100); // Update every 100ms
-    console.log("Before handleLoad");
+
     const handleLoad = () => {
-      clearInterval(interval);
-      setProgress(100);
-      console.log("Page Loaded", interval);
-      setTimeout(onComplete, 500);
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, minDuration - elapsedTime);
+
+      setTimeout(() => {
+        clearInterval(interval);
+        setProgress(100);
+        onComplete();
+      }, remainingTime);
     };
 
     if (document.readyState === "complete") {
-      // Page is already loaded, trigger immediately
-      handleLoad();
+      handleLoad(); // If already loaded, wait for minDuration
     } else {
       window.addEventListener("load", handleLoad);
     }
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("load", handleLoad);
+    };
   }, [onComplete]);
+
   return (
     <Container>
       <LoaderContainer>

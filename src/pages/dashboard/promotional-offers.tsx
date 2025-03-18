@@ -26,7 +26,6 @@ import { calculateOfferStatus } from "../../utils/offer";
 import { Row } from "../../constants/interfaces";
 
 export const PromotionalOffer = () => {
-  const [isEmpty, setEmpty] = useState(false);
   const [offers, setOffers] = useState<Row[]>([]);
   const fetchOffers = async () => {
     const offers = await offerService.getOffers();
@@ -64,7 +63,7 @@ export const PromotionalOffer = () => {
             Don't miss out on limited-time offers
           </HeadingContent>
         </HeadingTitleContainer>
-        {!isEmpty && (
+        {offers.length > 0 && (
           <HeadingAction>
             <p>View All</p>
             <HeadingActionButton className="myoffer-swiper-button-prev">
@@ -76,7 +75,7 @@ export const PromotionalOffer = () => {
           </HeadingAction>
         )}
       </Heading>
-      {isEmpty ? (
+      {offers.length === 0 ? (
         <EmptyBox />
       ) : (
         <PromotionalOfferwiper>

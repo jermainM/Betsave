@@ -1,7 +1,42 @@
-import { Box, styled, Typography } from "@mui/material";
+import { Box, IconButton, styled, Typography } from "@mui/material";
 import { GreenAbleOfferPng } from "../../constants/images";
+import { CashOfferCard } from "../../components/card/CashOfferCard";
+import { Keyboard } from "swiper/modules";
+import { useEffect, useState } from "react";
+import { Row } from "../../constants/interfaces";
+import { offerService } from "../../api/services/offerService";
+import { calculateOfferStatus } from "../../utils/offer";
+import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
+import { EmptyBox } from "../../components/box/EmptyBox";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode, Autoplay, Navigation, Pagination } from "swiper/modules";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 export const AvailableOffer = () => {
+  const [offers, setOffers] = useState<Row[]>([]);
+  const fetchOffers = async () => {
+    const offers = await offerService.getOffers();
+    const offersData = offers.data.map((offer: any, idx: number) => ({
+      id: idx,
+      _id: offer._id,
+      image: offer.image,
+      title: offer.title,
+      description: offer.description,
+      startDate: offer.startDate,
+      endDate: offer.endDate,
+      status: calculateOfferStatus(offer.startDate, offer.endDate),
+      affiliateLink: offer.affiliateLink,
+    }));
+    setOffers(offersData);
+  };
+
+  useEffect(() => {
+    fetchOffers();
+  }, []);
   return (
     <Container>
       <Heading>
@@ -17,7 +52,47 @@ export const AvailableOffer = () => {
             they expire
           </HeadingContent>
         </HeadingTitleContainer>
+        {offers.length > 0 && (
+          <HeadingAction>
+            <p>View All</p>
+            <HeadingActionButton className="myoffer-swiper-button-prev">
+              <KeyboardArrowLeft />
+            </HeadingActionButton>
+            <HeadingActionButton className="myoffer-swiper-button-next">
+              <KeyboardArrowRight />
+            </HeadingActionButton>
+          </HeadingAction>
+        )}
       </Heading>
+      {offers.length === 0 ? (
+        <EmptyBox />
+      ) : (
+        <AvailableOfferwiper>
+          <CustomSwiper
+            slidesPerView={"auto"}
+            freeMode={true}
+            keyboard={{
+              enabled: true,
+            }}
+            navigation={{
+              nextEl: ".myoffer-swiper-button-next",
+              prevEl: ".myoffer-swiper-button-prev",
+            }}
+            modules={[Keyboard, Pagination, Navigation, Autoplay, FreeMode]}
+            className="mySwiper"
+          >
+            {offers.map((offer, idx) => (
+              <SwiperSlide key={idx}>
+                <CashOfferCard
+                  image={offer.image}
+                  title={offer.title}
+                  affiliateLink={offer.affiliateLink}
+                />
+              </SwiperSlide>
+            ))}
+          </CustomSwiper>
+        </AvailableOfferwiper>
+      )}
     </Container>
   );
 };
@@ -71,5 +146,46 @@ const HeadingContent = styled(Typography)(({ theme }) => ({
   fontSize: "16px",
   [theme.breakpoints.down(480)]: {
     fontSize: "14px",
+  },
+}));
+
+const HeadingAction = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  color: "#627691",
+  fontSize: "18px",
+  [theme.breakpoints.down(480)]: {
+    fontSize: "14px",
+  },
+}));
+
+const HeadingActionButton = styled(IconButton)(({ theme }) => ({
+  backgroundColor: "#171e31",
+  borderRadius: "7px",
+  width: "40px",
+  height: "40px",
+  "&:hover": {
+    backgroundColor: "#171e31",
+  },
+  [theme.breakpoints.down(480)]: {
+    fontSize: "14px",
+    width: "32px",
+    height: "32px",
+  },
+}));
+
+const AvailableOfferwiper = styled(Box)(({ theme }) => ({
+  display: "flex",
+  width: "100%",
+}));
+
+const CustomSwiper = styled(Swiper)(({ theme }) => ({
+  ".swiper-wrapper": {
+    width: "auto",
+    gap: "10px",
+  },
+  ".swiper-slide": {
+    width: "auto",
   },
 }));

@@ -1,5 +1,5 @@
 import { Box, Button, IconButton, styled, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { DiAndroid } from "react-icons/di";
 import { FaCircleCheck } from "react-icons/fa6";
 import { FaDesktop, FaApple } from "react-icons/fa";
@@ -23,9 +23,32 @@ import {
 } from "swiper/modules";
 import { EmptyBox } from "../../components/box/EmptyBox";
 import { GreenMyOfferPng } from "../../constants/images";
+import { offerService } from "../../api/services/offerService";
+import { calculateOfferStatus } from "../../utils/offer";
+import { Row } from "../../constants/interfaces";
 
 export const MyOffer = () => {
   const [isEmpty, setEmpty] = useState(false);
+  const [offers, setOffers] = useState<Row[]>([]);
+  const fetchOffers = async () => {
+    const offers = await offerService.getOffers();
+    const offersData = offers.data.map((offer: any, idx: number) => ({
+      id: idx,
+      _id: offer._id,
+      image: offer.image,
+      title: offer.title,
+      description: offer.description,
+      startDate: offer.startDate,
+      endDate: offer.endDate,
+      status: calculateOfferStatus(offer.startDate, offer.endDate),
+      affiliateLink: offer.affiliateLink,
+    }));
+    setOffers(offersData);
+  };
+
+  useEffect(() => {
+    fetchOffers();
+  }, []);
   return (
     <MyOfferContainer>
       {/* <MyOfferHeader>
@@ -81,9 +104,13 @@ export const MyOffer = () => {
             modules={[Keyboard, Pagination, Navigation, Autoplay, FreeMode]}
             className="mySwiper"
           >
-            {[...Array(15)].map((_, idx) => (
+            {offers.map((offer, idx) => (
               <SwiperSlide key={idx}>
-                <CashOfferCard />
+                <CashOfferCard
+                  image={offer.image}
+                  title={offer.title}
+                  affiliateLink={offer.affiliateLink}
+                />
               </SwiperSlide>
             ))}
           </CustomSwiper>

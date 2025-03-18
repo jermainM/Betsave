@@ -16,14 +16,38 @@ import {
   Autoplay,
   FreeMode,
 } from "swiper/modules";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { CashOfferCard } from "../../components/card/CashOfferCard";
 import { EmptyBox } from "../../components/box/EmptyBox";
 import { GreenPromoOfferPng } from "../../constants/images";
+import { offerService } from "../../api/services/offerService";
+import { calculateOfferStatus } from "../../utils/offer";
+import { Row } from "../../constants/interfaces";
 
 export const PromotionalOffer = () => {
   const [isEmpty, setEmpty] = useState(false);
+  const [offers, setOffers] = useState<Row[]>([]);
+  const fetchOffers = async () => {
+    const offers = await offerService.getOffers();
+    const offersData = offers.data.map((offer: any, idx: number) => ({
+      id: idx,
+      _id: offer._id,
+      image: offer.image,
+      title: offer.title,
+      description: offer.description,
+      startDate: offer.startDate,
+      endDate: offer.endDate,
+      status: calculateOfferStatus(offer.startDate, offer.endDate),
+      affiliateLink: offer.affiliateLink,
+    }));
+    setOffers(offersData);
+  };
+
+  useEffect(() => {
+    fetchOffers();
+  }, []);
+
   return (
     <PromotionalOfferContainer>
       <Heading>
@@ -37,7 +61,7 @@ export const PromotionalOffer = () => {
           <HeadingContent>
             Unlock exclusive deals and rewards tailored just for you.
             <br />
-            Don’t miss out on limited-time offers
+            Don't miss out on limited-time offers
           </HeadingContent>
         </HeadingTitleContainer>
         {!isEmpty && (
@@ -69,9 +93,13 @@ export const PromotionalOffer = () => {
             modules={[Keyboard, Pagination, Navigation, Autoplay, FreeMode]}
             className="mySwiper"
           >
-            {[...Array(15)].map((_, idx) => (
+            {offers.map((offer, idx) => (
               <SwiperSlide key={idx}>
-                <CashOfferCard />
+                <CashOfferCard
+                  image={offer.image}
+                  title={offer.title}
+                  affiliateLink={offer.affiliateLink}
+                />
               </SwiperSlide>
             ))}
           </CustomSwiper>

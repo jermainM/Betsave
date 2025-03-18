@@ -89,6 +89,7 @@ import Layer87Img from "../assets/Layer-87.jpg";
 import Layer94Img from "../assets/Layer-94.jpg";
 import GiftIcon from "../assets/gift.png";
 import HorseImg from "../assets/horse.png";
+import BetfuryImg from "../assets/betfury.png";
 
 export {
   GreenTransparentPayoutIcon,
@@ -174,4 +175,5 @@ export {
   HorseImg,
   GreenChipCoinIcon,
   GreenCoin,
+  BetfuryImg
 };

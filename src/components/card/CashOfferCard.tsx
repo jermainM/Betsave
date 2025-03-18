@@ -1,5 +1,4 @@
 import { Box, styled, Typography, Button } from "@mui/material";
-import { BetfuryImg } from "../../constants/images";
 
 interface CardProps {
   image: string;
@@ -19,12 +18,7 @@ export const CashOfferCard = (props: CardProps) => {
       <CardWrapper>
         <CardTitle>{title}</CardTitle>
         <CardContent onClick={handleClick}>Casino/{title}</CardContent>
-        <CashbackLabel>
-          Cashback:{" "}
-          <CashbackValue>
-            <span>3</span>.5%
-          </CashbackValue>
-        </CashbackLabel>
+        <CashbackLabel>Cashback: 3.5%</CashbackLabel>
         <JoinButton variant="contained">Join</JoinButton>
       </CardWrapper>
     </CardContainer>
@@ -37,9 +31,10 @@ const CardContainer = styled(Box)(({ theme }) => ({
   borderRadius: "16px",
   display: "flex",
   flexDirection: "column",
-  padding: "16px",
-  gap: "16px",
-  width: "220px",
+  padding: "25px 20px 20px 20px",
+  gap: "12px",
+  width: "210px",
+  height: "fit-content",
   marginTop: "8px",
   marginBottom: "8px",
   cursor: "pointer",
@@ -63,31 +58,30 @@ const CardContainer = styled(Box)(({ theme }) => ({
 }));
 
 const CardImg = styled("img")(({ theme }) => ({
-  width: "110px",
-  height: "110px",
-  borderRadius: "20px",
+  width: "100px",
+  height: "100px",
+  borderRadius: "16px",
   alignSelf: "center",
-  padding: "8px",
+  padding: "6px",
   border: "2px dashed rgba(255, 255, 255, 0.2)",
 }));
 
 const CardWrapper = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  gap: "8px",
   alignItems: "center",
   textAlign: "center",
 }));
 
 const CardTitle = styled(Typography)(({ theme }) => ({
-  fontSize: "20px",
+  fontSize: "15px",
   fontWeight: "600",
   color: "#fff",
   lineHeight: 1.2,
 }));
 
 const CardContent = styled("a")(({ theme }) => ({
-  fontSize: "12px",
+  fontSize: "10px",
   color: "#627690",
   marginBottom: "4px",
   cursor: "pointer",
@@ -99,29 +93,26 @@ const CardContent = styled("a")(({ theme }) => ({
 }));
 
 const CashbackLabel = styled(Typography)(({ theme }) => ({
-  fontSize: "14px",
+  fontSize: "16px",
   color: "#1ae5a1",
   display: "flex",
   alignItems: "center",
   gap: "4px",
-  marginBottom: "12px",
+  marginBottom: "10px",
 }));
 
 const CashbackValue = styled("span")(({ theme }) => ({
-  fontSize: "20px",
+  fontSize: "16px",
   fontWeight: "600",
   color: "#1ae5a1",
-  "& span": {
-    fontSize: "26px",
-  },
 }));
 
 const JoinButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#1ae5a1",
   color: "#171e30",
-  fontSize: "14px",
-  fontWeight: "600",
-  padding: "6px 32px",
+  fontSize: "15px",
+  fontWeight: "bold",
+  padding: "5px 25px",
   borderRadius: "8px",
   textTransform: "none",
   "&:hover": {

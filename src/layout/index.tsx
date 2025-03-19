@@ -1,9 +1,12 @@
 import React from "react";
 import { Box, styled } from "@mui/material";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { RootState } from "../store";
 
 import { Header } from "./header";
 import { Footer } from "./footer";
-import { useLocation } from "react-router-dom";
 import { NavBar } from "./navbar";
 
 interface LayoutProps {
@@ -12,14 +15,11 @@ interface LayoutProps {
 
 export const Layout = (props: LayoutProps) => {
   const { children } = props;
-  const location = useLocation();
+  const { isAuthenticated } = useSelector((state: RootState) => state.session);
 
-  const beforeLogin = ["/", "/earn", "/bet"];
-
-  const isBeforeLogin = beforeLogin.includes(location.pathname);
   return (
     <LayoutContainer>
-      {isBeforeLogin ? (
+      {!isAuthenticated ? (
         <>
           <Header />
           <Wrapper>

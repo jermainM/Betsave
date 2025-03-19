@@ -13,6 +13,7 @@ import {
   MenuProps,
   styled,
   Typography,
+  MenuItem,
 } from "@mui/material";
 import {
   AccessTime,
@@ -22,6 +23,7 @@ import {
   Search,
 } from "@mui/icons-material";
 import { BsFillChatDotsFill } from "react-icons/bs";
+import { FaUser, FaSignOutAlt } from "react-icons/fa";
 
 import { IconInput } from "../components/input/IconInput";
 
@@ -38,28 +40,74 @@ import {
   HandMoneyIcon,
   JonahAvatarIcon,
 } from "../constants/images";
+import { clearSession } from "../store/slices/sessionSlice";
+
+const StyledMenu = styled(Menu)(({ theme }) => ({
+  "& .MuiPaper-root": {
+    backgroundColor: "#0f1629",
+    backgroundImage: "none",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    borderRadius: "8px",
+    marginTop: "8px",
+    minWidth: "200px",
+    padding: "8px",
+    ul: {
+      paddingTop: "0px",
+      paddingBottom: "0px",
+    },
+  },
+}));
+
+const MenuListItem = styled(MenuItem)(({ theme }) => ({
+  color: "#627691",
+  padding: "12px 16px",
+  borderRadius: "8px",
+  margin: "4px 0",
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+  "&:hover": {
+    backgroundColor: "rgba(255, 255, 255, 0.08)",
+  },
+  "& .MuiListItemIcon-root": {
+    minWidth: "24px",
+    color: "#627691",
+  },
+}));
 
 export const NavBar = (props: { children: React.ReactNode }) => {
   const { children } = props;
   const [searchText, setSearchText] = useState("");
   const [selectedItem, setSelectedItem] = useState(0);
   const [isExpand, setExpand] = useState(true);
-
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [sidebarAnchorEl, setSidebarAnchorEl] = useState<null | HTMLElement>(
+    null
+  );
+  const [userMenuAnchorEl, setUserMenuAnchorEl] = useState<null | HTMLElement>(
+    null
+  );
 
   const navigate = useNavigate();
-
-  const isOpen = Boolean(anchorEl);
-
-  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
   const dispatch = useDispatch<AppDispatch>();
+
+  const isSidebarOpen = Boolean(sidebarAnchorEl);
+  const isUserMenuOpen = Boolean(userMenuAnchorEl);
+
+  const handleUserMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setUserMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleUserMenuClose = () => {
+    setUserMenuAnchorEl(null);
+  };
+
+  const handleSidebarMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setSidebarAnchorEl(event.currentTarget);
+  };
+
+  const handleSidebarMenuClose = () => {
+    setSidebarAnchorEl(null);
+  };
 
   const handleNavItemClick = (idx: number) => {
     setSelectedItem(idx);
@@ -69,6 +117,17 @@ export const NavBar = (props: { children: React.ReactNode }) => {
 
   const handleSearch = (value: string) => {
     setSearchText(value);
+  };
+
+  const handleAccountInfo = () => {
+    handleUserMenuClose();
+    navigate("/account");
+  };
+
+  const handleSignOut = () => {
+    handleUserMenuClose();
+    dispatch(clearSession());
+    navigate("/");
   };
 
   const mobileListItem = STATIC_DATA.navListItems.slice(0, 4);
@@ -96,10 +155,28 @@ export const NavBar = (props: { children: React.ReactNode }) => {
               icon={<Search sx={{ color: "#627691" }} />}
             />
           </SearchBarContainer>
+          <MobileUserInfoContainer>
+            <UserIconButton onClick={handleUserMenuClick}>
+              <Icon src={JonahAvatarIcon} alt="user-icon" />
+            </UserIconButton>
 
-          <UserIconButton>
-            <Icon src={JonahAvatarIcon} alt="user-icon" />
-          </UserIconButton>
+            <StyledMenu
+              anchorEl={userMenuAnchorEl}
+              open={isUserMenuOpen}
+              onClose={handleUserMenuClose}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              transformOrigin={{ vertical: "top", horizontal: "right" }}
+            >
+              <MenuListItem onClick={handleAccountInfo}>
+                <FaUser style={{ fontSize: "16px" }} />
+                Account Info
+              </MenuListItem>
+              <MenuListItem onClick={handleSignOut}>
+                <FaSignOutAlt style={{ fontSize: "16px" }} />
+                Sign Out
+              </MenuListItem>
+            </StyledMenu>
+          </MobileUserInfoContainer>
 
           <MobileWalletContainer>
             <WalletValue>
@@ -126,7 +203,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
           <UserInfoContainer>
             <UserInfoButton
               endIcon={<KeyboardArrowDown fontSize="small" />}
-              onClick={() => navigate("/account")}
+              onClick={handleUserMenuClick}
             >
               <Avatar
                 src={JonahAvatarIcon}
@@ -134,6 +211,22 @@ export const NavBar = (props: { children: React.ReactNode }) => {
               />
               Jonah Batten
             </UserInfoButton>
+            <StyledMenu
+              anchorEl={userMenuAnchorEl}
+              open={isUserMenuOpen}
+              onClose={handleUserMenuClose}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              transformOrigin={{ vertical: "top", horizontal: "right" }}
+            >
+              <MenuListItem onClick={handleAccountInfo}>
+                <FaUser style={{ fontSize: "16px" }} />
+                Account Info
+              </MenuListItem>
+              <MenuListItem onClick={handleSignOut}>
+                <FaSignOutAlt style={{ fontSize: "16px" }} />
+                Sign Out
+              </MenuListItem>
+            </StyledMenu>
           </UserInfoContainer>
           <MobileSearchBar>
             <IconInput
@@ -248,7 +341,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
       </MobileSidebarContainer>
 
       <MobileSmallSidebarContainer>
-        <SidebarMenuButton onClick={handleMenuClick}>
+        <SidebarMenuButton onClick={handleSidebarMenuClick}>
           <MenuImg src={ExpandSidebarIcon} alt="expand-sidebar-icon" />
         </SidebarMenuButton>
         <StyledMenu
@@ -256,9 +349,9 @@ export const NavBar = (props: { children: React.ReactNode }) => {
           MenuListProps={{
             "aria-labelledby": "demo-customized-button",
           }}
-          anchorEl={anchorEl}
-          open={isOpen}
-          onClose={handleMenuClose}
+          anchorEl={sidebarAnchorEl}
+          open={isSidebarOpen}
+          onClose={handleSidebarMenuClose}
         >
           <SmallSidebarItemContainer>
             {restListItem.map((item) => (
@@ -431,6 +524,13 @@ const UserInfoContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   [theme.breakpoints.down(1096)]: {
     display: "none",
+  },
+}));
+
+const MobileUserInfoContainer = styled(Box)(({ theme }) => ({
+  display: "none",
+  [theme.breakpoints.down(1096)]: {
+    display: "flex",
   },
 }));
 
@@ -724,7 +824,7 @@ const MainboardContent = styled(Box)<{ expand: number }>(
     [theme.breakpoints.down(1096)]: {
       width: "100%",
     },
-  }),
+  })
 );
 
 const FooterContainer = styled(Box)(({ theme }) => ({
@@ -774,29 +874,3 @@ const SmallSidebarItem = (props: MobileSidebarItemProps) => {
     </MobileSidebarItemContainer>
   );
 };
-
-const StyledMenu = styled((props: MenuProps) => (
-  <Menu
-    elevation={0}
-    anchorOrigin={{
-      vertical: "top",
-      horizontal: "left",
-    }}
-    transformOrigin={{
-      vertical: "bottom",
-      horizontal: "left",
-    }}
-    {...props}
-  />
-))(({ theme }) => ({
-  "& .MuiPaper-root": {
-    borderRadius: 6,
-    marginBottom: 10,
-    display: "flex",
-    alignItems: "center",
-    background: "#171E31",
-    padding: "0px 10px",
-    left: "0px !important",
-    top: "750px !important",
-  },
-}));

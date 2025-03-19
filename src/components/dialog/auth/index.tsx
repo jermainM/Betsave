@@ -8,6 +8,7 @@ import {
   ButtonGroup,
   Checkbox,
   FormControlLabel,
+  FormHelperText,
 } from "@mui/material";
 import {
   BetSaveLogoImg,
@@ -18,8 +19,12 @@ import {
 } from "../../../constants/images";
 import { IoClose } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { ForgotPasswordDialog } from "./ForgotPassword";
+import { authService } from "../../../api/services/authService";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setAuthenticated } from "../../../store/slices/sessionSlice";
 
 interface DialogProps {
   isOpen: boolean;
@@ -27,21 +32,156 @@ interface DialogProps {
   isLogin: boolean;
 }
 
-export const AuthDialog = (props: DialogProps) => {
-  const { isOpen, setOpen, isLogin } = props;
+interface FormData {
+  email: string;
+  password: string;
+  acceptTerms: boolean;
+}
+
+interface FormErrors {
+  email: string;
+  password: string;
+  acceptTerms: string;
+}
+
+export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
   const [isSignIn, setIsSignIn] = useState(isLogin);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [termsAccepted, setTermsAccepted] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [formData, setFormData] = useState<FormData>({
+    email: "",
+    password: "",
+    acceptTerms: false,
+  });
+  const [errors, setErrors] = useState<FormErrors>({
+    email: "",
+    password: "",
+    acceptTerms: "",
+  });
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleForgotPasswordClick = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setIsSignIn(isLogin);
+  }, [isLogin]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({
+        email: "",
+        password: "",
+        acceptTerms: false,
+      });
+      setErrors({
+        email: "",
+        password: "",
+        acceptTerms: "",
+      });
+    }
+  }, [isOpen, isSignIn]);
+
+  const validateEmail = useCallback((email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }, []);
+
+  const validatePassword = useCallback((password: string): boolean => {
+    return password.length >= 8;
+  }, []);
+
+  const validateForm = useCallback((): boolean => {
+    const newErrors: FormErrors = {
+      email: "",
+      password: "",
+      acceptTerms: "",
+    };
+
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+    } else if (!validateEmail(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (!validatePassword(formData.password)) {
+      newErrors.password = "Password must be at least 8 characters long";
+    }
+
+    if (!isSignIn && !formData.acceptTerms) {
+      newErrors.acceptTerms = "You must accept the Terms & Conditions";
+    }
+
+    setErrors(newErrors);
+    return !Object.values(newErrors).some((error) => error !== "");
+  }, [formData, isSignIn, validateEmail, validatePassword]);
+
+  const handleInputChange = useCallback(
+    (field: keyof FormData) => (event: React.ChangeEvent<HTMLInputElement>) => {
+      const value =
+        event.target.type === "checkbox"
+          ? event.target.checked
+          : event.target.value;
+
+      setFormData((prev) => ({ ...prev, [field]: value }));
+
+      // Clear error when user starts typing
+      if (errors[field]) {
+        setErrors((prev) => ({ ...prev, [field]: "" }));
+      }
+    },
+    [errors]
+  );
+
+  const handleForgotPasswordClick = useCallback(() => {
     setShowForgotPassword(true);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setOpen(false);
     setShowForgotPassword(false);
-  };
+    setFormData({
+      email: "",
+      password: "",
+      acceptTerms: false,
+    });
+    setErrors({
+      email: "",
+      password: "",
+      acceptTerms: "",
+    });
+  }, [setOpen]);
+
+  const handleAuth = useCallback(async () => {
+    if (!validateForm()) return;
+
+    setIsLoading(true);
+    try {
+      const response = isSignIn
+        ? await authService.login(formData.email, formData.password)
+        : await authService.signup(formData.email, formData.password);
+
+      dispatch(
+        setAuthenticated({
+          user: response.data.user,
+          tokens: response.data.tokens,
+        })
+      );
+      handleClose();
+      navigate("/dashboard");
+    } catch (error) {
+      console.error(`${isSignIn ? "Login" : "Signup"} failed:`, error);
+      setErrors((prev) => ({
+        ...prev,
+        email: "Invalid email or password",
+        password: "Invalid email or password",
+      }));
+    } finally {
+      setIsLoading(false);
+    }
+  }, [formData, isSignIn, validateForm, dispatch, handleClose, navigate]);
 
   return (
     <>
@@ -60,13 +200,13 @@ export const AuthDialog = (props: DialogProps) => {
             <AuthButtonGroup>
               <StyledButtonGroup variant="contained">
                 <SwitchButton
-                  active={isSignIn}
+                  active={isSignIn ? 1 : 0}
                   onClick={() => setIsSignIn(true)}
                 >
                   Sign In
                 </SwitchButton>
                 <SwitchButton
-                  active={!isSignIn}
+                  active={!isSignIn ? 1 : 0}
                   onClick={() => setIsSignIn(false)}
                 >
                   Create Account
@@ -74,40 +214,70 @@ export const AuthDialog = (props: DialogProps) => {
               </StyledButtonGroup>
             </AuthButtonGroup>
             <AuthForm>
-              <StyledInput placeholder="Enter your e-mail" />
-              <PasswordInputWrapper>
+              <Box>
                 <StyledInput
-                  placeholder="Enter your password"
-                  type={isPasswordVisible ? "text" : "password"}
+                  placeholder="Enter your e-mail"
+                  onChange={handleInputChange("email")}
+                  value={formData.email}
+                  name="email"
+                  error={!!errors.email}
                 />
-                <PasswordToggle
-                  onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                >
-                  <IoEyeOutline />
-                </PasswordToggle>
-              </PasswordInputWrapper>
+                {errors.email && (
+                  <FormHelperText error>{errors.email}</FormHelperText>
+                )}
+              </Box>
+              <Box>
+                <PasswordInputWrapper>
+                  <StyledInput
+                    placeholder="Enter your password"
+                    type={isPasswordVisible ? "text" : "password"}
+                    onChange={handleInputChange("password")}
+                    value={formData.password}
+                    name="password"
+                    error={!!errors.password}
+                  />
+                  <PasswordToggle
+                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                  >
+                    <IoEyeOutline />
+                  </PasswordToggle>
+                </PasswordInputWrapper>
+                {errors.password && (
+                  <FormHelperText error>{errors.password}</FormHelperText>
+                )}
+              </Box>
               {!isSignIn && (
-                <TermsCheckbox
-                  control={
-                    <StyledCheckbox
-                      checked={termsAccepted}
-                      onChange={(e) => setTermsAccepted(e.target.checked)}
-                    />
-                  }
-                  label="I confirm that I have read, understood, and accepted the BETSAVE Terms & Conditions. By checking this box, I also confirm that I am at least 18 years old."
-                />
+                <>
+                  <TermsCheckbox
+                    control={
+                      <StyledCheckbox
+                        checked={formData.acceptTerms}
+                        onChange={handleInputChange("acceptTerms")}
+                      />
+                    }
+                    label="I confirm that I have read, understood, and accepted the BETSAVE Terms & Conditions. By checking this box, I also confirm that I am at least 18 years old."
+                  />
+                  {errors.acceptTerms && (
+                    <FormHelperText error>{errors.acceptTerms}</FormHelperText>
+                  )}
+                </>
               )}
               <ActionRow>
                 {isSignIn ? (
                   <>
-                    <LoginButton>Log In</LoginButton>
+                    <LoginButton onClick={handleAuth} disabled={isLoading}>
+                      {isLoading ? "Logging in..." : "Log In"}
+                    </LoginButton>
                     <ForgotPassword onClick={handleForgotPasswordClick}>
                       Forgot your password?
                     </ForgotPassword>
                   </>
                 ) : (
-                  <LoginButton disabled={!termsAccepted}>
-                    Create Account
+                  <LoginButton
+                    disabled={!formData.acceptTerms || isLoading}
+                    onClick={handleAuth}
+                  >
+                    {isLoading ? "Creating Account..." : "Create Account"}
                   </LoginButton>
                 )}
               </ActionRow>
@@ -185,7 +355,7 @@ const AuthMobileImage = styled("img")(({ theme }) => ({
   [theme.breakpoints.down(840)]: {
     display: "block",
     width: "100%",
-    height: "240px",
+    height: "210px",
     borderRadius: "7px",
     objectFit: "cover",
   },
@@ -264,7 +434,7 @@ const StyledButtonGroup = styled(ButtonGroup)(({ theme }) => ({
   },
 }));
 
-const SwitchButton = styled(Button)<{ active: boolean }>(
+const SwitchButton = styled(Button)<{ active: number }>(
   ({ active, theme }) => ({
     padding: "12px 24px",
     borderRadius: "8px",
@@ -272,8 +442,8 @@ const SwitchButton = styled(Button)<{ active: boolean }>(
     fontWeight: "600",
     textTransform: "none",
     textWrap: "nowrap",
-    backgroundColor: active ? "#1AE5A1" : "#172236",
-    color: active ? "#141C30" : "#fff",
+    backgroundColor: active === 1 ? "#1AE5A1" : "#172236",
+    color: active === 1 ? "#141C30" : "#fff",
     minWidth: "140px !important",
     "&:hover": {
       backgroundColor: active ? "#15cc8f" : "#1c2a42",
@@ -315,22 +485,22 @@ const AuthForm = styled(Box)(({ theme }) => ({
 const StyledInput = styled(InputBase)(({ theme }) => ({
   backgroundColor: "#172236",
   borderRadius: "8px",
-  padding: "12px 16px",
   color: "#fff",
   width: "100%",
   "& input": {
+    padding: "12px 16px",
+    [theme.breakpoints.down(1024)]: {
+      padding: "10px 16px",
+    },
+    [theme.breakpoints.down(840)]: {
+      padding: "6px 10px",
+      fontSize: "14px",
+      borderRadius: "4px",
+    },
     "&::placeholder": {
       color: "#6B7280",
       opacity: 1,
     },
-  },
-  [theme.breakpoints.down(1024)]: {
-    padding: "10px 16px",
-  },
-  [theme.breakpoints.down(840)]: {
-    padding: "6px 10px",
-    fontSize: "14px",
-    borderRadius: "4px",
   },
 }));
 
@@ -399,7 +569,7 @@ const ForgotPassword = styled(Button)(({ theme }) => ({
 }));
 
 const SocialSection = styled(Box)(({ theme }) => ({
-  marginTop: "24px",
+  marginTop: "12px",
   width: "100%",
 }));
 
@@ -455,7 +625,6 @@ const SocialIcon = styled("img")(({ theme }) => ({
   height: "auto",
   objectFit: "none",
 }));
-
 const StyledCheckbox = styled(Checkbox)(({ theme }) => ({
   color: "#1AE5A1",
   "&.Mui-checked": {

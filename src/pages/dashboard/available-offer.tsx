@@ -155,6 +155,9 @@ const HeadingAction = styled(Box)(({ theme }) => ({
   gap: "12px",
   color: "#627691",
   fontSize: "18px",
+  p: {
+    textWrap: "nowrap",
+  },
   [theme.breakpoints.down(480)]: {
     fontSize: "14px",
   },

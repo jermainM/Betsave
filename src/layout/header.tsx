@@ -139,6 +139,7 @@ export const Header = () => {
                     variant="contained"
                     startIcon={<LuUserRound />}
                     sx={{ backgroundColor: "#172236", color: "#fff" }}
+                    onClick={() => handleDialogOpen("login")}
                   >
                     Sign In
                   </ActionButton>
@@ -146,6 +147,7 @@ export const Header = () => {
                     variant="contained"
                     startIcon={<AiOutlineKey />}
                     sx={{ backgroundColor: "#1ae5a1", color: "#000" }}
+                    onClick={() => handleDialogOpen("signup")}
                   >
                     Sign Up
                   </ActionButton>

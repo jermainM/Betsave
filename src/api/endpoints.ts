@@ -7,4 +7,10 @@ export const ENDPOINTS = {
     UPDATE: `${API_CONFIG.BASE_URL}/offers`,
     DELETE: `${API_CONFIG.BASE_URL}/offers`,
   },
+  AUTH: {
+    LOGIN: `${API_CONFIG.BASE_URL}/auth/signin`,
+    SIGNUP: `${API_CONFIG.BASE_URL}/auth/signup`,
+    SIGNOUT: `${API_CONFIG.BASE_URL}/auth/signout`,
+    REFRESH_TOKEN: `${API_CONFIG.BASE_URL}/auth/refresh-token`,
+  },
 };

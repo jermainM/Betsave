@@ -14,10 +14,8 @@ import {
   GreenCashbackIcon,
   GreenHorseRaceIcon,
   GreenMaxmizeWinIcon,
-  HorseIcon,
   HorseImg,
   LayerImg1,
-  TrophyIcon,
   TrustmaryIcon,
 } from "../constants/images";
 

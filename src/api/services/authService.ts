@@ -1,13 +1,30 @@
-import { ENDPOINTS } from "../endpoints"; 
+import { ENDPOINTS } from "../endpoints";
+import { store } from "../../store";
+import { updateTokens } from "../../store/slices/sessionSlice";
 
 const TOKEN_KEY = 'auth_tokens';
-// Store tokens in localStorage
+const TOKEN_REFRESH_INTERVAL = 4 * 60 * 1000; // 4 minutes
+
+let refreshTokenInterval: number | null = null;
+
+// Store tokens in localStorage and start refresh interval
 export const storeTokens = (accessToken: string, refreshToken: string) => {
   localStorage.setItem(TOKEN_KEY, JSON.stringify({
     accessToken,
     refreshToken,
     lastRefresh: new Date().getTime()
   }));
+  
+  // Update Redux store
+  store.dispatch(updateTokens({ accessToken, refreshToken }));
+  
+  // Clear existing interval if any
+  if (refreshTokenInterval) {
+    clearInterval(refreshTokenInterval);
+  }
+  
+  // Start new refresh interval
+  refreshTokenInterval = setInterval(refreshToken, TOKEN_REFRESH_INTERVAL);
 };
 
 // Get stored tokens
@@ -16,11 +33,14 @@ export const getStoredTokens = () => {
   return tokens ? JSON.parse(tokens) : null;
 };
 
-// Remove stored tokens
+// Remove stored tokens and clear refresh interval
 export const removeTokens = () => {
   localStorage.removeItem(TOKEN_KEY);
+  if (refreshTokenInterval) {
+    clearInterval(refreshTokenInterval);
+    refreshTokenInterval = null;
+  }
 };
-
 
 export const authService = {
   // Headers with access token
@@ -36,14 +56,14 @@ export const authService = {
     const response = await fetch(ENDPOINTS.AUTH.LOGIN, {
       method: "POST",
       headers: {
-        'Content-Type': 'application/json'  // Add this header
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ email, password }),
     });
     const data = await response.json();
     if (!response.ok) throw new Error(data.message);
 
-    // Store tokens
+    // Store tokens and start refresh interval
     storeTokens(data.data.tokens.accessToken, data.data.tokens.refreshToken);
     return data;
   },
@@ -52,14 +72,14 @@ export const authService = {
     const response = await fetch(ENDPOINTS.AUTH.SIGNUP, {
       method: "POST",
       headers: {
-        'Content-Type': 'application/json'  // Add this header
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ email, password }),
     });
     const data = await response.json();
     if (!response.ok) throw new Error(data.message);
 
-    // Store tokens
+    // Store tokens and start refresh interval
     storeTokens(data.data.tokens.accessToken, data.data.tokens.refreshToken);
     return data;
   },
@@ -67,15 +87,15 @@ export const authService = {
   signout: async () => {
     const tokens = getStoredTokens();
     try {
-    const response = await fetch(ENDPOINTS.AUTH.SIGNOUT, {
-      method: "POST",
-      headers: authService.getHeaders(),
+      const response = await fetch(ENDPOINTS.AUTH.SIGNOUT, {
+        method: "POST",
+        headers: authService.getHeaders(),
         body: JSON.stringify({ refreshToken: tokens.refreshToken })
-    });
-    const data = await response.json();
-    return data;
+      });
+      const data = await response.json();
+      return data;
     } finally {
-        removeTokens();
+      removeTokens();
     }
   },
 
@@ -95,7 +115,7 @@ export const authService = {
       throw new Error(data.message);
     }
 
-    // Store new tokens
+    // Store new tokens and update refresh interval
     storeTokens(data.data.tokens.accessToken, data.data.tokens.refreshToken);
     return data.data.tokens;
   },
@@ -134,5 +154,4 @@ export const authService = {
       throw error;
     }
   }
-  
 };

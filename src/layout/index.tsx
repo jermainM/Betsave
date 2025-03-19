@@ -1,8 +1,6 @@
 import React from "react";
 import { Box, styled } from "@mui/material";
 import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { Navigate } from "react-router-dom";
 import { RootState } from "../store";
 
 import { Header } from "./header";

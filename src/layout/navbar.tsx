@@ -10,7 +10,6 @@ import {
   ListItemIcon,
   ListItemText,
   Menu,
-  MenuProps,
   styled,
   Typography,
   MenuItem,

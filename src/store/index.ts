@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import navbarReducer from "./slices/navbarSlice";
 import sessionReducer from "./slices/sessionSlice";
 
-const store = configureStore({
+export const store = configureStore({
   reducer: {
     navbar: navbarReducer,
     session: sessionReducer,
@@ -11,5 +11,3 @@ const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
-export default store;

@@ -18,10 +18,13 @@ import {
   LogoImg,
   MobileLogoImg,
 } from "../constants/images";
+import { AuthDialog } from "../components/dialog/auth";
 
 export const Header = () => {
   const [searchText, setSearchText] = useState("");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [isAuthDialogOpen, setAuthDialogOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -30,6 +33,11 @@ export const Header = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleDialogOpen = (type: "login" | "signup") => {
+    setAuthDialogOpen(true);
+    setIsLogin(type === "login");
   };
 
   const isOpen = Boolean(anchorEl);
@@ -80,6 +88,7 @@ export const Header = () => {
               <ActionButton
                 variant="contained"
                 startIcon={<LuUserRound />}
+                onClick={() => handleDialogOpen("login")}
                 sx={{ backgroundColor: "#172236", color: "#fff" }}
               >
                 Sign In
@@ -87,10 +96,16 @@ export const Header = () => {
               <ActionButton
                 variant="contained"
                 startIcon={<AiOutlineKey />}
+                onClick={() => handleDialogOpen("signup")}
                 sx={{ backgroundColor: "#1ae5a1", color: "#000" }}
               >
                 Sign Up
               </ActionButton>
+              <AuthDialog
+                isOpen={isAuthDialogOpen}
+                setOpen={setAuthDialogOpen}
+                isLogin={isLogin}
+              />
             </ButtonContainer>
           </ActionContainer>
           <MobileAction>

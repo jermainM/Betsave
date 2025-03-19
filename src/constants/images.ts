@@ -13,10 +13,12 @@ import GreenMyOfferPng from "../assets/betsave-icon/green/my-offers.png";
 import GreenPromoOfferPng from "../assets/betsave-icon/green/promotional-offers.png";
 import GreenRewardPng from "../assets/betsave-icon/green/reward.png";
 import GreenCashbackRateIcon from "../assets/betsave-icon/green/money-return.png";
-import GreenChipCoinIcon from "../assets/betsave-icon/green/chip-coin-icon.png";
 import GreenCoin from "../assets/betsave-icon/green/coin.png";
 import GreenSportsBetIcon from "../assets/betsave-icon/green/sports-betting.png";
 import GreenHorseRaceIcon from "../assets/betsave-icon/green/horse-race.png";
+import GoogleIcon from "../assets/social/google.png";
+import StreamIcon from "../assets/social/stream.png";
+import FacebookIcon from "../assets/social/facebook.png";
 
 import BronzeImg from "../assets/bronze.png";
 import GoldenImg from "../assets/gold.png";
@@ -35,7 +37,6 @@ import Rank2Img from "../assets/2th.png";
 import Rank3Img from "../assets/3th.png";
 import LayerImg2 from "../assets/layer2.png";
 import TrustmaryIcon from "../assets/Trustmary.png";
-import CashoutIcon from "../assets/cashout.png";
 import GiftcardIcon from "../assets/gift_card.png";
 import TrophyIcon from "../assets/Trophy.png";
 import HorseIcon from "../assets/horse-icon.png";
@@ -89,7 +90,8 @@ import Layer87Img from "../assets/Layer-87.jpg";
 import Layer94Img from "../assets/Layer-94.jpg";
 import GiftIcon from "../assets/gift.png";
 import HorseImg from "../assets/horse.png";
-import BetfuryImg from "../assets/betfury.png";
+import BetsaveSupermanPng from "../assets/betsave-superman.png";
+import BetsaveSuperForgotPng from "../assets/super-forgot.png";
 
 export {
   GreenTransparentPayoutIcon,
@@ -116,7 +118,6 @@ export {
   GreenWithdrawPng,
   LayerImg2,
   TrustmaryIcon,
-  CashoutIcon,
   GiftcardIcon,
   TrophyIcon,
   HorseIcon,
@@ -173,7 +174,10 @@ export {
   Layer94Img,
   GiftIcon,
   HorseImg,
-  GreenChipCoinIcon,
   GreenCoin,
-  BetfuryImg
+  BetsaveSupermanPng,
+  GoogleIcon,
+  StreamIcon,
+  FacebookIcon,
+  BetsaveSuperForgotPng,
 };

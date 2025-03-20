@@ -1,13 +1,7 @@
 import { Box, IconButton, styled, Typography } from "@mui/material";
-import { GreenAbleOfferPng } from "../../constants/images";
-import { CashOfferCard } from "../../components/card/CashOfferCard";
 import { Keyboard } from "swiper/modules";
 import { useEffect, useState } from "react";
-import { Row } from "../../constants/interfaces";
-import { offerService } from "../../api/services/offerService";
-import { calculateOfferStatus } from "../../utils/offer";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
-import { EmptyBox } from "../../components/box/EmptyBox";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Autoplay, Navigation, Pagination } from "swiper/modules";
 
@@ -16,22 +10,36 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
+import { GreenAbleOfferPng } from "../../constants/images";
+import { CashOfferCard } from "../../components/card/CashOfferCard";
+import { Row } from "../../constants/interfaces";
+import { offerService } from "../../api/services/offerService";
+import { calculateOfferStatus } from "../../utils/offer";
+import { EmptyBox } from "../../components/box/EmptyBox";
+import { useNotification } from "../../provider/notification";
+
 export const AvailableOffer = () => {
   const [offers, setOffers] = useState<Row[]>([]);
+  const { notifyError } = useNotification();
   const fetchOffers = async () => {
-    const offers = await offerService.getOffers();
-    const offersData = offers.data.map((offer: any, idx: number) => ({
-      id: idx,
-      _id: offer._id,
-      image: offer.image,
-      title: offer.title,
-      description: offer.description,
-      startDate: offer.startDate,
-      endDate: offer.endDate,
-      status: calculateOfferStatus(offer.startDate, offer.endDate),
-      affiliateLink: offer.affiliateLink,
-    }));
-    setOffers(offersData);
+    try {
+      const offers = await offerService.getOffers();
+      const offersData = offers.data.map((offer: any, idx: number) => ({
+        id: idx,
+        _id: offer._id,
+        image: offer.image,
+        title: offer.title,
+        description: offer.description,
+        startDate: offer.startDate,
+        endDate: offer.endDate,
+        status: calculateOfferStatus(offer.startDate, offer.endDate),
+        affiliateLink: offer.affiliateLink,
+      }));
+      setOffers(offersData);
+    } catch (error) {
+      console.error("Error fetching offers:", error);
+      notifyError(`Error fetching offers: ${error}`);
+    }
   };
 
   useEffect(() => {

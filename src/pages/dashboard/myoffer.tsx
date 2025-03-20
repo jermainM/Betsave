@@ -1,10 +1,7 @@
-import { Box, Button, IconButton, styled, Typography } from "@mui/material";
+import { Box, IconButton, styled, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { DiAndroid } from "react-icons/di";
 import { FaCircleCheck } from "react-icons/fa6";
-import { FaDesktop, FaApple } from "react-icons/fa";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
-import { CashOfferCard } from "../../components/card/CashOfferCard";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -21,29 +18,38 @@ import {
   Autoplay,
   FreeMode,
 } from "swiper/modules";
+
+import { CashOfferCard } from "../../components/card/CashOfferCard";
 import { EmptyBox } from "../../components/box/EmptyBox";
 import { GreenMyOfferPng } from "../../constants/images";
 import { offerService } from "../../api/services/offerService";
 import { calculateOfferStatus } from "../../utils/offer";
 import { Row } from "../../constants/interfaces";
+import { useNotification } from "../../provider/notification";
 
 export const MyOffer = () => {
   const [isEmpty, setEmpty] = useState(false);
   const [offers, setOffers] = useState<Row[]>([]);
+  const { notifyError } = useNotification();
   const fetchOffers = async () => {
-    const offers = await offerService.getOffers();
-    const offersData = offers.data.map((offer: any, idx: number) => ({
-      id: idx,
-      _id: offer._id,
-      image: offer.image,
-      title: offer.title,
-      description: offer.description,
-      startDate: offer.startDate,
-      endDate: offer.endDate,
-      status: calculateOfferStatus(offer.startDate, offer.endDate),
-      affiliateLink: offer.affiliateLink,
-    }));
-    setOffers(offersData);
+    try {
+      const offers = await offerService.getOffers();
+      const offersData = offers.data.map((offer: any, idx: number) => ({
+        id: idx,
+        _id: offer._id,
+        image: offer.image,
+        title: offer.title,
+        description: offer.description,
+        startDate: offer.startDate,
+        endDate: offer.endDate,
+        status: calculateOfferStatus(offer.startDate, offer.endDate),
+        affiliateLink: offer.affiliateLink,
+      }));
+      setOffers(offersData);
+    } catch (error) {
+      console.error("Error fetching offers:", error);
+      notifyError(`Error fetching offers: ${error}`);
+    }
   };
 
   useEffect(() => {

@@ -5,7 +5,6 @@ interface SessionState {
   user: any | null;
   tokens: {
     accessToken: string | null;
-    refreshToken: string | null;
   };
 }
 
@@ -14,7 +13,6 @@ const initialState: SessionState = {
   user: null,
   tokens: {
     accessToken: null,
-    refreshToken: null,
   },
 };
 
@@ -35,7 +33,7 @@ const sessionSlice = createSlice({
   name: 'session',
   initialState: loadState(),
   reducers: {
-    setAuthenticated: (state, action: PayloadAction<{ user: any; tokens: { accessToken: string; refreshToken: string } }>) => {
+    setAuthenticated: (state, action: PayloadAction<{ user: any; tokens: { accessToken: string } }>) => {
       state.isAuthenticated = true;
       state.user = action.payload.user;
       state.tokens = action.payload.tokens;
@@ -51,12 +49,11 @@ const sessionSlice = createSlice({
       state.user = null;
       state.tokens = {
         accessToken: null,
-        refreshToken: null,
       };
       // Remove from localStorage
       localStorage.removeItem('session');
     },
-    updateTokens: (state, action: PayloadAction<{ accessToken: string; refreshToken: string }>) => {
+    updateTokens: (state, action: PayloadAction<{ accessToken: string }>) => {
       state.tokens = action.payload;
       // Update localStorage
       const serializedState = localStorage.getItem('session');

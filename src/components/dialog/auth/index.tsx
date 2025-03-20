@@ -172,7 +172,7 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       handleClose();
       navigate("/dashboard");
     } catch (error) {
-      console.error(`${isSignIn ? "Login" : "Signup"} failed:`, error);
+      console.log(`${isSignIn ? "Login" : "Signup"} failed:`, error);
       setErrors((prev) => ({
         ...prev,
         email: "Invalid email or password",

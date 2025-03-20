@@ -11,6 +11,5 @@ export const ENDPOINTS = {
     LOGIN: `${API_CONFIG.BASE_URL}/auth/signin`,
     SIGNUP: `${API_CONFIG.BASE_URL}/auth/signup`,
     SIGNOUT: `${API_CONFIG.BASE_URL}/auth/signout`,
-    REFRESH_TOKEN: `${API_CONFIG.BASE_URL}/auth/refresh-token`,
   },
 };

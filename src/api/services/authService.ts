@@ -3,121 +3,140 @@ import { store } from "../../store";
 import { updateTokens } from "../../store/slices/sessionSlice";
 
 const TOKEN_KEY = 'auth_tokens';
-const TOKEN_REFRESH_INTERVAL = 4 * 60 * 1000; // 4 minutes
 
-let refreshTokenInterval: number | null = null;
+// Create a custom event for notifications
+const createNotificationEvent = (message: string, severity: 'success' | 'error' | 'info' | 'warning') => {
+  return new CustomEvent('showNotification', {
+    detail: {
+      message,
+      severity
+    }
+  });
+};
 
-// Store tokens in localStorage and start refresh interval
-export const storeTokens = (accessToken: string, refreshToken: string) => {
-  localStorage.setItem(TOKEN_KEY, JSON.stringify({
-    accessToken,
-    refreshToken,
-    lastRefresh: new Date().getTime()
-  }));
-  
-  // Update Redux store
-  store.dispatch(updateTokens({ accessToken, refreshToken }));
-  
-  // Clear existing interval if any
-  if (refreshTokenInterval) {
-    clearInterval(refreshTokenInterval);
+// Store tokens in localStorage
+export const storeTokens = (accessToken: string) => {
+  try {
+    localStorage.setItem(TOKEN_KEY, JSON.stringify({
+      accessToken,
+      lastUpdated: new Date().getTime()
+    }));
+    
+    // Update Redux store
+    store.dispatch(updateTokens({ accessToken }));
+  } catch (error) {
+    console.log('Error storing token:', error);
+    window.dispatchEvent(createNotificationEvent('Failed to store authentication token. Please try again.', 'error'));
+    throw new Error('Failed to store authentication token. Please try again.');
   }
-  
-  // Start new refresh interval
-  refreshTokenInterval = setInterval(refreshToken, TOKEN_REFRESH_INTERVAL);
 };
 
-// Get stored tokens
+// Get stored token
 export const getStoredTokens = () => {
-  const tokens = localStorage.getItem(TOKEN_KEY);
-  return tokens ? JSON.parse(tokens) : null;
+  try {
+    const tokens = localStorage.getItem(TOKEN_KEY);
+    return tokens ? JSON.parse(tokens) : null;
+  } catch (error) {
+    console.log('Error getting stored token:', error);
+    return null;
+  }
 };
 
-// Remove stored tokens and clear refresh interval
+// Remove stored tokens
 export const removeTokens = () => {
-  localStorage.removeItem(TOKEN_KEY);
-  if (refreshTokenInterval) {
-    clearInterval(refreshTokenInterval);
-    refreshTokenInterval = null;
+  try {
+    localStorage.removeItem(TOKEN_KEY);
+  } catch (error) {
+    console.log('Error removing token:', error);
+    window.dispatchEvent(createNotificationEvent('Failed to remove authentication token. Please try again.', 'error'));
+    throw new Error('Failed to remove authentication token. Please try again.');
   }
 };
 
 export const authService = {
   // Headers with access token
   getHeaders() {
-    const tokens = getStoredTokens();
-    return {
-      'Content-Type': 'application/json',
-      ...(tokens?.accessToken ? { 'Authorization': `Bearer ${tokens.accessToken}` } : {})
-    };
+    try {
+      const tokens = getStoredTokens();
+      return {
+        'Content-Type': 'application/json',
+        ...(tokens?.accessToken ? { 'Authorization': `Bearer ${tokens.accessToken}` } : {})
+      };
+    } catch (error) {
+      console.log('Error getting headers:', error);
+      return { 'Content-Type': 'application/json' };
+    }
   },
   
   login: async (email: string, password: string) => {
-    const response = await fetch(ENDPOINTS.AUTH.LOGIN, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.message);
+    try {
+      const response = await fetch(ENDPOINTS.AUTH.LOGIN, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      
+      if (!response.ok) {
+        const errorMessage = data.message || 'Login failed. Please check your credentials and try again.';
+        console.log('Login error:', errorMessage);
+        window.dispatchEvent(createNotificationEvent(errorMessage, 'error'));
+        throw new Error(errorMessage);
+      }
 
-    // Store tokens and start refresh interval
-    storeTokens(data.data.tokens.accessToken, data.data.tokens.refreshToken);
-    return data;
+      // Store access token
+      storeTokens(data.data.tokens.accessToken);
+      
+      window.dispatchEvent(createNotificationEvent('Login successful!', 'success'));
+      return data;
+    } catch (error: any) {
+      console.log('Login error:', error);
+      window.dispatchEvent(createNotificationEvent(error.message || 'Login failed. Please try again later.', 'error'));
+      throw new Error(error.message || 'Login failed. Please try again later.');
+    }
   },
 
   signup: async (email: string, password: string) => {  
-    const response = await fetch(ENDPOINTS.AUTH.SIGNUP, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email, password }),
-    });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.message);
+    try {
+      const response = await fetch(ENDPOINTS.AUTH.SIGNUP, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await response.json();
+      
+      if (!response.ok) {
+        const errorMessage = data.message || 'Signup failed. Please try again.';
+        console.log('Signup error:', errorMessage);
+        window.dispatchEvent(createNotificationEvent(errorMessage, 'error'));
+        throw new Error(errorMessage);
+      }
 
-    // Store tokens and start refresh interval
-    storeTokens(data.data.tokens.accessToken, data.data.tokens.refreshToken);
-    return data;
+      // Store access token
+      storeTokens(data.data.tokens.accessToken);
+      
+      window.dispatchEvent(createNotificationEvent('Account created successfully!', 'success'));
+      return data;
+    } catch (error: any) {
+      console.log('Signup error:', error);
+      window.dispatchEvent(createNotificationEvent(error.message || 'Signup failed. Please try again later.', 'error'));
+      throw new Error(error.message || 'Signup failed. Please try again later.');
+    }
   },
 
   signout: async () => {
-    const tokens = getStoredTokens();
     try {
-      const response = await fetch(ENDPOINTS.AUTH.SIGNOUT, {
-        method: "POST",
-        headers: authService.getHeaders(),
-        body: JSON.stringify({ refreshToken: tokens.refreshToken })
-      });
-      const data = await response.json();
-      return data;
-    } finally {
       removeTokens();
+      window.dispatchEvent(createNotificationEvent('Signed out successfully!', 'success'));
+    } catch (error: any) {
+      console.log('Signout error:', error);
+      window.dispatchEvent(createNotificationEvent(error.message || 'Signout failed. Please try again later.', 'error'));
+      throw new Error(error.message || 'Signout failed. Please try again later.');
     }
-  },
-
-  refreshToken: async () => {
-    const tokens = getStoredTokens();
-    if (!tokens?.refreshToken) throw new Error('No refresh token available');
-
-    const response = await fetch(ENDPOINTS.AUTH.REFRESH_TOKEN, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ refreshToken: tokens.refreshToken })
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      removeTokens();
-      throw new Error(data.message);
-    }
-
-    // Store new tokens and update refresh interval
-    storeTokens(data.data.tokens.accessToken, data.data.tokens.refreshToken);
-    return data.data.tokens;
   },
 
   fetchWithToken: async (url: string, options: RequestInit = {}) => {
@@ -129,28 +148,24 @@ export const authService = {
         headers: { ...headers, ...(options.headers || {}) }
       });
 
-      // If token expired, try to refresh
       if (response.status === 401) {
-        const newTokens = await authService.refreshToken();
-        
-        // Retry original request with new token
-        const newHeaders = {
-          ...options.headers,
-          'Authorization': `Bearer ${newTokens.accessToken}`
-        };
-        
-        return fetch(url, {
-          ...options,
-          headers: newHeaders
-        });
+        // If unauthorized, remove tokens and notify user
+        removeTokens();
+        throw new Error('Session expired. Please login again.');
+      }
+
+      if (!response.ok) {
+        const data = await response.json();
+        const errorMessage = data.message || 'Request failed. Please try again.';
+        console.log('Fetch error:', errorMessage);
+        window.dispatchEvent(createNotificationEvent(errorMessage, 'error'));
+        throw new Error(errorMessage);
       }
 
       return response;
     } catch (error: any) {
-      if (error.message.includes('refresh token')) {
-        removeTokens();
-        // Redirect to login or handle unauthorized state
-      }
+      console.log('Fetch error:', error);
+      window.dispatchEvent(createNotificationEvent(error.message || 'Request failed. Please try again later.', 'error'));
       throw error;
     }
   }

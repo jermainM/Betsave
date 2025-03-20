@@ -24,23 +24,31 @@ import { GreenPromoOfferPng } from "../../constants/images";
 import { offerService } from "../../api/services/offerService";
 import { calculateOfferStatus } from "../../utils/offer";
 import { Row } from "../../constants/interfaces";
+import { useNotification } from "../../provider/notification";
 
 export const PromotionalOffer = () => {
   const [offers, setOffers] = useState<Row[]>([]);
+  const { notifyError } = useNotification();
+
   const fetchOffers = async () => {
-    const offers = await offerService.getOffers();
-    const offersData = offers.data.map((offer: any, idx: number) => ({
-      id: idx,
-      _id: offer._id,
-      image: offer.image,
-      title: offer.title,
-      description: offer.description,
-      startDate: offer.startDate,
-      endDate: offer.endDate,
-      status: calculateOfferStatus(offer.startDate, offer.endDate),
-      affiliateLink: offer.affiliateLink,
-    }));
-    setOffers(offersData);
+    try {
+      const offers = await offerService.getOffers();
+      const offersData = offers.data.map((offer: any, idx: number) => ({
+        id: idx,
+        _id: offer._id,
+        image: offer.image,
+        title: offer.title,
+        description: offer.description,
+        startDate: offer.startDate,
+        endDate: offer.endDate,
+        status: calculateOfferStatus(offer.startDate, offer.endDate),
+        affiliateLink: offer.affiliateLink,
+      }));
+      setOffers(offersData);
+    } catch (error) {
+      console.error("Error fetching offers:", error);
+      notifyError(`Error fetching offers: ${error}`);
+    }
   };
 
   useEffect(() => {

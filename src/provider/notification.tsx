@@ -12,6 +12,10 @@ interface NotificationContextType {
     message: string,
     severity: "success" | "error" | "info" | "warning"
   ) => void;
+  notifySuccess: (message: string) => void;
+  notifyError: (message: string) => void;
+  notifyInfo: (message: string) => void;
+  notifyWarning: (message: string) => void;
 }
 
 const NotificationContext = createContext<NotificationContextType | undefined>(
@@ -21,19 +25,46 @@ const NotificationContext = createContext<NotificationContextType | undefined>(
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState("");
-  const [severity, setSeverity] = useState<
-    "success" | "error" | "info" | "warning"
-  >("info");
+  const [notification, setNotification] = useState<{
+    open: boolean;
+    message: string;
+    severity: "success" | "error" | "info" | "warning";
+  }>({
+    open: false,
+    message: "",
+    severity: "error",
+  });
+
+  const handleCloseNotification = useCallback(() => {
+    setNotification((prev) => ({ ...prev, open: false }));
+  }, []);
 
   const showNotification = useCallback(
     (message: string, severity: "success" | "error" | "info" | "warning") => {
-      setMessage(message);
-      setSeverity(severity);
-      setOpen(true);
+      setNotification({
+        open: true,
+        message,
+        severity,
+      });
     },
     []
+  );
+
+  const notifySuccess = useCallback(
+    (message: string) => showNotification(message, "success"),
+    [showNotification]
+  );
+  const notifyError = useCallback(
+    (message: string) => showNotification(message, "error"),
+    [showNotification]
+  );
+  const notifyInfo = useCallback(
+    (message: string) => showNotification(message, "info"),
+    [showNotification]
+  );
+  const notifyWarning = useCallback(
+    (message: string) => showNotification(message, "warning"),
+    [showNotification]
   );
 
   useEffect(() => {
@@ -53,18 +84,22 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
     };
   }, [showNotification]);
 
-  const handleClose = useCallback(() => {
-    setOpen(false);
-  }, []);
-
   return (
-    <NotificationContext.Provider value={{ showNotification }}>
+    <NotificationContext.Provider
+      value={{
+        showNotification,
+        notifySuccess,
+        notifyError,
+        notifyInfo,
+        notifyWarning,
+      }}
+    >
       {children}
-      {open && (
+      {notification.open && (
         <Notification
-          message={message}
-          severity={severity}
-          onClose={handleClose}
+          message={notification.message}
+          severity={notification.severity}
+          onClose={handleCloseNotification}
         />
       )}
     </NotificationContext.Provider>

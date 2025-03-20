@@ -213,75 +213,84 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
                 </SwitchButton>
               </StyledButtonGroup>
             </AuthButtonGroup>
-            <AuthForm>
-              <Box>
-                <StyledInput
-                  placeholder="Enter your e-mail"
-                  onChange={handleInputChange("email")}
-                  value={formData.email}
-                  name="email"
-                  error={!!errors.email}
-                />
-                {errors.email && (
-                  <FormHelperText error>{errors.email}</FormHelperText>
-                )}
-              </Box>
-              <Box>
-                <PasswordInputWrapper>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleAuth();
+              }}
+            >
+              <AuthForm>
+                <Box>
                   <StyledInput
-                    placeholder="Enter your password"
-                    type={isPasswordVisible ? "text" : "password"}
-                    onChange={handleInputChange("password")}
-                    value={formData.password}
-                    name="password"
-                    error={!!errors.password}
+                    placeholder="Enter your e-mail"
+                    onChange={handleInputChange("email")}
+                    value={formData.email}
+                    name="email"
+                    error={!!errors.email}
                   />
-                  <PasswordToggle
-                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                  >
-                    <IoEyeOutline />
-                  </PasswordToggle>
-                </PasswordInputWrapper>
-                {errors.password && (
-                  <FormHelperText error>{errors.password}</FormHelperText>
-                )}
-              </Box>
-              {!isSignIn && (
-                <>
-                  <TermsCheckbox
-                    control={
-                      <StyledCheckbox
-                        checked={formData.acceptTerms}
-                        onChange={handleInputChange("acceptTerms")}
-                      />
-                    }
-                    label="I confirm that I have read, understood, and accepted the BETSAVE Terms & Conditions. By checking this box, I also confirm that I am at least 18 years old."
-                  />
-                  {errors.acceptTerms && (
-                    <FormHelperText error>{errors.acceptTerms}</FormHelperText>
+                  {errors.email && (
+                    <FormHelperText error>{errors.email}</FormHelperText>
                   )}
-                </>
-              )}
-              <ActionRow>
-                {isSignIn ? (
+                </Box>
+                <Box>
+                  <PasswordInputWrapper>
+                    <StyledInput
+                      placeholder="Enter your password"
+                      type={isPasswordVisible ? "text" : "password"}
+                      onChange={handleInputChange("password")}
+                      value={formData.password}
+                      name="password"
+                      error={!!errors.password}
+                    />
+                    <PasswordToggle
+                      onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                    >
+                      <IoEyeOutline />
+                    </PasswordToggle>
+                  </PasswordInputWrapper>
+                  {errors.password && (
+                    <FormHelperText error>{errors.password}</FormHelperText>
+                  )}
+                </Box>
+                {!isSignIn && (
                   <>
-                    <LoginButton onClick={handleAuth} disabled={isLoading}>
-                      {isLoading ? "Logging in..." : "Log In"}
-                    </LoginButton>
-                    <ForgotPassword onClick={handleForgotPasswordClick}>
-                      Forgot your password?
-                    </ForgotPassword>
+                    <TermsCheckbox
+                      control={
+                        <StyledCheckbox
+                          checked={formData.acceptTerms}
+                          onChange={handleInputChange("acceptTerms")}
+                        />
+                      }
+                      label="I confirm that I have read, understood, and accepted the BETSAVE Terms & Conditions. By checking this box, I also confirm that I am at least 18 years old."
+                    />
+                    {errors.acceptTerms && (
+                      <FormHelperText error>
+                        {errors.acceptTerms}
+                      </FormHelperText>
+                    )}
                   </>
-                ) : (
-                  <LoginButton
-                    disabled={!formData.acceptTerms || isLoading}
-                    onClick={handleAuth}
-                  >
-                    {isLoading ? "Creating Account..." : "Create Account"}
-                  </LoginButton>
                 )}
-              </ActionRow>
-            </AuthForm>
+                <ActionRow>
+                  {isSignIn ? (
+                    <>
+                      <LoginButton type="submit" disabled={isLoading}>
+                        {isLoading ? "Logging in..." : "Log In"}
+                      </LoginButton>
+                      <ForgotPassword onClick={handleForgotPasswordClick}>
+                        Forgot your password?
+                      </ForgotPassword>
+                    </>
+                  ) : (
+                    <LoginButton
+                      type="submit"
+                      disabled={!formData.acceptTerms || isLoading}
+                    >
+                      {isLoading ? "Creating Account..." : "Create Account"}
+                    </LoginButton>
+                  )}
+                </ActionRow>
+              </AuthForm>
+            </form>
             <SocialSection>
               <SocialDivider>Social network</SocialDivider>
               <SocialButtonGroup>

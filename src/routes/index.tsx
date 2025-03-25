@@ -9,13 +9,14 @@ import { Dashboard } from "../pages/dashboard";
 import { AccountManage } from "../pages/account";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { PublicRoute } from "./PublicRoute";
-
+import { NewLanding } from "../pages/landing";
 export const RouterComponent = () => {
   const { isAuthenticated } = useSelector((state: RootState) => state.session);
 
   return (
     <Routes>
       {/* Public Routes */}
+
       <Route
         path="/"
         element={
@@ -24,6 +25,15 @@ export const RouterComponent = () => {
           </PublicRoute>
         }
       />
+      <Route
+        path="/new-landing"
+        element={
+          <PublicRoute>
+            <NewLanding />
+          </PublicRoute>
+        }
+      />
+
       <Route
         path="/earn"
         element={

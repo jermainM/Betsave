@@ -19,6 +19,7 @@ import GreenHorseRaceIcon from "../assets/betsave-icon/green/horse-race.png";
 import GoogleIcon from "../assets/social/google.png";
 import StreamIcon from "../assets/social/stream.png";
 import FacebookIcon from "../assets/social/facebook.png";
+import AppleIcon from "../assets/social/apple.png";
 
 import BronzeImg from "../assets/bronze.png";
 import GoldenImg from "../assets/gold.png";
@@ -92,6 +93,12 @@ import GiftIcon from "../assets/gift.png";
 import HorseImg from "../assets/horse.png";
 import BetsaveSupermanPng from "../assets/betsave-superman.png";
 import BetsaveSuperForgotPng from "../assets/super-forgot.png";
+import SuperHeroWheelPng from "../assets/superhero_wheel.png"
+import Present1Png from "../assets/present-1.png";
+import BronzeIcon from "../assets/bronze-icon.png";
+import SilverIcon from "../assets/silver-icon.png";
+import GoldIcon from "../assets/gold-icon.png";
+import PlatinumIcon from "../assets/platinum-icon.png";
 
 export {
   GreenTransparentPayoutIcon,
@@ -180,4 +187,11 @@ export {
   StreamIcon,
   FacebookIcon,
   BetsaveSuperForgotPng,
+  AppleIcon,
+  SuperHeroWheelPng,
+  Present1Png,
+  BronzeIcon,
+  SilverIcon,
+  GoldIcon,
+  PlatinumIcon,
 };

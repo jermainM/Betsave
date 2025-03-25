@@ -135,6 +135,7 @@ const BetSmartContainer = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   width: "100%",
+  maxWidth: "1520px",
 }));
 
 const Heading = styled(Typography)(({ theme }) => ({

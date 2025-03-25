@@ -38,6 +38,7 @@ const LayoutContainer = styled(Box)(({ theme }) => ({
   alignItems: "center",
   width: "100%",
   position: "relative",
+  overflow: "hidden",
 }));
 
 export const LayerImage = styled("img")(({ theme }) => ({
@@ -49,7 +50,6 @@ export const LayerImage = styled("img")(({ theme }) => ({
 }));
 
 const Wrapper = styled(Box)(({ theme }) => ({
-  maxWidth: "1520px",
   width: "100%",
   padding: "0px 40px",
   display: "flex",

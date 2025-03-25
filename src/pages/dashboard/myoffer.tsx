@@ -26,11 +26,16 @@ import { offerService } from "../../api/services/offerService";
 import { calculateOfferStatus } from "../../utils/offer";
 import { Row } from "../../constants/interfaces";
 import { useNotification } from "../../provider/notification";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { clearSession } from "../../store/slices/sessionSlice";
 
 export const MyOffer = () => {
   const [isEmpty, setEmpty] = useState(false);
   const [offers, setOffers] = useState<Row[]>([]);
   const { notifyError } = useNotification();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const fetchOffers = async () => {
     try {
       const offers = await offerService.getOffers();
@@ -48,6 +53,8 @@ export const MyOffer = () => {
       setOffers(offersData);
     } catch (error) {
       console.error("Error fetching offers:", error);
+      dispatch(clearSession());
+      navigate("/");
       notifyError(`Error fetching offers: ${error}`);
     }
   };

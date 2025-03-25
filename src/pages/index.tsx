@@ -4,7 +4,7 @@ import { BetaCardSlider } from "../components/swiper/BetaCard";
 import { Star } from "@mui/icons-material";
 import { SignUpCard } from "../components/card/SignUpCard";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CashbackSlider } from "../components/swiper/Cashback";
 import { WhyChooseSwiper } from "../components/swiper/WhyChoose";
 import { FAQItem } from "../components/Faq";
@@ -590,7 +590,7 @@ const Howitworks = styled(Box)<{ device: "mobile" | "desktop" }>(
       display: device === "mobile" ? "flex" : "none",
       width: "100%",
     },
-  }),
+  })
 );
 
 interface HowitworksItemProps {

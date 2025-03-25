@@ -10,17 +10,32 @@ code {
 
 @font-face {
   font-family: "SpaceGrotesk-bold";
-  src: url("assets/font/static/SpaceGrotesk-Bold.ttf") format("truetype");
+  src: url("assets/font/SpaceGrotestk/static/SpaceGrotesk-Bold.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "SpaceGrotesk-light";
-  src: url("assets/font/static/SpaceGrotesk-Light.ttf") format("truetype");
+  src: url("assets/font/SpaceGrotestk/static/SpaceGrotesk-Light.ttf") format("truetype");
 }
 
 @font-face {
   font-family: "SpaceGrotesk";
-  src: url("assets/font/static/SpaceGrotesk-Regular.ttf") format("truetype");
+  src: url("assets/font/SpaceGrotestk/static/SpaceGrotesk-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Unbounded-bold";
+  src: url("assets/font/Unbounded/static/Unbounded-Bold.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Unbounded-light";
+  src: url("assets/font/Unbounded/static/Unbounded-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Unbounded";
+  src: url("assets/font/Unbounded/static/Unbounded-Regular.ttf") format("truetype");
 }
 
 /* Styling for the custom scrollbar */

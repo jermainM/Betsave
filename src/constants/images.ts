@@ -100,6 +100,22 @@ import SilverIcon from "../assets/silver-icon.png";
 import GoldIcon from "../assets/gold-icon.png";
 import PlatinumIcon from "../assets/platinum-icon.png";
 
+import SlotsPng from "../assets/casino/slots.png";
+import RoulettePng from "../assets/casino/roulette.png";
+import BlackjackPng from "../assets/casino/blackjack.png";
+import CrashPng from "../assets/casino/crash.png";
+import BasketPng from "../assets/casino/basket.png";
+import DealerPng from "../assets/casino/dealer.png";
+import GamepadPng from "../assets/casino/gamepad.png";
+import GlovesPng from "../assets/casino/gloves.png";
+import UnicornPng from "../assets/casino/unicorn.png";
+import FootballPng from "../assets/casino/ball.png";
+
+import TopBetPng from "../assets/top-bet.png";
+import MessagePng from "../assets/message.png";
+import CashbackPng from "../assets/cashback.png";
+import CalendarPng from '../assets/calendar.png'
+
 export {
   GreenTransparentPayoutIcon,
   GreenMaxmizeWinIcon,
@@ -194,4 +210,18 @@ export {
   SilverIcon,
   GoldIcon,
   PlatinumIcon,
+  SlotsPng,
+  RoulettePng,
+  BlackjackPng,
+  CrashPng,
+  BasketPng,
+  DealerPng,
+  GamepadPng,
+  GlovesPng,
+  UnicornPng,
+  FootballPng,
+  TopBetPng,
+  MessagePng,
+  CashbackPng,
+  CalendarPng,
 };

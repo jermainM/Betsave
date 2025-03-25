@@ -1,17 +1,181 @@
 import { Box, Button, styled, Typography } from "@mui/material";
 import {
   AppleIcon,
+  BasketPng,
+  BlackjackPng,
   BronzeIcon,
+  CalendarPng,
+  CashbackPng,
+  CrashPng,
+  DealerPng,
   FacebookIcon,
+  FootballPng,
+  GamepadPng,
+  GlovesPng,
   GoldIcon,
   GoogleIcon,
+  MessagePng,
   PlatinumIcon,
   Present1Png,
+  RoulettePng,
   SilverIcon,
+  SlotsPng,
   StreamIcon,
   SuperHeroWheelPng,
+  TopBetPng,
+  UnicornPng,
 } from "../constants/images";
+import { StyledBadge } from "../components/badge";
+import { FaArrowRight } from "react-icons/fa6";
 
+const CasinoItems = [
+  {
+    title: "SLOTS",
+    onlineMembers: 729,
+    link: "/",
+    img: SlotsPng,
+    style: {
+      linearColor:
+        "linear-gradient(126.11deg, #152130 29.04%, #00EEFF 225.53%)",
+      buttonBorder: "2px solid rgba(53, 252, 255, 1)",
+      buttonBackground: "linear-gradient(180deg, #35FCFF 0%, #00979B 100%)",
+    },
+  },
+  {
+    title: "BLACKJACK",
+    onlineMembers: 1890,
+    link: "/",
+    img: BlackjackPng,
+    style: {
+      linearColor:
+        "linear-gradient(126.11deg, #201530 29.04%, #FF00FB 225.53%)",
+      buttonBorder: "2px solid rgba(255, 110, 255, 1)",
+      buttonBackground: "linear-gradient(180deg, #FF2EFC 0%, #A500A1 100%)",
+    },
+  },
+  {
+    title: "ROULETTE",
+    onlineMembers: 569,
+    link: "/",
+    img: RoulettePng,
+    style: {
+      linearColor:
+        "linear-gradient(126.11deg, #151A30 29.04%, #005EFF 225.53%)",
+      buttonBorder: "2px solid rgba(119, 201, 255, 1)",
+      buttonBackground: "linear-gradient(180deg, #77C9FF 0%, #005EFF 100%)",
+    },
+  },
+  {
+    title: "CRASH",
+    onlineMembers: 321,
+    link: "/",
+    img: CrashPng,
+    style: {
+      linearColor:
+        "linear-gradient(126.11deg, #151930 29.04%, #5E00FF 225.53%)",
+      buttonBorder: "2px solid rgba(154, 95, 255, 1)",
+      buttonBackground: "linear-gradient(180deg, #853EFF 0%, #360AD7 100%)",
+    },
+  },
+  {
+    title: "DEALER",
+    onlineMembers: 1072,
+    link: "/",
+    img: DealerPng,
+    style: {
+      linearColor:
+        "linear-gradient(126.11deg, #151A30 29.04%, #D0FF00 225.53%)",
+      buttonBorder: "2px solid rgba(223, 255, 82, 1)",
+      buttonBackground: "linear-gradient(180deg, #D6FF21 0%, #6C9B00 100%)",
+    },
+  },
+];
+
+const SportsbookItems = [
+  {
+    title: "RACING",
+    onlineMembers: 729,
+    link: "/",
+    img: UnicornPng,
+    style: {
+      linearColor:
+        "linear-gradient(126.11deg, #201530 29.04%, #FF00FB 225.53%)",
+      buttonBorder: "2px solid rgba(255, 110, 255, 1)",
+      buttonBackground: "linear-gradient(180deg, #FF2EFC 0%, #A500A1 100%)",
+    },
+  },
+  {
+    title: "FOOTBALL",
+    onlineMembers: 1890,
+    link: "/",
+    img: FootballPng,
+    style: {
+      linearColor:
+        "linear-gradient(126.11deg, #151930 29.04%, #5E00FF 225.53%)",
+      buttonBorder: "2px solid rgba(154, 95, 255, 1)",
+      buttonBackground: "linear-gradient(180deg, #853EFF 0%, #360AD7 100%)",
+    },
+  },
+  {
+    title: "BASKETBALL",
+    onlineMembers: 1890,
+    link: "/",
+    img: BasketPng,
+    style: {
+      linearColor:
+        "linear-gradient(126.11deg, #281613 29.04%, #FF5500 225.53%)",
+      buttonBorder: "2px solid rgba(255, 127, 84, 1)",
+      buttonBackground: "linear-gradient(180deg, #FF7F54 0%, #A92D00 100%)",
+    },
+  },
+  {
+    title: "UFC",
+    onlineMembers: 1072,
+    link: "/",
+    img: GlovesPng,
+    style: {
+      linearColor:
+        "linear-gradient(128.24deg, #301523 28.35%, #FF002F 226.66%)",
+      buttonBorder: "2px solid rgba(255, 85, 116, 1)",
+      buttonBackground: "linear-gradient(180deg, #FF5574 0%, #A8001F 100%)",
+    },
+  },
+  {
+    title: "ESPORTS",
+    onlineMembers: 321,
+    link: "/",
+    img: GamepadPng,
+    style: {
+      linearColor:
+        "linear-gradient(126.11deg, #151930 29.04%, #9000FF 225.53%)",
+      buttonBorder: "2px solid rgba(178, 78, 255, 1)",
+      buttonBackground: "linear-gradient(180deg, #B24EFF 0%, #6700B6 100%)",
+    },
+  },
+];
+
+const ReasonData = [
+  {
+    icon: TopBetPng,
+    title: "Top Betting & Casino Brands",
+    subTitle: "Access leading sportsbooks and online casinos. ",
+  },
+  {
+    icon: CashbackPng,
+    title: "Cashback on Net Losses",
+    subTitle: "Earn monthly cashback based on your net losses (NGR).",
+  },
+  {
+    icon: MessagePng,
+    title: "Simple & Seamless Platform",
+    subTitle: "Track offers, activity, and rewards easily.",
+  },
+  {
+    icon: CalendarPng,
+    title: "Monthly Payouts",
+    subTitle: "Receive cashback monthly with secure withdrawals.",
+  },
+];
 export const NewLanding = () => {
   return (
     <Container>
@@ -115,7 +279,58 @@ export const NewLanding = () => {
             Play Casino Games & Earn Cashback Monthly Based on Your NGR.
           </CasinoSectionSubTitle>
         </CasinoSectionTitleContainer>
+        <CasinoSectionItems>
+          {CasinoItems.map((item) => (
+            <CasinoSectionItem
+              key={item.title}
+              title={item.title}
+              onlineMembers={item.onlineMembers}
+              link={item.link}
+              img={item.img}
+              styles={item.style}
+            />
+          ))}
+        </CasinoSectionItems>
       </CasinoSection>
+      <CasinoSection>
+        <CasinoSectionTitleContainer>
+          <CasinoSectionTitle>Sportsbook</CasinoSectionTitle>
+          <CasinoSectionSubTitle>
+            Place Sports Bets & Get Up to 15% Cashback on Your NGR.
+          </CasinoSectionSubTitle>
+        </CasinoSectionTitleContainer>
+        <CasinoSectionItems>
+          {SportsbookItems.map((item) => (
+            <CasinoSectionItem
+              key={item.title}
+              title={item.title}
+              onlineMembers={item.onlineMembers}
+              link={item.link}
+              img={item.img}
+              styles={item.style}
+            />
+          ))}
+        </CasinoSectionItems>
+      </CasinoSection>
+      <ReasonSection>
+        <ReasonSectionTitleContainer>
+          <ReasonSectionTitle>Why Choose BETSAVE?</ReasonSectionTitle>
+          <ReasonSectionSubTitle>
+            Discover Why BetSave is the Top Choice for Ultimate Gaming
+            Experience!
+          </ReasonSectionSubTitle>
+        </ReasonSectionTitleContainer>
+        <ReasonSectionItems>
+          {ReasonData.map((item) => (
+            <ReasonItem
+              key={item.title}
+              icon={item.icon}
+              title={item.title}
+              subTitle={item.subTitle}
+            />
+          ))}
+        </ReasonSectionItems>
+      </ReasonSection>
     </Container>
   );
 };
@@ -125,6 +340,7 @@ const Container = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   gap: "100px",
+  maxWidth: "1960px",
   [theme.breakpoints.down(1440)]: {
     gap: "80px",
   },
@@ -250,13 +466,15 @@ const RegisterButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#1AE5A1",
   color: "#000",
   borderRadius: "10px",
-  padding: "18px 30px",
+  padding: "0 30px",
+  height: "60px",
   fontSize: "20px",
   fontWeight: "600",
   textTransform: "none",
   [theme.breakpoints.down(1280)]: {
     fontSize: "16px",
-    padding: "12px 20px",
+    padding: "0 20px",
+    height: "50px",
   },
 }));
 
@@ -268,6 +486,7 @@ const SocialButtonContainer = styled(Box)(({ theme }) => ({
 const SocialButton = styled(Button)(({ theme }) => ({
   width: "60px",
   height: "60px",
+  minWidth: "60px",
   borderRadius: "14px",
   backgroundColor: "#fff",
   background: "linear-gradient(180deg, #172236 0%, #212C40 100%)",
@@ -480,6 +699,7 @@ const MarketImg = styled("img")(({ theme }) => ({
   position: "absolute",
   top: "-50%",
   right: "-10%",
+  zIndex: "-1",
   [theme.breakpoints.down(1650)]: {
     right: "-20%",
     top: "-45%",
@@ -656,3 +876,307 @@ const CasinoSection = ProcessSection;
 const CasinoSectionTitleContainer = ProcessTitleContainer;
 const CasinoSectionTitle = ProcessTitle;
 const CasinoSectionSubTitle = ProcessSubTitle;
+
+const CasinoSectionItems = styled(Box)(({ theme }) => ({
+  display: "flex",
+  gap: "20px",
+  flexWrap: "wrap",
+  [theme.breakpoints.down(1084)]: {
+    gap: "15px",
+    flexWrap: "nowrap",
+    display: "grid",
+    gridTemplateColumns: "repeat(3, 1fr)",
+  },
+  [theme.breakpoints.down(960)]: {
+    gridTemplateColumns: "repeat(2, 1fr)",
+  },
+  [theme.breakpoints.down(640)]: {
+    gridTemplateColumns: "repeat(1, 1fr)",
+  },
+}));
+
+interface CasinoSectionItemProps {
+  title: string;
+  onlineMembers: number;
+  link: string;
+  img: string;
+  styles: {
+    linearColor: string;
+    buttonBorder: string;
+    buttonBackground: string;
+  };
+}
+
+const CasinoSectionItem = (props: CasinoSectionItemProps) => {
+  const { title, onlineMembers, link, img, styles } = props;
+  return (
+    <CasinoSectionItemWrapper style={{ background: styles.linearColor }}>
+      <CasinoSectionItemTitle>{title}</CasinoSectionItemTitle>
+      <CasinoSectionItemOnlineMembers>
+        <StyledBadge
+          overlap="circular"
+          anchorOrigin={{ horizontal: "left" }}
+          variant="dot"
+        />
+        {onlineMembers}
+      </CasinoSectionItemOnlineMembers>
+      <CasinoLinkButton
+        onClick={() => window.open(link, "_blank", "noopener,noreferrer")}
+        style={{
+          border: styles.buttonBorder,
+          background: styles.buttonBackground,
+        }}
+      >
+        <FaArrowRight />
+      </CasinoLinkButton>
+      <CasinoSectionImage src={img} alt="casino" />
+    </CasinoSectionItemWrapper>
+  );
+};
+
+const CasinoSectionItemWrapper = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "10px",
+  padding: "25px 35px",
+  borderRadius: "30px",
+  position: "relative",
+  overflow: "hidden",
+  width: "320px",
+  height: "240px",
+  [theme.breakpoints.down(1440)]: {
+    width: "300px",
+    height: "220px",
+    padding: "22px 30px",
+  },
+  [theme.breakpoints.down(1084)]: {
+    width: "100%",
+    padding: "20px 28px",
+  },
+}));
+
+const CasinoSectionItemTitle = styled(Typography)(({ theme }) => ({
+  fontSize: "24px",
+  fontWeight: "700",
+  color: "#fff",
+  letterSpacing: "0%",
+  fontFamily: "Unbounded",
+  [theme.breakpoints.down(1440)]: {
+    fontSize: "22px",
+  },
+  [theme.breakpoints.down(960)]: {
+    fontSize: "20px",
+  },
+  [theme.breakpoints.down(540)]: {
+    fontSize: "18px",
+  },
+}));
+
+const CasinoSectionItemOnlineMembers = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "20px",
+  fontSize: "18px",
+  fontWeight: "500",
+  color: "#fff",
+  marginLeft: "10px",
+  [theme.breakpoints.down(1440)]: {
+    fontSize: "16px",
+    gap: "15px",
+  },
+  [theme.breakpoints.down(960)]: {
+    fontSize: "15px",
+    gap: "12px",
+  },
+  [theme.breakpoints.down(540)]: {
+    fontSize: "14px",
+    gap: "10px",
+  },
+}));
+
+const CasinoLinkButton = styled(Button)(({ theme }) => ({
+  width: "42px",
+  height: "42px",
+  minWidth: "42px",
+  borderRadius: "10px",
+  color: "#fff",
+  fontSize: "20px",
+  [theme.breakpoints.down(1440)]: {
+    width: "40px",
+    height: "40px",
+    minWidth: "40px",
+    fontSize: "18px",
+  },
+  [theme.breakpoints.down(960)]: {
+    width: "38px",
+    height: "38px",
+    minWidth: "38px",
+    fontSize: "16px",
+  },
+  [theme.breakpoints.down(540)]: {
+    width: "36px",
+    height: "36px",
+    minWidth: "36px",
+    fontSize: "15px",
+  },
+}));
+
+const CasinoSectionImage = styled("img")(({ theme }) => ({
+  width: "100%",
+  height: "100%",
+  objectFit: "contain",
+  position: "absolute",
+  top: "50px",
+  left: "96px",
+  transform: "rotate(-6.5deg)",
+  [theme.breakpoints.down(1440)]: {
+    top: "45px",
+    left: "90px",
+  },
+  [theme.breakpoints.down(960)]: {
+    top: "40px",
+    left: "85px",
+  },
+  [theme.breakpoints.down(540)]: {
+    top: "35px",
+    left: "80px",
+  },
+}));
+
+const ReasonSection = ProcessSection;
+const ReasonSectionTitleContainer = ProcessTitleContainer;
+const ReasonSectionTitle = ProcessTitle;
+const ReasonSectionSubTitle = ProcessSubTitle;
+
+const ReasonSectionItems = styled(Box)(({ theme }) => ({
+  display: "grid",
+  gridTemplateColumns: "repeat(2, 1fr)",
+  gap: "20px",
+  [theme.breakpoints.down(768)]: {
+    gridTemplateColumns: "repeat(1, 1fr)",
+  },
+}));
+
+interface ReasonItemProps {
+  icon: string;
+  title: string;
+  subTitle: string;
+}
+
+const ReasonItem = (props: ReasonItemProps) => {
+  const { icon, title, subTitle } = props;
+  return (
+    <ReasonItemWrapper>
+      <ReasonItemIcon src={icon} alt="reason" />
+      <ReasonItemContent>
+        <ReasonItemTitle>{title}</ReasonItemTitle>
+        <ReasonItemSubTitle>{subTitle}</ReasonItemSubTitle>
+      </ReasonItemContent>
+    </ReasonItemWrapper>
+  );
+};
+
+const ReasonItemWrapper = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "24px",
+  padding: "35px",
+  borderRadius: "30px",
+  overflow: "hidden",
+  width: "100%",
+  alignItems: "center",
+  justifyContent: "center",
+  background: "linear-gradient(180deg, #14393C 0%, #152330 100%)",
+  position: "relative",
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    padding: "1px",
+    borderRadius: "30px",
+    background: "linear-gradient(180deg, #1AE5A1 0%, #0D1321 100%)",
+    WebkitMask:
+      "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+    WebkitMaskComposite: "xor",
+    maskComposite: "exclude",
+  },
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    borderRadius: "20px",
+    background:
+      "radial-gradient(circle at 50% 0%, rgba(26, 229, 161, 0.15), transparent 70%)",
+    pointerEvents: "none",
+  },
+  [theme.breakpoints.down(640)]: {
+    padding: "24px",
+    gap: "4px",
+  },
+}));
+
+const ReasonItemIcon = styled("img")(({ theme }) => ({
+  width: "180px",
+  height: "180px",
+  objectFit: "contain",
+  [theme.breakpoints.down(1500)]: {
+    width: "140px",
+    height: "140px",
+  },
+  [theme.breakpoints.down(1280)]: {
+    width: "120px",
+    height: "120px",
+  },
+}));
+
+const ReasonItemContent = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "24px",
+  alignItems: "center",
+  justifyContent: "center",
+  [theme.breakpoints.down(768)]: {
+    gap: "16px",
+  },
+  [theme.breakpoints.down(640)]: {
+    gap: "4px",
+  },
+}));
+
+const ReasonItemTitle = styled(Typography)(({ theme }) => ({
+  fontSize: "40px",
+  fontWeight: "600",
+  color: "#fff",
+  textAlign: "center",
+  [theme.breakpoints.down(1500)]: {
+    fontSize: "36px",
+  },
+  [theme.breakpoints.down(1280)]: {
+    fontSize: "32px",
+  },
+  [theme.breakpoints.down(1024)]: {
+    fontSize: "28px",
+  },
+  [theme.breakpoints.down(840)]: {
+    fontSize: "24px",
+  },
+  [theme.breakpoints.down(480)]: {
+    fontSize: "20px",
+  },
+}));
+
+const ReasonItemSubTitle = styled(Typography)(({ theme }) => ({
+  fontSize: "20px",
+  fontWeight: "500",
+  color: "#627691",
+  textAlign: "center",
+  [theme.breakpoints.down(1500)]: {
+    fontSize: "18px",
+  },
+  [theme.breakpoints.down(1280)]: {
+    fontSize: "16px",
+  },
+  [theme.breakpoints.down(840)]: {
+    fontSize: "14px",
+  },
+}));

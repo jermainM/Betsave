@@ -523,16 +523,14 @@ const MarketImg = styled("img")(({ theme }) => ({
 }));
 
 const ProcessActionImage1 = styled("img")(({ theme }) => ({
-  height: "280px",
+  width: "100%",
+  height: "100%",
   objectFit: "cover",
   borderRadius: "20px",
   [theme.breakpoints.down(960)]: {
-    width: "100%",
-    height: "300px",
     borderRadius: "18px",
   },
   [theme.breakpoints.down(540)]: {
-    height: "280px",
     borderRadius: "16px",
   },
 }));

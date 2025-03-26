@@ -470,6 +470,40 @@ const ProcessActionItemWrapper = styled(Box)(({ theme }) => ({
   borderRadius: "20px",
   backgroundColor: "#151A30",
   width: "100%",
+  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+  cursor: "pointer",
+  position: "relative",
+  overflow: "hidden",
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    background:
+      "linear-gradient(45deg, transparent, rgba(26, 229, 161, 0.1), transparent)",
+    transform: "translateX(-100%)",
+    transition: "transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
+  },
+  "&:hover": {
+    transform: "translateX(10px)",
+    backgroundColor: "#1a2238",
+    boxShadow: "0 10px 30px rgba(26, 229, 161, 0.15)",
+    "&::before": {
+      transform: "translateX(100%)",
+    },
+    "& .number": {
+      transform: "scale(1.1) rotate(5deg)",
+      backgroundColor: "#1AE5A1",
+      boxShadow: "0 0 20px rgba(26, 229, 161, 0.3)",
+    },
+    "& h6": {
+      color: "#1AE5A1",
+      transform: "translateX(5px)",
+    },
+    "& p": {
+      color: "#fff",
+      transform: "translateX(5px)",
+    },
+  },
   [theme.breakpoints.down(960)]: {
     padding: "16px",
     gap: "15px",
@@ -494,6 +528,7 @@ const ProcessActionItemNumber = styled(Typography)(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
   flexShrink: 0,
+  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
   [theme.breakpoints.down(960)]: {
     width: "36px",
     height: "36px",
@@ -512,6 +547,7 @@ const ProcessActionItemContent = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   gap: "10px",
+  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
   [theme.breakpoints.down(960)]: {
     gap: "8px",
   },
@@ -524,6 +560,7 @@ const ProcessActionItemTitle = styled(Typography)(({ theme }) => ({
   fontSize: "25px",
   fontWeight: "700",
   color: "#fff",
+  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
   [theme.breakpoints.down(1280)]: {
     fontSize: "22px",
   },
@@ -539,6 +576,7 @@ const ProcessActionItemText = styled(Typography)(({ theme }) => ({
   fontSize: "20px",
   fontWeight: "400",
   color: "#627691",
+  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
   [theme.breakpoints.down(1280)]: {
     fontSize: "18px",
   },
@@ -662,6 +700,8 @@ const TierItemWrapper = styled(Box)(({ theme }) => ({
   background: "linear-gradient(180deg, #14393C 0%, #152330 100%)",
   position: "relative",
   borderRadius: "20px",
+  transition: "all 0.3s ease-in-out",
+  cursor: "pointer",
   "&::before": {
     content: '""',
     position: "absolute",
@@ -673,6 +713,7 @@ const TierItemWrapper = styled(Box)(({ theme }) => ({
       "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
     WebkitMaskComposite: "xor",
     maskComposite: "exclude",
+    transition: "all 0.3s ease-in-out",
   },
   "&::after": {
     content: '""',
@@ -682,6 +723,24 @@ const TierItemWrapper = styled(Box)(({ theme }) => ({
     background:
       "radial-gradient(circle at 50% 0%, rgba(26, 229, 161, 0.15), transparent 70%)",
     pointerEvents: "none",
+    transition: "all 0.3s ease-in-out",
+  },
+  "&:hover": {
+    transform: "translateY(-10px)",
+    boxShadow: "0 20px 40px rgba(26, 229, 161, 0.15)",
+    "&::before": {
+      background: "linear-gradient(180deg, #1AE5A1 0%, #1AE5A1 100%)",
+    },
+    "&::after": {
+      background:
+        "radial-gradient(circle at 50% 0%, rgba(26, 229, 161, 0.3), transparent 70%)",
+    },
+    "& img": {
+      transform: "scale(1.1)",
+    },
+    "& h6": {
+      color: "#1AE5A1",
+    },
   },
 }));
 
@@ -689,6 +748,7 @@ const TierItemIcon = styled("img")(({ theme }) => ({
   width: "180px",
   height: "180px",
   objectFit: "contain",
+  transition: "transform 0.3s ease-in-out",
   [theme.breakpoints.down(1800)]: {
     width: "140px",
     height: "140px",
@@ -710,6 +770,7 @@ const TierItemTitle = styled(Typography)(({ theme }) => ({
   fontSize: "40px",
   fontWeight: "500",
   color: "#fff",
+  transition: "color 0.3s ease-in-out",
   [theme.breakpoints.down(1800)]: {
     fontSize: "32px",
   },
@@ -803,6 +864,24 @@ const CasinoSectionItemWrapper = styled(Box)(({ theme }) => ({
   overflow: "hidden",
   width: "320px",
   height: "240px",
+  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+  cursor: "pointer",
+  "&:hover": {
+    transform: "translateY(-8px) scale(1.02)",
+    "& img": {
+      transform: "rotate(-3deg) scale(1.15)",
+      filter: "brightness(1.2) contrast(1.1)",
+      opacity: "0.95",
+    },
+    "& button": {
+      transform: "translateX(5px)",
+      background: "rgba(255, 255, 255, 0.1)",
+    },
+    "& .online-badge": {
+      transform: "scale(1.1)",
+      color: "#1AE5A1",
+    },
+  },
   [theme.breakpoints.down(1440)]: {
     width: "300px",
     height: "220px",
@@ -820,6 +899,7 @@ const CasinoSectionItemTitle = styled(Typography)(({ theme }) => ({
   color: "#fff",
   letterSpacing: "0%",
   fontFamily: "Unbounded",
+  transition: "all 0.3s ease-in-out",
   [theme.breakpoints.down(1440)]: {
     fontSize: "22px",
   },
@@ -839,6 +919,7 @@ const CasinoSectionItemOnlineMembers = styled(Box)(({ theme }) => ({
   fontWeight: "500",
   color: "#fff",
   marginLeft: "10px",
+  transition: "all 0.3s ease-in-out",
   [theme.breakpoints.down(1440)]: {
     fontSize: "16px",
     gap: "15px",
@@ -860,6 +941,15 @@ const CasinoLinkButton = styled(Button)(({ theme }) => ({
   borderRadius: "10px",
   color: "#fff",
   fontSize: "20px",
+  transition: "all 0.3s ease-in-out",
+  "& svg": {
+    transition: "transform 0.3s ease-in-out",
+  },
+  "&:hover": {
+    "& svg": {
+      transform: "translateX(3px)",
+    },
+  },
   [theme.breakpoints.down(1440)]: {
     width: "40px",
     height: "40px",
@@ -888,6 +978,9 @@ const CasinoSectionImage = styled("img")(({ theme }) => ({
   top: "50px",
   left: "96px",
   transform: "rotate(-6.5deg)",
+  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+  opacity: "0.85",
+  filter: "brightness(0.95) contrast(1.05)",
   [theme.breakpoints.down(1440)]: {
     top: "45px",
     left: "90px",
@@ -947,6 +1040,8 @@ const ReasonItemWrapper = styled(Box)(({ theme }) => ({
   justifyContent: "center",
   background: "linear-gradient(180deg, #14393C 0%, #152330 100%)",
   position: "relative",
+  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+  cursor: "pointer",
   "&::before": {
     content: '""',
     position: "absolute",
@@ -958,6 +1053,7 @@ const ReasonItemWrapper = styled(Box)(({ theme }) => ({
       "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
     WebkitMaskComposite: "xor",
     maskComposite: "exclude",
+    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
   },
   "&::after": {
     content: '""',
@@ -967,6 +1063,32 @@ const ReasonItemWrapper = styled(Box)(({ theme }) => ({
     background:
       "radial-gradient(circle at 50% 0%, rgba(26, 229, 161, 0.15), transparent 70%)",
     pointerEvents: "none",
+    transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+  },
+  "&:hover": {
+    transform: "translateY(-10px) scale(1.02)",
+    boxShadow:
+      "0 20px 40px rgba(26, 229, 161, 0.2), 0 0 30px rgba(26, 229, 161, 0.1)",
+    "&::before": {
+      background: "linear-gradient(180deg, #1AE5A1 0%, #1AE5A1 100%)",
+    },
+    "&::after": {
+      background:
+        "radial-gradient(circle at 50% 0%, rgba(26, 229, 161, 0.3), transparent 70%)",
+    },
+    "& img": {
+      transform: "scale(1.1) rotate(5deg)",
+      filter: "brightness(1.2) contrast(1.1)",
+    },
+    "& h6": {
+      transform: "translateY(-5px)",
+      color: "#1AE5A1",
+      textShadow: "0 0 20px rgba(26, 229, 161, 0.3)",
+    },
+    "& p": {
+      transform: "translateY(-3px)",
+      color: "#fff",
+    },
   },
   [theme.breakpoints.down(640)]: {
     padding: "24px",
@@ -978,6 +1100,8 @@ const ReasonItemIcon = styled("img")(({ theme }) => ({
   width: "180px",
   height: "180px",
   objectFit: "contain",
+  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+  filter: "brightness(0.95) contrast(1.05)",
   [theme.breakpoints.down(1500)]: {
     width: "140px",
     height: "140px",
@@ -994,6 +1118,7 @@ const ReasonItemContent = styled(Box)(({ theme }) => ({
   gap: "24px",
   alignItems: "center",
   justifyContent: "center",
+  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
   [theme.breakpoints.down(768)]: {
     gap: "16px",
   },
@@ -1007,6 +1132,7 @@ const ReasonItemTitle = styled(Typography)(({ theme }) => ({
   fontWeight: "600",
   color: "#fff",
   textAlign: "center",
+  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
   [theme.breakpoints.down(1500)]: {
     fontSize: "36px",
   },
@@ -1029,6 +1155,7 @@ const ReasonItemSubTitle = styled(Typography)(({ theme }) => ({
   fontWeight: "500",
   color: "#627691",
   textAlign: "center",
+  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
   [theme.breakpoints.down(1500)]: {
     fontSize: "18px",
   },

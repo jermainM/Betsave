@@ -37,6 +37,20 @@ import {
   GreenSignupOfferIcon,
   GreenSportsBetIcon,
   GreenCoin,
+  BlackjackPng,
+  SlotsPng,
+  RoulettePng,
+  CrashPng,
+  DealerPng,
+  UnicornPng,
+  FootballPng,
+  BasketPng,
+  GlovesPng,
+  GamepadPng,
+  TopBetPng,
+  CashbackPng,
+  MessagePng,
+  CalendarPng,
 } from "./images";
 
 const IconImg = styled("img")(({ theme }) => ({
@@ -288,6 +302,154 @@ export const STATIC_DATA = {
       icon: <SlEarphonesAlt style={{ width: "100%", height: "100%" }} />,
       name: "Help Center",
       idx: 6,
+    },
+  ],
+  casinoItems: [
+    {
+      title: "SLOTS",
+      onlineMembers: 729,
+      link: "/",
+      img: SlotsPng,
+      style: {
+        linearColor:
+          "linear-gradient(126.11deg, #152130 29.04%, #00EEFF 225.53%)",
+        buttonBorder: "2px solid rgba(53, 252, 255, 1)",
+        buttonBackground: "linear-gradient(180deg, #35FCFF 0%, #00979B 100%)",
+      },
+    },
+    {
+      title: "BLACKJACK",
+      onlineMembers: 1890,
+      link: "/",
+      img: BlackjackPng,
+      style: {
+        linearColor:
+          "linear-gradient(126.11deg, #201530 29.04%, #FF00FB 225.53%)",
+        buttonBorder: "2px solid rgba(255, 110, 255, 1)",
+        buttonBackground: "linear-gradient(180deg, #FF2EFC 0%, #A500A1 100%)",
+      },
+    },
+    {
+      title: "ROULETTE",
+      onlineMembers: 569,
+      link: "/",
+      img: RoulettePng,
+      style: {
+        linearColor:
+          "linear-gradient(126.11deg, #151A30 29.04%, #005EFF 225.53%)",
+        buttonBorder: "2px solid rgba(119, 201, 255, 1)",
+        buttonBackground: "linear-gradient(180deg, #77C9FF 0%, #005EFF 100%)",
+      },
+    },
+    {
+      title: "CRASH",
+      onlineMembers: 321,
+      link: "/",
+      img: CrashPng,
+      style: {
+        linearColor:
+          "linear-gradient(126.11deg, #151930 29.04%, #5E00FF 225.53%)",
+        buttonBorder: "2px solid rgba(154, 95, 255, 1)",
+        buttonBackground: "linear-gradient(180deg, #853EFF 0%, #360AD7 100%)",
+      },
+    },
+    {
+      title: "DEALER",
+      onlineMembers: 1072,
+      link: "/",
+      img: DealerPng,
+      style: {
+        linearColor:
+          "linear-gradient(126.11deg, #151A30 29.04%, #D0FF00 225.53%)",
+        buttonBorder: "2px solid rgba(223, 255, 82, 1)",
+        buttonBackground: "linear-gradient(180deg, #D6FF21 0%, #6C9B00 100%)",
+      },
+    },
+  ],
+
+  sportsbookItems: [
+    {
+      title: "RACING",
+      onlineMembers: 729,
+      link: "/",
+      img: UnicornPng,
+      style: {
+        linearColor:
+          "linear-gradient(126.11deg, #201530 29.04%, #FF00FB 225.53%)",
+        buttonBorder: "2px solid rgba(255, 110, 255, 1)",
+        buttonBackground: "linear-gradient(180deg, #FF2EFC 0%, #A500A1 100%)",
+      },
+    },
+    {
+      title: "FOOTBALL",
+      onlineMembers: 1890,
+      link: "/",
+      img: FootballPng,
+      style: {
+        linearColor:
+          "linear-gradient(126.11deg, #151930 29.04%, #5E00FF 225.53%)",
+        buttonBorder: "2px solid rgba(154, 95, 255, 1)",
+        buttonBackground: "linear-gradient(180deg, #853EFF 0%, #360AD7 100%)",
+      },
+    },
+    {
+      title: "BASKETBALL",
+      onlineMembers: 1890,
+      link: "/",
+      img: BasketPng,
+      style: {
+        linearColor:
+          "linear-gradient(126.11deg, #281613 29.04%, #FF5500 225.53%)",
+        buttonBorder: "2px solid rgba(255, 127, 84, 1)",
+        buttonBackground: "linear-gradient(180deg, #FF7F54 0%, #A92D00 100%)",
+      },
+    },
+    {
+      title: "UFC",
+      onlineMembers: 1072,
+      link: "/",
+      img: GlovesPng,
+      style: {
+        linearColor:
+          "linear-gradient(128.24deg, #301523 28.35%, #FF002F 226.66%)",
+        buttonBorder: "2px solid rgba(255, 85, 116, 1)",
+        buttonBackground: "linear-gradient(180deg, #FF5574 0%, #A8001F 100%)",
+      },
+    },
+    {
+      title: "ESPORTS",
+      onlineMembers: 321,
+      link: "/",
+      img: GamepadPng,
+      style: {
+        linearColor:
+          "linear-gradient(126.11deg, #151930 29.04%, #9000FF 225.53%)",
+        buttonBorder: "2px solid rgba(178, 78, 255, 1)",
+        buttonBackground: "linear-gradient(180deg, #B24EFF 0%, #6700B6 100%)",
+      },
+    },
+  ],
+
+  reasonData: [
+    {
+      icon: TopBetPng,
+      title: "Top Betting & Casino Brands",
+      subTitle: "Access leading sportsbooks and online casinos. ",
+    },
+    {
+      icon: CashbackPng,
+      title: "Cashback on Net Losses",
+      subTitle: "Earn monthly cashback based on your net losses (NGR).",
+    },
+    {
+      icon: MessagePng,
+      title: "Simple & Seamless Platform",
+      subTitle: "Track offers, activity, and rewards easily.",
+    },
+    {
+      icon: CalendarPng,
+      title: "Monthly Payouts",
+      subTitle: "Receive cashback monthly with secure withdrawals.",
     },
   ],
 };

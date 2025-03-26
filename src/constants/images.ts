@@ -2,7 +2,6 @@ import GreenTransparentPayoutIcon from "../assets/betsave-icon/green/transparent
 import GreenMaxmizeWinIcon from "../assets/betsave-icon/green/maximize-your-win.png";
 import GreenTopTierIcon from "../assets/betsave-icon/green/top-tier-partners.png";
 import GreenSeemslessIcon from "../assets/betsave-icon/green/seamless-experience.png";
-import GreenTimeIcon from "../assets/betsave-icon/green/time-icon.png";
 import GreenWalletIcon from "../assets/betsave-icon/green/wallet.png";
 import GreenWithdrawPng from "../assets/betsave-icon/green/withdraw.png";
 import GreenCashbackIcon from "../assets/betsave-icon/green/money-return.png";
@@ -43,12 +42,6 @@ import TrophyIcon from "../assets/Trophy.png";
 import HorseIcon from "../assets/horse-icon.png";
 import LayerImg1 from "../assets/layer1.png";
 import WalletIcon from "../assets/wallet.png";
-import UserIcon from "../assets/user-profile.png";
-import PlaceBetIcon from "../assets/place-bets.png";
-import Poster1Img from "../assets/Poster-1.jpg";
-import Poster2Img from "../assets/Poster-2.jpg";
-import Poster3Img from "../assets/Poster-3.jpg";
-import LayourImg from "../assets/layer.png";
 import BetSaveLogoImg from "../assets/Betsave-logo.png";
 import EnglishIcon from "../assets/flags/english.png";
 import LogoImg from "../assets/Betsave-logo.png";
@@ -121,7 +114,6 @@ export {
   GreenMaxmizeWinIcon,
   GreenTopTierIcon,
   GreenSeemslessIcon,
-  GreenTimeIcon,
   GreenWalletIcon,
   BronzeImg,
   GoldenImg,
@@ -147,12 +139,6 @@ export {
   GreenCashbackIcon,
   LayerImg1,
   WalletIcon,
-  UserIcon,
-  PlaceBetIcon,
-  Poster1Img,
-  Poster2Img,
-  Poster3Img,
-  LayourImg,
   BetSaveLogoImg,
   EnglishIcon,
   LogoImg,

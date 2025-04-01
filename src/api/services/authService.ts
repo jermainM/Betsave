@@ -98,14 +98,14 @@ export const authService = {
     }
   },
 
-  signup: async (email: string, password: string) => {  
+  signup: async (email: string, password: string, firstname: string, lastname: string) => {  
     try {
       const response = await fetch(ENDPOINTS.AUTH.SIGNUP, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, firstname, lastname }),
       });
       const data = await response.json();
       

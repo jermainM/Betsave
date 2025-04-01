@@ -36,12 +36,16 @@ interface FormData {
   email: string;
   password: string;
   acceptTerms: boolean;
+  firstname: string;
+  lastname: string;
 }
 
 interface FormErrors {
   email: string;
   password: string;
   acceptTerms: string;
+  firstname: string;
+  lastname: string;
 }
 
 export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
@@ -52,11 +56,15 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
     email: "",
     password: "",
     acceptTerms: false,
+    firstname: "",
+    lastname: "",
   });
   const [errors, setErrors] = useState<FormErrors>({
     email: "",
     password: "",
     acceptTerms: "",
+    firstname: "",
+    lastname: "",
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -73,11 +81,15 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
         email: "",
         password: "",
         acceptTerms: false,
+        firstname: "",
+        lastname: "",
       });
       setErrors({
         email: "",
         password: "",
         acceptTerms: "",
+        firstname: "",
+        lastname: "",
       });
     }
   }, [isOpen, isSignIn]);
@@ -96,12 +108,22 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       email: "",
       password: "",
       acceptTerms: "",
+      firstname: "",
+      lastname: "",
     };
 
     if (!formData.email) {
       newErrors.email = "Email is required";
     } else if (!validateEmail(formData.email)) {
       newErrors.email = "Please enter a valid email address";
+    }
+
+    if (!formData.firstname) {
+      newErrors.firstname = "First name is required";
+    }
+
+    if (!formData.lastname) {
+      newErrors.lastname = "Last name is required";
     }
 
     if (!formData.password) {
@@ -146,11 +168,15 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       email: "",
       password: "",
       acceptTerms: false,
+      firstname: "",
+      lastname: "",
     });
     setErrors({
       email: "",
       password: "",
       acceptTerms: "",
+      firstname: "",
+      lastname: "",
     });
   }, [setOpen]);
 
@@ -161,7 +187,12 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
     try {
       const response = isSignIn
         ? await authService.login(formData.email, formData.password)
-        : await authService.signup(formData.email, formData.password);
+        : await authService.signup(
+            formData.email,
+            formData.password,
+            formData.firstname,
+            formData.lastname
+          );
 
       dispatch(
         setAuthenticated({
@@ -232,6 +263,36 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
                     <FormHelperText error>{errors.email}</FormHelperText>
                   )}
                 </Box>
+                {!isSignIn && (
+                  <FieldWrapper>
+                    <Box>
+                      <StyledInput
+                        placeholder="First Name"
+                        onChange={handleInputChange("firstname")}
+                        value={formData.firstname}
+                        name="firstname"
+                        error={!!errors.firstname}
+                      />
+                      {errors.firstname && (
+                        <FormHelperText error>
+                          {errors.firstname}
+                        </FormHelperText>
+                      )}
+                    </Box>
+                    <Box>
+                      <StyledInput
+                        placeholder="Last Name"
+                        onChange={handleInputChange("lastname")}
+                        value={formData.lastname}
+                        name="lastname"
+                        error={!!errors.lastname}
+                      />
+                      {errors.lastname && (
+                        <FormHelperText error>{errors.lastname}</FormHelperText>
+                      )}
+                    </Box>
+                  </FieldWrapper>
+                )}
                 <Box>
                   <PasswordInputWrapper>
                     <StyledInput
@@ -649,6 +710,14 @@ const StyledCheckbox = styled(Checkbox)(({ theme }) => ({
 const TermsCheckbox = styled(FormControlLabel)(({ theme }) => ({
   margin: 0,
   alignItems: "flex-start",
+  "& .MuiTouchRipple-root": {
+    display: "none",
+  },
+  "& .MuiCheckbox-root": {
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
+  },
   "& .MuiFormControlLabel-label": {
     fontSize: "14px",
     color: "#8A8D98",
@@ -658,4 +727,10 @@ const TermsCheckbox = styled(FormControlLabel)(({ theme }) => ({
       fontSize: "12px",
     },
   },
+}));
+
+const FieldWrapper = styled(Box)(({ theme }) => ({
+  display: "flex",
+  gap: "12px",
+  width: "100%",
 }));

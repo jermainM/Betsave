@@ -14,6 +14,14 @@ const createNotificationEvent = (message: string, severity: 'success' | 'error' 
   });
 };
 
+interface SignUpProps {
+  email: string;
+  password: string;
+  firstname: string;
+  lastname: string;
+  phone: string;
+  country: string;
+}
 // Store tokens in localStorage
 export const storeTokens = (accessToken: string) => {
   try {
@@ -98,14 +106,15 @@ export const authService = {
     }
   },
 
-  signup: async (email: string, password: string, firstname: string, lastname: string) => {  
+  signup: async (props: SignUpProps) => {  
+    const { email, password, firstname, lastname, phone, country } = props;
     try {
       const response = await fetch(ENDPOINTS.AUTH.SIGNUP, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password, firstname, lastname }),
+        body: JSON.stringify({ email, password, firstname, lastname, phone, country }),
       });
       const data = await response.json();
       
@@ -136,6 +145,32 @@ export const authService = {
       console.log('Signout error:', error);
       window.dispatchEvent(createNotificationEvent(error.message || 'Signout failed. Please try again later.', 'error'));
       throw new Error(error.message || 'Signout failed. Please try again later.');
+    }
+  },
+
+  verifyPhoneNumber: async ({email, phone}: {email: string, phone: string}) => {
+    try {
+      const response = await fetch(ENDPOINTS.AUTH.VERIFY_PHONE, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, phone }),
+      });
+      const data = await response.json();
+      
+      if (!response.ok) {
+        const errorMessage = data.message || 'Failed to send verification code';
+        console.log('Verify phone number error:', errorMessage);
+        window.dispatchEvent(createNotificationEvent(errorMessage, 'error'));
+        throw new Error(errorMessage);
+      }
+
+      return data;  
+    } catch (error: any) {
+      console.log('Verify phone number error:', error);
+      // window.dispatchEvent(createNotificationEvent(error.message || 'Failed to send verification code. Please try again later.', 'error'));
+      throw new Error(error.message || 'Failed to send verification code. Please try again later.');
     }
   },
 

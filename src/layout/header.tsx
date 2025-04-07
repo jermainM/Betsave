@@ -66,14 +66,14 @@ export const Header = () => {
         <VerticalDivider orientation="vertical" />
         <Content>
           <LinkItemContainer>
-            <LinkItem onClick={() => navigate("/earn")}>
+            {/* <LinkItem onClick={() => navigate("/earn")}>
               <Icon src={GreenCashbackIcon} alt="earn-icon" />
               Earn
             </LinkItem>
             <LinkItem onClick={() => navigate("/bet")}>
               <Icon src={GreenWalletIcon} alt="cashout-icon" />
               Cashout
-            </LinkItem>
+            </LinkItem>*/}
           </LinkItemContainer>
           <ActionContainer>
             <IconInput

@@ -25,6 +25,8 @@ import { authService } from "../../../api/services/authService";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAuthenticated } from "../../../store/slices/sessionSlice";
+import CountrySelect from "../../common/CountrySelect";
+import PhoneInput from "../../common/PhoneInput";
 
 interface DialogProps {
   isOpen: boolean;
@@ -38,6 +40,8 @@ interface FormData {
   acceptTerms: boolean;
   firstname: string;
   lastname: string;
+  country: string;
+  phone: string;
 }
 
 interface FormErrors {
@@ -46,18 +50,25 @@ interface FormErrors {
   acceptTerms: string;
   firstname: string;
   lastname: string;
+  country: string;
+  phone: string;
+  verificationCode: string;
 }
 
 export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
   const [isSignIn, setIsSignIn] = useState(isLogin);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
+  const [isVerificationSent, setIsVerificationSent] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
     acceptTerms: false,
     firstname: "",
     lastname: "",
+    country: "",
+    phone: "",
   });
   const [errors, setErrors] = useState<FormErrors>({
     email: "",
@@ -65,6 +76,9 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
     acceptTerms: "",
     firstname: "",
     lastname: "",
+    country: "",
+    phone: "",
+    verificationCode: "",
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -83,6 +97,8 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
         acceptTerms: false,
         firstname: "",
         lastname: "",
+        country: "",
+        phone: "",
       });
       setErrors({
         email: "",
@@ -90,6 +106,9 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
         acceptTerms: "",
         firstname: "",
         lastname: "",
+        country: "",
+        phone: "",
+        verificationCode: "",
       });
     }
   }, [isOpen, isSignIn]);
@@ -110,6 +129,9 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       acceptTerms: "",
       firstname: "",
       lastname: "",
+      country: "",
+      phone: "",
+      verificationCode: "",
     };
 
     if (!formData.email) {
@@ -134,6 +156,14 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
 
     if (!isSignIn && !formData.acceptTerms) {
       newErrors.acceptTerms = "You must accept the Terms & Conditions";
+    }
+
+    if (!formData.country) {
+      newErrors.country = "Country is required";
+    }
+
+    if (!formData.phone) {
+      newErrors.phone = "Phone number is required";
     }
 
     setErrors(newErrors);
@@ -170,6 +200,8 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       acceptTerms: false,
       firstname: "",
       lastname: "",
+      country: "",
+      phone: "",
     });
     setErrors({
       email: "",
@@ -177,22 +209,92 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       acceptTerms: "",
       firstname: "",
       lastname: "",
+      country: "",
+      phone: "",
+      verificationCode: "",
     });
   }, [setOpen]);
 
+  const handleSendVerification = useCallback(async () => {
+    if (!formData.email || !formData.phone) {
+      setErrors((prev) => ({
+        ...prev,
+        email: !formData.email ? "Email is required" : "",
+        phone: !formData.phone ? "Phone number is required" : "",
+      }));
+      return;
+    }
+
+    try {
+      const response = await authService.verifyPhoneNumber({
+        email: formData.email,
+        phone: formData.phone,
+      });
+
+      if (response.data.success) {
+        setIsVerificationSent(true);
+        setErrors((prev) => ({ ...prev, email: "", phone: "" }));
+      }
+    } catch (error: any) {
+      // Check for specific error types
+      const errorMessage = error.response?.data?.message || "";
+      console.log("errorMessage", errorMessage);
+      if (errorMessage.includes("Email already registered")) {
+        // Email redundancy error
+        setErrors((prev) => ({
+          ...prev,
+          email: "Email already registered",
+          phone: "",
+        }));
+      } else if (
+        errorMessage.includes("phone") ||
+        errorMessage.includes("Phone")
+      ) {
+        // Phone verification error
+        setErrors((prev) => ({
+          ...prev,
+          email: "",
+          phone: errorMessage || "Failed to send verification code to phone",
+        }));
+      } else {
+        // Generic error
+        setErrors((prev) => ({
+          ...prev,
+          email: errorMessage || "Failed to send verification code",
+          phone: "",
+        }));
+      }
+    }
+  }, [formData.email, formData.phone]);
+
   const handleAuth = useCallback(async () => {
     if (!validateForm()) return;
+
+    if (!isSignIn && !isVerificationSent) {
+      await handleSendVerification();
+      return;
+    }
+
+    if (!isSignIn && !verificationCode) {
+      setErrors((prev) => ({
+        ...prev,
+        verificationCode: "Please enter the verification code",
+      }));
+      return;
+    }
 
     setIsLoading(true);
     try {
       const response = isSignIn
         ? await authService.login(formData.email, formData.password)
-        : await authService.signup(
-            formData.email,
-            formData.password,
-            formData.firstname,
-            formData.lastname
-          );
+        : await authService.signup({
+            email: formData.email,
+            password: formData.password,
+            firstname: formData.firstname,
+            lastname: formData.lastname,
+            phone: formData.phone,
+            country: formData.country,
+          });
 
       dispatch(
         setAuthenticated({
@@ -202,17 +304,27 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       );
       handleClose();
       navigate("/dashboard");
-    } catch (error) {
+    } catch (error: any) {
       console.log(`${isSignIn ? "Login" : "Signup"} failed:`, error);
       setErrors((prev) => ({
         ...prev,
-        email: "Invalid email or password",
-        password: "Invalid email or password",
+        email: error.response?.data?.message || "Invalid email or password",
+        password: error.response?.data?.message || "Invalid email or password",
       }));
     } finally {
       setIsLoading(false);
     }
-  }, [formData, isSignIn, validateForm, dispatch, handleClose, navigate]);
+  }, [
+    formData,
+    isSignIn,
+    validateForm,
+    verificationCode,
+    isVerificationSent,
+    dispatch,
+    handleClose,
+    navigate,
+    handleSendVerification,
+  ]);
 
   return (
     <>
@@ -265,7 +377,7 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
                 </Box>
                 {!isSignIn && (
                   <FieldWrapper>
-                    <Box>
+                    <Box sx={{ width: "100%" }}>
                       <StyledInput
                         placeholder="First Name"
                         onChange={handleInputChange("firstname")}
@@ -279,7 +391,7 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
                         </FormHelperText>
                       )}
                     </Box>
-                    <Box>
+                    <Box sx={{ width: "100%" }}>
                       <StyledInput
                         placeholder="Last Name"
                         onChange={handleInputChange("lastname")}
@@ -292,6 +404,54 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
                       )}
                     </Box>
                   </FieldWrapper>
+                )}
+                {!isSignIn && (
+                  <>
+                    <Box>
+                      <CountrySelect
+                        value={formData.country}
+                        onChange={(countryCode) =>
+                          handleInputChange("country")({
+                            target: { value: countryCode },
+                          } as any)
+                        }
+                        error={!!errors.country}
+                      />
+                      {errors.country && (
+                        <FormHelperText error>{errors.country}</FormHelperText>
+                      )}
+                    </Box>
+                    <Box>
+                      <PhoneInput
+                        value={formData.phone}
+                        onChange={(value) =>
+                          handleInputChange("phone")({
+                            target: { value },
+                          } as any)
+                        }
+                        error={!!errors.phone}
+                        countryCode={formData.country}
+                      />
+                      {errors.phone && (
+                        <FormHelperText error>{errors.phone}</FormHelperText>
+                      )}
+                    </Box>
+                    {isVerificationSent && (
+                      <Box>
+                        <StyledInput
+                          placeholder="Enter verification code"
+                          value={verificationCode}
+                          onChange={(e) => setVerificationCode(e.target.value)}
+                          error={!!errors.verificationCode}
+                        />
+                        {errors.verificationCode && (
+                          <FormHelperText error>
+                            {errors.verificationCode}
+                          </FormHelperText>
+                        )}
+                      </Box>
+                    )}
+                  </>
                 )}
                 <Box>
                   <PasswordInputWrapper>
@@ -408,7 +568,7 @@ const DialogContent = styled(Box)(({ theme }) => ({
 }));
 
 const AuthImage = styled("img")(({ theme }) => ({
-  width: "400px",
+  width: "500px",
   height: "auto",
   objectFit: "cover",
   borderRadius: "7px",
@@ -435,7 +595,7 @@ const AuthContainer = styled(Box)(({ theme }) => ({
   padding: "12px",
   display: "flex",
   flexDirection: "column",
-  width: "400px",
+  width: "500px",
   [theme.breakpoints.down(840)]: {
     width: "100%",
   },

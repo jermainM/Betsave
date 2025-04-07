@@ -8,6 +8,7 @@ export const ENDPOINTS = {
     DELETE: `${API_CONFIG.BASE_URL}/offers`,
   },
   AUTH: {
+    VERIFY_PHONE: `${API_CONFIG.BASE_URL}/auth/verify-phone`,
     LOGIN: `${API_CONFIG.BASE_URL}/auth/signin`,
     SIGNUP: `${API_CONFIG.BASE_URL}/auth/signup`,
     SIGNOUT: `${API_CONFIG.BASE_URL}/auth/signout`,

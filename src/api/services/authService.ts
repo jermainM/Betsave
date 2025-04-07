@@ -21,6 +21,8 @@ interface SignUpProps {
   lastname: string;
   phone: string;
   country: string;
+  ipCountry: string;
+  ipAddress: string;
 }
 // Store tokens in localStorage
 export const storeTokens = (accessToken: string) => {
@@ -107,14 +109,14 @@ export const authService = {
   },
 
   signup: async (props: SignUpProps) => {  
-    const { email, password, firstname, lastname, phone, country } = props;
+    const { email, password, firstname, lastname, phone, country, ipCountry, ipAddress } = props;
     try {
       const response = await fetch(ENDPOINTS.AUTH.SIGNUP, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password, firstname, lastname, phone, country }),
+        body: JSON.stringify({ email, password, firstname, lastname, phone, country, ipCountry, ipAddress }),
       });
       const data = await response.json();
       
@@ -148,14 +150,92 @@ export const authService = {
     }
   },
 
-  verifyPhoneNumber: async ({email, phone}: {email: string, phone: string}) => {
+  verifyEmail: async({email}: {email: string}) => {
+    try {
+      const response = await fetch(ENDPOINTS.AUTH.VERIFY_EMAIL, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        const errorMessage = data.message || 'Failed to verify email';
+        console.log('Verify email error:', errorMessage); 
+        window.dispatchEvent(createNotificationEvent(errorMessage, 'error'));
+        throw new Error(errorMessage);
+      }
+
+      return data;
+    } catch (error: any) {
+      console.log('Verify email error:', error);
+      window.dispatchEvent(createNotificationEvent(error.message || 'Failed to verify email. Please try again later.', 'error'));
+      throw new Error(error.message || 'Failed to verify email. Please try again later.');
+    }
+  },
+
+  verifyEmailCode: async({email, code}: {email: string, code: string}) => {
+    try {
+      const response = await fetch(ENDPOINTS.AUTH.VERIFY_EMAIL_CODE, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, code }),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        const errorMessage = data.message || 'Failed to verify email code';
+        console.log('Verify email code error:', errorMessage);
+        window.dispatchEvent(createNotificationEvent(errorMessage, 'error'));
+        throw new Error(errorMessage);
+      }
+
+      return data;
+    } catch (error: any) {
+      console.log('Verify email code error:', error);
+      window.dispatchEvent(createNotificationEvent(error.message || 'Failed to verify email code. Please try again later.', 'error'));
+      throw new Error(error.message || 'Failed to verify email code. Please try again later.');
+    }
+  },
+
+  verifyPhoneCode: async({phone, code}: {phone: string, code: string}) => {
+    try {
+      const response = await fetch(ENDPOINTS.AUTH.VERIFY_PHONE_CODE, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ phone, code }),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        const errorMessage = data.message || 'Failed to verify phone code';
+        console.log('Verify phone code error:', errorMessage);  
+        window.dispatchEvent(createNotificationEvent(errorMessage, 'error'));
+        throw new Error(errorMessage);
+      }
+
+      return data;
+    } catch (error: any) {
+      console.log('Verify phone code error:', error);
+      window.dispatchEvent(createNotificationEvent(error.message || 'Failed to verify phone code. Please try again later.', 'error'));
+      throw new Error(error.message || 'Failed to verify phone code. Please try again later.');
+    }
+  },
+
+  verifyPhoneNumber: async ({ phone }: {phone: string}) => {
     try {
       const response = await fetch(ENDPOINTS.AUTH.VERIFY_PHONE, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, phone }),
+        body: JSON.stringify({ phone }),
       });
       const data = await response.json();
       

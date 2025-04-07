@@ -15,7 +15,8 @@ import { StyledBadge } from "../components/badge";
 import { FaArrowRight } from "react-icons/fa6";
 import { STATIC_DATA } from "../constants/static-data";
 import { AuthDialog } from "../components/dialog/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchIP } from "../utils/fetchIP";
 
 export const Landing = () => {
   const [isAuthDialogOpen, setAuthDialogOpen] = useState(false);

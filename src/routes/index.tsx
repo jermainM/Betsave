@@ -9,6 +9,8 @@ import { Dashboard } from "../pages/dashboard";
 import { AccountManage } from "../pages/account";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { PublicRoute } from "./PublicRoute";
+import VerifyEmail from "../pages/VerifyEmail";
+import VerifyPhone from "../pages/VerifyPhone";
 export const RouterComponent = () => {
   const { isAuthenticated } = useSelector((state: RootState) => state.session);
 
@@ -37,6 +39,24 @@ export const RouterComponent = () => {
         element={
           <PublicRoute>
             <BetSmart />
+          </PublicRoute>
+        }
+      />
+
+      <Route
+        path="/verify-email"
+        element={
+          <PublicRoute>
+            <VerifyEmail />
+          </PublicRoute>
+        }
+      />
+
+      <Route
+        path="/verify-phone"
+        element={
+          <PublicRoute>
+            <VerifyPhone />
           </PublicRoute>
         }
       />

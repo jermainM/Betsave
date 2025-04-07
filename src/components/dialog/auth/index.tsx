@@ -52,15 +52,12 @@ interface FormErrors {
   lastname: string;
   country: string;
   phone: string;
-  verificationCode: string;
 }
 
 export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
   const [isSignIn, setIsSignIn] = useState(isLogin);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
-  const [verificationCode, setVerificationCode] = useState("");
-  const [isVerificationSent, setIsVerificationSent] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
@@ -78,7 +75,6 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
     lastname: "",
     country: "",
     phone: "",
-    verificationCode: "",
   });
   const [isLoading, setIsLoading] = useState(false);
 
@@ -108,7 +104,6 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
         lastname: "",
         country: "",
         phone: "",
-        verificationCode: "",
       });
     }
   }, [isOpen, isSignIn]);
@@ -131,7 +126,6 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       lastname: "",
       country: "",
       phone: "",
-      verificationCode: "",
     };
 
     if (!formData.email) {
@@ -211,120 +205,81 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       lastname: "",
       country: "",
       phone: "",
-      verificationCode: "",
     });
   }, [setOpen]);
-
-  const handleSendVerification = useCallback(async () => {
-    if (!formData.email || !formData.phone) {
-      setErrors((prev) => ({
-        ...prev,
-        email: !formData.email ? "Email is required" : "",
-        phone: !formData.phone ? "Phone number is required" : "",
-      }));
-      return;
-    }
-
-    try {
-      const response = await authService.verifyPhoneNumber({
-        email: formData.email,
-        phone: formData.phone,
-      });
-
-      if (response.data.success) {
-        setIsVerificationSent(true);
-        setErrors((prev) => ({ ...prev, email: "", phone: "" }));
-      }
-    } catch (error: any) {
-      // Check for specific error types
-      const errorMessage = error.response?.data?.message || "";
-      console.log("errorMessage", errorMessage);
-      if (errorMessage.includes("Email already registered")) {
-        // Email redundancy error
-        setErrors((prev) => ({
-          ...prev,
-          email: "Email already registered",
-          phone: "",
-        }));
-      } else if (
-        errorMessage.includes("phone") ||
-        errorMessage.includes("Phone")
-      ) {
-        // Phone verification error
-        setErrors((prev) => ({
-          ...prev,
-          email: "",
-          phone: errorMessage || "Failed to send verification code to phone",
-        }));
-      } else {
-        // Generic error
-        setErrors((prev) => ({
-          ...prev,
-          email: errorMessage || "Failed to send verification code",
-          phone: "",
-        }));
-      }
-    }
-  }, [formData.email, formData.phone]);
 
   const handleAuth = useCallback(async () => {
     if (!validateForm()) return;
 
-    if (!isSignIn && !isVerificationSent) {
-      await handleSendVerification();
-      return;
-    }
+    if (isSignIn) {
+      // Handle login
+      setIsLoading(true);
+      try {
+        const response = await authService.login(
+          formData.email,
+          formData.password
+        );
+        dispatch(
+          setAuthenticated({
+            user: response.data.user,
+            tokens: response.data.tokens,
+          })
+        );
+        handleClose();
+        navigate("/dashboard");
+      } catch (error: any) {
+        console.log("Login failed:", error);
+        setErrors((prev) => ({
+          ...prev,
+          email: error.response?.data?.message || "Invalid email or password",
+          password:
+            error.response?.data?.message || "Invalid email or password",
+        }));
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      // Handle signup - redirect to email verification page
+      setIsLoading(true);
+      try {
+        // Store signup data in session storage for later use
+        sessionStorage.setItem("signupData", JSON.stringify(formData));
 
-    if (!isSignIn && !verificationCode) {
-      setErrors((prev) => ({
-        ...prev,
-        verificationCode: "Please enter the verification code",
-      }));
-      return;
-    }
+        // Send verification email
+        const response = await authService.verifyEmail({
+          email: formData.email,
+        });
 
-    setIsLoading(true);
-    try {
-      const response = isSignIn
-        ? await authService.login(formData.email, formData.password)
-        : await authService.signup({
-            email: formData.email,
-            password: formData.password,
-            firstname: formData.firstname,
-            lastname: formData.lastname,
-            phone: formData.phone,
-            country: formData.country,
+        if (response.success) {
+          // Redirect to email verification page
+          handleClose();
+          navigate("/verify-email", {
+            state: {
+              email: formData.email,
+              firstname: formData.firstname,
+              lastname: formData.lastname,
+            },
           });
-
-      dispatch(
-        setAuthenticated({
-          user: response.data.user,
-          tokens: response.data.tokens,
-        })
-      );
-      handleClose();
-      navigate("/dashboard");
-    } catch (error: any) {
-      console.log(`${isSignIn ? "Login" : "Signup"} failed:`, error);
-      setErrors((prev) => ({
-        ...prev,
-        email: error.response?.data?.message || "Invalid email or password",
-        password: error.response?.data?.message || "Invalid email or password",
-      }));
-    } finally {
-      setIsLoading(false);
+        }
+      } catch (error: any) {
+        const errorMessage = error.response?.data?.message || "";
+        console.log("errorMessage", error);
+        if (errorMessage.includes("Email already registered")) {
+          setErrors((prev) => ({
+            ...prev,
+            email: "Email already registered",
+          }));
+        } else {
+          setErrors((prev) => ({
+            ...prev,
+            email: errorMessage || "Failed to send email verification code",
+          }));
+        }
+      } finally {
+        setIsLoading(false);
+      }
     }
-  }, [
-    formData,
-    isSignIn,
-    validateForm,
-    verificationCode,
-    isVerificationSent,
-    dispatch,
-    handleClose,
-    navigate,
-    handleSendVerification,
-  ]);
+  }, [formData, isSignIn, validateForm, dispatch, handleClose, navigate]);
 
   return (
     <>
@@ -436,21 +391,6 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
                         <FormHelperText error>{errors.phone}</FormHelperText>
                       )}
                     </Box>
-                    {isVerificationSent && (
-                      <Box>
-                        <StyledInput
-                          placeholder="Enter verification code"
-                          value={verificationCode}
-                          onChange={(e) => setVerificationCode(e.target.value)}
-                          error={!!errors.verificationCode}
-                        />
-                        {errors.verificationCode && (
-                          <FormHelperText error>
-                            {errors.verificationCode}
-                          </FormHelperText>
-                        )}
-                      </Box>
-                    )}
                   </>
                 )}
                 <Box>

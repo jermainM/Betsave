@@ -57,6 +57,34 @@ const VerifyPhone = () => {
     };
   }, [resendDisabled, countdown]);
 
+  const handleVerifyPhone = useCallback(async () => {
+    if (!signupData?.phone) return;
+    console.log("handleVerifyPhone");
+    try {
+      const response = await authService.verifyPhoneNumber({
+        phone: signupData.phone,
+      });
+
+      if (response.success) {
+        // Show success message
+        setError("Verification code sent successfully!");
+        setTimeout(() => {
+          setError("");
+        }, 3000);
+      }
+    } catch (error: any) {
+      setError(
+        error.response?.data?.message || "Failed to send verification code"
+      );
+    }
+  }, [signupData]);
+
+  useEffect(() => {
+    if (signupData?.phone) {
+      handleVerifyPhone();
+    }
+  }, [signupData, handleVerifyPhone]);
+
   const handleResendCode = useCallback(async () => {
     if (!signupData?.phone) return;
 
@@ -98,48 +126,17 @@ const VerifyPhone = () => {
     setError("");
 
     try {
-      const response = await authService.verifyPhoneCode({
+      const response = await authService.verifyPhoneNumber({
         phone: signupData.phone,
-        code: verificationCode,
       });
 
       if (response.success) {
-        const ipData = await fetchIP();
-        const ip_country = ipData.country.isoNameFull;
-        const ip_address = ipData.ip;
-
-        // Complete signup process
-        const signupResponse = await authService.signup({
-          email: signupData.email,
-          password: signupData.password,
-          firstname: signupData.firstname,
-          lastname: signupData.lastname,
-          phone: signupData.phone,
-          country: signupData.country,
-          ipCountry: ip_country,
-          ipAddress: ip_address,
-        });
-
-        if (signupResponse.success) {
-          // Clear session storage
-          sessionStorage.removeItem("signupData");
-
-          // Set authenticated state
-          dispatch(
-            setAuthenticated({
-              user: signupResponse.data.user,
-              tokens: signupResponse.data.tokens,
-            })
-          );
-
-          // Redirect to dashboard
-          navigate("/dashboard");
-        }
+        navigate("/dashboard");
       }
     } catch (error: any) {
-      setError(error.response?.data?.message || "Invalid verification code");
-    } finally {
-      setIsLoading(false);
+      setError(
+        error.response?.data?.message || "Failed to resend verification code"
+      );
     }
   }, [verificationCode, signupData, dispatch, navigate]);
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -29,7 +29,7 @@ import { IconInput } from "../components/input/IconInput";
 import { STATIC_DATA } from "../constants/static-data";
 import { Footer } from "./footer";
 import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store";
+import { AppDispatch, RootState } from "../store";
 import { setActiveItem } from "../store/slices/navbarSlice";
 import { useNavigate } from "react-router-dom";
 import {
@@ -40,6 +40,9 @@ import {
   JonahAvatarIcon,
 } from "../constants/images";
 import { clearSession } from "../store/slices/sessionSlice";
+import { userService } from "../api/services/userService";
+import { useSelector } from "react-redux";
+import { useNotification } from "../provider/notification";
 
 const StyledMenu = styled(Menu)(({ theme }) => ({
   "& .MuiPaper-root": {
@@ -78,6 +81,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
   const { children } = props;
   const [searchText, setSearchText] = useState("");
   const [selectedItem, setSelectedItem] = useState(0);
+  const [balance, setBalance] = useState(0);
   const [isExpand, setExpand] = useState(true);
   const [sidebarAnchorEl, setSidebarAnchorEl] = useState<null | HTMLElement>(
     null
@@ -88,6 +92,10 @@ export const NavBar = (props: { children: React.ReactNode }) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+
+  const { user } = useSelector((state: RootState) => state.session);
+
+  const { notifyError } = useNotification();
 
   const isSidebarOpen = Boolean(sidebarAnchorEl);
   const isUserMenuOpen = Boolean(userMenuAnchorEl);
@@ -129,8 +137,23 @@ export const NavBar = (props: { children: React.ReactNode }) => {
     navigate("/");
   };
 
+  const fetchWalletBalance = async () => {
+    try {
+      const response = await userService.getUserBalance(user.id);
+      const balance = response.data.totalCashback;
+      setBalance(balance);
+    } catch (error) {
+      console.log({ error });
+      notifyError("Error fetching wallet balance");
+    }
+  };
+
   const mobileListItem = STATIC_DATA.navListItems.slice(0, 4);
   const restListItem = STATIC_DATA.navListItems.slice(4);
+
+  useEffect(() => {
+    fetchWalletBalance();
+  }, [user]);
 
   return (
     <Container>
@@ -179,8 +202,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
 
           <MobileWalletContainer>
             <WalletValue>
-              <WalletIcon src={HandMoneyIcon} alt="wallet-icon" />
-              $90.00
+              <WalletIcon src={HandMoneyIcon} alt="wallet-icon" />${balance}
             </WalletValue>
             <WalletButton>
               <AccountBalanceWallet />
@@ -191,8 +213,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
         <NavBarWrapper>
           <DesktopWalletContainer>
             <WalletValue>
-              <WalletIcon src={HandMoneyIcon} alt="wallet-icon" />
-              $90.00
+              <WalletIcon src={HandMoneyIcon} alt="wallet-icon" />${balance}
             </WalletValue>
             <WalletButton>
               <AccountBalanceWallet />

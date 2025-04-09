@@ -134,11 +134,11 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       newErrors.email = "Please enter a valid email address";
     }
 
-    if (!formData.firstname) {
+    if (!isSignIn && !formData.firstname) {
       newErrors.firstname = "First name is required";
     }
 
-    if (!formData.lastname) {
+    if (!isSignIn && !formData.lastname) {
       newErrors.lastname = "Last name is required";
     }
 
@@ -152,11 +152,11 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       newErrors.acceptTerms = "You must accept the Terms & Conditions";
     }
 
-    if (!formData.country) {
+    if (!isSignIn && !formData.country) {
       newErrors.country = "Country is required";
     }
 
-    if (!formData.phone) {
+    if (!isSignIn && !formData.phone) {
       newErrors.phone = "Phone number is required";
     }
 
@@ -210,11 +210,12 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
 
   const handleAuth = useCallback(async () => {
     if (!validateForm()) return;
-
     if (isSignIn) {
+      console.log({ isSignIn });
       // Handle login
       setIsLoading(true);
       try {
+        console.log("formData", formData);
         const response = await authService.login(
           formData.email,
           formData.password

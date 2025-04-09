@@ -80,6 +80,7 @@ export const authService = {
   
   login: async (email: string, password: string) => {
     try {
+      console.log('Login attempt:', email, password);
       const response = await fetch(ENDPOINTS.AUTH.LOGIN, {
         method: "POST",
         headers: {

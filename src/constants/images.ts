@@ -109,6 +109,10 @@ import MessagePng from "../assets/message.png";
 import CashbackPng from "../assets/cashback.png";
 import CalendarPng from '../assets/calendar.png'
 
+import AmazonIcon from "../assets/payment/amazon.png";
+import PaypalIcon from "../assets/payment/paypal.png";
+import BitcoinIcon from "../assets/payment/bitcoin.png";
+
 export {
   GreenTransparentPayoutIcon,
   GreenMaxmizeWinIcon,
@@ -210,4 +214,7 @@ export {
   MessagePng,
   CashbackPng,
   CalendarPng,
+  AmazonIcon,
+  PaypalIcon,
+  BitcoinIcon,
 };

@@ -31,6 +31,7 @@ import { Footer } from "./footer";
 import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { setActiveItem } from "../store/slices/navbarSlice";
+import { setWalletData, setError } from "../store/slices/walletSlice";
 import { useNavigate } from "react-router-dom";
 import {
   BetSaveLogoImg,
@@ -141,10 +142,19 @@ export const NavBar = (props: { children: React.ReactNode }) => {
     try {
       const response = await userService.getUserBalance(user.id);
       const balance = response.data.totalCashback;
+      console.log({ response: response.data });
       setBalance(balance);
+      dispatch(
+        setWalletData({
+          totalCashback: response.data.totalCashback,
+          availableCashback: response.data.availableCashback,
+          history: response.data.history,
+        })
+      );
     } catch (error) {
       console.log({ error });
       notifyError("Error fetching wallet balance");
+      dispatch(setError("Error fetching wallet balance"));
     }
   };
 
@@ -204,7 +214,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
             <WalletValue>
               <WalletIcon src={HandMoneyIcon} alt="wallet-icon" />${balance}
             </WalletValue>
-            <WalletButton>
+            <WalletButton onClick={() => navigate("/wallet")}>
               <AccountBalanceWallet />
               <p>Wallet</p>
             </WalletButton>
@@ -215,7 +225,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
             <WalletValue>
               <WalletIcon src={HandMoneyIcon} alt="wallet-icon" />${balance}
             </WalletValue>
-            <WalletButton>
+            <WalletButton onClick={() => navigate("/wallet")}>
               <AccountBalanceWallet />
               Wallet
             </WalletButton>
@@ -537,6 +547,9 @@ const WalletButton = styled(Button)(({ theme }) => ({
   [theme.breakpoints.down(450)]: {
     width: "32px",
     height: "32px",
+  },
+  "&:hover": {
+    backgroundColor: "#1c2a42",
   },
 }));
 

@@ -11,6 +11,7 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import { PublicRoute } from "./PublicRoute";
 import VerifyEmail from "../pages/VerifyEmail";
 import VerifyPhone from "../pages/VerifyPhone";
+import Wallet from "../pages/Wallet";
 export const RouterComponent = () => {
   const { isAuthenticated } = useSelector((state: RootState) => state.session);
 
@@ -79,6 +80,14 @@ export const RouterComponent = () => {
         }
       />
 
+      <Route
+        path="/wallet"
+        element={
+          <ProtectedRoute>
+            <Wallet />
+          </ProtectedRoute>
+        }
+      />
       {/* Catch all route - redirect to appropriate page based on auth status */}
       <Route
         path="*"

@@ -158,6 +158,7 @@ const Header = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   marginBottom: "32px",
+  gap: "16px",
   [theme.breakpoints.down(840)]: {
     marginBottom: "24px",
   },

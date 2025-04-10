@@ -40,7 +40,6 @@ const Wallet = () => {
   return (
     <PageContainer>
       <Header>
-        <Logo src={BetSaveLogoImg} alt="BetSave Logo" />
         <Title>My Wallet</Title>
       </Header>
 
@@ -158,18 +157,8 @@ const Header = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   marginBottom: "32px",
-  gap: "16px",
   [theme.breakpoints.down(840)]: {
     marginBottom: "24px",
-  },
-}));
-
-const Logo = styled("img")(({ theme }) => ({
-  width: "120px",
-  height: "auto",
-  margincenter: "16px",
-  [theme.breakpoints.down(840)]: {
-    width: "100px",
   },
 }));
 

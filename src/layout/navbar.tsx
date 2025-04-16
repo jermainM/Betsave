@@ -39,6 +39,7 @@ import {
   GiftIcon,
   HandMoneyIcon,
   JonahAvatarIcon,
+  TempUserIcon,
 } from "../constants/images";
 import { clearSession } from "../store/slices/sessionSlice";
 import { userService } from "../api/services/userService";
@@ -162,6 +163,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
   const restListItem = STATIC_DATA.navListItems.slice(4);
 
   useEffect(() => {
+    console.log({ user });
     fetchWalletBalance();
   }, [user]);
 
@@ -236,10 +238,10 @@ export const NavBar = (props: { children: React.ReactNode }) => {
               onClick={handleUserMenuClick}
             >
               <Avatar
-                src={JonahAvatarIcon}
+                src={TempUserIcon}
                 sx={{ width: "25px", height: "25px", marginRight: "8px" }}
               />
-              Jonah Batten
+              {user.firstName} {user.lastName}
             </UserInfoButton>
             <StyledMenu
               anchorEl={userMenuAnchorEl}

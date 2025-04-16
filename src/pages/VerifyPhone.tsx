@@ -29,10 +29,23 @@ const VerifyPhone = () => {
   const [resendDisabled, setResendDisabled] = useState(false);
   const [countdown, setCountdown] = useState(60);
   const [signupData, setSignupData] = useState<any>(null);
+  const [device, setDevice] = useState({
+    ipAddress: "",
+    ipCountry: "",
+  });
+  const fetchData = async () => {
+    const deviceData = await fetchIP();
+    setDevice({
+      ipAddress: deviceData.ip,
+      ipCountry: deviceData.isoAlpha2,
+    });
+  };
 
   useEffect(() => {
     // Get data from session storage
+    fetchData();
     const storedData = sessionStorage.getItem("signupData");
+
     if (storedData) {
       const parsedData = JSON.parse(storedData);
       setSignupData(parsedData);
@@ -126,13 +139,26 @@ const VerifyPhone = () => {
     setError("");
 
     try {
-      const response = await authService.verifyPhoneNumber({
-        phone: signupData.phone,
-      });
+      // const response = await authService.verifyPhoneNumber({
+      //   phone: signupData.phone,
+      // });
 
+      // if (response.success) {
+      const response = await authService.signup({
+        ...signupData,
+        ipCountry: device.ipCountry,
+        ipAddress: device.ipAddress,
+      });
       if (response.success) {
+        dispatch(
+          setAuthenticated({
+            user: response.data.user,
+            tokens: response.data.tokens,
+          })
+        );
         navigate("/dashboard");
       }
+      // }
     } catch (error: any) {
       setError(
         error.response?.data?.message || "Failed to resend verification code"

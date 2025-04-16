@@ -8,5 +8,3 @@ export const fetchIP = async () => {
     return null;
   }
 };
-
-

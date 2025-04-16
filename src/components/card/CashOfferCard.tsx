@@ -1,15 +1,28 @@
 import { Box, styled, Typography, Button } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { casinoService } from "../../api/services/casinoService";
 
 interface CardProps {
+  id: string;
   image: string;
   title: string;
   affiliateLink: string;
 }
 
 export const CashOfferCard = (props: CardProps) => {
-  const { image, title, affiliateLink } = props;
-  const handleClick = () => {
-    window.open(affiliateLink, "_blank", "noopener,noreferrer");
+  const { id, image, title, affiliateLink } = props;
+  const { user } = useSelector((state: RootState) => state.session);
+  const handleClick = async () => {
+    console.log({ user });
+    try {
+      const response = await casinoService.createAccount(user.betsaveId, id);
+      console.log(response);
+      const newLink = `${affiliateLink}?betsaveId=${user.betsaveId}`;
+      window.open(newLink, "_blank", "noopener,noreferrer");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -19,7 +32,9 @@ export const CashOfferCard = (props: CardProps) => {
         <CardTitle>{title}</CardTitle>
         <CardContent onClick={handleClick}>Casino/{title}</CardContent>
         <CashbackLabel>Cashback: 3.5%</CashbackLabel>
-        <JoinButton variant="contained">Join</JoinButton>
+        <JoinButton variant="contained" onClick={handleClick}>
+          Join
+        </JoinButton>
       </CardWrapper>
     </CardContainer>
   );

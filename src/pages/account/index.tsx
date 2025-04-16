@@ -26,11 +26,17 @@ import { PromoCode } from "./promocode";
 import { HelpCenter } from "./helpcenter";
 
 import { NetImg, TempUserIcon } from "../../constants/images";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 export const AccountManage = () => {
   const [selectedItem, setSelectedItem] = useState(0);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { user } = useSelector((state: RootState) => state.session);
+  const { totalCashback, availableCashback } = useSelector(
+    (state: RootState) => state.wallet
+  );
 
   const isOpen = Boolean(anchorEl);
 
@@ -65,19 +71,21 @@ export const AccountManage = () => {
           <ProfileContent>
             <ProfileContentContainer>
               <ProfileInfo>
-                <ProfileName>Abir Designs</ProfileName>
+                <ProfileName>
+                  {user.firstName} {user.lastName}
+                </ProfileName>
                 <ProfileWallet>
                   <WalletIconBox>
                     <IoMdWallet />
                   </WalletIconBox>
-                  $342,600
+                  ${totalCashback}
                 </ProfileWallet>
               </ProfileInfo>
               <ProfileAction>
                 <WalletBox>
                   <HiCash />
                   <WalletInfo>
-                    <WalletBalance>$342,600</WalletBalance>
+                    <WalletBalance>${availableCashback}</WalletBalance>
                     <WalletStatus>Available</WalletStatus>
                   </WalletInfo>
                   <WalletButton>Withdraw</WalletButton>

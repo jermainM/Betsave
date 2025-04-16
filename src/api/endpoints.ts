@@ -16,4 +16,7 @@ export const ENDPOINTS = {
     VERIFY_PHONE: `${API_CONFIG.BASE_URL}/auth/verify-phone`,
     VERIFY_PHONE_CODE: `${API_CONFIG.BASE_URL}/auth/verify-sms-code`,
   },
+  CASINO: {
+    CREATE: `${API_CONFIG.BASE_URL}/casino/create-account`,
+  }
 };

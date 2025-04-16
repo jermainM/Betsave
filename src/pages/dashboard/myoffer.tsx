@@ -120,6 +120,7 @@ export const MyOffer = () => {
             {offers.map((offer, idx) => (
               <SwiperSlide key={idx}>
                 <CashOfferCard
+                  id={offer._id}
                   image={offer.image}
                   title={offer.title}
                   affiliateLink={offer.affiliateLink}

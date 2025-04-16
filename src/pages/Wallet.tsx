@@ -12,7 +12,6 @@ import {
   Button,
 } from "@mui/material";
 import { useState } from "react";
-import { BetSaveLogoImg } from "../constants/images";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import WithdrawDialog from "../components/dialog/WithdrawDialog";

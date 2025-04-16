@@ -111,6 +111,7 @@ export const PromotionalOffer = () => {
                 <CashOfferCard
                   image={offer.image}
                   title={offer.title}
+                  id={offer._id}
                   affiliateLink={offer.affiliateLink}
                 />
               </SwiperSlide>

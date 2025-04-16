@@ -12,6 +12,9 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { AmazonIcon, PaypalIcon, BitcoinIcon } from "../../constants/images";
 import { KeyboardArrowDown } from "@mui/icons-material";
+import api from "../../api/services/api";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 interface WithdrawDialogProps {
   open: boolean;
@@ -56,6 +59,7 @@ const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
   onClose,
   availableCashback,
 }) => {
+  const { user } = useSelector((state: RootState) => state.session);
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(
     paymentMethods[0].id
   );
@@ -76,13 +80,18 @@ const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
     setAnchorEl(null);
   };
 
-  const handleSubmit = () => {
-    // Handle withdrawal submission
-    console.log({
-      method: selectedMethod,
-      availableCashback,
-      address,
-    });
+  const handleSubmit = async () => {
+    try {
+      const response = await api.post("/casino/request-cashback", {
+        method: selectedMethod,
+        requestedAmount: availableCashback,
+        address,
+        userId: user.id,
+      });
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const currentMethod =

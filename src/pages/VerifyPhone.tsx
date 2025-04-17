@@ -35,9 +35,10 @@ const VerifyPhone = () => {
   });
   const fetchData = async () => {
     const deviceData = await fetchIP();
+    console.log({ deviceData });
     setDevice({
       ipAddress: deviceData.ip,
-      ipCountry: deviceData.isoAlpha2,
+      ipCountry: deviceData.country.isoAlpha2,
     });
   };
 
@@ -139,26 +140,27 @@ const VerifyPhone = () => {
     setError("");
 
     try {
-      // const response = await authService.verifyPhoneNumber({
-      //   phone: signupData.phone,
-      // });
-
-      // if (response.success) {
-      const response = await authService.signup({
-        ...signupData,
-        ipCountry: device.ipCountry,
-        ipAddress: device.ipAddress,
+      console.log({ ipCountry: device.ipCountry, ipAddress: device.ipAddress });
+      const response = await authService.verifyPhoneNumber({
+        phone: signupData.phone,
       });
+
       if (response.success) {
-        dispatch(
-          setAuthenticated({
-            user: response.data.user,
-            tokens: response.data.tokens,
-          })
-        );
-        navigate("/dashboard");
+        const response = await authService.signup({
+          ...signupData,
+          ipCountry: device.ipCountry,
+          ipAddress: device.ipAddress,
+        });
+        if (response.success) {
+          dispatch(
+            setAuthenticated({
+              user: response.data.user,
+              tokens: response.data.tokens,
+            })
+          );
+          navigate("/dashboard");
+        }
       }
-      // }
     } catch (error: any) {
       setError(
         error.response?.data?.message || "Failed to resend verification code"

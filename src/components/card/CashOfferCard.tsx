@@ -14,7 +14,7 @@ export const CashOfferCard = (props: CardProps) => {
   const { id, image, title, affiliateLink } = props;
   const { user } = useSelector((state: RootState) => state.session);
   const handleClick = async () => {
-    console.log({ user });
+    console.log({ betsaveId: user.betsaveId, id });
     try {
       const response = await casinoService.createAccount(user.betsaveId, id);
       console.log(response);

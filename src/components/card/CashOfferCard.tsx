@@ -60,13 +60,12 @@ const CardContainer = styled(Box)(({ theme }) => ({
   "&::before": {
     content: '""',
     position: "absolute",
-    inset: -1,
+    inset: 0,
     padding: "1px",
     background: "linear-gradient(180deg, #171E31 0%, #1AE5A1 100%)",
     borderRadius: "16px",
     WebkitMask:
       "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-    WebkitMaskComposite: "xor",
     maskComposite: "exclude",
     pointerEvents: "none",
   },

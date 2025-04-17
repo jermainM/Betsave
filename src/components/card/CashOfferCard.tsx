@@ -18,7 +18,7 @@ export const CashOfferCard = (props: CardProps) => {
     try {
       const response = await casinoService.createAccount(user.betsaveId, id);
       console.log(response);
-      const newLink = `${affiliateLink}?betsaveId=${user.betsaveId}`;
+      const newLink = `${affiliateLink}?subId1=${user.betsaveId}`;
       window.open(newLink, "_blank", "noopener,noreferrer");
     } catch (error) {
       console.log(error);

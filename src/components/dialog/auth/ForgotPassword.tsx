@@ -2,6 +2,8 @@ import { Box, Dialog, styled, Button, InputBase } from "@mui/material";
 import { BetsaveSuperForgotPng } from "../../../constants/images";
 import { IoClose } from "react-icons/io5";
 import { MdKeyboardArrowLeft } from "react-icons/md";
+import { useState } from "react";
+import { authService } from "../../../api/services/authService";
 
 interface ForgotPasswordDialogProps {
   isOpen: boolean;
@@ -11,6 +13,27 @@ interface ForgotPasswordDialogProps {
 
 export const ForgotPasswordDialog = (props: ForgotPasswordDialogProps) => {
   const { isOpen, onClose, onBack } = props;
+  const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      await authService.forgotPassword(email);
+      setSuccess(
+        "Reset password request sent successfully. Please check your email for instructions."
+      );
+    } catch (error: any) {
+      setError(error.message || "Failed to send reset password email");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <StyledDialog open={isOpen} onClose={onClose}>
@@ -32,8 +55,16 @@ export const ForgotPasswordDialog = (props: ForgotPasswordDialogProps) => {
           <Description>
             Enter your email and we will send you a link to reset your password
           </Description>
-          <StyledInput placeholder="Enter your e-mail" />
-          <SubmitButton>Submit</SubmitButton>
+          <StyledInput
+            placeholder="Enter your e-mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+          {success && <SuccessMessage>{success}</SuccessMessage>}
+          <SubmitButton disabled={isLoading} onClick={handleSubmit}>
+            {isLoading ? "Sending..." : "Submit"}
+          </SubmitButton>
         </ContentSection>
       </DialogContent>
     </StyledDialog>
@@ -147,7 +178,7 @@ const StyledInput = styled(InputBase)(({ theme }) => ({
   padding: "12px 16px",
   color: "#fff",
   width: "100%",
-  marginBottom: "24px",
+  marginBottom: "10px",
   "& input": {
     "&::placeholder": {
       color: "#6B7280",
@@ -168,11 +199,24 @@ const SubmitButton = styled(Button)(({ theme }) => ({
   fontSize: "16px",
   fontWeight: "600",
   textTransform: "none",
-  width: "fit-content",
+  marginTop: "10px",
+  width: "100%",
   "&:hover": {
     backgroundColor: "#15cc8f",
   },
   [theme.breakpoints.down(480)]: {
     padding: "8px 24px",
   },
+}));
+
+const ErrorMessage = styled(Box)(({ theme }) => ({
+  fontSize: "14px",
+  color: "#FF0000",
+  marginLeft: "10px",
+}));
+
+const SuccessMessage = styled(Box)(({ theme }) => ({
+  fontSize: "14px",
+  color: "#1AE5A1",
+  marginLeft: "10px",
 }));

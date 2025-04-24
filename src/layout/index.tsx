@@ -2,6 +2,7 @@ import React from "react";
 import { Box, styled } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import { useLocation } from "react-router-dom";
 
 import { Header } from "./header";
 import { Footer } from "./footer";
@@ -11,18 +12,19 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
-export const Layout = (props: LayoutProps) => {
-  const { children } = props;
+export const Layout = ({ children }: LayoutProps) => {
+  const location = useLocation();
+  const isResetPasswordPage = location.pathname.startsWith("/reset-password");
   const { isAuthenticated } = useSelector((state: RootState) => state.session);
 
   return (
     <LayoutContainer>
       {!isAuthenticated ? (
         <>
-          <Header />
+          {!isResetPasswordPage && <Header />}
           <Wrapper>
             {children}
-            <Footer />
+            {!isResetPasswordPage && <Footer />}
           </Wrapper>
         </>
       ) : (

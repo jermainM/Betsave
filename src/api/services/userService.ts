@@ -1,8 +1,8 @@
 import api from "./api";
 
 export const userService = {
-  getUserBalance: async (userId: string) => {
-    const response = await api.get(`/users/${userId}/wallet-balance`);
+  getUserBalance: async (betsaveId: string) => {
+    const response = await api.get(`/casino/wallet-balance/${betsaveId}`);
     return response.data;
   },
 };

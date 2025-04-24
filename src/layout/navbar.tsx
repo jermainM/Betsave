@@ -28,7 +28,7 @@ import { IconInput } from "../components/input/IconInput";
 
 import { STATIC_DATA } from "../constants/static-data";
 import { Footer } from "./footer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { setActiveItem } from "../store/slices/navbarSlice";
 import { setWalletData, setError } from "../store/slices/walletSlice";
@@ -43,7 +43,6 @@ import {
 } from "../constants/images";
 import { clearSession } from "../store/slices/sessionSlice";
 import { userService } from "../api/services/userService";
-import { useSelector } from "react-redux";
 import { useNotification } from "../provider/notification";
 
 const StyledMenu = styled(Menu)(({ theme }) => ({
@@ -141,7 +140,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
 
   const fetchWalletBalance = async () => {
     try {
-      const response = await userService.getUserBalance(user.id);
+      const response = await userService.getUserBalance(user.betsaveId);
       const balance = response.data.totalCashback;
       console.log({ response: response.data });
       setBalance(balance);
@@ -149,7 +148,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
         setWalletData({
           totalCashback: response.data.totalCashback,
           availableCashback: response.data.availableCashback,
-          history: response.data.history,
+          history: [],
         })
       );
     } catch (error) {

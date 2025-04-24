@@ -284,5 +284,55 @@ export const authService = {
       window.dispatchEvent(createNotificationEvent(error.message || 'Request failed. Please try again later.', 'error'));
       throw error;
     }
-  }
+  },
+
+  forgotPassword: async (email: string) => {
+    try {
+      const response = await fetch(ENDPOINTS.AUTH.FORGOT_PASSWORD, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        const errorMessage = data.message || 'Failed to send reset password email';
+        console.log('Forgot password error:', errorMessage);
+        window.dispatchEvent(createNotificationEvent(errorMessage, 'error'));
+        throw new Error(errorMessage);
+      }
+      return data;
+    } catch (error: any) {
+      console.log('Forgot password error:', error);
+      window.dispatchEvent(createNotificationEvent(error.message || 'Failed to send reset password email. Please try again later.', 'error'));
+      throw new Error(error.message || 'Failed to send reset password email. Please try again later.');
+    }
+  },
+
+  resetPassword: async (token: string, password: string) => {
+    try {
+      const response = await fetch(ENDPOINTS.AUTH.RESET_PASSWORD, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ token, password }),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        const errorMessage = data.message || 'Failed to reset password';
+        console.log('Reset password error:', errorMessage);
+        window.dispatchEvent(createNotificationEvent(errorMessage, 'error'));
+        throw new Error(errorMessage);
+      }
+      return data;
+    } catch (error: any) {
+      console.log('Reset password error:', error);
+      window.dispatchEvent(createNotificationEvent(error.message || 'Failed to reset password. Please try again later.', 'error'));
+      throw new Error(error.message || 'Failed to reset password. Please try again later.');
+    }
+  },
 };

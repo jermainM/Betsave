@@ -141,13 +141,13 @@ export const NavBar = (props: { children: React.ReactNode }) => {
   const fetchWalletBalance = async () => {
     try {
       const response = await userService.getUserBalance(user.betsaveId);
-      const balance = response.data.totalCashback;
+      const balance = response.data.totalCashback ?? 0;
       console.log({ response: response.data });
       setBalance(balance);
       dispatch(
         setWalletData({
-          totalCashback: response.data.totalCashback,
-          availableCashback: response.data.availableCashback,
+          totalCashback: response.data.totalCashback ?? 0,
+          availableCashback: response.data.availableCashback ?? 0,
           history: [],
         })
       );

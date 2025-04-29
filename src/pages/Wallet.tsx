@@ -11,19 +11,21 @@ import {
   Paper,
   Button,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import WithdrawDialog from "../components/dialog/WithdrawDialog";
+import { WithdrawDialog } from "../components/dialog/WithdrawDialog";
 import {
   GoldIcon,
   SilverIcon,
   BronzeIcon,
   PlatinumIcon,
 } from "../constants/images";
+import { userService } from "../api/services/userService";
 
 const Wallet = () => {
   const [withdrawDialogOpen, setWithdrawDialogOpen] = useState(false);
+  const [eligibility, setEligibility] = useState([]);
   const { history, totalCashback, availableCashback } = useSelector(
     (state: RootState) => state.wallet
   );

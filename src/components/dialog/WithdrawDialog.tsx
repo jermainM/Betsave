@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,11 +10,34 @@ import {
   Button,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { AmazonIcon, PaypalIcon, BitcoinIcon } from "../../constants/images";
+import {
+  AmazonIcon,
+  PaypalIcon,
+  BitcoinIcon,
+  ADAIcon,
+  BNBIcon,
+  DogeIcon,
+  ETHIcon,
+  SOLIcon,
+  TRXIcon,
+  USDCIcon,
+  USDTIcon,
+  XRPIcon,
+  BTCIcon,
+} from "../../constants/images";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import api from "../../api/services/api";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { TokenSelector } from "./TokenSelector";
+import { userService } from "../../api/services/userService";
+import { useNotification } from "../../provider/notification";
+
+interface Token {
+  symbol: string;
+  name: string;
+  icon: string;
+}
 
 interface WithdrawDialogProps {
   open: boolean;
@@ -22,7 +45,7 @@ interface WithdrawDialogProps {
   availableCashback: number;
 }
 
-type PaymentMethod = "Amazon" | "PayPal" | "Bitcoin";
+type PaymentMethod = "Amazon" | "PayPal" | "Crypto";
 
 interface PaymentMethodOption {
   id: PaymentMethod;
@@ -46,15 +69,14 @@ const paymentMethods: PaymentMethodOption[] = [
     icon: PaypalIcon,
   },
   {
-    id: "Bitcoin",
+    id: "Crypto",
     label: "Payment method",
-    placeholder: "Enter your BTC address",
+    placeholder: "Select Token",
     icon: BitcoinIcon,
-    tag: "BTC",
   },
 ];
 
-const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
+export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
   open,
   onClose,
   availableCashback,
@@ -63,8 +85,12 @@ const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(
     paymentMethods[0].id
   );
+  const [selectedToken, setSelectedToken] = useState<Token | null>(null);
   const [address, setAddress] = useState("");
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [eligibility, setEligibility] = useState([]);
+
+  const { notifyError, notifySuccess } = useNotification();
 
   const handleMethodClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -72,23 +98,53 @@ const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
 
   const handleMethodSelect = (method: PaymentMethod) => {
     setSelectedMethod(method);
+    if (method !== "Crypto") {
+      setSelectedToken(null);
+    }
     setAnchorEl(null);
     setAddress(""); // Reset address when changing method
+  };
+
+  const handleTokenSelect = (token: Token) => {
+    setSelectedToken(token);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  const handleEligibilityCheck = async () => {
+    try {
+      const response = await userService.checkEligibility(user.betsaveId);
+      console.log({ response });
+      setEligibility(response);
+    } catch (error: any) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    handleEligibilityCheck();
+  }, []);
+
   const handleSubmit = async () => {
     try {
-      const response = await api.post("/casino/request-cashback", {
-        method: selectedMethod,
-        requestedAmount: availableCashback,
-        address,
-        userId: user.id,
-      });
-      console.log(response);
+      if (eligibility.length === 0) {
+        const response = await api.post("/casino/request-cashback", {
+          method: selectedMethod,
+          token:
+            selectedMethod === "Crypto" ? selectedToken?.symbol : undefined,
+          requestedAmount: availableCashback,
+          address,
+          betsaveId: user.betsaveId,
+        });
+        notifySuccess("Cashback requested successfully");
+        console.log(response);
+      } else {
+        notifyError(
+          "You are not eligible for cashback. Reason: " + eligibility
+        );
+      }
     } catch (error) {
       console.error(error);
     }
@@ -133,8 +189,10 @@ const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
             PaperProps={{
               sx: {
                 backgroundColor: "#172236",
+                backgroundImage: "none",
                 mt: 1,
                 width: anchorEl?.offsetWidth,
+                minWidth: anchorEl?.offsetWidth,
               },
             }}
           >
@@ -146,11 +204,17 @@ const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
                 >
                   <MethodIcon src={method.icon} alt={method.id} />
                   <span>{method.id}</span>
-                  {method.tag && <MethodTag>{method.tag}</MethodTag>}
                 </MethodOption>
               ))}
             </MethodsList>
           </Popover>
+
+          {selectedMethod === "Crypto" && (
+            <TokenSelector
+              selectedToken={selectedToken}
+              onTokenSelect={handleTokenSelect}
+            />
+          )}
 
           <InputLabel>Withdrawal Amount (Min $20 USD)</InputLabel>
           <StyledInput
@@ -160,17 +224,25 @@ const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
             disabled={true}
           />
 
-          <InputLabel>{currentMethod.placeholder}</InputLabel>
+          <InputLabel>Your {selectedMethod} address</InputLabel>
           <StyledInput
             type="text"
-            placeholder={currentMethod.placeholder}
+            placeholder={
+              selectedMethod === "Crypto" && selectedToken
+                ? `Enter your ${selectedToken.symbol} address`
+                : currentMethod.placeholder
+            }
             value={address}
             onChange={(e) => setAddress(e.target.value)}
           />
 
           <WithdrawButton
             onClick={handleSubmit}
-            disabled={!selectedMethod || !address}
+            disabled={
+              !selectedMethod ||
+              !address ||
+              (selectedMethod === "Crypto" && !selectedToken)
+            }
           >
             Withdraw
           </WithdrawButton>
@@ -201,6 +273,7 @@ const FormContainer = styled(Box)({
   display: "flex",
   flexDirection: "column",
   gap: "16px",
+  width: "100%",
 });
 
 const InputLabel = styled(Typography)({
@@ -309,5 +382,3 @@ const MethodTag = styled(Box)({
   marginLeft: "8px",
   color: "#8A8D98",
 });
-
-export default WithdrawDialog;

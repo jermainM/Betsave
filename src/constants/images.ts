@@ -113,6 +113,18 @@ import AmazonIcon from "../assets/payment/amazon.png";
 import PaypalIcon from "../assets/payment/paypal.png";
 import BitcoinIcon from "../assets/payment/bitcoin.png";
 
+import ADAIcon from "../assets/crypto/ada.svg";
+import BNBIcon from "../assets/crypto/bnb.svg";
+import DogeIcon from "../assets/crypto/doge.svg";
+import ETHIcon from "../assets/crypto/eth.svg";
+import SOLIcon from "../assets/crypto/sol.svg";
+import TRXIcon from "../assets/crypto/trx.svg";
+import USDCIcon from "../assets/crypto/usdc.svg";
+import USDTIcon from "../assets/crypto/usdt.svg";
+import XRPIcon from "../assets/crypto/xrp.svg";
+import BTCIcon from "../assets/crypto/btc.svg";
+
+
 export {
   GreenTransparentPayoutIcon,
   GreenMaxmizeWinIcon,
@@ -217,4 +229,14 @@ export {
   AmazonIcon,
   PaypalIcon,
   BitcoinIcon,
+  ADAIcon,
+  BNBIcon,
+  DogeIcon,
+  ETHIcon,
+  SOLIcon,
+  TRXIcon,
+  USDCIcon,
+  USDTIcon,
+  XRPIcon,
+  BTCIcon,
 };

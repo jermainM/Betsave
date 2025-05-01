@@ -371,7 +371,7 @@ const ProcessSection = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   gap: "50px",
-  padding: "0px 75px",
+  padding: "0px 10px",
   [theme.breakpoints.down(1440)]: {
     padding: "0px 30px",
     gap: "40px",
@@ -1003,8 +1003,13 @@ const ReasonSectionSubTitle = ProcessSubTitle;
 
 const ReasonSectionItems = styled(Box)(({ theme }) => ({
   display: "grid",
-  gridTemplateColumns: "repeat(2, 1fr)",
+  gridTemplateColumns: "repeat(4, 1fr)",
+  alignItems: "center",
   gap: "20px",
+  width: "100%",
+  [theme.breakpoints.down(1440)]: {
+    gridTemplateColumns: "repeat(2, 1fr)",
+  },
   [theme.breakpoints.down(768)]: {
     gridTemplateColumns: "repeat(1, 1fr)",
   },
@@ -1037,6 +1042,7 @@ const ReasonItemWrapper = styled(Box)(({ theme }) => ({
   borderRadius: "30px",
   overflow: "hidden",
   width: "100%",
+  height: "100%",
   alignItems: "center",
   justifyContent: "center",
   background: "linear-gradient(180deg, #14393C 0%, #152330 100%)",
@@ -1098,18 +1104,14 @@ const ReasonItemWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const ReasonItemIcon = styled("img")(({ theme }) => ({
-  width: "180px",
-  height: "180px",
+  width: "120px",
+  height: "120px",
   objectFit: "contain",
   transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
   filter: "brightness(0.95) contrast(1.05)",
-  [theme.breakpoints.down(1500)]: {
+  [theme.breakpoints.down(1440)]: {
     width: "140px",
     height: "140px",
-  },
-  [theme.breakpoints.down(1280)]: {
-    width: "120px",
-    height: "120px",
   },
 }));
 
@@ -1120,8 +1122,8 @@ const ReasonItemContent = styled(Box)(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
   transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-  [theme.breakpoints.down(768)]: {
-    gap: "16px",
+  [theme.breakpoints.down(1440)]: {
+    gap: "28px",
   },
   [theme.breakpoints.down(640)]: {
     gap: "4px",
@@ -1129,23 +1131,12 @@ const ReasonItemContent = styled(Box)(({ theme }) => ({
 }));
 
 const ReasonItemTitle = styled(Typography)(({ theme }) => ({
-  fontSize: "40px",
+  fontSize: "24px",
   fontWeight: "600",
   color: "#fff",
   textAlign: "center",
   transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-  [theme.breakpoints.down(1500)]: {
-    fontSize: "36px",
-  },
-  [theme.breakpoints.down(1280)]: {
-    fontSize: "32px",
-  },
-  [theme.breakpoints.down(1024)]: {
-    fontSize: "28px",
-  },
-  [theme.breakpoints.down(840)]: {
-    fontSize: "24px",
-  },
+
   [theme.breakpoints.down(480)]: {
     fontSize: "20px",
   },
@@ -1157,13 +1148,7 @@ const ReasonItemSubTitle = styled(Typography)(({ theme }) => ({
   color: "#627691",
   textAlign: "center",
   transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-  [theme.breakpoints.down(1500)]: {
-    fontSize: "18px",
-  },
-  [theme.breakpoints.down(1280)]: {
+  [theme.breakpoints.down(960)]: {
     fontSize: "16px",
-  },
-  [theme.breakpoints.down(840)]: {
-    fontSize: "14px",
   },
 }));

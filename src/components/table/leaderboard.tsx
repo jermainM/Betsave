@@ -25,12 +25,13 @@ import {
   KeyboardArrowRight,
 } from "@mui/icons-material";
 import { TempUserIcon, VectorIcon } from "../../constants/images";
+import { formatEarningWithCommas } from "../../utils/number";
 
 interface Row {
   rank: number;
   user: string;
-  earnings: string;
-  prize: string;
+  earnings: number;
+  prize: number;
 }
 
 export const LeaderBoardTable = () => {
@@ -73,8 +74,8 @@ export const LeaderBoardTable = () => {
   const rows: Row[] = Array.from({ length: 100 }, (_, i) => ({
     rank: i + 4,
     user: "abirdesigns",
-    earnings: "$2,893.00",
-    prize: "$2,893.00",
+    earnings: 2893.0,
+    prize: 2893.0,
   }));
 
   const totalPages: number = Math.ceil(rows.length / rowsPerPage);
@@ -93,7 +94,7 @@ export const LeaderBoardTable = () => {
         onClick={() => handlePageClick(1)}
       >
         1
-      </PaginationButton>,
+      </PaginationButton>
     );
 
     if (page > 3) {
@@ -103,7 +104,7 @@ export const LeaderBoardTable = () => {
           onClick={() => handlePageClick(page - 2)}
         >
           ...
-        </PaginationButton>,
+        </PaginationButton>
       );
     }
 
@@ -118,7 +119,7 @@ export const LeaderBoardTable = () => {
           onClick={() => handlePageClick(i)}
         >
           {i}
-        </PaginationButton>,
+        </PaginationButton>
       );
     }
 
@@ -129,7 +130,7 @@ export const LeaderBoardTable = () => {
           onClick={() => handlePageClick(page + 2)}
         >
           ...
-        </PaginationButton>,
+        </PaginationButton>
       );
     }
 
@@ -140,7 +141,7 @@ export const LeaderBoardTable = () => {
         onClick={() => handlePageClick(totalPages)}
       >
         {totalPages}
-      </PaginationButton>,
+      </PaginationButton>
     );
 
     return pagination;
@@ -231,8 +232,9 @@ export const LeaderBoardTable = () => {
             <TableRow>
               <StyledTableCell>Rank</StyledTableCell>
               <StyledTableCell>User</StyledTableCell>
-              <StyledTableCell>Earnings</StyledTableCell>
-              <StyledTableCell align="left">Prize</StyledTableCell>
+              <StyledTableCell>Cashback Earned</StyledTableCell>
+              <StyledTableCell align="left">Monthly Reward</StyledTableCell>
+              <StyledTableCell align="left">Losses Tracked</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -247,10 +249,19 @@ export const LeaderBoardTable = () => {
                     <UserItem avatar={TempUserIcon} name={row.user} />
                   </StyledTableCell>
                   <StyledTableCell>
-                    <EarningText>{row.earnings}</EarningText>
+                    <EarningText>
+                      $ {formatEarningWithCommas(row.earnings)}
+                    </EarningText>
                   </StyledTableCell>
                   <StyledTableCell align="left">
-                    <PrizeText>{row.prize}</PrizeText>
+                    <PrizeText>
+                      $ {formatEarningWithCommas(row.prize)}
+                    </PrizeText>
+                  </StyledTableCell>
+                  <StyledTableCell align="left">
+                    <PrizeText>
+                      $ {formatEarningWithCommas(row.prize)}
+                    </PrizeText>
                   </StyledTableCell>
                 </StyledTableRow>
               ))}

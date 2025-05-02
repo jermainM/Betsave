@@ -1,5 +1,5 @@
 import { Box, styled, Typography } from "@mui/material";
-import { formatEarning } from "../../utils/number";
+import { formatEarningWithCommas } from "../../utils/number";
 import { LeaderBoardTable } from "../../components/table/leaderboard";
 
 import {
@@ -46,19 +46,19 @@ export const LeaderBoard = () => {
             rank={2}
             avatar={TempUserIcon}
             name={"Andr Grown"}
-            earning={formatEarning(83990493030)}
+            earning={formatEarningWithCommas(839904.93)}
           />
           <RankCard
             rank={1}
             avatar={TempUserIcon}
             name={"Andr Grown"}
-            earning={formatEarning(83990493030)}
+            earning={formatEarningWithCommas(839904.93)}
           />
           <RankCard
             rank={3}
             avatar={TempUserIcon}
             name={"Andr Grown"}
-            earning={formatEarning(83990493030)}
+            earning={formatEarningWithCommas(839904.93)}
           />
         </RankScoreboard>
         <MobileRankScoreboard>
@@ -66,19 +66,19 @@ export const LeaderBoard = () => {
             rank={1}
             avatar={TempUserIcon}
             name={"Andr Grown"}
-            earning={formatEarning(83990493030)}
+            earning={formatEarningWithCommas(839904.93)}
           />
           <RankCard
             rank={2}
             avatar={TempUserIcon}
             name={"Andr Grown"}
-            earning={formatEarning(83990493030)}
+            earning={formatEarningWithCommas(839904.93)}
           />
           <RankCard
             rank={3}
             avatar={TempUserIcon}
             name={"Andr Grown"}
-            earning={formatEarning(83990493030)}
+            earning={formatEarningWithCommas(839904.93)}
           />
         </MobileRankScoreboard>
       </Scoreboard>

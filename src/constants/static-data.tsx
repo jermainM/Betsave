@@ -453,3 +453,32 @@ export const STATIC_DATA = {
     },
   ],
 };
+
+export const TIER_CONFIG = {
+  BRONZE: {
+    min: 0,
+    max: 499,
+    cashbackRate: 3,
+    name: "Bronze",
+  },
+  SILVER: {
+    min: 500,
+    max: 1499,
+    cashbackRate: 6,
+    name: "Silver",
+  },
+  GOLD: {
+    min: 1500,
+    max: 9999,
+    cashbackRate: 9,
+    name: "Gold",
+  },
+  PLATINUM: {
+    min: 10000,
+    max: Infinity,
+    cashbackRate: 12,
+    name: "Platinum",
+  },
+};
+
+export const TIER_LIST = ["Bronze", "Silver", "Gold", "Platinum"];

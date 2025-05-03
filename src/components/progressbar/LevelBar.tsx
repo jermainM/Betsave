@@ -22,16 +22,22 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 interface LevelProgressBarProps {
   value: number;
   unit: string;
+  maxLossAmount: number;
 }
 
 export const LevelProgressBar = (props: LevelProgressBarProps) => {
-  const { value, unit } = props;
+  const { value, unit, maxLossAmount } = props;
   return (
     <LevelProgressBarContainer>
-      <LevelLabel value={value}>
-        {unit} {value * 10}
+      <BorderLinearProgress
+        variant="determinate"
+        value={(value / maxLossAmount) * 100}
+      />
+      <LevelLabel value={(value / maxLossAmount) * 100}>
+        {unit}
+        {value} / {unit}
+        {maxLossAmount}
       </LevelLabel>
-      <BorderLinearProgress variant="determinate" value={value} />
     </LevelProgressBarContainer>
   );
 };
@@ -40,7 +46,7 @@ const LevelProgressBarContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   position: "relative",
-  gap: "8px",
+  gap: "16px",
 }));
 
 const LevelLabel = styled(Typography)<{ value: number }>(
@@ -48,11 +54,11 @@ const LevelLabel = styled(Typography)<{ value: number }>(
     fontSize: "12px",
     color: "#fff",
     position: "absolute",
-    top: "-25px",
+    top: "15px",
     left: `${value > 50 ? value - 4 : value}%`,
     textWrap: "nowrap",
     [theme.breakpoints.down(540)]: {
       left: `${value > 50 ? value - 8 : value}%`,
     },
-  }),
+  })
 );

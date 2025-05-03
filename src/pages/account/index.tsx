@@ -1,4 +1,8 @@
-import { KeyboardArrowDown, KeyboardArrowLeft } from "@mui/icons-material";
+import {
+  KeyboardArrowDown,
+  KeyboardArrowLeft,
+  InfoOutlined,
+} from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -8,14 +12,15 @@ import {
   ListItemIcon,
   ListItemText,
   Menu,
+  Popover,
   styled,
   Typography,
 } from "@mui/material";
-import { IoMdSettings, IoMdWallet } from "react-icons/io";
+import { IoMdWallet } from "react-icons/io";
 import { IoSettingsSharp } from "react-icons/io5";
 import { HiCash } from "react-icons/hi";
 import { LevelProgressBar } from "../../components/progressbar/LevelBar";
-import { STATIC_DATA } from "../../constants/static-data";
+import { STATIC_DATA, TIER_LIST } from "../../constants/static-data";
 import { useState } from "react";
 import { Setting } from "./setting";
 import { AccountDashboard } from "./dashboard";
@@ -25,9 +30,34 @@ import { ReferralProgram } from "./referral";
 import { PromoCode } from "./promocode";
 import { HelpCenter } from "./helpcenter";
 
-import { NetImg, TempUserIcon } from "../../constants/images";
+import {
+  NetImg,
+  TempUserIcon,
+  BronzeIcon,
+  SilverIcon,
+  GoldIcon,
+  PlatinumIcon,
+} from "../../constants/images";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { formatEarningWithCommas } from "../../utils/number";
+import { calculateTierAndCashback } from "../../utils/info";
+import { BetsaveTooltip } from "../../components/tooltip";
+
+const getTierImage = (tier: string) => {
+  switch (tier.toLowerCase()) {
+    case "bronze":
+      return BronzeIcon;
+    case "silver":
+      return SilverIcon;
+    case "gold":
+      return GoldIcon;
+    case "platinum":
+      return PlatinumIcon;
+    default:
+      return BronzeIcon;
+  }
+};
 
 export const AccountManage = () => {
   const [selectedItem, setSelectedItem] = useState(0);
@@ -37,6 +67,9 @@ export const AccountManage = () => {
   const { totalCashback, availableCashback } = useSelector(
     (state: RootState) => state.wallet
   );
+
+  const { tier, maxLossAmount, cashbackRate } =
+    calculateTierAndCashback(totalCashback);
 
   const isOpen = Boolean(anchorEl);
 
@@ -74,21 +107,20 @@ export const AccountManage = () => {
                 <ProfileName>
                   {user.firstName} {user.lastName}
                 </ProfileName>
-                <ProfileWallet>
-                  <WalletIconBox>
-                    <IoMdWallet />
-                  </WalletIconBox>
-                  ${totalCashback}
-                </ProfileWallet>
+                <RateText>Your Cashback Rate is {cashbackRate}%</RateText>
               </ProfileInfo>
               <ProfileAction>
                 <WalletBox>
                   <HiCash />
                   <WalletInfo>
-                    <WalletBalance>${availableCashback}</WalletBalance>
+                    <WalletBalance>
+                      ${formatEarningWithCommas(availableCashback)}
+                    </WalletBalance>
                     <WalletStatus>Available</WalletStatus>
                   </WalletInfo>
-                  <WalletButton>Withdraw</WalletButton>
+                  <WalletButton disabled={availableCashback === 0}>
+                    Withdraw
+                  </WalletButton>
                 </WalletBox>
                 <SettingButton>
                   <IoSettingsSharp />
@@ -97,10 +129,14 @@ export const AccountManage = () => {
             </ProfileContentContainer>
             <LevelProgressContainer>
               <LevelBadgeContainer>
-                <LevelBadge level={1} status="current" />
-                <LevelBadge level={2} status="next" />
+                <LevelBadge tier={tier} status="current" />
+                <LevelBadge tier={tier} status="next" />
               </LevelBadgeContainer>
-              <LevelProgressBar value={65} unit="$" />
+              <LevelProgressBar
+                value={totalCashback}
+                maxLossAmount={maxLossAmount}
+                unit="$"
+              />
             </LevelProgressContainer>
           </ProfileContent>
         </ProfileInfoCard>
@@ -294,10 +330,10 @@ const ProfileName = styled(Typography)(({ theme }) => ({
   },
 }));
 
-const ProfileWallet = styled(Box)(({ theme }) => ({
+const RateText = styled(Box)(({ theme }) => ({
   backgroundColor: "#0d1321",
   borderRadius: "8px",
-  padding: "4px 6px 4px 4px",
+  padding: "8px 6px",
   display: "flex",
   alignItems: "center",
   gap: "8px",
@@ -350,7 +386,7 @@ const WalletStatus = styled(Typography)(({ theme }) => ({
   color: "#627691",
 }));
 
-const WalletButton = styled(Button)(({ theme }) => ({
+const WalletButton = styled(Button)(({ theme, disabled }) => ({
   width: "95px",
   height: "32px",
   backgroundColor: "#1AE5A1",
@@ -361,6 +397,11 @@ const WalletButton = styled(Button)(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
   textTransform: "none",
+  opacity: disabled ? 0.5 : 1,
+  cursor: disabled ? "not-allowed" : "pointer",
+  "&:disabled": {
+    color: "#000",
+  },
 }));
 
 const SettingButton = styled(Button)(({ theme }) => ({
@@ -377,7 +418,7 @@ const LevelProgressContainer = styled(Box)(({ theme }) => ({
   width: "100%",
   display: "flex",
   flexDirection: "column",
-  gap: "16px",
+  gap: "8px",
 }));
 
 const LevelBadgeContainer = styled(Box)(({ theme }) => ({
@@ -388,36 +429,77 @@ const LevelBadgeContainer = styled(Box)(({ theme }) => ({
 }));
 
 interface LevelBadgeProps {
-  level: number;
+  tier: string;
   status: "current" | "next";
 }
 
 const LevelBadge = (props: LevelBadgeProps) => {
-  const { level, status } = props;
+  const { tier, status } = props;
+  const isLastTier = tier === TIER_LIST[TIER_LIST.length - 1];
+  const nextTier = isLastTier
+    ? ""
+    : TIER_LIST[TIER_LIST.findIndex((t) => t === tier) + 1];
+  const _tier = status === "current" ? tier : nextTier;
+
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+
   return (
-    <BadgeContainer>
-      tiers
-      <CurrentLevelBox
-        sx={{
-          backgroundColor: status === "current" ? "#1AE5A1" : "#627691",
-          color: status === "current" ? "#000" : "#fff",
-        }}
-      >
-        {level}
-      </CurrentLevelBox>
+    <BadgeContainer sx={{ opacity: status === "next" ? 0.7 : 1 }}>
+      <TierImg src={getTierImage(_tier)} alt={`${_tier} tier badge`} />
+      {_tier}
+      {status === "next" && (
+        <>
+          <InfoButton onClick={handleClick}>
+            <InfoOutlined sx={{ fontSize: 16 }} />
+          </InfoButton>
+          <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+            PaperProps={{
+              style: {
+                marginTop: "10px",
+              },
+            }}
+          >
+            <PopoverContent>
+              Your tier is based on monthly tracked losses. Higher tiers =
+              higher cashback %
+            </PopoverContent>
+          </Popover>
+        </>
+      )}
     </BadgeContainer>
   );
 };
 
 const BadgeContainer = styled(Box)(({ theme }) => ({
-  padding: "4px 4px 4px 8px",
+  padding: "4px 8px",
   display: "flex",
   alignItems: "center",
   gap: "6px",
   borderRadius: "7px",
-  color: "#427691",
-  fontSize: "12px",
+  color: "#1AE5A1",
   backgroundColor: "#0d1321",
+  fontSize: "14px",
 }));
 
 const CurrentLevelBox = styled(Box)(({ theme }) => ({
@@ -550,4 +632,33 @@ const SidebarMenu = styled(Menu)(({ theme }) => ({
     marginTop: "10px",
     width: "100%",
   },
+}));
+
+const TierImg = styled("img")(({ theme }) => ({
+  width: "26px",
+  height: "26px",
+  borderRadius: "7px",
+  objectFit: "contain",
+}));
+
+const InfoButton = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: 20,
+  height: 20,
+  marginLeft: 8,
+  cursor: "pointer",
+  color: theme.palette.text.secondary,
+  "&:hover": {
+    color: theme.palette.text.primary,
+  },
+}));
+
+const PopoverContent = styled(Typography)(({ theme }) => ({
+  padding: "12px 16px",
+  fontSize: "14px",
+  color: theme.palette.text.primary,
+  backgroundColor: theme.palette.background.paper,
+  maxWidth: "300px",
 }));

@@ -13,20 +13,22 @@ import { Box, Typography, styled, Button } from "@mui/material";
 import { MdArrowOutward } from "react-icons/md";
 import DateRangePicker from "../date/RangePicker";
 import { GiMoneyStack } from "react-icons/gi";
+import { formatEarningWithCommas } from "../../utils/number";
+import { BetsaveTooltip } from "../tooltip";
 
 const data = [
-  { month: "Jan", income: 0, expenses: 10 },
-  { month: "Feb", income: 50, expenses: 20 },
-  { month: "Mar", income: 100, expenses: 50 },
-  { month: "Apr", income: 150, expenses: 80 },
-  { month: "May", income: 125.2, expenses: 120 },
-  { month: "Jun", income: 200, expenses: 100 },
-  { month: "Jul", income: 150, expenses: 50 },
-  { month: "Aug", income: 180, expenses: 120 },
-  { month: "Sep", income: 250, expenses: 200 },
-  { month: "Oct", income: 200, expenses: 100 },
-  { month: "Nov", income: 230, expenses: 180 },
-  { month: "Dec", income: 240.8, expenses: 250 },
+  { month: "Jan", cashback: 0, lossTracked: 10 },
+  { month: "Feb", cashback: 50, lossTracked: 20 },
+  { month: "Mar", cashback: 100, lossTracked: 50 },
+  { month: "Apr", cashback: 150, lossTracked: 80 },
+  { month: "May", cashback: 125.2, lossTracked: 120 },
+  { month: "Jun", cashback: 200, lossTracked: 100 },
+  { month: "Jul", cashback: 150, lossTracked: 50 },
+  { month: "Aug", cashback: 180, lossTracked: 120 },
+  { month: "Sep", cashback: 250, lossTracked: 200 },
+  { month: "Oct", cashback: 200, lossTracked: 100 },
+  { month: "Nov", cashback: 230, lossTracked: 180 },
+  { month: "Dec", cashback: 240.8, lossTracked: 250 },
 ];
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -57,18 +59,21 @@ export const AccountDashboardChart = () => {
   return (
     <ChartContainer>
       <Header>
-        <Box>
-          <Title>
-            <GiMoneyStack />
-            Total Revenue
-          </Title>
-          <RevenueContainer>
-            <RevenueValue>$240.8K</RevenueValue>
-            <RevenueBadge>
-              24.6% <MdArrowOutward />
-            </RevenueBadge>
-          </RevenueContainer>
-        </Box>
+        <BetsaveTooltip title="Calculated from your share of BETSAVE's commission from tracked losses">
+          <Box>
+            <Title>
+              <GiMoneyStack />
+
+              <span>Total cashback Earned</span>
+            </Title>
+            <RevenueContainer>
+              <RevenueValue>$ {formatEarningWithCommas(2408)}</RevenueValue>
+              <RevenueBadge>
+                24.6% <MdArrowOutward />
+              </RevenueBadge>
+            </RevenueContainer>
+          </Box>
+        </BetsaveTooltip>
         <DateRangePicker />
       </Header>
       <ChartWrapper>
@@ -83,7 +88,13 @@ export const AccountDashboardChart = () => {
                   <stop offset="0%" stopColor="#00FFD1" stopOpacity={0.8} />
                   <stop offset="100%" stopColor="#00FFD1" stopOpacity={0.2} />
                 </linearGradient>
-                <linearGradient id="colorExpenses" x1="0" y1="0" x2="0" y2="1">
+                <linearGradient
+                  id="colorlossTracked"
+                  x1="0"
+                  y1="0"
+                  x2="0"
+                  y2="1"
+                >
                   <stop offset="0%" stopColor="#2A81F7" stopOpacity={0.8} />
                   <stop offset="100%" stopColor="#2A81F7" stopOpacity={0.2} />
                 </linearGradient>
@@ -109,7 +120,8 @@ export const AccountDashboardChart = () => {
               />
               <Line
                 type="monotone"
-                dataKey="income"
+                dataKey="cashback"
+                name="Cashback"
                 stroke="url(#colorRevenue)"
                 strokeWidth={3}
                 fill="#00FFD1"
@@ -123,8 +135,9 @@ export const AccountDashboardChart = () => {
               />
               <Line
                 type="monotone"
-                dataKey="expenses"
-                stroke="url(#colorExpenses)"
+                dataKey="lossTracked"
+                name="Losses Tracked"
+                stroke="url(#colorlossTracked)"
                 strokeWidth={3}
                 dot={{
                   r: 3,

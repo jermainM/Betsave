@@ -3,30 +3,61 @@ import { FiArrowDownRight } from "react-icons/fi";
 import { FaUsers } from "react-icons/fa";
 import { useState } from "react";
 import {
-  BarChart,
-  Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
-  CartesianGrid,
+  Tooltip,
   ResponsiveContainer,
+  CartesianGrid,
+  Legend,
 } from "recharts";
 
-export const ActivityChart = () => {
-  const [selected, setSelected] = useState(0);
-  const handleOptionSelect = (index: number) => {
-    setSelected(index);
-  };
-  const options = ["Week", "Monthly", "Yearly"];
+const data = [
+  { day: "Mon", trackedLossEvents: 45, trackedActiveSession: 30 },
+  { day: "Tue", trackedLossEvents: 60, trackedActiveSession: 40 },
+  { day: "Wed", trackedLossEvents: 55, trackedActiveSession: 35 },
+  { day: "Thu", trackedLossEvents: 70, trackedActiveSession: 50 },
+  { day: "Fri", trackedLossEvents: 80, trackedActiveSession: 60 },
+  { day: "Sat", trackedLossEvents: 90, trackedActiveSession: 70 },
+  { day: "Sun", trackedLossEvents: 100, trackedActiveSession: 80 },
+];
 
-  const data = [
-    { day: "Mon", value: 600 },
-    { day: "Tue", value: 300 },
-    { day: "Wed", value: 450 },
-    { day: "Thu", value: 700 },
-    { day: "Fri", value: 500 },
-    { day: "Sat", value: 250 },
-    { day: "Sun", value: 1000 },
-  ];
+const dayFullName: Record<string, string> = {
+  Mon: "Monday",
+  Tue: "Tuesday",
+  Wed: "Wednesday",
+  Thu: "Thursday",
+  Fri: "Friday",
+  Sat: "Saturday",
+  Sun: "Sunday",
+};
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    const loss = payload.find((p: any) => p.dataKey === "trackedLossEvents");
+    const session = payload.find(
+      (p: any) => p.dataKey === "trackedActiveSession"
+    );
+    return (
+      <CustomTooltipContainer>
+        {loss && (
+          <TooltipValue>
+            {loss.value} tracked losses on {dayFullName[label] || label}
+          </TooltipValue>
+        )}
+        {session && (
+          <TooltipValue>
+            {session.value} active sessions on {dayFullName[label] || label}
+          </TooltipValue>
+        )}
+      </CustomTooltipContainer>
+    );
+  }
+  return null;
+};
+
+export const ActivityChart = () => {
   return (
     <ActivityChartContainer>
       <Header>
@@ -42,47 +73,84 @@ export const ActivityChart = () => {
             </RevenueBadge>
           </RevenueContainer>
         </Box>
-        <ChartActionContainer>
-          <OnlineBadge>
-            <BadgeIcon />
-            Last 1 Week
-          </OnlineBadge>
-          <TimerContainer>
-            <MovingBackground
-              style={{
-                transform: `translateX(${selected * 100}%)`,
-                marginLeft: "3px",
-              }}
-            />
-            {options.map((option, index) => (
-              <OptionButton
-                key={option}
-                onClick={() => handleOptionSelect(index)}
-                style={{ color: selected === index ? "#000" : "#627691" }}
-              >
-                {option}
-              </OptionButton>
-            ))}
-          </TimerContainer>
-        </ChartActionContainer>
       </Header>
-
       <ChartContainer>
         <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={data} barSize={10}>
-            <CartesianGrid stroke="#1A1C1E" strokeDasharray="3 3" />
-            <XAxis dataKey="day" stroke="#627691" />
-            <YAxis stroke="#627691" />
-            {/* <Tooltip
-              contentStyle={{
-                backgroundColor: '#1A1C1E',
-                border: 'none',
-                color: '#627691',
+          <LineChart
+            data={data}
+            margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
+          >
+            <defs>
+              <linearGradient
+                id="colorTrackedLossEvents"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
+                <stop offset="0%" stopColor="#1AE5A1" stopOpacity={0.8} />
+                <stop offset="100%" stopColor="#1AE5A1" stopOpacity={0.2} />
+              </linearGradient>
+              <linearGradient
+                id="colorTrackedActiveSession"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="1"
+              >
+                <stop offset="0%" stopColor="#2A81F7" stopOpacity={0.8} />
+                <stop offset="100%" stopColor="#2A81F7" stopOpacity={0.2} />
+              </linearGradient>
+            </defs>
+            <CartesianGrid vertical={false} stroke="#1A243C" />
+            <XAxis
+              dataKey="day"
+              tick={{ fill: "#627691" }}
+              axisLine={{ stroke: "#1A243C" }}
+              tickLine={false}
+            />
+            <YAxis
+              tick={{ fill: "#627691" }}
+              axisLine={{ stroke: "#1A243C" }}
+              tickLine={false}
+              tickFormatter={(value) => `${value}`}
+            />
+            <Tooltip content={<CustomTooltip />} />
+            <Legend
+              verticalAlign="top"
+              align="right"
+              wrapperStyle={{ paddingBottom: "10px", color: "#fff" }}
+            />
+            <Line
+              type="monotone"
+              dataKey="trackedLossEvents"
+              name="Tracked Loss Events"
+              stroke="url(#colorTrackedLossEvents)"
+              strokeWidth={3}
+              fill="#1AE5A1"
+              dot={{
+                r: 3,
+                fill: "#1AE5A1",
+                stroke: "#1AE5A1",
+                strokeWidth: 2,
               }}
-              cursor={{ fill: '#1A1C1E' }}
-            /> */}
-            <Bar dataKey="value" fill="#1AE5A1" radius={[10, 10, 0, 0]} />
-          </BarChart>
+              activeDot={{ r: 5, stroke: "#0B1121", strokeWidth: 4 }}
+            />
+            <Line
+              type="monotone"
+              dataKey="trackedActiveSession"
+              name="Tracked Active Session"
+              stroke="url(#colorTrackedActiveSession)"
+              strokeWidth={3}
+              dot={{
+                r: 3,
+                fill: "#2A81F7",
+                stroke: "#2A81F7",
+                strokeWidth: 2,
+              }}
+              activeDot={{ r: 5, stroke: "#0B1121", strokeWidth: 4 }}
+            />
+          </LineChart>
         </ResponsiveContainer>
       </ChartContainer>
     </ActivityChartContainer>
@@ -149,76 +217,22 @@ const RevenueBadge = styled(Box)({
   gap: "4px",
 });
 
-const ChartActionContainer = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  gap: "20px",
-  [theme.breakpoints.down(1280)]: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-  },
-  [theme.breakpoints.down(1160)]: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  [theme.breakpoints.down(420)]: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "10px",
-    marginTop: "10px",
-  },
-}));
-
-const OnlineBadge = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  gap: "16px",
-  fontSize: "14px",
-  color: "#627691",
-}));
-
-const BadgeIcon = styled(Box)(({ theme }) => ({
-  width: "8px",
-  height: "8px",
-  borderRadius: "50%",
-  backgroundColor: "#1AE5A1",
-}));
-
-const TimerContainer = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "start",
-  backgroundColor: "#131B2E",
-  borderRadius: "8px",
-  padding: "4px",
-  width: "fit-content",
-  position: "relative",
-  border: "1px solid rgba(255, 255, 255, 0.1)",
-}));
-
-const OptionButton = styled(Button)(({ theme }) => ({
-  flex: 1,
-  color: "#627691",
-  fontSize: "14px",
-  fontWeight: "bold",
-  textTransform: "none",
-  zIndex: 1,
-  "&:hover": {
-    backgroundColor: "transparent",
-  },
-}));
-
-const MovingBackground = styled(Box)(({ theme }) => ({
-  position: "absolute",
-  top: "4px",
-  bottom: 0,
-  left: 0,
-  width: "32%",
-  height: "85%",
-  borderRadius: "8px",
-  backgroundColor: "#1AE5A1",
-  transition: "transform 0.3s ease-in-out",
-  zIndex: 0,
-}));
-
 const ChartContainer = styled(Box)(({ theme }) => ({}));
+
+const CustomTooltipContainer = styled(Box)(({ theme }) => ({
+  height: "auto",
+  padding: "14px 10px",
+  display: "flex",
+  flexDirection: "column",
+  backgroundColor: "#000",
+  borderRadius: "10px",
+  justifyContent: "center",
+}));
+
+const TooltipValue = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  gap: "6px",
+  fontSize: "16px",
+}));

@@ -1,15 +1,32 @@
-import { styled } from "@mui/material/styles";
-import Tooltip, { TooltipProps, tooltipClasses } from "@mui/material/Tooltip";
+import { Tooltip as MuiTooltip } from "@mui/material";
 
-export const BetSaveTooltip = styled(
-  ({ className, ...props }: TooltipProps) => (
-    <Tooltip {...props} arrow classes={{ popper: className }} />
-  ),
-)(({ theme }) => ({
-  [`& .${tooltipClasses.arrow}`]: {
-    color: theme.palette.common.black,
-  },
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: theme.palette.common.black,
-  },
-}));
+interface BetsaveTooltipProps {
+  children: React.ReactElement;
+  title: string;
+}
+
+export const BetsaveTooltip = ({ children, title }: BetsaveTooltipProps) => {
+  return (
+    <>
+      <MuiTooltip
+        title={title}
+        arrow
+        componentsProps={{
+          tooltip: {
+            sx: {
+              bgcolor: "#171E31",
+              fontSize: "14px",
+              padding: "15px",
+              borderRadius: "10px",
+              "& .MuiTooltip-arrow": {
+                color: "#171E31",
+              },
+            },
+          },
+        }}
+      >
+        {children}
+      </MuiTooltip>
+    </>
+  );
+};

@@ -8,14 +8,6 @@ interface SessionState {
   };
 }
 
-const initialState: SessionState = {
-  isAuthenticated: false,
-  user: null,
-  tokens: {
-    accessToken: null,
-  },
-};
-
 // Load initial state from localStorage
 const loadState = (): SessionState => {
   try {
@@ -23,10 +15,18 @@ const loadState = (): SessionState => {
     if (serializedState === null) {
       return initialState;
     }
-    return JSON.parse(serializedState);
+    return JSON.parse(serializedState) as SessionState;
   } catch (err) {
     return initialState;
   }
+};
+
+const initialState: SessionState = {
+  isAuthenticated: false,
+  user: null,
+  tokens: {
+    accessToken: null,
+  },
 };
 
 const sessionSlice = createSlice({

@@ -280,7 +280,7 @@ export const STATIC_DATA = {
     },
     {
       icon: <FaBookmark style={{ width: "100%", height: "100%" }} />,
-      name: "Bookmaker List",
+      name: "Partner List",
       idx: 2,
     },
     {

@@ -32,6 +32,7 @@ import { RootState } from "../../store";
 import { TokenSelector } from "./TokenSelector";
 import { userService } from "../../api/services/userService";
 import { useNotification } from "../../provider/notification";
+import { transactionService } from "../../api/services/transactionService";
 
 interface Token {
   symbol: string;
@@ -130,14 +131,15 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
   const handleSubmit = async () => {
     try {
       if (eligibility.length === 0) {
-        const response = await api.post("/casino/request-cashback", {
-          method: selectedMethod,
-          token:
-            selectedMethod === "Crypto" ? selectedToken?.symbol : undefined,
-          requestedAmount: availableCashback,
+        const response = await transactionService.requestCashback(
+          user.betsaveId,
+          selectedMethod,
+          selectedToken?.symbol || "",
+          availableCashback,
           address,
-          betsaveId: user.betsaveId,
-        });
+          user.tier,
+          user.cashbackRate
+        );
         notifySuccess("Cashback requested successfully");
         console.log(response);
       } else {

@@ -25,7 +25,7 @@ import { useState } from "react";
 import { Setting } from "./setting";
 import { AccountDashboard } from "./dashboard";
 import { History } from "./history";
-import { BookMaker } from "./bookmaker";
+import { PartnerList } from "./bookmaker";
 import { ReferralProgram } from "./referral";
 import { PromoCode } from "./promocode";
 import { HelpCenter } from "./helpcenter";
@@ -201,7 +201,7 @@ export const AccountManage = () => {
         <AccountBoard>
           {selectedItem === 0 && <AccountDashboard />}
           {selectedItem === 1 && <History />}
-          {selectedItem === 2 && <BookMaker />}
+          {selectedItem === 2 && <PartnerList />}
           {selectedItem === 3 && <ReferralProgram />}
           {selectedItem === 4 && <PromoCode />}
           {selectedItem === 5 && <Setting />}

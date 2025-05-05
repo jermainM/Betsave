@@ -1,12 +1,15 @@
 import { Box, Rating, styled, Typography } from "@mui/material";
 import { Bet365Logo, LockIcon } from "../../constants/images";
 
-export const BookMaker = () => {
+export const PartnerList = () => {
   return (
     <Container>
       <BookMakerTitleContainer>
-        <BookMakerTitle>Bookmaker</BookMakerTitle>
-        <BookMakerSubTitle>All Partnered sites</BookMakerSubTitle>
+        <BookMakerTitle>Partner Casinos</BookMakerTitle>
+        <BookMakerSubTitle>
+          Casinos you've joined through BETSAVE. Only connected partners are
+          eligible for cashback rewards.
+        </BookMakerSubTitle>
       </BookMakerTitleContainer>
       <BookMakerItemContainer>
         <BookMakerItem percent={30} rate={5} />

@@ -22,6 +22,10 @@ import {
   KeyboardArrowRight,
 } from "@mui/icons-material";
 
+import { HiArrowRight } from "react-icons/hi";
+import { BetsaveTooltip } from "../tooltip";
+import { NoDataCard } from "../card/NoDataCard";
+
 interface Row {
   id: string;
   date: string;
@@ -66,13 +70,7 @@ export const CashbackHistoryTable = () => {
 
   // Table related
 
-  const rows: Row[] = Array.from({ length: 100 }, (_, i) => ({
-    id: "#642847966",
-    date: "28/01/2025",
-    deposit: "$2,893.00",
-    payout: "$2,893.00",
-    commission: "+4.70%",
-  }));
+  const rows: Row[] | [] = [];
 
   const totalPages: number = Math.ceil(rows.length / rowsPerPage);
 
@@ -90,7 +88,7 @@ export const CashbackHistoryTable = () => {
         onClick={() => handlePageClick(1)}
       >
         1
-      </PaginationButton>,
+      </PaginationButton>
     );
 
     if (page > 3) {
@@ -100,7 +98,7 @@ export const CashbackHistoryTable = () => {
           onClick={() => handlePageClick(page - 2)}
         >
           ...
-        </PaginationButton>,
+        </PaginationButton>
       );
     }
 
@@ -115,7 +113,7 @@ export const CashbackHistoryTable = () => {
           onClick={() => handlePageClick(i)}
         >
           {i}
-        </PaginationButton>,
+        </PaginationButton>
       );
     }
 
@@ -126,7 +124,7 @@ export const CashbackHistoryTable = () => {
           onClick={() => handlePageClick(page + 2)}
         >
           ...
-        </PaginationButton>,
+        </PaginationButton>
       );
     }
 
@@ -137,7 +135,7 @@ export const CashbackHistoryTable = () => {
         onClick={() => handlePageClick(totalPages)}
       >
         {totalPages}
-      </PaginationButton>,
+      </PaginationButton>
     );
 
     return pagination;
@@ -148,7 +146,11 @@ export const CashbackHistoryTable = () => {
       <TransactionTableHeader>
         <HistoryTitleContainer>
           <HistoryTitle>Cashback History</HistoryTitle>
-          <HistorySubTitle>All your transaction</HistorySubTitle>
+          <HistorySubTitle>
+            Here’s a record of your tracked losses, the cashback earned, and
+            your current rate per platform. Cashback is calculated based on
+            BETSAVE’s affiliate earnings with each operator.
+          </HistorySubTitle>
         </HistoryTitleContainer>
         <TransactionAction>
           <OptionButton
@@ -197,40 +199,59 @@ export const CashbackHistoryTable = () => {
           </Popper>
         </TransactionAction>
       </TransactionTableHeader>
-      <TableContainer>
-        <CustomTable>
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>PlayerID</StyledTableCell>
-              <StyledTableCell>Date</StyledTableCell>
-              <StyledTableCell>Deposit</StyledTableCell>
-              <StyledTableCell>Payout</StyledTableCell>
-              <StyledTableCell align="left">Commission</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows
-              .slice((page - 1) * rowsPerPage, page * rowsPerPage)
-              .map((row, idx) => (
-                <StyledTableRow key={idx}>
-                  <StyledTableCell width={100}>
-                    <IDItem label={row.id} />
-                  </StyledTableCell>
-                  <StyledTableCell>{row.date}</StyledTableCell>
-                  <StyledTableCell>
-                    <MinusText>{row.deposit}</MinusText>
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    <PlusText>{row.payout}</PlusText>
-                  </StyledTableCell>
-                  <StyledTableCell>
-                    <PlusText>{row.commission}</PlusText>
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
-          </TableBody>
-        </CustomTable>
-      </TableContainer>
+      {rows.length > 0 ? (
+        <TableContainer>
+          <CustomTable>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Platform</StyledTableCell>
+                <StyledTableCell>Date</StyledTableCell>
+                <StyledTableCell>
+                  <BetsaveTooltip title="This is the amount you lost on this partner platform that we tracked.">
+                    <CustomTableCell>
+                      Tracked Loss <HiArrowRight />
+                    </CustomTableCell>
+                  </BetsaveTooltip>
+                </StyledTableCell>
+                <StyledTableCell>
+                  <BetsaveTooltip title="This is your share of our affiliate commission.">
+                    <CustomTableCell>
+                      Cashback Earned <HiArrowRight />
+                    </CustomTableCell>
+                  </BetsaveTooltip>
+                </StyledTableCell>
+                <StyledTableCell align="left">Cashback Rate</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows
+                .slice((page - 1) * rowsPerPage, page * rowsPerPage)
+                .map((row, idx) => (
+                  <StyledTableRow key={idx}>
+                    <StyledTableCell width={100}>
+                      <IDItem label={row.id} />
+                    </StyledTableCell>
+                    <StyledTableCell>{row.date}</StyledTableCell>
+                    <StyledTableCell>
+                      <MinusText>{row.deposit}</MinusText>
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <PlusText>{row.payout}</PlusText>
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <PlusText>{row.commission}</PlusText>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+            </TableBody>
+          </CustomTable>
+        </TableContainer>
+      ) : (
+        <NoDataCard
+          title="No data"
+          subtitle="You have not made any cashback requests yet."
+        />
+      )}
       <PaginationContainer>
         <PaginationButton
           key="prev"
@@ -408,6 +429,14 @@ const HistoryTitle = styled(Typography)(({ theme }) => ({
 }));
 
 const HistorySubTitle = styled(Typography)(({ theme }) => ({
-  fontSize: "12px",
+  fontSize: "14px",
   color: "#627691",
+}));
+
+const CustomTableCell = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "5px",
+  cursor: "pointer",
+  width: "fit-content",
 }));

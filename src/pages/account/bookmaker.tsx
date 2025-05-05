@@ -1,7 +1,132 @@
 import { Box, Rating, styled, Typography } from "@mui/material";
 import { Bet365Logo, LockIcon } from "../../constants/images";
+import { useEffect, useState } from "react";
+import { offerService } from "../../api/services/offerService";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { casinoService } from "../../api/services/casinoService";
+import { userService } from "../../api/services/userService";
+import { IoCheckbox } from "react-icons/io5";
+
+interface Partner {
+  id: string;
+  name: string;
+  logo: string;
+  userCount: number;
+  isJoined: boolean;
+}
+
+const LoaderContainer = styled(Box)(({ theme }) => ({
+  width: "100%",
+  height: "240px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  position: "relative",
+  background:
+    "radial-gradient(circle at 50% 115%, rgba(14, 247, 169, 0.3) 0%, #0F3D3E 10% 10%, #141c30)",
+  borderRadius: "15px",
+  boxShadow: "0px 2px 3px 0px rgba(14, 247, 169,0.75)",
+}));
+
+const LoaderSpinner = styled(Box)(({ theme }) => ({
+  width: "60px",
+  height: "60px",
+  border: `3px solid ${theme.palette.primary.main}`,
+  borderTop: `3px solid transparent`,
+  borderRadius: "50%",
+  animation: "spin 1s linear infinite",
+  "@keyframes spin": {
+    "0%": { transform: "rotate(0deg)" },
+    "100%": { transform: "rotate(360deg)" },
+  },
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    top: "-3px",
+    left: "-3px",
+    right: "-3px",
+    bottom: "-3px",
+    borderRadius: "50%",
+    border: "3px solid transparent",
+    borderTop: "3px solid rgba(14, 247, 169, 0.3)",
+    animation: "spin 2s linear infinite",
+  },
+}));
+
+const LoaderText = styled(Typography)(({ theme }) => ({
+  position: "absolute",
+  bottom: "40px",
+  color: theme.palette.primary.main,
+  fontSize: "14px",
+  fontWeight: 500,
+  textTransform: "uppercase",
+  letterSpacing: "1px",
+}));
+
+const BookMakerLoader = () => {
+  return (
+    <LoaderContainer>
+      <LoaderSpinner />
+      <LoaderText>Loading Partners</LoaderText>
+    </LoaderContainer>
+  );
+};
 
 export const PartnerList = () => {
+  const [partnerList, setPartnerList] = useState<Partner[]>([]);
+  const [numberOfUsers, setNumberOfUsers] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const { user } = useSelector((state: RootState) => state.session);
+
+  const getPartnerList = async () => {
+    try {
+      setIsLoading(true);
+      const response = await offerService.getOffers();
+      const _partnerList = await Promise.all(
+        response.data.map(async (item: any) => {
+          const joinedStatus = await checkJoined(item._id);
+          return {
+            id: item._id,
+            name: item.title,
+            logo: item.image,
+            userCount: item.userCount,
+            isJoined: joinedStatus,
+          };
+        })
+      );
+      setPartnerList(_partnerList);
+    } catch (error) {
+      console.error("Error fetching partner list:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const getUsersLength = async () => {
+    try {
+      const response = await userService.getUsers();
+      const users = response.data;
+      setNumberOfUsers(users.length);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  useEffect(() => {
+    getUsersLength();
+    getPartnerList();
+  }, []);
+
+  const checkJoined = async (offerId: string) => {
+    try {
+      const response = await casinoService.checkJoined(offerId, user.betsaveId);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Container>
       <BookMakerTitleContainer>
@@ -12,16 +137,28 @@ export const PartnerList = () => {
         </BookMakerSubTitle>
       </BookMakerTitleContainer>
       <BookMakerItemContainer>
-        <BookMakerItem percent={30} rate={5} />
-        <BookMakerItem percent={60} rate={4.3} />
-        <BookMakerItem percent={20} rate={2.6} />
-        <BookMakerItem percent={90} rate={3.8} />
-        <BookMakerItem percent={90} rate={3.6} />
-        <BookMakerItem percent={90} rate={2.7} />
-        <BookMakerItem percent={90} rate={4} />
-        <BookMakerItem percent={90} rate={5} />
-        <BookMakerItem percent={50} rate={3.8} isComing />
-        <BookMakerItem percent={50} rate={1.4} isComing />
+        {isLoading ? (
+          <BookMakerLoader />
+        ) : (
+          <>
+            {partnerList.map((item) => {
+              const rate =
+                Number((item.userCount / numberOfUsers).toFixed(1)) * 5;
+              return (
+                <BookMakerItem
+                  key={item.id}
+                  id={item.id}
+                  name={item.name}
+                  logo={item.logo}
+                  rate={rate}
+                  isJoined={item.isJoined}
+                />
+              );
+            })}
+            <BookMakerItem rate={3.8} isComing />
+            <BookMakerItem rate={1.4} isComing />
+          </>
+        )}
       </BookMakerItemContainer>
     </Container>
   );
@@ -76,13 +213,16 @@ const BookMakerItemContainer = styled(Box)(({ theme }) => ({
 }));
 
 interface BookMakerItemProps {
-  percent: number;
+  id?: string;
+  name?: string;
+  logo?: string;
   rate: number;
   isComing?: boolean;
+  isJoined?: boolean;
 }
 
 const BookMakerItem = (props: BookMakerItemProps) => {
-  const { percent, rate, isComing } = props;
+  const { id, name, logo = Bet365Logo, rate, isComing, isJoined } = props;
   return (
     <BookMakerItemWrapper>
       {isComing && (
@@ -91,8 +231,15 @@ const BookMakerItem = (props: BookMakerItemProps) => {
           <LockText>Coming Soon </LockText>
         </BookMakerTrasparent>
       )}
-      <ItemBadge>+{percent}%</ItemBadge>
-      <ItemImg src={Bet365Logo} alt="item-img" />
+      {isJoined && (
+        <ItemBadge>
+          Connected <IoCheckbox />
+        </ItemBadge>
+      )}
+      <ItemsBox>
+        <ItemImg src={logo} alt="item-img" />
+        <ItemTitle>{name}</ItemTitle>
+      </ItemsBox>
       <RatingContainer>
         <RatingTitle>Rating {rate}</RatingTitle>
         <BetRating value={rate} precision={0.5} readOnly />
@@ -111,9 +258,8 @@ const BookMakerItemWrapper = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  justifyContent: "flex-end",
+  justifyContent: "space-between",
   position: "relative",
-  gap: "64px",
   padding: "20px",
   [theme.breakpoints.down(840)]: {
     width: "100%",
@@ -121,6 +267,9 @@ const BookMakerItemWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const ItemBadge = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "4px",
   padding: "4px 8px",
   fontSize: "12px",
   color: "#1ae5a1",
@@ -130,10 +279,21 @@ const ItemBadge = styled(Box)(({ theme }) => ({
   position: "absolute",
   right: "12px",
   top: "12px",
+  svg: {
+    fontSize: "16px",
+  },
+}));
+
+const ItemsBox = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "10px",
+  marginTop: "40px",
 }));
 
 const ItemTitle = styled(Typography)(({ theme }) => ({
-  fontSize: "24px",
+  fontSize: "18px",
   color: "#13B17F",
   fontWeight: "700",
   span: {
@@ -157,6 +317,7 @@ const RatingTitle = styled(Typography)(({ theme }) => ({
 const ItemImg = styled("img")(({ theme }) => ({
   width: "105px",
   height: "auto",
+  borderRadius: "5px",
 }));
 
 const BetRating = styled(Rating)(({ theme }) => ({

@@ -15,5 +15,13 @@ export const casinoService = {
       throw error;
     }
   },
-
+  checkJoined: async (offerId: string, betsaveId: string) => {
+    try {
+      const response = await api.get(`casino/check-user-joined-offer/${offerId}/${betsaveId}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
 };

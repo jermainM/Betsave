@@ -9,4 +9,8 @@ export const userService = {
     const response = await api.get(`/users/eligibility/${betsaveId}`);
     return response.data;
   },
+  getUsers: async () => {
+    const response = await api.get(`/users`);
+    return response.data;
+  },
 };

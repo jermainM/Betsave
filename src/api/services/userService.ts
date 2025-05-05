@@ -13,4 +13,8 @@ export const userService = {
     const response = await api.get(`/users`);
     return response.data;
   },
+  claimReferralReward: async (betsaveId: string) => {
+    const response = await api.get(`/users/referral-rewards/${betsaveId}`);
+    return response.data;
+  },
 };

@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, useSearchParams } from "react-router-dom";
 
 import { Landing } from "../pages";
 import { EarnMoney } from "../pages/earn";
@@ -16,6 +16,8 @@ import { ResetPassword } from "../pages/ResetPassword";
 
 export const RouterComponent = () => {
   const { isAuthenticated } = useSelector((state: RootState) => state.session);
+  const [searchParams] = useSearchParams();
+  const refCode = searchParams.get("ref");
 
   return (
     <Routes>
@@ -26,6 +28,14 @@ export const RouterComponent = () => {
         element={
           <PublicRoute>
             <Landing />
+          </PublicRoute>
+        }
+      />
+      <Route
+        path="/r"
+        element={
+          <PublicRoute>
+            <Landing refCode={refCode} />
           </PublicRoute>
         }
       />

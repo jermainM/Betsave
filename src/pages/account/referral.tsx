@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button, styled, Typography } from "@mui/material";
 import { BiSolidEditAlt } from "react-icons/bi";
 import {
@@ -16,9 +16,33 @@ import { MdArrowOutward } from "react-icons/md";
 import { IoAnalytics } from "react-icons/io5";
 import { TbClockHour8Filled } from "react-icons/tb";
 import { FaLink, FaUsers, FaDollarSign } from "react-icons/fa";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { useNotification } from "../../provider/notification";
 
 export const ReferralProgram = () => {
-  const [referCode, setReferCode] = useState("betsave.com/r/8e4df6");
+  const { user } = useSelector((state: RootState) => state.session);
+  const [referCode, setReferCode] = useState("");
+  const { notifySuccess } = useNotification();
+
+  const getReferCode = () => {
+    const betsaveId = user?.betsaveId;
+    if (!betsaveId) return;
+    const referralCode = betsaveId.split("_")[1];
+    setReferCode(referralCode);
+  };
+
+  const handleCopy = () => {
+    const referralLink = `${window.location.origin}/r?ref=${referCode}`;
+    navigator.clipboard.writeText(referralLink).then(() => {
+      notifySuccess("Referral link copied to clipboard!");
+    });
+  };
+
+  useEffect(() => {
+    getReferCode();
+  }, [user]);
+
   return (
     <Container>
       <ReferralTitleContainer>
@@ -36,14 +60,14 @@ export const ReferralProgram = () => {
           <ReferralCopyContainer>
             <ReferralCode
               isEditable={false}
-              value={referCode}
+              value={`${window.location.origin}/r?ref=${referCode}`}
               onChange={(value) => setReferCode(value)}
             />
             <ReferralCopyAction>
               <EditButton>
                 <BiSolidEditAlt />
               </EditButton>
-              <CopyButton>Copy</CopyButton>
+              <CopyButton onClick={handleCopy}>Copy</CopyButton>
             </ReferralCopyAction>
           </ReferralCopyContainer>
         </ReferralLinkBox>

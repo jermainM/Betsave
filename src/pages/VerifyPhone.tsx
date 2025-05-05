@@ -149,6 +149,7 @@ const VerifyPhone = () => {
         ...signupData,
         ipCountry: device.ipCountry,
         ipAddress: device.ipAddress,
+        referralCode: localStorage.getItem("referralCode"),
       });
       if (response.success) {
         dispatch(

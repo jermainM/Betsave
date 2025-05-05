@@ -95,10 +95,10 @@ const StyledAlert = styled(Alert)(({ theme, severity }) => ({
     },
   }),
   ...(severity === "info" && {
-    color: "#627691",
-    boxShadow: "0 8px 32px rgba(98, 118, 145, 0.15)",
+    color: "#4FC3F7",
+    boxShadow: "0 8px 32px rgba(79, 195, 247, 0.2)",
     "& .MuiAlert-icon": {
-      color: "#627691",
+      color: "#4FC3F7",
     },
   }),
   ...(severity === "warning" && {

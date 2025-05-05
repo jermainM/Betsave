@@ -22,13 +22,17 @@ import {
   PlatinumIcon,
 } from "../constants/images";
 import { userService } from "../api/services/userService";
+import { useNotification } from "../provider/notification";
 
 const Wallet = () => {
   const [withdrawDialogOpen, setWithdrawDialogOpen] = useState(false);
-  const [eligibility, setEligibility] = useState([]);
+  const [referralReward, setReferralReward] = useState(0);
+  const { user } = useSelector((state: RootState) => state.session);
   const { history, totalCashback, availableCashback } = useSelector(
     (state: RootState) => state.wallet
   );
+
+  const { notifyInfo } = useNotification();
 
   const handleWithdrawClick = () => {
     setWithdrawDialogOpen(true);
@@ -37,6 +41,24 @@ const Wallet = () => {
   const handleCloseWithdrawDialog = () => {
     setWithdrawDialogOpen(false);
   };
+
+  const claimReferralReward = async () => {
+    try {
+      const response = await userService.claimReferralReward(user.betsaveId);
+      if (response.reward > 0) {
+        notifyInfo(`You have $${response.reward} referral reward`);
+        setReferralReward(response.reward);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      claimReferralReward();
+    }
+  }, [user]);
 
   return (
     <PageContainer>
@@ -54,11 +76,13 @@ const Wallet = () => {
         <StatCard>
           <StatCardValue>
             <StatTitle>Available Cashback</StatTitle>
-            <StatValue>${availableCashback.toFixed(2)}</StatValue>
+            <StatValue>
+              ${(availableCashback + referralReward).toFixed(2)}
+            </StatValue>
           </StatCardValue>
           <WithdrawButton
             onClick={handleWithdrawClick}
-            disabled={availableCashback > 20}
+            disabled={availableCashback + referralReward > 20}
           >
             Withdraw Now
           </WithdrawButton>
@@ -68,7 +92,7 @@ const Wallet = () => {
       <WithdrawDialog
         open={withdrawDialogOpen}
         onClose={handleCloseWithdrawDialog}
-        availableCashback={availableCashback}
+        availableCashback={availableCashback + referralReward}
       />
 
       <TableContainer component={StyledPaper}>

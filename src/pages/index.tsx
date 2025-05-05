@@ -16,9 +16,12 @@ import { FaArrowRight } from "react-icons/fa6";
 import { STATIC_DATA } from "../constants/static-data";
 import { AuthDialog } from "../components/dialog/auth";
 import { useEffect, useState } from "react";
-import { fetchIP } from "../utils/fetchIP";
 
-export const Landing = () => {
+interface LandingProps {
+  refCode?: string | null;
+}
+
+export const Landing = ({ refCode }: LandingProps) => {
   const [isAuthDialogOpen, setAuthDialogOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
 
@@ -26,6 +29,12 @@ export const Landing = () => {
     setAuthDialogOpen(true);
     setIsLogin(type === "login");
   };
+
+  useEffect(() => {
+    if (refCode) {
+      localStorage.setItem("referralCode", refCode);
+    }
+  }, [refCode]);
 
   return (
     <Container>

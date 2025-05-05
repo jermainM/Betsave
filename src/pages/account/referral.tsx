@@ -19,10 +19,18 @@ import { FaLink, FaUsers, FaDollarSign } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useNotification } from "../../provider/notification";
+import { userService } from "../../api/services/userService";
+
+interface MetricsData {
+  totalReferralsLength: number;
+  totalEarnings: number;
+  totalPendingPayments: number;
+}
 
 export const ReferralProgram = () => {
   const { user } = useSelector((state: RootState) => state.session);
   const [referCode, setReferCode] = useState("");
+  const [metricsData, setMetricsData] = useState<MetricsData | null>(null);
   const { notifySuccess } = useNotification();
 
   const getReferCode = () => {
@@ -39,8 +47,21 @@ export const ReferralProgram = () => {
     });
   };
 
+  const getMetricsData = async () => {
+    try {
+      const response = await userService.getReferralMetrics(user.betsaveId);
+      console.log();
+      setMetricsData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getReferCode();
+    if (user.betsaveId) {
+      getMetricsData();
+    }
   }, [user]);
 
   return (
@@ -110,19 +131,19 @@ export const ReferralProgram = () => {
         <UserInfoItem
           icon={<FaUser />}
           title="Total Earnings"
-          value={"50.4K"}
+          value={metricsData?.totalEarnings ?? 0}
           percent={27.4}
         />
         <UserInfoItem
           icon={<IoAnalytics />}
           title="Referrals Sent"
-          value={856}
+          value={metricsData?.totalReferralsLength ?? 0}
           percent={27.4}
         />
         <UserInfoItem
           icon={<TbClockHour8Filled />}
           title="Pending Payments"
-          value={"50.4K"}
+          value={metricsData?.totalPendingPayments ?? 0}
           percent={27.4}
         />
       </UserInfoContainer>

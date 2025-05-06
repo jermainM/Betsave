@@ -9,62 +9,77 @@ import {
   Typography,
 } from "@mui/material";
 import { TempUserIcon, VectorIcon } from "../../constants/images";
+import { formatEarningWithCommas } from "../../utils/number";
+import { NoDataCard } from "../card/NoDataCard";
 
 interface Row {
   rank: number;
-  user: string;
-  volume: number;
-  revenue: number;
-  commission: number;
+  referral: string;
+  grossWageredAmount: number;
+  trackedLosses: number;
+  cashbackEarned: number;
 }
 
-export const ReferralTable = () => {
-  const rows: Row[] = Array.from({ length: 10 }, (_, i) => ({
-    rank: i + 1,
-    user: "abirdesigns",
-    volume: 2893,
-    revenue: 2893,
-    commission: 2893,
-  }));
+interface ReferralTableProps {
+  rows?: Row[];
+}
+
+export const ReferralTable = (props: ReferralTableProps) => {
+  const { rows } = props;
 
   return (
     <Container>
-      <TableContainer>
-        <CustomTable>
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Rank</StyledTableCell>
-              <StyledTableCell>User</StyledTableCell>
-              <StyledTableCell>Betting Volume</StyledTableCell>
-              <StyledTableCell>Net Gaming Revenue</StyledTableCell>
-              <StyledTableCell align="right">Your commission</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <StyledTableRow key={row.rank}>
-                <StyledTableCell width={30}>
-                  <RankItem label={row.rank} />
+      {rows && rows.length > 0 ? (
+        <TableContainer>
+          <CustomTable>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Rank</StyledTableCell>
+                <StyledTableCell>Referral</StyledTableCell>
+                <StyledTableCell>Gross Wagered Amount</StyledTableCell>
+                <StyledTableCell>Tracked Losses</StyledTableCell>
+                <StyledTableCell align="right">
+                  Cashback Earned from Referral
                 </StyledTableCell>
-                <StyledTableCell>
-                  <UserItem avatar={TempUserIcon} name={row.user} />
-                </StyledTableCell>
-                <StyledTableCell>
-                  <EarningText>${row.volume.toLocaleString()}</EarningText>
-                </StyledTableCell>
-                <StyledTableCell>
-                  <EarningText>${row.revenue.toLocaleString()}</EarningText>
-                </StyledTableCell>
-                <StyledTableCell>
-                  <PrizeTextContainer>
-                    <PrizeText>${row.commission.toLocaleString()}</PrizeText>
-                  </PrizeTextContainer>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </CustomTable>
-      </TableContainer>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <StyledTableRow key={row.rank}>
+                  <StyledTableCell width={30}>
+                    <RankItem label={row.rank} />
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    <UserItem avatar={TempUserIcon} name={row.referral} />
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    <EarningText>
+                      ${formatEarningWithCommas(row.grossWageredAmount)}
+                    </EarningText>
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    <EarningText>
+                      ${formatEarningWithCommas(row.trackedLosses)}
+                    </EarningText>
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    <PrizeTextContainer>
+                      <PrizeText>
+                        ${formatEarningWithCommas(row.cashbackEarned)}
+                      </PrizeText>
+                    </PrizeTextContainer>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </CustomTable>
+        </TableContainer>
+      ) : (
+        <NoDataCard
+          title="No data yet"
+          subtitle="Start sharing your affiliate link to track new bettors!"
+        />
+      )}
     </Container>
   );
 };

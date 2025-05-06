@@ -1,3 +1,4 @@
+import { BronzeIcon, GoldIcon, PlatinumIcon, SilverIcon } from "../constants/images";
 import { TIER_CONFIG } from "../constants/static-data";
 
 export const calculateTierAndCashback = (totalLossAmount: number) => {
@@ -16,4 +17,19 @@ export const calculateTierAndCashback = (totalLossAmount: number) => {
     maxLossAmount: TIER_CONFIG.BRONZE.max,
     cashbackRate: TIER_CONFIG.BRONZE.cashbackRate,
   };
+};
+
+export const getTierImage = (tier: string) => {
+  switch (tier.toLowerCase()) {
+    case "bronze":
+      return BronzeIcon;
+    case "silver":
+      return SilverIcon;
+    case "gold":
+      return GoldIcon;
+    case "platinum":
+      return PlatinumIcon;
+    default:
+      return BronzeIcon;
+  }
 };

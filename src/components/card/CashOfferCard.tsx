@@ -2,6 +2,11 @@ import { Box, styled, Typography, Button } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { casinoService } from "../../api/services/casinoService";
+import Dialog from "@mui/material/Dialog";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import { useState } from "react";
+import { OfferDialog } from "../dialog/OfferDialog";
 
 interface CardProps {
   id: string;
@@ -13,6 +18,7 @@ interface CardProps {
 export const CashOfferCard = (props: CardProps) => {
   const { id, image, title, affiliateLink } = props;
   const { user } = useSelector((state: RootState) => state.session);
+  const [open, setOpen] = useState(false);
   const handleClick = async () => {
     console.log({ betsaveId: user.betsaveId, id });
     try {
@@ -26,17 +32,20 @@ export const CashOfferCard = (props: CardProps) => {
   };
 
   return (
-    <CardContainer>
-      <CardImg src={image} alt="promo-logo" />
-      <CardWrapper>
-        <CardTitle>{title}</CardTitle>
-        <CardContent onClick={handleClick}>Casino/{title}</CardContent>
-        <CashbackLabel>Cashback: 3.5%</CashbackLabel>
-        <JoinButton variant="contained" onClick={handleClick}>
-          Join
-        </JoinButton>
-      </CardWrapper>
-    </CardContainer>
+    <>
+      <CardContainer>
+        <CardImg src={image} alt="promo-logo" />
+        <CardWrapper>
+          <CardTitle>{title}</CardTitle>
+          <CardContent onClick={handleClick}>Casino/{title}</CardContent>
+          <CashbackLabel>Cashback: 3.5%</CashbackLabel>
+          <JoinButton variant="contained" onClick={() => setOpen(true)}>
+            Join
+          </JoinButton>
+        </CardWrapper>
+      </CardContainer>
+      <OfferDialog open={open} title={title} setOpen={setOpen} image={image} />
+    </>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Menu, MenuItem, styled, Typography } from "@mui/material";
 import { FaUsers } from "react-icons/fa";
 import { FaMoneyBills } from "react-icons/fa6";
@@ -18,13 +18,44 @@ import { ReferralTable } from "../../components/table/referral";
 import { ReferralChart } from "../../components/chart/referral";
 import { ReferralLink } from "../../components/link/referral";
 import { TempUserIcon } from "../../constants/images";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { formatEarningWithCommas } from "../../utils/number";
+import { useNotification } from "../../provider/notification";
+import { casinoService } from "../../api/services/casinoService";
+import { calculateTierAndCashback, getTierImage } from "../../utils/info";
+
+interface Metrics {
+  totalNGRTracked: number;
+  totalBettorsReferred: number;
+  totalCommissionEarned: number;
+  last30DaysEarning: number;
+  newBettors: number;
+}
 
 export const Referrals = () => {
-  const [referCode, setReferCode] = useState("betsave.com/r/8e4df6");
+  const [referCode, setReferCode] = useState("");
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [sortOption, setSortOption] = useState(0);
   const isSortOpen = Boolean(anchorEl);
   const [selected, setSelected] = useState(0);
+  const [metrics, setMetrics] = useState<Metrics>({
+    totalNGRTracked: 0,
+    totalBettorsReferred: 0,
+    totalCommissionEarned: 0,
+    last30DaysEarning: 0,
+    newBettors: 0,
+  });
+  const navigate = useNavigate();
+  const { totalCashback, availableCashback } = useSelector(
+    (state: RootState) => state.wallet
+  );
+  const { user } = useSelector((state: RootState) => state.session);
+
+  const { tier, cashbackRate } = calculateTierAndCashback(totalCashback);
+
+  const { notifySuccess } = useNotification();
 
   const handleSortClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -37,6 +68,41 @@ export const Referrals = () => {
   const handleOptionSelect = (index: number) => {
     setSelected(index);
   };
+
+  const handleClaim = () => {
+    navigate("/wallet");
+  };
+
+  const getReferCode = () => {
+    const betsaveId = user?.betsaveId;
+    if (!betsaveId) return;
+    const referralCode = betsaveId.split("_")[1];
+    setReferCode(referralCode);
+  };
+
+  const getAffiliateMetrics = async () => {
+    try {
+      const response = await casinoService.getAffiliateMetrics(user?.betsaveId);
+      setMetrics(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard
+      .writeText(
+        `${window.location.protocol}/${window.location.host}/r?ref=${referCode}`
+      )
+      .then(() => {
+        notifySuccess("Referral link copied to clipboard!");
+      });
+  };
+
+  useEffect(() => {
+    getReferCode();
+    getAffiliateMetrics();
+  }, [user]);
 
   const options = ["Week", "Monthly", "Yearly"];
   return (
@@ -57,16 +123,18 @@ export const Referrals = () => {
               </UserAvatar>
               <CardContent>
                 <UserIDContainer>
-                  <UserID>@abirdesigns</UserID>
-                  <UserEmail>abirdesigns@gmail.com</UserEmail>
+                  <UserID>
+                    {user?.firstName} {user?.lastName}
+                  </UserID>
+                  <UserEmail>{user?.email}</UserEmail>
                 </UserIDContainer>
                 <UserInfoContainer>
+                  <TierContainer>
+                    <TierImg src={getTierImage(tier)} alt="tier-img" />
+                    {tier}
+                  </TierContainer>
                   <UserInfoItem
-                    badge={<TiersBadge>1</TiersBadge>}
-                    content="tiers"
-                  />
-                  <UserInfoItem
-                    badge={<CommissionBadge>5%</CommissionBadge>}
+                    badge={<CommissionBadge>{cashbackRate}%</CommissionBadge>}
                     content="commission"
                   />
                 </UserInfoContainer>
@@ -75,10 +143,12 @@ export const Referrals = () => {
                     <FaMoneyBills style={{ width: "100%", height: "100%" }} />
                   </ClaimIcon>
                   <ClaimInfo>
-                    <ClaimValue>$62.41</ClaimValue>
+                    <ClaimValue>
+                      ${formatEarningWithCommas(availableCashback)}
+                    </ClaimValue>
                     <ClaimStatus>Available</ClaimStatus>
                   </ClaimInfo>
-                  <ClaimButton>Claim</ClaimButton>
+                  <ClaimButton onClick={handleClaim}>Claim</ClaimButton>
                 </ClaimSection>
               </CardContent>
             </ClaimCardContainer>
@@ -87,14 +157,14 @@ export const Referrals = () => {
               <ReferralCopyContainer>
                 <ReferralCode
                   isEditable={false}
-                  value={referCode}
+                  value={`${window.location.host}/r?ref=${referCode}`}
                   onChange={(value) => setReferCode(value)}
                 />
                 <ReferralCopyAction>
                   <EditButton>
                     <BiSolidEditAlt />
                   </EditButton>
-                  <CopyButton>Copy</CopyButton>
+                  <CopyButton onClick={handleCopy}>Copy</CopyButton>
                 </ReferralCopyAction>
               </ReferralCopyContainer>
               <ReferralShareContainer>
@@ -148,17 +218,17 @@ export const Referrals = () => {
             <ReferralItemContainer>
               <ReferralsInfo
                 icon={<FaUsers style={{ width: "24px", height: "24px" }} />}
-                value={342600}
+                value={0}
                 content={"Active Bettors"}
               />
               <ReferralsInfo
                 icon={<FaUsers style={{ width: "24px", height: "24px" }} />}
-                value={342600}
-                content={"Total Betting Volume"}
+                value={`$${formatEarningWithCommas(metrics.totalNGRTracked)}`}
+                content={"Total NGR Tracked"}
               />
               <ReferralsInfo
                 icon={<FaUsers style={{ width: "24px", height: "24px" }} />}
-                value={342600}
+                value={metrics.newBettors}
                 content={"New Bettors"}
               />
             </ReferralItemContainer>
@@ -167,49 +237,49 @@ export const Referrals = () => {
             <ReferralsInfoItemWrapper>
               <ReferralsInfo
                 icon={<FaUsers style={{ width: "24px", height: "24px" }} />}
-                value={342600}
+                value={`$${formatEarningWithCommas(metrics.totalCommissionEarned)}`}
                 content={"Total Commission Earned"}
               />
               <ReferralsInfo
                 icon={<FaUsers style={{ width: "24px", height: "24px" }} />}
-                value={342600}
+                value={`$${formatEarningWithCommas(metrics.last30DaysEarning)}`}
                 content={"Last 30 Days Earnings"}
               />
               <ReferralsInfo
                 icon={<FaUsers style={{ width: "24px", height: "24px" }} />}
-                value={342600}
+                value={metrics.totalBettorsReferred}
                 content={"Total Bettors Referred"}
               />
             </ReferralsInfoItemWrapper>
             <ReferralsInfoItemMobile>
               <ReferralsInfo
                 icon={<FaUsers style={{ width: "24px", height: "24px" }} />}
-                value={342600}
+                value={0}
                 content={"Active Bettors"}
               />
               <ReferralsInfo
                 icon={<FaUsers style={{ width: "24px", height: "24px" }} />}
-                value={342600}
-                content={"Total Betting Volume"}
+                value={`$${formatEarningWithCommas(metrics.totalNGRTracked)}`}
+                content={"Total NGR Tracked"}
               />
               <ReferralsInfo
                 icon={<FaUsers style={{ width: "24px", height: "24px" }} />}
-                value={342600}
+                value={metrics.newBettors}
                 content={"New Bettors"}
               />
               <ReferralsInfo
                 icon={<FaUsers style={{ width: "24px", height: "24px" }} />}
-                value={342600}
+                value={`$${formatEarningWithCommas(metrics.totalCommissionEarned)}`}
                 content={"Total Commission Earned"}
               />
               <ReferralsInfo
                 icon={<FaUsers style={{ width: "24px", height: "24px" }} />}
-                value={342600}
+                value={`$${formatEarningWithCommas(metrics.last30DaysEarning)}`}
                 content={"Last 30 Days Earnings"}
               />
               <ReferralsInfo
                 icon={<FaUsers style={{ width: "24px", height: "24px" }} />}
-                value={342600}
+                value={metrics.totalBettorsReferred}
                 content={"Total Bettors Referred"}
               />
             </ReferralsInfoItemMobile>
@@ -217,7 +287,7 @@ export const Referrals = () => {
         </ReferralsContent>
       </ReferralsContainer>
       <ReferralManageContainer>
-        <ReferralManageTitle>Referral Management</ReferralManageTitle>
+        <ReferralManageTitle>Affiliate Dashboard</ReferralManageTitle>
         <ReferralManageSubtitle>
           Allow sorting by performance, date of registration, or revenue
           generated.
@@ -297,12 +367,6 @@ export const Referrals = () => {
           </ReferralManageAction>
           <ReferralContentContainer>
             {sortOption === 0 ? <ReferralTable /> : <ReferralChart />}
-            {/* <NoDataPage>
-              <NoDataPageTitle>No data yet</NoDataPageTitle>
-              <NoDataPageContent>
-                Start sharing your affiliate link to track new bettors!
-              </NoDataPageContent>
-            </NoDataPage> */}
           </ReferralContentContainer>
         </ReferralManageContent>
       </ReferralManageContainer>
@@ -397,7 +461,7 @@ const ReferralsInfoItemMobile = styled(Box)(({ theme }) => ({
 
 interface ReferralsInfoProps {
   icon: React.ReactNode;
-  value: number;
+  value: number | string;
   content: string;
 }
 
@@ -406,7 +470,8 @@ const ReferralsInfo = (props: ReferralsInfoProps) => {
   return (
     <ReferralsInfoWrapper>
       <ReferralsInfoSide>
-        <IconWrapper>{icon}</IconWrapper>${value.toLocaleString()}
+        <IconWrapper>{icon}</IconWrapper>
+        {value}
       </ReferralsInfoSide>
       <ReferralsInfoContent>{content}</ReferralsInfoContent>
     </ReferralsInfoWrapper>
@@ -926,35 +991,20 @@ const MovingBackground = styled(Box)(({ theme }) => ({
 
 const ReferralContentContainer = styled(Box)(({ theme }) => ({}));
 
-const NoDataPage = styled(Box)(({ theme }) => ({
+const TierImg = styled("img")(({ theme }) => ({
+  width: "26px",
+  height: "26px",
+  borderRadius: "7px",
+  objectFit: "contain",
+}));
+
+const TierContainer = styled(Box)(({ theme }) => ({
+  padding: "4px 8px",
   display: "flex",
   alignItems: "center",
-  justifyContent: "center",
-  flexDirection: "column",
-  gap: "10px",
-  width: "100%",
-  height: "500px",
-  backgroundColor: "#0f1629",
-  borderRadius: "15px",
-  padding: "20px",
-  [theme.breakpoints.down(540)]: {
-    height: "300px",
-  },
-}));
-
-const NoDataPageTitle = styled(Typography)(({ theme }) => ({
-  fontSize: "32px",
-  color: "#fff",
-  [theme.breakpoints.down(540)]: {
-    fontSize: "24px",
-  },
-}));
-
-const NoDataPageContent = styled(Typography)(({ theme }) => ({
-  fontSize: "16px",
-  color: "#627691",
-  [theme.breakpoints.down(540)]: {
-    fontSize: "14px",
-    textAlign: "center",
-  },
+  gap: "6px",
+  borderRadius: "7px",
+  color: "#1AE5A1",
+  backgroundColor: "#0d1321",
+  fontSize: "14px",
 }));

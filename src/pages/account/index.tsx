@@ -41,23 +41,7 @@ import {
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { formatEarningWithCommas } from "../../utils/number";
-import { calculateTierAndCashback } from "../../utils/info";
-import { BetsaveTooltip } from "../../components/tooltip";
-
-const getTierImage = (tier: string) => {
-  switch (tier.toLowerCase()) {
-    case "bronze":
-      return BronzeIcon;
-    case "silver":
-      return SilverIcon;
-    case "gold":
-      return GoldIcon;
-    case "platinum":
-      return PlatinumIcon;
-    default:
-      return BronzeIcon;
-  }
-};
+import { calculateTierAndCashback, getTierImage } from "../../utils/info";
 
 export const AccountManage = () => {
   const [selectedItem, setSelectedItem] = useState(0);
@@ -500,17 +484,6 @@ const BadgeContainer = styled(Box)(({ theme }) => ({
   color: "#1AE5A1",
   backgroundColor: "#0d1321",
   fontSize: "14px",
-}));
-
-const CurrentLevelBox = styled(Box)(({ theme }) => ({
-  width: "20px",
-  height: "20px",
-  borderRadius: "7px",
-  fontSize: "10px",
-  fontWeight: "bold",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
 }));
 
 const AccountController = styled(Box)(({ theme }) => ({

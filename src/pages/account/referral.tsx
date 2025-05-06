@@ -41,8 +41,7 @@ export const ReferralProgram = () => {
   };
 
   const handleCopy = () => {
-    const referralLink = `${window.location.origin}/r?ref=${referCode}`;
-    navigator.clipboard.writeText(referralLink).then(() => {
+    navigator.clipboard.writeText(referCode).then(() => {
       notifySuccess("Referral link copied to clipboard!");
     });
   };

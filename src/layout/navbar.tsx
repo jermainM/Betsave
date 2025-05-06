@@ -44,7 +44,7 @@ import {
 import { clearSession } from "../store/slices/sessionSlice";
 import { userService } from "../api/services/userService";
 import { useNotification } from "../provider/notification";
-
+import { formatEarningWithCommas } from "../utils/number";
 const StyledMenu = styled(Menu)(({ theme }) => ({
   "& .MuiPaper-root": {
     backgroundColor: "#0f1629",
@@ -224,7 +224,8 @@ export const NavBar = (props: { children: React.ReactNode }) => {
         <NavBarWrapper>
           <DesktopWalletContainer>
             <WalletValue>
-              <WalletIcon src={HandMoneyIcon} alt="wallet-icon" />${balance}
+              <WalletIcon src={HandMoneyIcon} alt="wallet-icon" />$
+              {formatEarningWithCommas(balance)}
             </WalletValue>
             <WalletButton onClick={() => navigate("/wallet")}>
               <AccountBalanceWallet />

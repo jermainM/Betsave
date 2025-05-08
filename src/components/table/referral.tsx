@@ -11,21 +11,44 @@ import {
 import { TempUserIcon, VectorIcon } from "../../constants/images";
 import { formatEarningWithCommas } from "../../utils/number";
 import { NoDataCard } from "../card/NoDataCard";
+import { useEffect, useState } from "react";
+import { referralService } from "../../api/services/referralService";
 
 interface Row {
-  rank: number;
-  referral: string;
-  grossWageredAmount: number;
-  trackedLosses: number;
-  cashbackEarned: number;
+  betsaveId: string;
+  userName: string;
+  userEmail: string;
+  totalWaggers: number;
+  totalLosses: number;
+  totalEarnings: number;
+  signupDate: string;
+  lastActive: string;
+  referralTier: string;
 }
 
 interface ReferralTableProps {
-  rows?: Row[];
+  betsaveId: string;
 }
 
 export const ReferralTable = (props: ReferralTableProps) => {
-  const { rows } = props;
+  const { betsaveId } = props;
+  const [rows, setRows] = useState<Row[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const response = await referralService.getReferUsersData(betsaveId);
+        setRows(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, [betsaveId]);
 
   return (
     <Container>
@@ -38,36 +61,46 @@ export const ReferralTable = (props: ReferralTableProps) => {
                 <StyledTableCell>Referral</StyledTableCell>
                 <StyledTableCell>Gross Wagered Amount</StyledTableCell>
                 <StyledTableCell>Tracked Losses</StyledTableCell>
-                <StyledTableCell align="right">
-                  Cashback Earned from Referral
-                </StyledTableCell>
+                <StyledTableCell>Cashback Earned from Referral</StyledTableCell>
+                <StyledTableCell>Signup Date</StyledTableCell>
+                <StyledTableCell>Referral Tier</StyledTableCell>
+                <StyledTableCell align="right">Last Active</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
-                <StyledTableRow key={row.rank}>
+              {rows.map((row, idx) => (
+                <StyledTableRow key={row.betsaveId}>
                   <StyledTableCell width={30}>
-                    <RankItem label={row.rank} />
+                    <RankItem label={idx + 1} />
                   </StyledTableCell>
                   <StyledTableCell>
-                    <UserItem avatar={TempUserIcon} name={row.referral} />
+                    <UserItem
+                      avatar={TempUserIcon}
+                      name={row.userName}
+                      email={row.userEmail}
+                    />
                   </StyledTableCell>
                   <StyledTableCell>
                     <EarningText>
-                      ${formatEarningWithCommas(row.grossWageredAmount)}
+                      ${formatEarningWithCommas(row.totalWaggers)}
                     </EarningText>
                   </StyledTableCell>
                   <StyledTableCell>
                     <EarningText>
-                      ${formatEarningWithCommas(row.trackedLosses)}
+                      ${formatEarningWithCommas(row.totalLosses)}
                     </EarningText>
                   </StyledTableCell>
                   <StyledTableCell>
                     <PrizeTextContainer>
                       <PrizeText>
-                        ${formatEarningWithCommas(row.cashbackEarned)}
+                        ${formatEarningWithCommas(row.totalEarnings)}
                       </PrizeText>
                     </PrizeTextContainer>
+                  </StyledTableCell>
+                  <StyledTableCell>{row.signupDate}</StyledTableCell>
+                  <StyledTableCell>{row.referralTier}</StyledTableCell>
+                  <StyledTableCell align="right">
+                    {row.lastActive}
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
@@ -166,14 +199,18 @@ const RankLabel = styled(Typography)(({ theme }) => ({
 interface UserItemProps {
   avatar: string;
   name: string;
+  email: string;
 }
 
 const UserItem = (props: UserItemProps) => {
-  const { avatar, name } = props;
+  const { avatar, name, email } = props;
   return (
     <UserItemContainer>
       <UserImg src={avatar} alt="user-avatar" />
-      <UserName>{name}</UserName>
+      <UserItemText>
+        <UserName>{name}</UserName>
+        <UserEmail>{email}</UserEmail>
+      </UserItemText>
     </UserItemContainer>
   );
 };
@@ -185,14 +222,24 @@ const UserItemContainer = styled(Box)(({ theme }) => ({
 }));
 
 const UserImg = styled("img")(({ theme }) => ({
-  borderRadius: "50%",
-  width: "24px",
-  height: "24px",
+  borderRadius: "4px",
+  width: "32px",
+  height: "32px",
+}));
+
+const UserItemText = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
 }));
 
 const UserName = styled(Typography)(({ theme }) => ({
   fontSize: "14px",
   color: "#fff",
+}));
+
+const UserEmail = styled(Typography)(({ theme }) => ({
+  fontSize: "12px",
+  color: "#aeb9e1",
 }));
 
 const EarningText = styled(Box)(({ theme }) => ({

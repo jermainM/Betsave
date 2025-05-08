@@ -24,8 +24,4 @@ export const casinoService = {
       throw error;
     }
   },
-  getAffiliateMetrics: async (betsaveId: string) => {
-    const response = await api.get(`casino/affiliate-metrics/${betsaveId}`);
-    return response.data;
-  },
 };

@@ -5,18 +5,10 @@ interface WalletState {
   availableCashback: number;
   history: Array<{
     offerId: string;
-    image: string;
-    title: string;
-    losses: {
-      _id: string;
-      amount: number;
-      dateTime: string;
-      isCashback: boolean;
-    }[];
-    totalLosses: number;
-    cashbackRate: string;
-    tier: string;
-    cashback: number;
+    offerImage: string;
+    offerTitle: string;
+    lossAmount: number;
+    dateTime: string;
     withdrawable: boolean;
   }>;
   isLoading: boolean;

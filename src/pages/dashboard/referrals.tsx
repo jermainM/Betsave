@@ -23,10 +23,11 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { formatEarningWithCommas } from "../../utils/number";
 import { useNotification } from "../../provider/notification";
-import { casinoService } from "../../api/services/casinoService";
 import { calculateTierAndCashback, getTierImage } from "../../utils/info";
+import { referralService } from "../../api/services/referralService";
 
 interface Metrics {
+  activeBettors: number;
   totalNGRTracked: number;
   totalBettorsReferred: number;
   totalCommissionEarned: number;
@@ -41,6 +42,7 @@ export const Referrals = () => {
   const isSortOpen = Boolean(anchorEl);
   const [selected, setSelected] = useState(0);
   const [metrics, setMetrics] = useState<Metrics>({
+    activeBettors: 0,
     totalNGRTracked: 0,
     totalBettorsReferred: 0,
     totalCommissionEarned: 0,
@@ -82,7 +84,9 @@ export const Referrals = () => {
 
   const getAffiliateMetrics = async () => {
     try {
-      const response = await casinoService.getAffiliateMetrics(user?.betsaveId);
+      const response = await referralService.getAffiliateMetrics(
+        user?.betsaveId
+      );
       setMetrics(response.data);
     } catch (error) {
       console.log(error);
@@ -218,7 +222,7 @@ export const Referrals = () => {
             <ReferralItemContainer>
               <ReferralsInfo
                 icon={<FaUsers style={{ width: "24px", height: "24px" }} />}
-                value={0}
+                value={metrics.activeBettors}
                 content={"Active Bettors"}
               />
               <ReferralsInfo
@@ -237,7 +241,7 @@ export const Referrals = () => {
             <ReferralsInfoItemWrapper>
               <ReferralsInfo
                 icon={<FaUsers style={{ width: "24px", height: "24px" }} />}
-                value={`$${formatEarningWithCommas(metrics.totalCommissionEarned)}`}
+                value={`$${formatEarningWithCommas(metrics.totalCommissionEarned || 0)}`}
                 content={"Total Commission Earned"}
               />
               <ReferralsInfo
@@ -254,7 +258,7 @@ export const Referrals = () => {
             <ReferralsInfoItemMobile>
               <ReferralsInfo
                 icon={<FaUsers style={{ width: "24px", height: "24px" }} />}
-                value={0}
+                value={metrics.activeBettors}
                 content={"Active Bettors"}
               />
               <ReferralsInfo
@@ -269,7 +273,7 @@ export const Referrals = () => {
               />
               <ReferralsInfo
                 icon={<FaUsers style={{ width: "24px", height: "24px" }} />}
-                value={`$${formatEarningWithCommas(metrics.totalCommissionEarned)}`}
+                value={`$${formatEarningWithCommas(metrics.totalCommissionEarned || 0)}`}
                 content={"Total Commission Earned"}
               />
               <ReferralsInfo
@@ -366,7 +370,11 @@ export const Referrals = () => {
             </TimerContainer>
           </ReferralManageAction>
           <ReferralContentContainer>
-            {sortOption === 0 ? <ReferralTable /> : <ReferralChart />}
+            {sortOption === 0 ? (
+              <ReferralTable betsaveId={user?.betsaveId} />
+            ) : (
+              <ReferralChart />
+            )}
           </ReferralContentContainer>
         </ReferralManageContent>
       </ReferralManageContainer>

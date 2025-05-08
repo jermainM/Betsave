@@ -9,6 +9,7 @@ interface OfferDialogProps {
   setOpen: (open: boolean) => void;
   image: string;
   title: string;
+  onClick: () => void;
 }
 
 export const OfferDialog: React.FC<OfferDialogProps> = ({
@@ -16,6 +17,7 @@ export const OfferDialog: React.FC<OfferDialogProps> = ({
   setOpen,
   image,
   title,
+  onClick,
 }) => {
   return (
     <StyledDialog
@@ -45,7 +47,9 @@ export const OfferDialog: React.FC<OfferDialogProps> = ({
             </StarsBox>
           </PopularityBox>
         </CasinoSection>
-        <ReceiveButton fullWidth>Receive 5%</ReceiveButton>
+        <ReceiveButton fullWidth onClick={onClick}>
+          Join
+        </ReceiveButton>
         <SectionBox>
           <SectionTitle>Description</SectionTitle>
           <SectionText>

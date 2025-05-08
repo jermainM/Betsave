@@ -83,6 +83,7 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
   availableCashback,
 }) => {
   const { user } = useSelector((state: RootState) => state.session);
+  const { history } = useSelector((state: RootState) => state.wallet);
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(
     paymentMethods[0].id
   );
@@ -92,6 +93,7 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
   const [eligibility, setEligibility] = useState([]);
 
   const { notifyError, notifySuccess } = useNotification();
+  const _history = history.filter((item) => item.withdrawable);
 
   const handleMethodClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -138,7 +140,8 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
           availableCashback,
           address,
           user.tier,
-          user.cashbackRate
+          user.cashbackRate,
+          _history
         );
         notifySuccess("Cashback requested successfully");
         console.log(response);

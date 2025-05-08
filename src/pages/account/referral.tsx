@@ -19,7 +19,7 @@ import { FaLink, FaUsers, FaDollarSign } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useNotification } from "../../provider/notification";
-import { userService } from "../../api/services/userService";
+import { referralService } from "../../api/services/referralService";
 
 interface MetricsData {
   totalReferralsLength: number;
@@ -48,8 +48,8 @@ export const ReferralProgram = () => {
 
   const getMetricsData = async () => {
     try {
-      const response = await userService.getReferralMetrics(user.betsaveId);
-      console.log();
+      const response = await referralService.getReferralMetrics(user.betsaveId);
+      console.log(response);
       setMetricsData(response.data);
     } catch (error) {
       console.log(error);

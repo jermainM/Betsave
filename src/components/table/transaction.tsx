@@ -25,13 +25,33 @@ import {
 import { HiArrowRight } from "react-icons/hi";
 import { BetsaveTooltip } from "../tooltip";
 import { NoDataCard } from "../card/NoDataCard";
+import { transactionService } from "../../api/services/transactionService";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { formatEarningWithCommas } from "../../utils/number";
+
+interface HistoryItem {
+  offerId: string;
+  offerImage: string;
+  offerTitle: string;
+  lossAmount: number;
+  dateTime: string;
+  withdrawable: boolean;
+}
 
 interface Row {
-  id: string;
-  date: string;
-  deposit: string;
-  payout: string;
-  commission: string;
+  betsaveId: string;
+  userName: string;
+  userEmail: string;
+  totalRequestedAmount: number;
+  tier: string;
+  cashbackRate: number;
+  status: string;
+  requestedDate: string;
+  claimDate: string;
+  paymentMethod: string;
+  paymentAddress: string;
+  history: HistoryItem[];
 }
 
 export const CashbackHistoryTable = () => {
@@ -39,6 +59,8 @@ export const CashbackHistoryTable = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const anchorRef = useRef<HTMLButtonElement>(null);
   const [page, setPage] = useState<number>(1);
+  const { user } = useSelector((state: RootState) => state.session);
+  const [rows, setRows] = useState<Row[]>([]);
 
   const handleMenuToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -68,9 +90,18 @@ export const CashbackHistoryTable = () => {
     prevOpen.current = isOpen;
   }, [isOpen]);
 
-  // Table related
+  useEffect(() => {
+    const fetchTransactions = async () => {
+      const response = await transactionService.getTransactionByBetsaveId(
+        user.betsaveId
+      );
 
-  const rows: Row[] | [] = [];
+      setRows(response.data ?? []);
+    };
+    fetchTransactions();
+  }, []);
+
+  // Table related
 
   const totalPages: number = Math.ceil(rows.length / rowsPerPage);
 
@@ -147,9 +178,9 @@ export const CashbackHistoryTable = () => {
         <HistoryTitleContainer>
           <HistoryTitle>Cashback History</HistoryTitle>
           <HistorySubTitle>
-            Here’s a record of your tracked losses, the cashback earned, and
+            Here's a record of your tracked losses, the cashback earned, and
             your current rate per platform. Cashback is calculated based on
-            BETSAVE’s affiliate earnings with each operator.
+            BETSAVE's affiliate earnings with each operator.
           </HistorySubTitle>
         </HistoryTitleContainer>
         <TransactionAction>
@@ -226,23 +257,34 @@ export const CashbackHistoryTable = () => {
             <TableBody>
               {rows
                 .slice((page - 1) * rowsPerPage, page * rowsPerPage)
-                .map((row, idx) => (
-                  <StyledTableRow key={idx}>
-                    <StyledTableCell width={100}>
-                      <IDItem label={row.id} />
-                    </StyledTableCell>
-                    <StyledTableCell>{row.date}</StyledTableCell>
-                    <StyledTableCell>
-                      <MinusText>{row.deposit}</MinusText>
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      <PlusText>{row.payout}</PlusText>
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      <PlusText>{row.commission}</PlusText>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
+                .map((row, idx) =>
+                  row.history.map((item, historyIdx) => (
+                    <StyledTableRow key={`${idx}-${historyIdx}`}>
+                      <StyledTableCell width={100}>
+                        <OfferCell>
+                          <OfferImage
+                            src={item.offerImage}
+                            alt={item.offerTitle}
+                          />
+                          <OfferName>{item.offerTitle}</OfferName>
+                        </OfferCell>
+                      </StyledTableCell>
+                      <StyledTableCell>{row.claimDate}</StyledTableCell>
+                      <StyledTableCell>
+                        ${formatEarningWithCommas(item.lossAmount)}
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        $
+                        {formatEarningWithCommas(
+                          (item.lossAmount * row.cashbackRate) / 100
+                        )}
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <PlusText>{row.cashbackRate}</PlusText>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))
+                )}
             </TableBody>
           </CustomTable>
         </TableContainer>
@@ -440,3 +482,21 @@ const CustomTableCell = styled(Box)(({ theme }) => ({
   cursor: "pointer",
   width: "fit-content",
 }));
+
+const OfferCell = styled(Box)({
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+});
+
+const OfferImage = styled("img")({
+  width: "40px",
+  height: "40px",
+  borderRadius: "8px",
+  objectFit: "cover",
+});
+
+const OfferName = styled(Typography)({
+  color: "#fff",
+  fontWeight: 500,
+});

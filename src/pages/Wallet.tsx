@@ -21,7 +21,7 @@ import {
   BronzeIcon,
   PlatinumIcon,
 } from "../constants/images";
-import { userService } from "../api/services/userService";
+import { referralService } from "../api/services/referralService";
 import { useNotification } from "../provider/notification";
 
 const Wallet = () => {
@@ -44,7 +44,9 @@ const Wallet = () => {
 
   const claimReferralReward = async () => {
     try {
-      const response = await userService.claimReferralReward(user.betsaveId);
+      const response = await referralService.claimReferralReward(
+        user.betsaveId
+      );
       if (response.reward > 0) {
         notifyInfo(`You have $${response.reward} referral reward`);
         setReferralReward(response.reward);
@@ -122,34 +124,36 @@ const Wallet = () => {
               <TableRow key={item.offerId}>
                 <TableCell>
                   <OfferCell>
-                    <OfferImage src={item.image} alt={item.title} />
-                    <OfferName>{item.title}</OfferName>
+                    <OfferImage src={item.offerImage} alt={item.offerTitle} />
+                    <OfferName>{item.offerTitle}</OfferName>
                   </OfferCell>
                 </TableCell>
                 <TableCell align="left">
-                  ${item.totalLosses.toFixed(2)}
+                  ${item.lossAmount.toFixed(2)}
                 </TableCell>
                 <TableCell align="left">
                   <TierBadgeContainer>
-                    <TierBadge tier={item.tier}>
+                    <TierBadge tier={user?.tier}>
                       <TierIcon
                         src={
-                          item.tier === "Bronze"
+                          user?.tier === "Bronze"
                             ? BronzeIcon
-                            : item.tier === "Silver"
+                            : user?.tier === "Silver"
                               ? SilverIcon
-                              : item.tier === "Gold"
+                              : user?.tier === "Gold"
                                 ? GoldIcon
                                 : PlatinumIcon
                         }
-                        alt={`${item.tier} tier icon`}
+                        alt={`${user?.tier} tier icon`}
                       />
-                      {item.tier}
+                      {user?.tier}
                     </TierBadge>
                   </TierBadgeContainer>
                 </TableCell>
-                <TableCell align="left">{item.cashbackRate}</TableCell>
-                <TableCell align="left">${item.cashback.toFixed(2)}</TableCell>
+                <TableCell align="left">{user?.cashbackRate}</TableCell>
+                <TableCell align="left">
+                  ${((item.lossAmount * user?.cashbackRate) / 100).toFixed(2)}
+                </TableCell>
                 <TableCell align="left">
                   <WithdrawableBadge withdrawable={item.withdrawable ? 1 : 0}>
                     {item.withdrawable ? "Yes" : "No"}

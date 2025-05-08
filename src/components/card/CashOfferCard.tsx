@@ -44,7 +44,13 @@ export const CashOfferCard = (props: CardProps) => {
           </JoinButton>
         </CardWrapper>
       </CardContainer>
-      <OfferDialog open={open} title={title} setOpen={setOpen} image={image} />
+      <OfferDialog
+        open={open}
+        title={title}
+        setOpen={setOpen}
+        image={image}
+        onClick={handleClick}
+      />
     </>
   );
 };

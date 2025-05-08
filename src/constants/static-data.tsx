@@ -452,6 +452,30 @@ export const STATIC_DATA = {
       subTitle: "Receive cashback monthly with secure withdrawals.",
     },
   ],
+  cashbackChallenges: [
+    {
+      navTitle: "Cashback Challenges",
+      title: "Cashback Multiplier Challenges",
+      subTitle:
+        "Boost Your Cashback by Completing Challenges and Unlock Amazing Rewards.",
+    },
+    {
+      navTitle: "Referral Missions",
+      title: "Referral Missions",
+      subTitle:
+        "Loren Ipsum Loren Ipsum Loren Ipsum Loren Ipsum Loren Ipsum Loren Ipsum",
+    },
+    {
+      navTitle: "Streak Bonuses",
+      title: "Streak Bonuses",
+      subTitle: "Bet consistently and earn extra rewards!",
+    },
+    {
+      navTitle: "Loyalty Program",
+      title: "Loyalty Program",
+      subTitle: "The more you bet, the higher your rewards.",
+    },
+  ],
 };
 
 export const TIER_CONFIG = {

@@ -35,6 +35,7 @@ import {
 } from "../../constants/images";
 import { StreakCard } from "../../components/card/StreakCard";
 import { LoyaltyBar } from "../../components/progressbar/LoyaltyBar";
+import { STATIC_DATA } from "../../constants/static-data";
 
 interface ChallengeCardDataProps {
   initialTimer: number;
@@ -229,13 +230,13 @@ export const Reward = () => {
 
   const chunkedChallengeCardData = chunkArray<ChallengeCardDataProps>(
     ChallengeCardData,
-    6,
+    6
   );
   const chunkedReferCardData = chunkArray<ReferCardDataProps>(ReferCardData, 6);
 
   const chunkedStreakCardData = chunkArray<StreakCardDataProps>(
     StreakCardData,
-    10,
+    10
   );
 
   return (
@@ -265,18 +266,10 @@ export const Reward = () => {
         <ChallengeContainer>
           <LabelContainer>
             <LabelTitle>
-              {sortOption === 0 && "Cashback Multiplier Challenges"}
-              {sortOption === 1 && "Referral Missions"}
-              {sortOption === 2 && "Streak Bonuses"}
-              {sortOption === 3 && "Loyalty Program"}
+              {STATIC_DATA.cashbackChallenges[sortOption].title}
             </LabelTitle>
             <LabelSubTitle>
-              {sortOption === 0 &&
-                "Boost Your Cashback by Completing Challenges and Unlock Amazing Rewards"}
-              {sortOption === 1 &&
-                "Loren Ipsum Loren Ipsum Loren Ipsum Loren Ipsum Loren Ipsum "}
-              {sortOption === 2 && "Bet consistently and earn extra rewards!"}
-              {sortOption === 3 && "The more you bet, the higher your rewards."}
+              {STATIC_DATA.cashbackChallenges[sortOption].subTitle}
             </LabelSubTitle>
           </LabelContainer>
           <ActionContainer>
@@ -291,52 +284,33 @@ export const Reward = () => {
                 <p>
                   Sort by: &nbsp;&nbsp;
                   <span>
-                    {sortOption === 0 && "Cashback Challenges"}
-                    {sortOption === 1 && "Referral Missions"}
-                    {sortOption === 2 && "Streak Bonuses"}
-                    {sortOption === 3 && "Loyalty Program"}
+                    {STATIC_DATA.cashbackChallenges[sortOption].navTitle}
                   </span>
                 </p>
                 <KeyboardArrowDown />
               </SortButton>
-              <Menu
+              <StyledMenu
                 anchorEl={anchorEl}
                 id="account-menu"
                 open={isSortOpen}
                 onClose={() => setAnchorEl(null)}
                 onClick={() => setAnchorEl(null)}
-                slotProps={{
-                  paper: {
-                    elevation: 0,
-                    sx: {
-                      overflow: "visible",
-                      filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                      mt: 1.5,
-                      "& .MuiAvatar-root": {
-                        width: 32,
-                        height: 32,
-                        ml: -0.5,
-                        mr: 1,
-                      },
-                    },
-                  },
-                }}
                 transformOrigin={{ horizontal: "left", vertical: "top" }}
                 anchorOrigin={{ horizontal: "left", vertical: "bottom" }}
+                TransitionProps={{
+                  timeout: 150,
+                }}
               >
-                <MenuItem onClick={() => handleSortClose(0)}>
-                  <MenuItemContent>Cashback Challenges</MenuItemContent>
-                </MenuItem>
-                <MenuItem onClick={() => handleSortClose(1)}>
-                  <MenuItemContent>Referral Missions</MenuItemContent>
-                </MenuItem>
-                <MenuItem onClick={() => handleSortClose(2)}>
-                  <MenuItemContent>Streak Bonuses</MenuItemContent>
-                </MenuItem>
-                <MenuItem onClick={() => handleSortClose(3)}>
-                  <MenuItemContent>Loyalty Program</MenuItemContent>
-                </MenuItem>
-              </Menu>
+                {STATIC_DATA.cashbackChallenges.map((item, idx) => (
+                  <StyledMenuItem
+                    key={`styled-menu-item-${idx}`}
+                    onClick={() => handleSortClose(idx)}
+                    selected={sortOption === idx}
+                  >
+                    <MenuItemContent>{item.navTitle}</MenuItemContent>
+                  </StyledMenuItem>
+                ))}
+              </StyledMenu>
             </SortButtonContainer>
             {sortOption !== 3 && (
               <HeadingAction>
@@ -365,7 +339,10 @@ export const Reward = () => {
               >
                 {sortOption === 0 &&
                   chunkedChallengeCardData.map((subcards, idx) => (
-                    <SwiperSlide key={idx} style={{ width: "100%" }}>
+                    <SwiperSlide
+                      key={`challenge-${idx}`}
+                      style={{ width: "100%" }}
+                    >
                       <CardContainer>
                         {subcards.map((item, subIdx) => (
                           <ChallengeCard
@@ -378,7 +355,7 @@ export const Reward = () => {
                   ))}
                 {sortOption === 1 &&
                   chunkedReferCardData.map((subcards, idx) => (
-                    <SwiperSlide key={idx} style={{ width: "100%" }}>
+                    <SwiperSlide key={`refer-${idx}`} style={{ width: "100%" }}>
                       <CardContainer>
                         {subcards.map((item, subIdx) => (
                           <ReferRewardClaimCard
@@ -393,7 +370,10 @@ export const Reward = () => {
                   ))}
                 {sortOption === 2 &&
                   chunkedStreakCardData.map((subcards, idx) => (
-                    <SwiperSlide key={idx} style={{ width: "100%" }}>
+                    <SwiperSlide
+                      key={`streak-${idx}`}
+                      style={{ width: "100%" }}
+                    >
                       <StreakCardContainer>
                         {subcards.map((item, subIdx) => (
                           <StreakCard
@@ -538,12 +518,14 @@ const ActionContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-const SortButtonContainer = styled(Box)(({ theme }) => ({}));
+const SortButtonContainer = styled(Box)(({ theme }) => ({
+  position: "relative",
+}));
 
 const SortButton = styled(Button)(({ theme }) => ({
   height: "60px",
   padding: "12px 20px",
-  backgroundColor: "#111827",
+  backgroundColor: "#0f1629",
   textTransform: "none",
   borderRadius: "10px",
   display: "flex",
@@ -551,8 +533,18 @@ const SortButton = styled(Button)(({ theme }) => ({
   justifyContent: "space-between",
   gap: "10px",
   color: "#627691",
+  transition: "all 0.2s ease-in-out",
+  border: "1px solid transparent",
+
+  "& .MuiSvgIcon-root": {
+    transition: "transform 0.2s ease-in-out",
+  },
+  "&[aria-expanded='true'] .MuiSvgIcon-root": {
+    transform: "rotate(180deg)",
+  },
   span: {
     color: "#fff",
+    fontWeight: 500,
   },
   [theme.breakpoints.down(640)]: {
     padding: "12px",
@@ -560,12 +552,46 @@ const SortButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+const StyledMenu = styled(Menu)(({ theme }) => ({
+  "& .MuiPaper-root": {
+    backgroundColor: "#111827",
+    borderRadius: "10px",
+    marginTop: "8px",
+    minWidth: "280px",
+    backgroundImage: "none",
+    boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.25)",
+    border: "1px solid rgba(26, 229, 161, 0.1)",
+    "& .MuiList-root": {
+      padding: "8px",
+    },
+  },
+}));
+
+const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+  borderRadius: "8px",
+  margin: "2px 0",
+  padding: "10px 16px",
+  color: "#627691",
+  transition: "all 0.2s ease-in-out",
+  "&:hover": {
+    backgroundColor: "#1a2234",
+    color: "#fff",
+  },
+  "&.Mui-selected": {
+    backgroundColor: "#1AE5A1",
+    color: "#102A33",
+    "&:hover": {
+      backgroundColor: "#1AE5A1",
+    },
+  },
+}));
+
 const MenuItemContent = styled(Box)(({ theme }) => ({
-  fontSize: "14px",
+  fontSize: "16px",
   display: "flex",
   alignItems: "center",
   gap: "8px",
-  color: "#627691",
+  fontWeight: 500,
 }));
 
 const HeadingAction = styled(Box)(({ theme }) => ({
@@ -865,7 +891,7 @@ const StructureImage = styled("img")<{ locked: number }>(
     [theme.breakpoints.down(380)]: {
       width: "100%",
     },
-  }),
+  })
 );
 
 const StructureButton = styled(Button)(({ theme }) => ({

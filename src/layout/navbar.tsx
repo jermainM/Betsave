@@ -121,6 +121,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
     setSelectedItem(idx);
     navigate("/dashboard");
     dispatch(setActiveItem(idx));
+    setSidebarAnchorEl(null);
   };
 
   const handleSearch = (value: string) => {

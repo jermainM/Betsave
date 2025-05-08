@@ -1,6 +1,38 @@
 import { KeyboardArrowDown } from "@mui/icons-material";
-import { Box, Button, styled, Typography } from "@mui/material";
+import { Box, Button, Menu, MenuItem, styled, Typography } from "@mui/material";
 import { useState } from "react";
+import { AmazonIcon, PaypalIcon, BitcoinIcon } from "../../constants/images";
+
+type PaymentMethod = "Amazon" | "PayPal" | "Crypto";
+
+interface PaymentMethodOption {
+  id: PaymentMethod;
+  label: string;
+  placeholder: string;
+  icon: string;
+  tag?: string;
+}
+
+const paymentMethods: PaymentMethodOption[] = [
+  {
+    id: "Amazon",
+    label: "Payment method",
+    placeholder: "Enter your Email address",
+    icon: AmazonIcon,
+  },
+  {
+    id: "PayPal",
+    label: "Payment method",
+    placeholder: "Enter your PayPal Address",
+    icon: PaypalIcon,
+  },
+  {
+    id: "Crypto",
+    label: "Payment method",
+    placeholder: "Select Token",
+    icon: BitcoinIcon,
+  },
+];
 
 export const Setting = () => {
   const [data, setData] = useState({
@@ -14,8 +46,27 @@ export const Setting = () => {
     payment: "",
   });
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(
+    paymentMethods[0].id
+  );
+  const isMenuOpen = Boolean(anchorEl);
+
   const handleData = (event: React.ChangeEvent<HTMLInputElement>) => {
     setData({ ...data, [event.target.name]: event.target.value });
+  };
+
+  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMethodSelect = (method: PaymentMethod) => {
+    setSelectedMethod(method);
+    handleMenuClose();
   };
 
   return (
@@ -84,10 +135,42 @@ export const Setting = () => {
           <PreferenceInput
             name="payment"
             placeholder="Payment Preferences"
-            value={data.payment}
+            value={selectedMethod}
             onChange={handleData}
+            disabled
           />
-          <SelectButton endIcon={<KeyboardArrowDown />}>Select</SelectButton>
+          <SelectButton
+            endIcon={<KeyboardArrowDown />}
+            onClick={handleMenuClick}
+          >
+            Select
+          </SelectButton>
+          <StyledMenu
+            anchorEl={anchorEl}
+            open={isMenuOpen}
+            onClose={handleMenuClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+          >
+            {paymentMethods.map((method) => (
+              <StyledMenuItem
+                key={method.id}
+                onClick={() => handleMethodSelect(method.id)}
+                selected={selectedMethod === method.id}
+              >
+                <MenuItemContent>
+                  <MethodIcon src={method.icon} alt={method.id} />
+                  {method.id}
+                </MenuItemContent>
+              </StyledMenuItem>
+            ))}
+          </StyledMenu>
         </PaymentOptionContainer>
 
         <SaveButton>Save</SaveButton>
@@ -282,3 +365,51 @@ const SaveButton = styled(Button)(({ theme }) => ({
     fontSize: "14px",
   },
 }));
+
+const StyledMenu = styled(Menu)(({ theme }) => ({
+  "& .MuiPaper-root": {
+    backgroundColor: "#111827",
+    borderRadius: "10px",
+    marginTop: "8px",
+    minWidth: "200px",
+    backgroundImage: "none",
+    boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.25)",
+    border: "1px solid rgba(26, 229, 161, 0.1)",
+    "& .MuiList-root": {
+      padding: "8px",
+    },
+  },
+}));
+
+const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+  borderRadius: "8px",
+  margin: "2px 0",
+  padding: "10px 16px",
+  color: "#627691",
+  transition: "all 0.2s ease-in-out",
+  "&:hover": {
+    backgroundColor: "#1a2234",
+    color: "#fff",
+  },
+  "&.Mui-selected": {
+    backgroundColor: "#1AE5A1",
+    color: "#102A33",
+    "&:hover": {
+      backgroundColor: "#1AE5A1",
+    },
+  },
+}));
+
+const MenuItemContent = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "12px",
+  fontSize: "14px",
+  fontWeight: 500,
+}));
+
+const MethodIcon = styled("img")({
+  width: "24px",
+  height: "24px",
+  objectFit: "contain",
+});

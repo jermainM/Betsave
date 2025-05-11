@@ -30,4 +30,8 @@ export const transactionService = {
     });
     return response.data;
   },
+  getLeaderBoardData: async () => {
+    const response = await api.get("transactions/leaderboard");
+    return response.data;
+  },
 };

@@ -2,23 +2,26 @@ import { Box, styled, Typography, Button } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { casinoService } from "../../api/services/casinoService";
-import Dialog from "@mui/material/Dialog";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { OfferDialog } from "../dialog/OfferDialog";
+import { fetchIP } from "../../utils/fetchIP";
 
 interface CardProps {
   id: string;
   image: string;
   title: string;
   affiliateLink: string;
+  allowedCountries: string[];
 }
 
 export const CashOfferCard = (props: CardProps) => {
-  const { id, image, title, affiliateLink } = props;
+  const { id, image, title, affiliateLink, allowedCountries } = props;
   const { user } = useSelector((state: RootState) => state.session);
   const [open, setOpen] = useState(false);
+  const { country, isoAlpha2 } = useSelector(
+    (state: RootState) => state.device
+  );
+
   const handleClick = async () => {
     console.log({ betsaveId: user.betsaveId, id });
     try {
@@ -30,6 +33,10 @@ export const CashOfferCard = (props: CardProps) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    console.log({ allowedCountries, isoAlpha2 });
+  }, [allowedCountries, isoAlpha2]);
 
   return (
     <>
@@ -50,6 +57,7 @@ export const CashOfferCard = (props: CardProps) => {
         setOpen={setOpen}
         image={image}
         onClick={handleClick}
+        isAllowed={allowedCountries.includes(isoAlpha2)}
       />
     </>
   );

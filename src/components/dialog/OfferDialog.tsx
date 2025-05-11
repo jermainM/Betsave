@@ -3,6 +3,8 @@ import Dialog from "@mui/material/Dialog";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { Button, Typography, Box, styled } from "@mui/material";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
 interface OfferDialogProps {
   open: boolean;
@@ -10,6 +12,7 @@ interface OfferDialogProps {
   image: string;
   title: string;
   onClick: () => void;
+  isAllowed: boolean;
 }
 
 export const OfferDialog: React.FC<OfferDialogProps> = ({
@@ -18,7 +21,9 @@ export const OfferDialog: React.FC<OfferDialogProps> = ({
   image,
   title,
   onClick,
+  isAllowed,
 }) => {
+  const { country } = useSelector((state: RootState) => state.device);
   return (
     <StyledDialog
       open={open}
@@ -47,8 +52,8 @@ export const OfferDialog: React.FC<OfferDialogProps> = ({
             </StarsBox>
           </PopularityBox>
         </CasinoSection>
-        <ReceiveButton fullWidth onClick={onClick}>
-          Join
+        <ReceiveButton fullWidth onClick={onClick} disabled={!isAllowed}>
+          {isAllowed ? "Join" : "This offer is restricted in your country"}
         </ReceiveButton>
         <SectionBox>
           <SectionTitle>Description</SectionTitle>
@@ -197,6 +202,10 @@ const ReceiveButton = styled(Button)(({ theme }) => ({
   borderRadius: "8px",
   textTransform: "none",
   "&:hover": { background: "#15c88c" },
+  "&:disabled": {
+    background: "#31364A",
+    color: "#627691",
+  },
 }));
 
 const SectionBox = styled(Box)(({ theme }) => ({

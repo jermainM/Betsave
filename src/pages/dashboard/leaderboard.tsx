@@ -1,4 +1,5 @@
 import { Box, styled, Typography } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 import { formatEarningWithCommas } from "../../utils/number";
 import { LeaderBoardTable } from "../../components/table/leaderboard";
 
@@ -9,8 +10,18 @@ import {
   Rank3Img,
   GreenLeaderboardPng,
 } from "../../constants/images";
+import { transactionService } from "../../api/services/transactionService";
+import { useEffect } from "react";
 
 export const LeaderBoard = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: ["leaderboard"],
+    queryFn: () => transactionService.getLeaderBoardData(),
+  });
+
+  useEffect(() => {
+    console.log({ leaderboard: data });
+  }, [data]);
   return (
     <LeaderBoardContainer>
       <Heading>

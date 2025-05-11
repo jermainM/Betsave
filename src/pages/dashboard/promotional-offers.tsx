@@ -26,14 +26,16 @@ import { calculateOfferStatus } from "../../utils/offer";
 import { Row } from "../../constants/interfaces";
 import { useNotification } from "../../provider/notification";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearSession } from "../../store/slices/sessionSlice";
+import { RootState } from "../../store";
 
 export const PromotionalOffer = () => {
   const [offers, setOffers] = useState<Row[]>([]);
   const { notifyError } = useNotification();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const country = useSelector((state: RootState) => state.device.country);
   const fetchOffers = async () => {
     try {
       const offers = await offerService.getOffers();
@@ -47,7 +49,14 @@ export const PromotionalOffer = () => {
         endDate: offer.endDate,
         status: calculateOfferStatus(offer.startDate, offer.endDate),
         affiliateLink: offer.affiliateLink,
+        allowedCountries: offer.allowedCountries,
       }));
+      console.log({
+        allowedCountries: offersData[0].allowedCountries,
+        country,
+        isAllowed:
+          offersData[0].allowedCountries.includes(country) && country !== "",
+      });
       setOffers(offersData);
     } catch (error) {
       dispatch(clearSession());
@@ -113,6 +122,7 @@ export const PromotionalOffer = () => {
                   title={offer.title}
                   id={offer._id}
                   affiliateLink={offer.affiliateLink}
+                  allowedCountries={offer.allowedCountries}
                 />
               </SwiperSlide>
             ))}

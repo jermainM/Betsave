@@ -27,8 +27,9 @@ import { calculateOfferStatus } from "../../utils/offer";
 import { Row } from "../../constants/interfaces";
 import { useNotification } from "../../provider/notification";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { clearSession } from "../../store/slices/sessionSlice";
+import { RootState } from "../../store";
 
 export const MyOffer = () => {
   const [isEmpty, setEmpty] = useState(false);
@@ -36,6 +37,7 @@ export const MyOffer = () => {
   const { notifyError } = useNotification();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const country = useSelector((state: RootState) => state.device.country);
   const fetchOffers = async () => {
     try {
       const offers = await offerService.getOffers();
@@ -49,6 +51,7 @@ export const MyOffer = () => {
         endDate: offer.endDate,
         status: calculateOfferStatus(offer.startDate, offer.endDate),
         affiliateLink: offer.affiliateLink,
+        allowedCountries: offer.allowedCountries,
       }));
       setOffers(offersData);
     } catch (error) {
@@ -124,6 +127,7 @@ export const MyOffer = () => {
                   image={offer.image}
                   title={offer.title}
                   affiliateLink={offer.affiliateLink}
+                  allowedCountries={offer.allowedCountries}
                 />
               </SwiperSlide>
             ))}

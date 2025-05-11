@@ -8,4 +8,5 @@ export interface Row {
   endDate: string;
   status: number;
   affiliateLink: string;
+  allowedCountries: string[];
 }

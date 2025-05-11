@@ -10,9 +10,42 @@ import { Affiliates } from "./affiliates";
 import { Referrals } from "./referrals";
 import { Reward } from "./reward";
 import { AvailableOffer } from "./available-offer";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import {
+  setCountry,
+  setIpAddress,
+  setIsoAlpha2,
+} from "../../store/slices/deviceSlice";
+import { fetchIP } from "../../utils/fetchIP";
+import { useNotification } from "../../provider/notification";
 
 export const Dashboard = () => {
   const activeItem = useSelector((state: RootState) => state.navbar.activeItem);
+  const dispatch = useDispatch();
+  const { notifyError } = useNotification();
+  useEffect(() => {
+    const fetchDeviceDetails = async () => {
+      try {
+        const deviceDetails = await fetchIP();
+        console.log({ deviceDetails });
+        if (deviceDetails != null) {
+          dispatch(setCountry(deviceDetails.country.isoName));
+          dispatch(setIsoAlpha2(deviceDetails.country.isoAlpha2));
+          dispatch(setIpAddress(deviceDetails.ipAddress));
+        }
+      } catch (error) {
+        dispatch(setCountry(""));
+        dispatch(setIsoAlpha2(""));
+        dispatch(setIpAddress(""));
+        notifyError("Error fetching device details");
+        setTimeout(async () => {
+          await fetchDeviceDetails();
+        }, 1000);
+      }
+    };
+    fetchDeviceDetails();
+  }, []);
   return (
     <DashboardContainer>
       {activeItem === 0 && <PromotionalOffer />}

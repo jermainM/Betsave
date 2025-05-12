@@ -491,8 +491,9 @@ const PrizeText = styled(Box)(({ theme }) => ({
 }));
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({
+  borderRadius: "7px",
   "& .MuiTabs-indicator": {
-    backgroundColor: "#1AE5A1",
+    backgroundColor: "inherit",
   },
   "& .Mui-selected": {
     background: "linear-gradient(to bottom,#0f1629 40%,#15A373 200%)",

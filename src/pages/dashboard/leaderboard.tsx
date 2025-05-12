@@ -43,7 +43,7 @@ export const LeaderBoard = () => {
           <PrizeWrapper>
             <PrizeContainer>
               <PrizeValue>$2,000</PrizeValue>
-              <PrizeTitle>Weekly Prize</PrizeTitle>
+              <PrizeTitle>Monthly Prize</PrizeTitle>
             </PrizeContainer>
             <PrizeDivider />
           </PrizeWrapper>

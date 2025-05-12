@@ -173,7 +173,6 @@ export default Wallet;
 // Styled components
 const PageContainer = styled(Box)(({ theme }) => ({
   padding: "24px",
-  backgroundColor: "#141C30",
   minHeight: "100vh",
   marginTop: "20px",
   borderRadius: "12px",
@@ -213,7 +212,8 @@ const StatsContainer = styled(Box)(({ theme }) => ({
 
 const StatCard = styled(Paper)(({ theme }) => ({
   padding: "24px",
-  backgroundColor: "#172236",
+  backgroundColor: "#0f1629",
+  backgroundImage: "none",
   borderRadius: "12px",
   display: "flex",
   alignItems: "flex-end",
@@ -269,7 +269,8 @@ const WithdrawButton = styled(Button)(({ theme }) => ({
 }));
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#172236",
+  backgroundColor: "#0f1629",
+  backgroundImage: "none",
   borderRadius: "12px",
   overflow: "hidden",
 }));

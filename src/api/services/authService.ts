@@ -45,6 +45,7 @@ export const storeTokens = (accessToken: string) => {
 export const getStoredTokens = () => {
   try {
     const tokens = localStorage.getItem(TOKEN_KEY);
+    console.log({ tokens })
     return tokens ? JSON.parse(tokens) : null;
   } catch (error) {
     console.log('Error getting stored token:', error);

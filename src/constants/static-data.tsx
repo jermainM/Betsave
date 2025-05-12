@@ -245,11 +245,11 @@ export const STATIC_DATA = {
       name: "My Offers",
       idx: 2,
     },
-    {
-      icon: <IconImg src={GreenWithdrawPng} alt="nav-item-img" />,
-      name: "Withdraw",
-      idx: 3,
-    },
+    // {
+    //   icon: <IconImg src={GreenWithdrawPng} alt="nav-item-img" />,
+    //   name: "Withdraw",
+    //   idx: 3,
+    // },
     {
       icon: <IconImg src={GreenLeaderboardPng} alt="nav-item-img" />,
       name: "Leaderboard",

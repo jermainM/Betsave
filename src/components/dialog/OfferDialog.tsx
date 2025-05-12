@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Dialog from "@mui/material/Dialog";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
@@ -12,7 +12,7 @@ interface OfferDialogProps {
   image: string;
   title: string;
   onClick: () => void;
-  isAllowed: boolean;
+  allowedCountries: string[];
 }
 
 export const OfferDialog: React.FC<OfferDialogProps> = ({
@@ -21,9 +21,11 @@ export const OfferDialog: React.FC<OfferDialogProps> = ({
   image,
   title,
   onClick,
-  isAllowed,
+  allowedCountries,
 }) => {
-  const { country } = useSelector((state: RootState) => state.device);
+  const { isoAlpha2 } = useSelector((state: RootState) => state.device);
+  const isAllowed = allowedCountries.includes(isoAlpha2);
+
   return (
     <StyledDialog
       open={open}

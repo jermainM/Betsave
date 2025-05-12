@@ -83,7 +83,7 @@ export const MyOffer = () => {
             <HeadingTitleIcon>
               <img src={GreenMyOfferPng} alt="title-icon" />
             </HeadingTitleIcon>
-            MyOffer
+            My Offer
           </HeadingTitle>
           <HeadingContent>
             Track your claimed rewards and active deals all in one place.

@@ -53,6 +53,7 @@ api.interceptors.response.use(
       store.dispatch(clearSession());
       removeTokens();
       window.location.href = '/';
+      window.dispatchEvent(createNotificationEvent('Session expired. Please login again.', 'error'));
       return Promise.reject(new Error('Session expired. Please login again.'));
     }
 

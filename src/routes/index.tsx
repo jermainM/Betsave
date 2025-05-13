@@ -13,7 +13,6 @@ import VerifyEmail from "../pages/VerifyEmail";
 import VerifyPhone from "../pages/VerifyPhone";
 import Wallet from "../pages/Wallet";
 import { ResetPassword } from "../pages/ResetPassword";
-import { ComingSoon } from "../pages/coming";
 
 export const RouterComponent = () => {
   const { isAuthenticated } = useSelector((state: RootState) => state.session);
@@ -23,7 +22,6 @@ export const RouterComponent = () => {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path="/coming-soon" element={<ComingSoon />} />
 
       <Route
         path="/"

@@ -10,12 +10,20 @@ import {
   SilverIcon,
   StreamIcon,
   SuperHeroWheelPng,
+  TelegramIcon,
+  XIcon,
+  DiscordIcon,
+  StarIcon,
+  CommunityPng,
 } from "../constants/images";
 import { StyledBadge } from "../components/badge";
 import { FaArrowRight } from "react-icons/fa6";
 import { STATIC_DATA } from "../constants/static-data";
 import { AuthDialog } from "../components/dialog/auth";
 import { useEffect, useState } from "react";
+import { FaXTwitter } from "react-icons/fa6";
+import { FaDiscord, FaTelegramPlane } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 interface LandingProps {
   refCode?: string | null;
@@ -194,6 +202,47 @@ export const Landing = ({ refCode }: LandingProps) => {
           ))}
         </ReasonSectionItems>
       </ReasonSection>
+      <CommunitySection>
+        <CommunityContainer>
+          <CommunityContentContainer>
+            <CommunityContent>
+              <CommunityContentTitle>
+                Join The BestSave Community Today
+              </CommunityContentTitle>
+              <CommunityContentSubTitle>
+                Stay updated and unlock exclusive promo codes with fellow smart
+                bettors. Join us now on Telegram, Discord, and Twitter. Don’t
+                miss out!
+              </CommunityContentSubTitle>
+              <CommunityLinkContainer>
+                <Link to="https://x.com/betsaveio" target="_blank">
+                  <LinkButton>
+                    <FaXTwitter />
+                  </LinkButton>
+                </Link>
+                <Link to="https://discord.gg/PxBuhjzF" target="_blank">
+                  <LinkButton>
+                    <FaDiscord />
+                  </LinkButton>
+                </Link>
+                <Link to="https://t.me/betsave_community" target="_blank">
+                  <LinkButton>
+                    <FaTelegramPlane />
+                  </LinkButton>
+                </Link>
+              </CommunityLinkContainer>
+            </CommunityContent>
+          </CommunityContentContainer>
+          <CommunityImg src={CommunityPng} alt="community" />
+          <CommunityImgContainer>
+            <SmallDiscordImg src={DiscordIcon} alt="discord" />
+            <SmallStarImg src={StarIcon} alt="star" />
+            <TelegramImg src={TelegramIcon} alt="telegram" />
+            <DiscordImg src={DiscordIcon} alt="discord" />
+            <TwitterImg src={XIcon} alt="twitter" />
+          </CommunityImgContainer>
+        </CommunityContainer>
+      </CommunitySection>
       <AuthDialog
         isOpen={isAuthDialogOpen}
         setOpen={setAuthDialogOpen}
@@ -1159,5 +1208,267 @@ const ReasonItemSubTitle = styled(Typography)(({ theme }) => ({
   transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
   [theme.breakpoints.down(960)]: {
     fontSize: "16px",
+  },
+}));
+
+const CommunitySection = ProcessSection;
+
+const CommunityContainer = styled(Box)(({ theme }) => ({
+  borderRadius: "20px",
+
+  width: "100%",
+  height: "450px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+  overflow: "hidden",
+  position: "relative",
+  [theme.breakpoints.down(1600)]: {
+    height: "400px",
+  },
+  [theme.breakpoints.down(1280)]: {
+    height: "350px",
+  },
+  [theme.breakpoints.down(960)]: {
+    height: "300px",
+  },
+  [theme.breakpoints.down(768)]: {
+    height: "fit-content",
+    flexDirection: "column",
+    background:
+      "radial-gradient(circle at 50% -80%, rgba(14, 247, 169, 0.5) 2%,rgb(17, 20, 32) 89%)",
+  },
+}));
+
+const CommunityContentContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  padding: "80px 100px",
+  zIndex: 2,
+  width: "100%",
+
+  [theme.breakpoints.down(1600)]: {
+    padding: "40px 60px",
+  },
+  [theme.breakpoints.down(1280)]: {
+    padding: "30px 50px",
+  },
+  [theme.breakpoints.down(960)]: {
+    padding: "20px 40px",
+  },
+  [theme.breakpoints.down(768)]: {
+    justifyContent: "center",
+    padding: "40px 60px",
+  },
+  [theme.breakpoints.down(640)]: {
+    padding: "40px 20px",
+  },
+}));
+
+const CommunityContent = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "20px",
+  width: "640px",
+  [theme.breakpoints.down(1600)]: {
+    width: "540px",
+  },
+  [theme.breakpoints.down(1280)]: {
+    width: "480px",
+    gap: "10px",
+  },
+  [theme.breakpoints.down(960)]: {
+    width: "400px",
+  },
+  [theme.breakpoints.down(768)]: {
+    alignItems: "center",
+  },
+}));
+
+const CommunityContentTitle = styled(Typography)(({ theme }) => ({
+  fontSize: "54px",
+  fontWeight: "700",
+  color: "#fff",
+  lineHeight: "1.3",
+  [theme.breakpoints.down(1600)]: {
+    fontSize: "42px",
+  },
+  [theme.breakpoints.down(1280)]: {
+    fontSize: "36px",
+  },
+  [theme.breakpoints.down(960)]: {
+    fontSize: "32px",
+  },
+  [theme.breakpoints.down(768)]: {
+    textAlign: "center",
+    fontSize: "36px",
+  },
+  [theme.breakpoints.down(640)]: {
+    fontSize: "32px",
+  },
+  [theme.breakpoints.down(480)]: {
+    fontSize: "28px",
+  },
+}));
+
+const CommunityContentSubTitle = styled(Typography)(({ theme }) => ({
+  fontSize: "18px",
+  fontWeight: "500",
+  color: "#627691",
+  [theme.breakpoints.down(1280)]: {
+    fontSize: "16px",
+  },
+  [theme.breakpoints.down(960)]: {
+    fontSize: "14px",
+  },
+  [theme.breakpoints.down(768)]: {
+    textAlign: "center",
+    fontSize: "16px",
+  },
+  [theme.breakpoints.down(640)]: {
+    fontSize: "14px",
+  },
+}));
+
+const CommunityLinkContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  gap: "10px",
+  marginTop: "10px",
+}));
+
+const LinkButton = styled(Button)(({ theme }) => ({
+  width: "60px",
+  height: "60px",
+  minWidth: "60px",
+  borderRadius: "10px",
+  background: "linear-gradient(180deg, #172236 0%, #212C40 100%)",
+  border: "1.2px solid rgba(255, 255, 255, 0.1)",
+  color: "#fff",
+  fontSize: "32px",
+
+  "&:hover": {
+    background: "linear-gradient(180deg, #172236 0%, #212C40 100%)",
+  },
+  [theme.breakpoints.down(1600)]: {
+    width: "50px",
+    height: "50px",
+    minWidth: "50px",
+    fontSize: "24px",
+  },
+}));
+
+const CommunityImgContainer = styled(Box)(({ theme }) => ({
+  width: "100%",
+  height: "300px",
+  position: "relative",
+  display: "none",
+  [theme.breakpoints.down(768)]: {
+    display: "flex",
+  },
+}));
+
+const SmallDiscordImg = styled("img")(({ theme }) => ({
+  width: "100px",
+  height: "100px",
+  objectFit: "contain",
+  transform: "rotate(15deg)",
+  filter: "blur(6px)",
+  position: "absolute",
+  top: "0",
+  left: "10%",
+}));
+
+const SmallStarImg = styled("img")(({ theme }) => ({
+  width: "60px",
+  height: "60px",
+  objectFit: "contain",
+  transform: "rotate(-30deg)",
+  filter: "blur(5px)",
+  position: "absolute",
+  top: "15%",
+  right: "10%",
+}));
+
+const TelegramImg = styled("img")(({ theme }) => ({
+  width: "150px",
+  height: "150px",
+  objectFit: "contain",
+  transform: "rotate(15deg)",
+  zIndex: 2,
+  position: "absolute",
+  top: "20%",
+  right: "33%",
+  [theme.breakpoints.down(640)]: {
+    top: "25%",
+    right: "35%",
+  },
+  [theme.breakpoints.down(540)]: {
+    width: "120px",
+    height: "120px",
+    top: "35%",
+  },
+  [theme.breakpoints.down(420)]: {
+    width: "100px",
+    height: "100px",
+    top: "40%",
+  },
+}));
+
+const DiscordImg = styled("img")(({ theme }) => ({
+  width: "200px",
+  height: "200px",
+  objectFit: "contain",
+  transform: "rotate(15deg)",
+  zIndex: 1,
+  position: "absolute",
+  bottom: "0",
+  right: "15%",
+  [theme.breakpoints.down(640)]: {
+    bottom: "0",
+    right: "10%",
+  },
+  [theme.breakpoints.down(540)]: {
+    width: "170px",
+    height: "170px",
+  },
+  [theme.breakpoints.down(420)]: {
+    width: "150px",
+    height: "150px",
+    bottom: "5%",
+  },
+}));
+
+const TwitterImg = styled("img")(({ theme }) => ({
+  width: "200px",
+  height: "200px",
+  objectFit: "contain",
+  zIndex: 3,
+  position: "absolute",
+  bottom: "0",
+  right: "45%",
+  [theme.breakpoints.down(640)]: {
+    bottom: "0",
+    right: "50%",
+  },
+  [theme.breakpoints.down(540)]: {
+    width: "170px",
+    height: "170px",
+  },
+  [theme.breakpoints.down(420)]: {
+    width: "150px",
+    height: "150px",
+    bottom: "5%",
+  },
+}));
+
+const CommunityImg = styled("img")(({ theme }) => ({
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+  position: "absolute",
+  top: "0",
+  left: "0",
+  zIndex: 1,
+  [theme.breakpoints.down(768)]: {
+    display: "none",
   },
 }));

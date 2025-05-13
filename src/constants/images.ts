@@ -123,7 +123,11 @@ import USDCIcon from "../assets/crypto/usdc.svg";
 import USDTIcon from "../assets/crypto/usdt.svg";
 import XRPIcon from "../assets/crypto/xrp.svg";
 import BTCIcon from "../assets/crypto/btc.svg";
-
+import TelegramIcon from "../assets/social/telegram.png";
+import XIcon from "../assets/social/x.png";
+import DiscordIcon from "../assets/social/discord.png";
+import StarIcon from "../assets/social/star.png";
+import CommunityPng from "../assets/community.png";
 
 export {
   GreenTransparentPayoutIcon,
@@ -239,4 +243,9 @@ export {
   USDTIcon,
   XRPIcon,
   BTCIcon,
+  TelegramIcon,
+  XIcon,
+  DiscordIcon,
+  StarIcon,
+  CommunityPng
 };

@@ -15,7 +15,12 @@ interface LayoutProps {
 export const Layout = ({ children }: LayoutProps) => {
   const location = useLocation();
   const isResetPasswordPage = location.pathname.startsWith("/reset-password");
+  const isComingSoonPage = location.pathname === "/coming-soon";
   const { isAuthenticated } = useSelector((state: RootState) => state.session);
+
+  if (isComingSoonPage) {
+    return <>{children}</>;
+  }
 
   return (
     <LayoutContainer>

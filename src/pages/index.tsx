@@ -207,11 +207,11 @@ export const Landing = ({ refCode }: LandingProps) => {
           <CommunityContentContainer>
             <CommunityContent>
               <CommunityContentTitle>
-                Join The BestSave Community Today
+                Join The BetSave Community Today
               </CommunityContentTitle>
               <CommunityContentSubTitle>
                 Stay updated and unlock exclusive promo codes with fellow smart
-                bettors. Join us now on Telegram, Discord, and Twitter. Don’t
+                bettors. Join us now on Telegram, Discord, and Twitter. Don't
                 miss out!
               </CommunityContentSubTitle>
               <CommunityLinkContainer>
@@ -1344,10 +1344,41 @@ const LinkButton = styled(Button)(({ theme }) => ({
   border: "1.2px solid rgba(255, 255, 255, 0.1)",
   color: "#fff",
   fontSize: "32px",
+  transition: "all 0.3s ease",
+  position: "relative",
+  overflow: "hidden",
 
   "&:hover": {
-    background: "linear-gradient(180deg, #172236 0%, #212C40 100%)",
+    background: "linear-gradient(180deg, #1a2a45 0%, #25354a 100%)",
+    transform: "translateY(-2px)",
+    boxShadow: "0 4px 15px rgba(0, 0, 0, 0.2)",
+    border: "1.2px solid rgba(255, 255, 255, 0.2)",
+    "& svg": {
+      transform: "scale(1.1)",
+    },
   },
+
+  "& svg": {
+    transition: "transform 0.3s ease",
+  },
+
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    background:
+      "linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent)",
+    transform: "translateX(-100%)",
+    transition: "transform 0.6s ease",
+  },
+
+  "&:hover::before": {
+    transform: "translateX(100%)",
+  },
+
   [theme.breakpoints.down(1600)]: {
     width: "50px",
     height: "50px",

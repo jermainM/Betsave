@@ -11,6 +11,7 @@ import {
   EnglishIcon,
   TrustmaryIcon,
 } from "../constants/images";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
@@ -72,12 +73,24 @@ export const Footer = () => {
       <FooterCommunity>
         <FooterActionTitle>Community</FooterActionTitle>
         <FooterCommunityContainer>
-          <FooterCommunityItem icon={<FaXTwitter />} />
-          <FooterCommunityItem icon={<FaFacebookF />} />
-          <FooterCommunityItem icon={<RiInstagramFill />} />
-          <FooterCommunityItem icon={<BiLogoTelegram />} />
-          <FooterCommunityItem icon={<BiLogoDiscordAlt />} />
-          <FooterCommunityItem icon={<LuMessageCircleMore />} />
+          <Link to="https://x.com/betsaveio" target="_blank">
+            <FooterCommunityItem icon={<FaXTwitter />} />
+          </Link>
+          <Link to="https://www.facebook.com/betsaveio" target="_blank">
+            <FooterCommunityItem icon={<FaFacebookF />} />
+          </Link>
+          <Link to="https://www.instagram.com/betsaveio" target="_blank">
+            <FooterCommunityItem icon={<RiInstagramFill />} />
+          </Link>
+          <Link to="https://t.me/betsave_community" target="_blank">
+            <FooterCommunityItem icon={<BiLogoTelegram />} />
+          </Link>
+          <Link to="https://discord.gg/PxBuhjzF" target="_blank">
+            <FooterCommunityItem icon={<BiLogoDiscordAlt />} />
+          </Link>
+          <Link to="https://messenger.com/t/betsaveio" target="_blank">
+            <FooterCommunityItem icon={<LuMessageCircleMore />} />
+          </Link>
         </FooterCommunityContainer>
         <LanguageChoose>
           <LanguageButton endIcon={<ExpandMore />}>

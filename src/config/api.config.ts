@@ -8,6 +8,6 @@ const getBackendUrl = () => {
 };
 
 export const API_CONFIG = {
-  BASE_URL: `${getBackendUrl()}/api/v1`,
+  BASE_URL: `${getBackendUrl()}`,
   BACKEND_URL: getBackendUrl(),
 }; 

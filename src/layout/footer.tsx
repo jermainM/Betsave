@@ -85,7 +85,7 @@ export const Footer = () => {
           <Link to="https://t.me/betsave_community" target="_blank">
             <FooterCommunityItem icon={<BiLogoTelegram />} />
           </Link>
-          <Link to="https://discord.gg/PxBuhjzF" target="_blank">
+          <Link to="https://discord.gg/uxPBNvCx" target="_blank">
             <FooterCommunityItem icon={<BiLogoDiscordAlt />} />
           </Link>
           <Link to="https://messenger.com/t/betsaveio" target="_blank">

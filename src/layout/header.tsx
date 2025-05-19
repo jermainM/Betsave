@@ -6,25 +6,30 @@ import {
   IconButton,
   Popover,
   styled,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
-import { IconInput } from "../components/input/IconInput";
-import { Menu, Search } from "@mui/icons-material";
+import { KeyboardArrowDown, Menu as MuiMenu } from "@mui/icons-material";
 import { LuUserRound } from "react-icons/lu";
 import { AiOutlineKey } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import {
-  GreenWalletIcon,
-  GreenCashbackIcon,
-  LogoImg,
-  MobileLogoImg,
-} from "../constants/images";
-import { AuthDialog } from "../components/dialog/auth";
+import { LogoImg, MobileLogoImg } from "../constants/images";
+import { US, FR, CN, ES } from "country-flag-icons/react/3x2";
 
 export const Header = () => {
-  const [searchText, setSearchText] = useState("");
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const [isAuthDialogOpen, setAuthDialogOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const [languageAnchorEl, setLanguageAnchorEl] = useState<null | HTMLElement>(
+    null
+  );
+  const [activeLanguage, setActiveLanguage] = useState<{
+    code: string;
+    flag: React.ReactNode;
+  }>({
+    code: "EN",
+    flag: <US />,
+  });
   const navigate = useNavigate();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -35,17 +40,22 @@ export const Header = () => {
     setAnchorEl(null);
   };
 
-  const handleDialogOpen = (type: "login" | "signup") => {
-    setAuthDialogOpen(true);
-    setIsLogin(type === "login");
-  };
-
   const isOpen = Boolean(anchorEl);
   const id = isOpen ? "simple-popover" : undefined;
 
-  const handleSearch = (value: string) => {
-    setSearchText(value);
+  const handleLanguageClick = (event: React.MouseEvent<HTMLElement>) => {
+    setLanguageAnchorEl(event.currentTarget);
   };
+
+  const handleLanguageClose = () => {
+    setLanguageAnchorEl(null);
+  };
+
+  const handleLanguageSelect = (code: string, flag: React.ReactNode) => {
+    setActiveLanguage({ code, flag });
+    handleLanguageClose();
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -76,51 +86,76 @@ export const Header = () => {
             </LinkItem>*/}
           </LinkItemContainer>
           <ActionContainer>
-            <IconInput
-              type="text"
-              placeholder="Search for offers..."
-              name="search"
-              value={searchText}
-              setValue={handleSearch}
-              icon={<Search sx={{ color: "#627691" }} />}
-            />
             <ButtonContainer>
               <ActionButton
                 variant="contained"
-                startIcon={<LuUserRound />}
-                onClick={() => handleDialogOpen("login")}
-                sx={{ backgroundColor: "#172236", color: "#fff" }}
+                endIcon={<KeyboardArrowDown />}
+                onClick={handleLanguageClick}
               >
+                <FlagIcons>{activeLanguage.flag}</FlagIcons>
+                {activeLanguage.code}
+              </ActionButton>
+              <StyledMenu
+                anchorEl={languageAnchorEl}
+                open={Boolean(languageAnchorEl)}
+                onClose={handleLanguageClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+              >
+                <MenuItem onClick={() => handleLanguageSelect("EN", <US />)}>
+                  <ListItemIcon>
+                    <FlagIcons>
+                      <US />
+                    </FlagIcons>
+                  </ListItemIcon>
+                  <ListItemText>English</ListItemText>
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageSelect("FR", <FR />)}>
+                  <ListItemIcon>
+                    <FlagIcons>
+                      <FR />
+                    </FlagIcons>
+                  </ListItemIcon>
+                  <ListItemText>Français</ListItemText>
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageSelect("CN", <CN />)}>
+                  <ListItemIcon>
+                    <FlagIcons>
+                      <CN />
+                    </FlagIcons>
+                  </ListItemIcon>
+                  <ListItemText>中文</ListItemText>
+                </MenuItem>
+                <MenuItem onClick={() => handleLanguageSelect("ES", <ES />)}>
+                  <ListItemIcon>
+                    <FlagIcons>
+                      <ES />
+                    </FlagIcons>
+                  </ListItemIcon>
+                  <ListItemText>Español</ListItemText>
+                </MenuItem>
+              </StyledMenu>
+              <ActionButton variant="contained" startIcon={<LuUserRound />}>
                 Sign In
               </ActionButton>
               <ActionButton
                 variant="contained"
                 startIcon={<AiOutlineKey />}
-                onClick={() => handleDialogOpen("signup")}
-                sx={{ backgroundColor: "#1ae5a1", color: "#000" }}
+                sx={{ background: "#1ae5a1", color: "#000" }}
               >
                 Sign Up
               </ActionButton>
-              <AuthDialog
-                isOpen={isAuthDialogOpen}
-                setOpen={setAuthDialogOpen}
-                isLogin={isLogin}
-              />
             </ButtonContainer>
           </ActionContainer>
           <MobileAction>
-            <MobileWrapper>
-              <IconInput
-                type="text"
-                placeholder="Search for offers..."
-                name="search"
-                value={searchText}
-                setValue={handleSearch}
-                icon={<Search sx={{ color: "#627691" }} />}
-              />
-            </MobileWrapper>
             <IconButton size="medium" onClick={handleClick}>
-              <Menu fontSize="inherit" />
+              <MuiMenu fontSize="inherit" />
             </IconButton>
             <Popover
               id={id}
@@ -135,33 +170,79 @@ export const Header = () => {
             >
               <PopoverContainer>
                 <ButtonContainer>
-                  <ActionButton
-                    variant="contained"
-                    startIcon={<LuUserRound />}
-                    sx={{ backgroundColor: "#172236", color: "#fff" }}
-                    onClick={() => handleDialogOpen("login")}
-                  >
+                  <ActionButton variant="contained" startIcon={<LuUserRound />}>
                     Sign In
                   </ActionButton>
                   <ActionButton
                     variant="contained"
                     startIcon={<AiOutlineKey />}
-                    sx={{ backgroundColor: "#1ae5a1", color: "#000" }}
-                    onClick={() => handleDialogOpen("signup")}
+                    sx={{ background: "#1ae5a1", color: "#000" }}
                   >
                     Sign Up
                   </ActionButton>
+                  <ActionButton
+                    variant="contained"
+                    endIcon={<KeyboardArrowDown />}
+                    onClick={handleLanguageClick}
+                  >
+                    <FlagIcons>{activeLanguage.flag}</FlagIcons>
+                    {activeLanguage.code}
+                  </ActionButton>
+                  <StyledMenu
+                    anchorEl={languageAnchorEl}
+                    open={Boolean(languageAnchorEl)}
+                    onClose={handleLanguageClose}
+                    anchorOrigin={{
+                      vertical: "bottom",
+                      horizontal: "left",
+                    }}
+                    transformOrigin={{
+                      vertical: "top",
+                      horizontal: "left",
+                    }}
+                  >
+                    <MenuItem
+                      onClick={() => handleLanguageSelect("EN", <US />)}
+                    >
+                      <ListItemIcon>
+                        <FlagIcons>
+                          <US />
+                        </FlagIcons>
+                      </ListItemIcon>
+                      <ListItemText>English</ListItemText>
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => handleLanguageSelect("FR", <FR />)}
+                    >
+                      <ListItemIcon>
+                        <FlagIcons>
+                          <FR />
+                        </FlagIcons>
+                      </ListItemIcon>
+                      <ListItemText>Français</ListItemText>
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => handleLanguageSelect("CN", <CN />)}
+                    >
+                      <ListItemIcon>
+                        <FlagIcons>
+                          <CN />
+                        </FlagIcons>
+                      </ListItemIcon>
+                      <ListItemText>中文</ListItemText>
+                    </MenuItem>
+                    <MenuItem
+                      onClick={() => handleLanguageSelect("ES", <ES />)}
+                    >
+                      <ListItemIcon>
+                        <FlagIcons>
+                          <ES />
+                        </FlagIcons>
+                      </ListItemIcon>
+                      <ListItemText>Español</ListItemText>
+                    </MenuItem>
+                  </StyledMenu>
                 </ButtonContainer>
-                <TabletWrapper>
-                  <IconInput
-                    type="text"
-                    placeholder="Search for offers..."
-                    name="search"
-                    value={searchText}
-                    setValue={handleSearch}
-                    icon={<Search sx={{ color: "#627691" }} />}
-                  />
-                </TabletWrapper>
               </PopoverContainer>
             </Popover>
           </MobileAction>
@@ -274,32 +355,18 @@ const ActionContainer = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down(1240)]: {
     gap: "20px",
   },
-  [theme.breakpoints.down(840)]: {
+  [theme.breakpoints.down(540)]: {
     display: "none",
   },
 }));
 
 const MobileAction = styled(Box)(({ theme }) => ({
   display: "none",
-  [theme.breakpoints.down(840)]: {
+  [theme.breakpoints.down(540)]: {
     display: "flex",
     alignItems: "center",
     gap: "16px",
     height: "100%",
-  },
-}));
-
-const MobileWrapper = styled(Box)(({ theme }) => ({
-  display: "block",
-  [theme.breakpoints.down(640)]: {
-    display: "none",
-  },
-}));
-
-const TabletWrapper = styled(Box)(({ theme }) => ({
-  display: "none",
-  [theme.breakpoints.down(640)]: {
-    display: "block",
   },
 }));
 
@@ -308,12 +375,30 @@ const ButtonContainer = styled(Box)(({ theme }) => ({
   alignItems: "center",
   gap: "12px",
   height: "100%",
+  [theme.breakpoints.down(480)]: {
+    flexDirection: "column",
+  },
 }));
 
 const ActionButton = styled(Button)(({ theme }) => ({
   textTransform: "none",
   height: "100%",
   fontWeight: "bold",
+  border: "1px solid #354054",
+  borderRadius: "8px",
+  color: "#fff",
+  fontSize: "14px",
+  width: "120px",
+  background: "linear-gradient(180deg, #172236 0%, #212C40 100%)",
+}));
+
+const FlagIcons = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "20px",
+  height: "20px",
+  marginRight: "8px",
 }));
 
 const PopoverContainer = styled(Box)(({ theme }) => ({
@@ -322,4 +407,27 @@ const PopoverContainer = styled(Box)(({ theme }) => ({
   gap: "20px",
   padding: "15px",
   backgroundColor: "#141c30",
+}));
+
+const StyledMenu = styled(Menu)(({ theme }) => ({
+  "& .MuiPaper-root": {
+    backgroundColor: "#141c30",
+    borderRadius: "8px",
+    marginTop: "8px",
+    minWidth: "180px",
+    boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
+    "& .MuiMenuItem-root": {
+      padding: "12px 16px",
+      color: "#fff",
+      "&:hover": {
+        backgroundColor: "#1e2a3d",
+      },
+      "& .MuiListItemIcon-root": {
+        minWidth: "40px",
+      },
+      "& .MuiListItemText-root": {
+        margin: 0,
+      },
+    },
+  },
 }));

@@ -220,7 +220,7 @@ export const Landing = ({ refCode }: LandingProps) => {
                     <FaXTwitter />
                   </LinkButton>
                 </Link>
-                <Link to="https://discord.gg/PxBuhjzF" target="_blank">
+                <Link to="https://discord.gg/uxPBNvCx" target="_blank">
                   <LinkButton>
                     <FaDiscord />
                   </LinkButton>

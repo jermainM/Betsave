@@ -17,12 +17,16 @@ import { AiOutlineKey } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { LogoImg, MobileLogoImg } from "../constants/images";
 import { US, FR, CN, ES } from "country-flag-icons/react/3x2";
+import { AuthDialog } from "../components/dialog/auth";
 
 export const Header = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const [languageAnchorEl, setLanguageAnchorEl] = useState<null | HTMLElement>(
     null
   );
+  const [isAuthDialogOpen, setAuthDialogOpen] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+
   const [activeLanguage, setActiveLanguage] = useState<{
     code: string;
     flag: React.ReactNode;
@@ -38,6 +42,11 @@ export const Header = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleDialogOpen = (type: "login" | "signup") => {
+    setAuthDialogOpen(true);
+    setIsLogin(type === "login");
   };
 
   const isOpen = Boolean(anchorEl);
@@ -141,16 +150,26 @@ export const Header = () => {
                   <ListItemText>Español</ListItemText>
                 </MenuItem>
               </StyledMenu>
-              <ActionButton variant="contained" startIcon={<LuUserRound />}>
+              <ActionButton
+                variant="contained"
+                startIcon={<LuUserRound />}
+                onClick={() => handleDialogOpen("login")}
+              >
                 Sign In
               </ActionButton>
               <ActionButton
                 variant="contained"
                 startIcon={<AiOutlineKey />}
                 sx={{ background: "#1ae5a1", color: "#000" }}
+                onClick={() => handleDialogOpen("signup")}
               >
                 Sign Up
               </ActionButton>
+              <AuthDialog
+                isOpen={isAuthDialogOpen}
+                setOpen={setAuthDialogOpen}
+                isLogin={isLogin}
+              />
             </ButtonContainer>
           </ActionContainer>
           <MobileAction>
@@ -170,13 +189,18 @@ export const Header = () => {
             >
               <PopoverContainer>
                 <ButtonContainer>
-                  <ActionButton variant="contained" startIcon={<LuUserRound />}>
+                  <ActionButton
+                    variant="contained"
+                    startIcon={<LuUserRound />}
+                    onClick={() => handleDialogOpen("login")}
+                  >
                     Sign In
                   </ActionButton>
                   <ActionButton
                     variant="contained"
                     startIcon={<AiOutlineKey />}
                     sx={{ background: "#1ae5a1", color: "#000" }}
+                    onClick={() => handleDialogOpen("signup")}
                   >
                     Sign Up
                   </ActionButton>

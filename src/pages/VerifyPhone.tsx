@@ -34,12 +34,16 @@ const VerifyPhone = () => {
     ipCountry: "",
   });
   const fetchData = async () => {
-    const deviceData = await fetchIP();
-    console.log({ deviceData });
-    setDevice({
-      ipAddress: deviceData.ip,
-      ipCountry: deviceData.country.isoAlpha2,
-    });
+    try {
+      const deviceData = await fetchIP();
+      console.log({ deviceData });
+      setDevice({
+        ipAddress: deviceData.ip,
+        ipCountry: deviceData.country.isoAlpha2,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {

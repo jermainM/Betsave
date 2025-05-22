@@ -92,11 +92,15 @@ export const CashbackHistoryTable = () => {
 
   useEffect(() => {
     const fetchTransactions = async () => {
-      const response = await transactionService.getTransactionByBetsaveId(
-        user.betsaveId
-      );
+      try {
+        const response = await transactionService.getTransactionByBetsaveId(
+          user.betsaveId
+        );
 
-      setRows(response.data ?? []);
+        setRows(response.data ?? []);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchTransactions();
   }, []);

@@ -14,7 +14,7 @@ export const Loader = (props: LoaderProps) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const minDuration = 2000; // Minimum loader time (2s)
+    const minDuration = 0; // Minimum loader time (0s)
     const startTime = Date.now();
 
     const updateProgress = () => {

@@ -315,8 +315,8 @@ const RatingTitle = styled(Typography)(({ theme }) => ({
 }));
 
 const ItemImg = styled("img")(({ theme }) => ({
-  width: "105px",
-  height: "auto",
+  width: "60px",
+  height: "60px",
   borderRadius: "5px",
 }));
 

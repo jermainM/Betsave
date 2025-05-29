@@ -63,9 +63,11 @@ export const OfferDialog: React.FC<OfferDialogProps> = ({
             </StarsBox>
           </PopularityBox>
         </CasinoSection>
-        <ReceiveButton fullWidth={true} disabled={!isAllowed}>
-          {isAllowed ? "Join" : "This offer is restricted in your country"}
-        </ReceiveButton>
+        {!isAllowed && (
+          <ReceiveButton fullWidth={true} disabled={true}>
+            This offer is restricted in your country
+          </ReceiveButton>
+        )}
         <SectionBox>
           <SectionTitle>Brands by This Partner</SectionTitle>
           {brands.map((brand) => (
@@ -74,6 +76,7 @@ export const OfferDialog: React.FC<OfferDialogProps> = ({
               image={brand.logo}
               name={brand.name}
               onClick={() => onClick(brand.affiliateLink)}
+              isAllowed={isAllowed}
             />
           ))}
         </SectionBox>
@@ -294,15 +297,18 @@ interface CardProps {
   image: string;
   name: string;
   onClick: () => void;
+  isAllowed: boolean;
 }
 
 const BrandCard = (props: CardProps) => {
-  const { image, name, onClick } = props;
+  const { image, name, onClick, isAllowed } = props;
   return (
     <CardContainer>
       <CardImage src={image} alt={name} />
       <CardName>{name}</CardName>
-      <CardButton onClick={onClick}>Visit Site</CardButton>
+      <CardButton onClick={onClick} disabled={!isAllowed}>
+        Visit Site
+      </CardButton>
     </CardContainer>
   );
 };
@@ -340,4 +346,8 @@ const CardButton = styled(Button)(({ theme }) => ({
   textTransform: "none",
   width: "100%",
   height: "40px",
+  "&:disabled": {
+    background: "#31364A",
+    color: "#627691",
+  },
 }));

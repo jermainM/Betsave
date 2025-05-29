@@ -4,21 +4,34 @@ import { RootState } from "../../store";
 import { casinoService } from "../../api/services/casinoService";
 import { useState } from "react";
 import { OfferDialog } from "../dialog/OfferDialog";
+import { Brand } from "../../constants/interfaces";
 
 interface CardProps {
   id: string;
   image: string;
   title: string;
-  affiliateLink: string;
+  description: string;
   allowedCountries: string[];
+  cashbackRate: number;
+  cashbackType: string;
+  brands: Brand[];
 }
 
 export const CashOfferCard = (props: CardProps) => {
-  const { id, image, title, affiliateLink, allowedCountries } = props;
+  const {
+    id,
+    image,
+    title,
+    description,
+    allowedCountries,
+    cashbackRate,
+    cashbackType,
+    brands,
+  } = props;
   const { user } = useSelector((state: RootState) => state.session);
   const [open, setOpen] = useState(false);
 
-  const handleClick = async () => {
+  const handleClick = async (affiliateLink: string) => {
     console.log({ betsaveId: user.betsaveId, id });
     try {
       const response = await casinoService.createAccount(user.betsaveId, id);
@@ -36,8 +49,8 @@ export const CashOfferCard = (props: CardProps) => {
         <CardImg src={image} alt="promo-logo" />
         <CardWrapper>
           <CardTitle>{title}</CardTitle>
-          <CardContent onClick={handleClick}>Casino/{title}</CardContent>
-          <CashbackLabel>Cashback: 3.5%</CashbackLabel>
+          <CardContent>Casino/{title}</CardContent>
+          <CashbackLabel>Cashback: {cashbackRate}%</CashbackLabel>
           <JoinButton variant="contained" onClick={() => setOpen(true)}>
             Join
           </JoinButton>
@@ -46,6 +59,10 @@ export const CashOfferCard = (props: CardProps) => {
       <OfferDialog
         open={open}
         title={title}
+        description={description}
+        cashbackRate={cashbackRate}
+        cashbackType={cashbackType}
+        brands={brands}
         setOpen={setOpen}
         image={image}
         onClick={handleClick}

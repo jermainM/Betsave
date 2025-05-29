@@ -33,17 +33,16 @@ export const AvailableOffer = () => {
   const fetchOffers = async () => {
     try {
       const offers = await offerService.getOffers();
-      const offersData = offers.data.map((offer: any, idx: number) => ({
+      const offersData = offers.data.map((offer: Row, idx: number) => ({
         id: idx,
         _id: offer._id,
         image: offer.image,
         title: offer.title,
         description: offer.description,
-        startDate: offer.startDate,
-        endDate: offer.endDate,
-        status: calculateOfferStatus(offer.startDate, offer.endDate),
-        affiliateLink: offer.affiliateLink,
         allowedCountries: offer.allowedCountries,
+        cashbackRate: offer.cashbackRate,
+        cashbackType: offer.cashbackType,
+        brands: offer.brands,
       }));
       setOffers(offersData);
     } catch (error) {
@@ -107,7 +106,10 @@ export const AvailableOffer = () => {
                   id={offer._id}
                   image={offer.image}
                   title={offer.title}
-                  affiliateLink={offer.affiliateLink}
+                  description={offer.description}
+                  cashbackRate={offer.cashbackRate}
+                  cashbackType={offer.cashbackType}
+                  brands={offer.brands}
                   allowedCountries={offer.allowedCountries}
                 />
               </SwiperSlide>

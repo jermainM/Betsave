@@ -5,14 +5,19 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Button, Typography, Box, styled } from "@mui/material";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { Brand } from "../../constants/interfaces";
 
 interface OfferDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   image: string;
   title: string;
-  onClick: () => void;
+  onClick: (affiliateLink: string) => void;
   allowedCountries: string[];
+  description: string;
+  cashbackRate: number;
+  cashbackType: string;
+  brands: Brand[];
 }
 
 export const OfferDialog: React.FC<OfferDialogProps> = ({
@@ -22,6 +27,10 @@ export const OfferDialog: React.FC<OfferDialogProps> = ({
   title,
   onClick,
   allowedCountries,
+  description,
+  cashbackRate,
+  cashbackType,
+  brands,
 }) => {
   const { isoAlpha2 } = useSelector((state: RootState) => state.device);
   const isAllowed = allowedCountries.includes(isoAlpha2);
@@ -54,17 +63,23 @@ export const OfferDialog: React.FC<OfferDialogProps> = ({
             </StarsBox>
           </PopularityBox>
         </CasinoSection>
-        <ReceiveButton fullWidth onClick={onClick} disabled={!isAllowed}>
+        <ReceiveButton fullWidth={true} disabled={!isAllowed}>
           {isAllowed ? "Join" : "This offer is restricted in your country"}
         </ReceiveButton>
         <SectionBox>
+          <SectionTitle>Brands by This Partner</SectionTitle>
+          {brands.map((brand) => (
+            <BrandCard
+              key={brand._id}
+              image={brand.logo}
+              name={brand.name}
+              onClick={() => onClick(brand.affiliateLink)}
+            />
+          ))}
+        </SectionBox>
+        <SectionBox>
           <SectionTitle>Description</SectionTitle>
-          <SectionText>
-            Hit GO! Roll the dice! Interact with your friends, family members
-            and fellow Tycoons from around the world as you explore the
-            expanding universe of MONOPOLY GO! It's the new way to play - board
-            flipping cleanup not required!
-          </SectionText>
+          <SectionText>{description}</SectionText>
         </SectionBox>
         <StatusPartnerSection>
           <StatusBox>
@@ -273,4 +288,56 @@ const PartnerLabel = styled(Typography)(({ theme }) => ({
 
 const DividerLine = styled(Box)(({ theme }) => ({
   borderBottom: "1px solid #31364A",
+}));
+
+interface CardProps {
+  image: string;
+  name: string;
+  onClick: () => void;
+}
+
+const BrandCard = (props: CardProps) => {
+  const { image, name, onClick } = props;
+  return (
+    <CardContainer>
+      <CardImage src={image} alt={name} />
+      <CardName>{name}</CardName>
+      <CardButton onClick={onClick}>Visit Site</CardButton>
+    </CardContainer>
+  );
+};
+
+const CardContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "12px",
+  padding: "12px",
+  borderRadius: "12px",
+  background: "#171E31",
+  border: "1px solid #31364A",
+  width: "180px",
+  height: "180px",
+}));
+
+const CardImage = styled("img")(({ theme }) => ({
+  width: "80px",
+  height: "80px",
+}));
+
+const CardName = styled(Typography)(({ theme }) => ({
+  fontSize: "16px",
+  color: "#fff",
+  fontWeight: 700,
+}));
+
+const CardButton = styled(Button)(({ theme }) => ({
+  background: "#1AE5A1",
+  color: "#171e30",
+  fontWeight: 700,
+  fontSize: 16,
+  borderRadius: "8px",
+  textTransform: "none",
+  width: "100%",
+  height: "40px",
 }));

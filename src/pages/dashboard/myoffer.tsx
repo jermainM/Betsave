@@ -47,10 +47,9 @@ export const MyOffer = () => {
         image: offer.image,
         title: offer.title,
         description: offer.description,
-        startDate: offer.startDate,
-        endDate: offer.endDate,
-        status: calculateOfferStatus(offer.startDate, offer.endDate),
-        affiliateLink: offer.affiliateLink,
+        cashbackRate: offer.cashbackRate,
+        cashbackType: offer.cashbackType,
+        brands: offer.brands,
         allowedCountries: offer.allowedCountries,
       }));
       setOffers(offersData);
@@ -126,7 +125,10 @@ export const MyOffer = () => {
                   id={offer._id}
                   image={offer.image}
                   title={offer.title}
-                  affiliateLink={offer.affiliateLink}
+                  description={offer.description}
+                  cashbackRate={offer.cashbackRate}
+                  cashbackType={offer.cashbackType}
+                  brands={offer.brands}
                   allowedCountries={offer.allowedCountries}
                 />
               </SwiperSlide>

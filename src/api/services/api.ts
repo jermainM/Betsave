@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { getStoredTokens, storeTokens, removeTokens } from './authService';
 import { API_CONFIG } from '../../config/api.config';
-import { ENDPOINTS } from '../endpoints';
 import { store } from '../../store';
 import { clearSession } from '../../store/slices/sessionSlice';
 

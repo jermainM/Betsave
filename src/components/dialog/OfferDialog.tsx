@@ -70,15 +70,17 @@ export const OfferDialog: React.FC<OfferDialogProps> = ({
         )}
         <SectionBox>
           <SectionTitle>Brands by This Partner</SectionTitle>
-          {brands.map((brand) => (
-            <BrandCard
-              key={brand._id}
-              image={brand.logo}
-              name={brand.name}
-              onClick={() => onClick(brand.affiliateLink)}
-              isAllowed={isAllowed}
-            />
-          ))}
+          <BrandCardContainer>
+            {brands.map((brand) => (
+              <BrandCard
+                key={brand._id}
+                image={brand.logo}
+                name={brand.name}
+                onClick={() => onClick(brand.affiliateLink)}
+                isAllowed={isAllowed}
+              />
+            ))}
+          </BrandCardContainer>
         </SectionBox>
         <SectionBox>
           <SectionTitle>Description</SectionTitle>
@@ -322,13 +324,14 @@ const CardContainer = styled(Box)(({ theme }) => ({
   borderRadius: "12px",
   background: "#171E31",
   border: "1px solid #31364A",
-  width: "180px",
-  height: "180px",
+  width: "156px",
+  height: "auto",
 }));
 
 const CardImage = styled("img")(({ theme }) => ({
   width: "80px",
   height: "80px",
+  objectFit: "cover",
 }));
 
 const CardName = styled(Typography)(({ theme }) => ({
@@ -345,9 +348,15 @@ const CardButton = styled(Button)(({ theme }) => ({
   borderRadius: "8px",
   textTransform: "none",
   width: "100%",
-  height: "40px",
+  height: "32px",
   "&:disabled": {
     background: "#31364A",
     color: "#627691",
   },
+}));
+
+const BrandCardContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "12px",
 }));

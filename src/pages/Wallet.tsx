@@ -103,6 +103,9 @@ const Wallet = () => {
             <TableRow>
               <TableCell sx={{ textWrap: "nowrap" }}>Offer</TableCell>
               <TableCell align="left" sx={{ textWrap: "nowrap" }}>
+                Brand Name
+              </TableCell>
+              <TableCell align="left" sx={{ textWrap: "nowrap" }}>
                 Total Loss
               </TableCell>
               <TableCell align="left" sx={{ textWrap: "nowrap" }}>
@@ -128,6 +131,7 @@ const Wallet = () => {
                     <OfferName>{item.offerTitle}</OfferName>
                   </OfferCell>
                 </TableCell>
+                <TableCell align="left">{item.brandName}</TableCell>
                 <TableCell align="left">
                   ${item.lossAmount.toFixed(2)}
                 </TableCell>

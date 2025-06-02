@@ -12,7 +12,7 @@ interface OfferDialogProps {
   setOpen: (open: boolean) => void;
   image: string;
   title: string;
-  onClick: (affiliateLink: string) => void;
+  onClick: (affiliateLink: string, brandName: string) => void;
   allowedCountries: string[];
   description: string;
   cashbackRate: number;
@@ -76,7 +76,7 @@ export const OfferDialog: React.FC<OfferDialogProps> = ({
                 key={brand._id}
                 image={brand.logo}
                 name={brand.name}
-                onClick={() => onClick(brand.affiliateLink)}
+                onClick={() => onClick(brand.affiliateLink, brand.name)}
                 isAllowed={isAllowed}
               />
             ))}

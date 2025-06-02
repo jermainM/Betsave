@@ -149,7 +149,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
         setWalletData({
           totalCashback: response.data.totalCashback ?? 0,
           availableCashback: response.data.availableCashback ?? 0,
-          history: [],
+          history: response.data.history ?? [],
         })
       );
     } catch (error) {

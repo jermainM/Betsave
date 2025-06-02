@@ -7,6 +7,7 @@ interface WalletState {
     offerId: string;
     offerImage: string;
     offerTitle: string;
+    brandName: string;
     lossAmount: number;
     dateTime: string;
     withdrawable: boolean;

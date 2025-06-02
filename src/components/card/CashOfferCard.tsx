@@ -31,13 +31,22 @@ export const CashOfferCard = (props: CardProps) => {
   const { user } = useSelector((state: RootState) => state.session);
   const [open, setOpen] = useState(false);
 
-  const handleClick = async (affiliateLink: string) => {
+  const handleClick = async (affiliateLink: string, brandName: string) => {
     console.log({ betsaveId: user.betsaveId, id });
     try {
-      const response = await casinoService.createAccount(user.betsaveId, id);
+      const response = await casinoService.createAccount(
+        user.betsaveId,
+        id,
+        brandName
+      );
       console.log(response);
-      const newLink = `${affiliateLink}?subId1=${user.betsaveId}&subId2=${user.referrer}`;
-      window.open(newLink, "_blank", "noopener,noreferrer");
+      if (user.referrer) {
+        const newLink = `${affiliateLink}?subId1=${user.betsaveId}&subId2=${user.referrer}`;
+        window.open(newLink, "_blank", "noopener,noreferrer");
+      } else {
+        const newLink = `${affiliateLink}?subId1=${user.betsaveId}`;
+        window.open(newLink, "_blank", "noopener,noreferrer");
+      }
     } catch (error) {
       console.log(error);
     }

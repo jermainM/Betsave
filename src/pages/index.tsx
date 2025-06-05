@@ -443,7 +443,7 @@ const RegisterButton = styled(Button)(({ theme }) => ({
   textTransform: "none",
   [theme.breakpoints.down(1280)]: {
     fontSize: "16px",
-    padding: "0 20px",
+    padding: "0 15px",
     height: "50px",
   },
 }));
@@ -469,7 +469,6 @@ const SocialButton = styled(Button)(({ theme }) => ({
   gap: "12px",
   border: "1px solid rgba(255, 255, 255, 0.1)",
   [theme.breakpoints.down(1280)]: {
-    width: "50px",
     height: "50px",
     minWidth: "50px",
   },

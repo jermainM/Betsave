@@ -64,6 +64,13 @@ export const Landing = ({ refCode }: LandingProps) => {
         referralCode
       );
 
+      if (!response.success) {
+        notifyError(
+          response.message || "Failed to login with Google. Please try again."
+        );
+        return;
+      }
+
       // Store the token
       localStorage.setItem("auth_token", response.data.tokens.accessToken);
 

@@ -288,6 +288,12 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
         referralCode
       );
 
+      if (!response.success) {
+        notifyError(
+          response.message || "Failed to login with Google. Please try again."
+        );
+        return;
+      }
       // Store the token
       localStorage.setItem("auth_token", response.data.tokens.accessToken);
 
@@ -305,9 +311,6 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       navigate("/dashboard");
     } catch (error: any) {
       console.error("Google login error:", error);
-      notifyError(
-        error.message || "Failed to login with Google. Please try again."
-      );
     }
   };
 

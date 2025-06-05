@@ -359,8 +359,8 @@ export const authService = {
       const data = await response.json();
       return data;
     } catch (error: any) {
-      console.log('Google login error:', error);
-      window.dispatchEvent(createNotificationEvent(error.message || 'Failed to login with Google. Please try again.', 'error'));
+      console.log('ERROR:', error);
+      // window.dispatchEvent(createNotificationEvent(error.message || 'Failed to login with Google. Please try again.', 'error'));
       throw new Error(error.message || 'Failed to login with Google. Please try again.');
     }
   },

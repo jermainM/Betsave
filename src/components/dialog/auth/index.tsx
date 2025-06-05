@@ -9,13 +9,12 @@ import {
   Checkbox,
   FormControlLabel,
   FormHelperText,
+  useTheme,
 } from "@mui/material";
 import {
   BetSaveLogoImg,
   BetsaveSupermanPng,
   GoogleIcon,
-  StreamIcon,
-  FacebookIcon,
 } from "../../../constants/images";
 import { IoClose } from "react-icons/io5";
 import { IoEyeOutline } from "react-icons/io5";
@@ -26,7 +25,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAuthenticated } from "../../../store/slices/sessionSlice";
 import CountrySelect from "../../common/CountrySelect";
-import PhoneInput from "../../common/PhoneInput";
+import { useNotification } from "../../../provider/notification";
+
+import { useGoogleLogin } from "@react-oauth/google";
+import { fetchIP } from "../../../utils/fetchIP";
 
 interface DialogProps {
   isOpen: boolean;
@@ -41,7 +43,6 @@ interface FormData {
   firstname: string;
   lastname: string;
   country: string;
-  phone: string;
 }
 
 interface FormErrors {
@@ -51,13 +52,13 @@ interface FormErrors {
   firstname: string;
   lastname: string;
   country: string;
-  phone: string;
 }
 
 export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
   const [isSignIn, setIsSignIn] = useState(isLogin);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  const theme = useTheme();
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
@@ -65,7 +66,6 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
     firstname: "",
     lastname: "",
     country: "",
-    phone: "",
   });
   const [errors, setErrors] = useState<FormErrors>({
     email: "",
@@ -74,9 +74,9 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
     firstname: "",
     lastname: "",
     country: "",
-    phone: "",
   });
   const [isLoading, setIsLoading] = useState(false);
+  const { notifyError, notifySuccess } = useNotification();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -94,7 +94,6 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
         firstname: "",
         lastname: "",
         country: "",
-        phone: "",
       });
       setErrors({
         email: "",
@@ -103,7 +102,6 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
         firstname: "",
         lastname: "",
         country: "",
-        phone: "",
       });
     }
   }, [isOpen, isSignIn]);
@@ -125,7 +123,6 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       firstname: "",
       lastname: "",
       country: "",
-      phone: "",
     };
 
     if (!formData.email) {
@@ -154,10 +151,6 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
 
     if (!isSignIn && !formData.country) {
       newErrors.country = "Country is required";
-    }
-
-    if (!isSignIn && !formData.phone) {
-      newErrors.phone = "Phone number is required";
     }
 
     setErrors(newErrors);
@@ -195,7 +188,6 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       firstname: "",
       lastname: "",
       country: "",
-      phone: "",
     });
     setErrors({
       email: "",
@@ -204,7 +196,6 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       firstname: "",
       lastname: "",
       country: "",
-      phone: "",
     });
   }, [setOpen]);
 
@@ -259,6 +250,8 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
               email: formData.email,
               firstname: formData.firstname,
               lastname: formData.lastname,
+              country: formData.country,
+              password: formData.password,
             },
           });
         }
@@ -281,6 +274,86 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       }
     }
   }, [formData, isSignIn, validateForm, dispatch, handleClose, navigate]);
+
+  const handleGoogleSuccess = async (credential: string) => {
+    try {
+      const device = await fetchIP();
+      const ipAddress = device.ip;
+      const ipCountry = device.country.isoAlpha2;
+      const referralCode = localStorage.getItem("referralCode");
+      const response = await authService.handleGoogleLogin(
+        credential,
+        ipAddress,
+        ipCountry,
+        referralCode
+      );
+
+      // Store the token
+      localStorage.setItem("auth_token", response.data.tokens.accessToken);
+
+      // Dispatch authentication action
+      dispatch(
+        setAuthenticated({
+          user: response.data.user,
+          tokens: response.data.tokens,
+        })
+      );
+
+      // Close the dialog and navigate
+      handleClose();
+      notifySuccess(response.message || "Login successful");
+      navigate("/dashboard");
+    } catch (error: any) {
+      console.error("Google login error:", error);
+      notifyError(
+        error.message || "Failed to login with Google. Please try again."
+      );
+    }
+  };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: (credentialResponse: any) => {
+      handleGoogleSuccess(credentialResponse.access_token);
+    },
+    onError: (error: any) => {
+      notifyError(
+        error.message || "Failed to login with Google. Please try again."
+      );
+    },
+  });
+
+  // Inside the AuthDialog component, add the Facebook response handler:
+  const handleFacebookResponse = async (response: any) => {
+    console.log({ response });
+    if (response.accessToken) {
+      try {
+        const result = await authService.handleFacebookLogin({
+          accessToken: response.accessToken,
+          userID: response.userID,
+        });
+
+        // Store the token
+        localStorage.setItem("auth_token", result.data.tokens.accessToken);
+
+        // Dispatch authentication action
+        dispatch(
+          setAuthenticated({
+            user: result.data.user,
+            tokens: result.data.tokens,
+          })
+        );
+
+        // Close the dialog and navigate
+        handleClose();
+        navigate("/dashboard");
+      } catch (error: any) {
+        console.error("Facebook login error:", error);
+        notifyError(
+          error.message || "Failed to login with Facebook. Please try again."
+        );
+      }
+    }
+  };
 
   return (
     <>
@@ -377,7 +450,7 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
                         <FormHelperText error>{errors.country}</FormHelperText>
                       )}
                     </Box>
-                    <Box>
+                    {/* <Box>
                       <PhoneInput
                         value={formData.phone}
                         onChange={(value) =>
@@ -391,7 +464,7 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
                       {errors.phone && (
                         <FormHelperText error>{errors.phone}</FormHelperText>
                       )}
-                    </Box>
+                    </Box> */}
                   </>
                 )}
                 <Box>
@@ -456,15 +529,49 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
             <SocialSection>
               <SocialDivider>Social network</SocialDivider>
               <SocialButtonGroup>
-                <SocialButton>
+                <SocialButton onClick={() => googleLogin()}>
                   <SocialIcon src={GoogleIcon} alt="google" />
+                  <span>
+                    {isSignIn ? "Sign In with Google" : "Sign Up with Google"}
+                  </span>
                 </SocialButton>
-                <SocialButton>
+                {/* <SocialButton>
                   <SocialIcon src={StreamIcon} alt="stream" />
                 </SocialButton>
                 <SocialButton>
-                  <SocialIcon src={FacebookIcon} alt="facebook" />
-                </SocialButton>
+                  {(() => {
+                    const FacebookLoginComponent = FacebookLogin as any;
+                    return (
+                      <FacebookLoginComponent
+                        appId={FACEBOOK_APP_ID || ""}
+                        autoLoad={false}
+                        fields="name,email,picture"
+                        callback={handleFacebookResponse}
+                        render={(renderProps: any) => (
+                          <div
+                            onClick={renderProps.onClick}
+                            style={{
+                              backgroundColor: "#172236",
+                              borderRadius: "8px",
+                              padding: "12px",
+                              height: "48px",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              cursor: "pointer",
+                              [theme.breakpoints.down(480)]: {
+                                height: "40px",
+                                padding: "8px",
+                              },
+                            }}
+                          >
+                            <SocialIcon src={FacebookIcon} alt="facebook" />
+                          </div>
+                        )}
+                      />
+                    );
+                  })()}
+                </SocialButton> */}
               </SocialButtonGroup>
             </SocialSection>
           </AuthContainer>
@@ -766,8 +873,7 @@ const SocialDivider = styled(Box)(({ theme }) => ({
 }));
 
 const SocialButtonGroup = styled(Box)(({ theme }) => ({
-  display: "grid",
-  gridTemplateColumns: "1fr 1fr 1fr",
+  display: "flex",
   gap: "12px",
   marginTop: "16px",
   width: "100%",
@@ -778,10 +884,18 @@ const SocialButtonGroup = styled(Box)(({ theme }) => ({
 }));
 
 const SocialButton = styled(Button)(({ theme }) => ({
+  width: "100%",
   backgroundColor: "#172236",
   borderRadius: "8px",
   padding: "12px",
   height: "48px",
+  textTransform: "none",
+  fontSize: "16px",
+  fontWeight: "600",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "12px",
   "&:hover": {
     backgroundColor: "#1c2a42",
   },
@@ -835,3 +949,17 @@ const FieldWrapper = styled(Box)(({ theme }) => ({
   gap: "12px",
   width: "100%",
 }));
+
+// Add styles for the Facebook button
+const FacebookButtonStyles = styled("div")({
+  ".facebook-login-button": {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    "&:hover": {
+      opacity: 0.8,
+    },
+  },
+});

@@ -1,6 +1,6 @@
 import { ENDPOINTS } from "../endpoints";
 import { store } from "../../store";
-import { updateTokens } from "../../store/slices/sessionSlice";
+import { updateTokens, clearSession } from "../../store/slices/sessionSlice";
 
 const TOKEN_KEY = 'auth_tokens';
 
@@ -19,10 +19,10 @@ interface SignUpProps {
   password: string;
   firstname: string;
   lastname: string;
-  phone: string;
   country: string;
   ipCountry: string;
   ipAddress: string;
+  referralCode: string | null;
 }
 // Store tokens in localStorage
 export const storeTokens = (accessToken: string) => {
@@ -101,7 +101,7 @@ export const authService = {
       // Store access token
       storeTokens(data.data.tokens.accessToken);
       
-      window.dispatchEvent(createNotificationEvent('Login successful!', 'success'));
+      window.dispatchEvent(createNotificationEvent(data.message || 'Login successful!', 'success'));
       return data;
     } catch (error: any) {
       console.log('Login error:', error);
@@ -111,14 +111,14 @@ export const authService = {
   },
 
   signup: async (props: SignUpProps) => {  
-    const { email, password, firstname, lastname, phone, country, ipCountry, ipAddress } = props;
+    const { email, password, firstname, lastname, country, ipCountry, ipAddress, referralCode } = props;
     try {
       const response = await fetch(ENDPOINTS.AUTH.SIGNUP, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password, firstname, lastname, phone, country, ipCountry, ipAddress }),
+        body: JSON.stringify({ email, password, firstname, lastname, country, ipCountry, ipAddress, referralCode }), 
       });
       const data = await response.json();
       
@@ -143,10 +143,20 @@ export const authService = {
 
   signout: async () => {
     try {
-      removeTokens();
+      // First dispatch the clear session action
+      store.dispatch(clearSession());
+      
+      // Then handle token removal
+      try {
+        removeTokens();
+      } catch (error) {
+        console.error('Error removing tokens:', error);
+      }
+
+      // Finally show success message
       window.dispatchEvent(createNotificationEvent('Signed out successfully!', 'success'));
     } catch (error: any) {
-      console.log('Signout error:', error);
+      console.error('Signout error:', error);
       window.dispatchEvent(createNotificationEvent(error.message || 'Signout failed. Please try again later.', 'error'));
       throw new Error(error.message || 'Signout failed. Please try again later.');
     }
@@ -334,6 +344,42 @@ export const authService = {
       console.log('Reset password error:', error);
       window.dispatchEvent(createNotificationEvent(error.message || 'Failed to reset password. Please try again later.', 'error'));
       throw new Error(error.message || 'Failed to reset password. Please try again later.');
+    }
+  },
+
+  handleGoogleLogin: async (credential: string, ipAddress: string, ipCountry: string, referralCode: string | null) => {
+    try {
+      const response = await fetch(ENDPOINTS.AUTH.GOOGLE_LOGIN, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ credential, ipAddress, ipCountry, referralCode }),
+      });
+      const data = await response.json();
+      return data;
+    } catch (error: any) {
+      console.log('Google login error:', error);
+      window.dispatchEvent(createNotificationEvent(error.message || 'Failed to login with Google. Please try again.', 'error'));
+      throw new Error(error.message || 'Failed to login with Google. Please try again.');
+    }
+  },
+
+  handleFacebookLogin: async (data: { accessToken: string; userID: string }) => {
+    try {
+      const response = await fetch(ENDPOINTS.AUTH.FACEBOOK_LOGIN, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      const responseData = await response.json();
+      return responseData;
+    } catch (error: any) {
+      console.log('Facebook login error:', error);
+      window.dispatchEvent(createNotificationEvent(error.message || 'Failed to login with Facebook. Please try again.', 'error'));
+      throw new Error(error.message || 'Failed to login with Facebook. Please try again.');
     }
   },
 };

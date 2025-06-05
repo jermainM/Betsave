@@ -10,11 +10,16 @@ import {
 } from "@mui/material";
 import { BetSaveLogoImg, BetsaveSupermanPng } from "../constants/images";
 import { authService } from "../api/services/authService";
+import { setAuthenticated } from "../store/slices/sessionSlice";
+import { useDispatch } from "react-redux";
+import { fetchIP } from "../utils/fetchIP";
 
 interface LocationState {
   email: string;
   firstname: string;
   lastname: string;
+  country: string;
+  password: string;
 }
 
 const VerifyEmail = () => {
@@ -26,8 +31,27 @@ const VerifyEmail = () => {
   const [resendDisabled, setResendDisabled] = useState(false);
   const [countdown, setCountdown] = useState(60);
   const [userData, setUserData] = useState<LocationState | null>(null);
+  const dispatch = useDispatch();
+
+  const [device, setDevice] = useState({
+    ipAddress: "",
+    ipCountry: "",
+  });
+  const fetchData = async () => {
+    try {
+      const deviceData = await fetchIP();
+      console.log({ deviceData });
+      setDevice({
+        ipAddress: deviceData.ip,
+        ipCountry: deviceData.country.isoAlpha2,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
+    fetchData();
     // Get user data from location state or session storage
     const state = location.state as LocationState;
     if (state?.email) {
@@ -41,6 +65,8 @@ const VerifyEmail = () => {
           email: parsedData.email,
           firstname: parsedData.firstname,
           lastname: parsedData.lastname,
+          country: parsedData.country,
+          password: parsedData.password,
         });
       } else {
         // No data available, redirect back to signup
@@ -112,13 +138,29 @@ const VerifyEmail = () => {
 
       if (response.success) {
         // Redirect to phone verification page
-        navigate("/verify-phone", {
-          state: {
-            email: userData.email,
-            firstname: userData.firstname,
-            lastname: userData.lastname,
-          },
+        // navigate("/verify-phone", {
+        //   state: {
+        //     email: userData.email,
+        //     firstname: userData.firstname,
+        //     lastname: userData.lastname,
+        //   },
+        // });
+
+        const response = await authService.signup({
+          ...userData,
+          ipCountry: device.ipCountry,
+          ipAddress: device.ipAddress,
+          referralCode: localStorage.getItem("referralCode"),
         });
+        if (response.success) {
+          dispatch(
+            setAuthenticated({
+              user: response.data.user,
+              tokens: response.data.tokens,
+            })
+          );
+          navigate("/dashboard");
+        }
       }
     } catch (error: any) {
       setError(error.response?.data?.message || "Invalid verification code");

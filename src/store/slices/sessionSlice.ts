@@ -45,13 +45,20 @@ const sessionSlice = createSlice({
       }));
     },
     clearSession: (state) => {
+      // First update the state
       state.isAuthenticated = false;
       state.user = null;
       state.tokens = {
         accessToken: null,
       };
-      // Remove from localStorage
-      localStorage.removeItem('session');
+      
+      // Then handle localStorage in a try-catch block
+      try {
+        localStorage.removeItem('session');
+        localStorage.removeItem('auth_token');
+      } catch (error) {
+        console.error('Error clearing session storage:', error);
+      }
     },
     updateTokens: (state, action: PayloadAction<{ accessToken: string }>) => {
       state.tokens = action.payload;

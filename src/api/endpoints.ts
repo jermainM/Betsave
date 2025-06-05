@@ -17,6 +17,8 @@ export const ENDPOINTS = {
     VERIFY_PHONE_CODE: `${API_CONFIG.BASE_URL}/auth/verify-sms-code`,
     RESET_PASSWORD: `${API_CONFIG.BASE_URL}/auth/reset-password`,
     FORGOT_PASSWORD: `${API_CONFIG.BASE_URL}/auth/forgot-password`,
+    GOOGLE_LOGIN: `${API_CONFIG.BASE_URL}/auth/google/login`,
+    FACEBOOK_LOGIN: `${API_CONFIG.BASE_URL}/auth/facebook/login`,
   },
   CASINO: {
     CREATE: `${API_CONFIG.BASE_URL}/casino/create-account`,

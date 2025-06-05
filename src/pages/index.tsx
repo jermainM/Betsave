@@ -1,14 +1,11 @@
 import { Box, Button, styled, Typography } from "@mui/material";
 import {
-  AppleIcon,
   BronzeIcon,
-  FacebookIcon,
   GoldIcon,
   GoogleIcon,
   PlatinumIcon,
   Present1Png,
   SilverIcon,
-  StreamIcon,
   SuperHeroWheelPng,
   TelegramIcon,
   XIcon,
@@ -23,7 +20,13 @@ import { AuthDialog } from "../components/dialog/auth";
 import { useEffect, useState } from "react";
 import { FaXTwitter } from "react-icons/fa6";
 import { FaDiscord, FaTelegramPlane } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useGoogleLogin } from "@react-oauth/google";
+import { authService } from "../api/services/authService";
+import { useNotification } from "../provider/notification";
+import { setAuthenticated } from "../store/slices/sessionSlice";
+import { useDispatch } from "react-redux";
+import { fetchIP } from "../utils/fetchIP";
 
 interface LandingProps {
   refCode?: string | null;
@@ -32,6 +35,10 @@ interface LandingProps {
 export const Landing = ({ refCode }: LandingProps) => {
   const [isAuthDialogOpen, setAuthDialogOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
+  const { notifySuccess, notifyError } = useNotification();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleDialogOpen = (type: "login" | "signup") => {
     setAuthDialogOpen(true);
@@ -43,6 +50,51 @@ export const Landing = ({ refCode }: LandingProps) => {
       localStorage.setItem("referralCode", refCode);
     }
   }, [refCode]);
+
+  const handleGoogleSuccess = async (credential: string) => {
+    try {
+      const device = await fetchIP();
+      const ipAddress = device.ip;
+      const ipCountry = device.country.isoAlpha2;
+      const referralCode = localStorage.getItem("referralCode");
+      const response = await authService.handleGoogleLogin(
+        credential,
+        ipAddress,
+        ipCountry,
+        referralCode
+      );
+
+      // Store the token
+      localStorage.setItem("auth_token", response.data.tokens.accessToken);
+
+      // Dispatch authentication action
+      dispatch(
+        setAuthenticated({
+          user: response.data.user,
+          tokens: response.data.tokens,
+        })
+      );
+
+      notifySuccess(response.message || "Login successful");
+      navigate("/dashboard");
+    } catch (error: any) {
+      console.error("Google login error:", error);
+      notifyError(
+        error.message || "Failed to login with Google. Please try again."
+      );
+    }
+  };
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: (credentialResponse: any) => {
+      handleGoogleSuccess(credentialResponse.access_token);
+    },
+    onError: (error: any) => {
+      notifyError(
+        error.message || "Failed to login with Google. Please try again."
+      );
+    },
+  });
 
   return (
     <Container>
@@ -64,10 +116,11 @@ export const Landing = ({ refCode }: LandingProps) => {
               Register Now
             </RegisterButton>
             <SocialButtonContainer>
-              <SocialButton>
+              <SocialButton onClick={() => googleLogin()}>
                 <Img src={GoogleIcon} alt="google" />
+                <span>Sign Up with Google</span>
               </SocialButton>
-              <SocialButton>
+              {/* <SocialButton>
                 <Img src={FacebookIcon} alt="facebook" />
               </SocialButton>
               <SocialButton>
@@ -75,7 +128,7 @@ export const Landing = ({ refCode }: LandingProps) => {
               </SocialButton>
               <SocialButton>
                 <Img src={AppleIcon} alt="apple" />
-              </SocialButton>
+              </SocialButton> */}
             </SocialButtonContainer>
           </EarnAction>
         </EarnSectionLeft>
@@ -401,12 +454,19 @@ const SocialButtonContainer = styled(Box)(({ theme }) => ({
 }));
 
 const SocialButton = styled(Button)(({ theme }) => ({
-  width: "60px",
+  width: "240px",
   height: "60px",
   minWidth: "60px",
   borderRadius: "14px",
   backgroundColor: "#fff",
   background: "linear-gradient(180deg, #172236 0%, #212C40 100%)",
+  textTransform: "none",
+  fontSize: "16px",
+  fontWeight: "600",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "12px",
   border: "1px solid rgba(255, 255, 255, 0.1)",
   [theme.breakpoints.down(1280)]: {
     width: "50px",

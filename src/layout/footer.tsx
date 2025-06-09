@@ -11,7 +11,7 @@ import {
   EnglishIcon,
   TrustmaryIcon,
 } from "../constants/images";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export const Footer = () => {
   return (
@@ -52,10 +52,20 @@ export const Footer = () => {
           <FooterActionTitle>About</FooterActionTitle>
           <FooterActionContent>
             <FooterActionContentItem>Blog</FooterActionContentItem>
-            <FooterActionContentItem>
-              Terms & Conditions
-            </FooterActionContentItem>
-            <FooterActionContentItem>Privacy Policy</FooterActionContentItem>
+            <NavLink
+              to="https://betsave.gitbook.io/untitled/terms-and-conditions"
+              target="_blank"
+            >
+              <FooterActionContentItem>
+                Terms & Conditions
+              </FooterActionContentItem>
+            </NavLink>
+            <NavLink
+              to="https://betsave.gitbook.io/untitled/privacy-policy"
+              target="_blank"
+            >
+              <FooterActionContentItem>Privacy Policy</FooterActionContentItem>
+            </NavLink>
             <FooterActionContentItem>Cookie Policy</FooterActionContentItem>
           </FooterActionContent>
         </FooterActionItem>
@@ -248,6 +258,10 @@ const FooterActionContentItem = styled(Typography)(({ theme }) => ({
   fontSize: "12px",
   color: "#666d91",
   cursor: "pointer",
+  textDecoration: "none",
+  "&:hover": {
+    color: "#fff",
+  },
 }));
 
 const FooterCommunity = styled(Box)(({ theme }) => ({
@@ -368,4 +382,12 @@ const MobileFooterReview = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   gap: "4px",
+}));
+
+const NavLink = styled(Link)(({ theme }) => ({
+  textDecoration: "none",
+  color: "#627691",
+  "&:hover": {
+    color: "#fff",
+  },
 }));

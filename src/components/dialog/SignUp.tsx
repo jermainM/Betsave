@@ -15,6 +15,7 @@ import { LiaPhoneVolumeSolid } from "react-icons/lia";
 import { MdOutlineEmail } from "react-icons/md";
 import { PaymentMethodMenu } from "../menu/PaymentMethod";
 import { FaSackDollar, FaBullhorn } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 interface SignUpDialogProps {
   isOpen: boolean;
@@ -96,7 +97,13 @@ export const SignUpDialog = (props: SignUpDialogProps) => {
                   control={<TermsCheckBox />}
                   label={
                     <CheckboxLabel>
-                      I agree to the <span>terms & conditions</span>
+                      I agree to the{" "}
+                      <Link
+                        to="https://betsave.gitbook.io/untitled/terms-and-conditions"
+                        target="_blank"
+                      >
+                        terms & conditions
+                      </Link>
                     </CheckboxLabel>
                   }
                 />

@@ -33,6 +33,11 @@ export const Dashboard = () => {
           dispatch(setCountry(deviceDetails.country_name));
           dispatch(setIsoAlpha2(deviceDetails.country_code));
           dispatch(setIpAddress(deviceDetails.ip));
+          console.log({
+            countryName: deviceDetails.country_name,
+            countryCode: deviceDetails.country_code,
+            ip: deviceDetails.ip,
+          });
         }
       } catch (error) {
         dispatch(setCountry(""));

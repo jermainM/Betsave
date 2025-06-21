@@ -279,12 +279,14 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
     try {
       const device = await fetchIP();
       const ipAddress = device.ip;
-      const ipCountry = device.country.isoAlpha2;
+      const ipCountryCode = device.country_code;
+      const ipCountryName = device.country_name;
       const referralCode = localStorage.getItem("referralCode");
       const response = await authService.handleGoogleLogin(
         credential,
         ipAddress,
-        ipCountry,
+        ipCountryCode,
+        ipCountryName,
         referralCode
       );
 

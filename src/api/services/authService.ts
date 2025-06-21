@@ -20,8 +20,6 @@ interface SignUpProps {
   firstname: string;
   lastname: string;
   country: string;
-  ipCountryName: string;
-  ipCountryCode: string;
   ipAddress: string;
   referralCode: string | null;
 }
@@ -112,14 +110,14 @@ export const authService = {
   },
 
   signup: async (props: SignUpProps) => {  
-    const { email, password, firstname, lastname, country, ipCountryName, ipCountryCode, ipAddress, referralCode } = props;
+    const { email, password, firstname, lastname, country, ipAddress, referralCode } = props;
     try {
       const response = await fetch(ENDPOINTS.AUTH.SIGNUP, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password, firstname, lastname, country, ipCountryName, ipCountryCode, ipAddress, referralCode }), 
+        body: JSON.stringify({ email, password, firstname, lastname, country, ipAddress, referralCode }), 
       });
       const data = await response.json();
       
@@ -348,14 +346,14 @@ export const authService = {
     }
   },
 
-  handleGoogleLogin: async (credential: string, ipAddress: string, ipCountryCode: string, ipCountryName: string, referralCode: string | null) => {
+  handleGoogleLogin: async (credential: string, ipAddress: string, referralCode: string | null) => {
     try {
       const response = await fetch(ENDPOINTS.AUTH.GOOGLE_LOGIN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ credential, ipAddress, ipCountryCode, ipCountryName, referralCode }),
+        body: JSON.stringify({ credential, ipAddress, referralCode }),
       });
       const data = await response.json();
       return data;

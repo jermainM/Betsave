@@ -31,17 +31,12 @@ const VerifyPhone = () => {
   const [signupData, setSignupData] = useState<any>(null);
   const [device, setDevice] = useState({
     ipAddress: "",
-    ipCountryName: "",
-    ipCountryCode: "",
   });
   const fetchData = async () => {
     try {
-      const deviceData = await fetchIP();
-      console.log({ deviceData });
+      const ipAddress = await fetchIP();
       setDevice({
-        ipAddress: deviceData.ip,
-        ipCountryCode: deviceData.country_code,
-        ipCountryName: deviceData.country_name,
+        ipAddress: ipAddress,
       });
     } catch (error) {
       console.log(error);
@@ -153,8 +148,6 @@ const VerifyPhone = () => {
       // if (response.success) {
       const response = await authService.signup({
         ...signupData,
-        ipCountryName: device.ipCountryName,
-        ipCountryCode: device.ipCountryCode,
         ipAddress: device.ipAddress,
         referralCode: localStorage.getItem("referralCode"),
       });

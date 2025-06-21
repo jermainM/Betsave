@@ -27,21 +27,12 @@ export const Dashboard = () => {
   useEffect(() => {
     const fetchDeviceDetails = async () => {
       try {
-        const deviceDetails = await fetchIP();
-        console.log({ deviceDetails });
-        if (deviceDetails != null) {
-          dispatch(setCountry(deviceDetails.country_name));
-          dispatch(setIsoAlpha2(deviceDetails.country_code));
-          dispatch(setIpAddress(deviceDetails.ip));
-          console.log({
-            countryName: deviceDetails.country_name,
-            countryCode: deviceDetails.country_code,
-            ip: deviceDetails.ip,
-          });
+        const ipAddress = await fetchIP();
+        console.log({ ipAddress });
+        if (ipAddress != null) {
+          dispatch(setIpAddress(ipAddress));
         }
       } catch (error) {
-        dispatch(setCountry(""));
-        dispatch(setIsoAlpha2(""));
         dispatch(setIpAddress(""));
         notifyError("Error fetching device details");
         setTimeout(async () => {

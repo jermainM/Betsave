@@ -35,17 +35,12 @@ const VerifyEmail = () => {
 
   const [device, setDevice] = useState({
     ipAddress: "",
-    ipCountryName: "",
-    ipCountryCode: "",
   });
   const fetchData = async () => {
     try {
-      const deviceData = await fetchIP();
-      console.log({ deviceData });
+      const ipAddress = await fetchIP();
       setDevice({
-        ipAddress: deviceData.ip,
-        ipCountryName: deviceData.country_name,
-        ipCountryCode: deviceData.country_code,
+        ipAddress: ipAddress,
       });
     } catch (error) {
       console.log(error);
@@ -150,8 +145,6 @@ const VerifyEmail = () => {
 
         const response = await authService.signup({
           ...userData,
-          ipCountryName: device.ipCountryName,
-          ipCountryCode: device.ipCountryCode,
           ipAddress: device.ipAddress,
           referralCode: localStorage.getItem("referralCode"),
         });

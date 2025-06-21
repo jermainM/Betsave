@@ -30,9 +30,9 @@ export const Dashboard = () => {
         const deviceDetails = await fetchIP();
         console.log({ deviceDetails });
         if (deviceDetails != null) {
-          dispatch(setCountry(deviceDetails.country.isoName));
-          dispatch(setIsoAlpha2(deviceDetails.country.isoAlpha2));
-          dispatch(setIpAddress(deviceDetails.ipAddress));
+          dispatch(setCountry(deviceDetails.country_name));
+          dispatch(setIsoAlpha2(deviceDetails.country_code));
+          dispatch(setIpAddress(deviceDetails.ip));
         }
       } catch (error) {
         dispatch(setCountry(""));

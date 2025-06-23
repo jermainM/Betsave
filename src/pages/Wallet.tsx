@@ -43,6 +43,11 @@ const Wallet = () => {
   };
 
   const claimReferralReward = async () => {
+    // Guard clause to prevent API call when user is null (during logout)
+    if (!user || !user.betsaveId) {
+      return;
+    }
+
     try {
       const response = await referralService.claimReferralReward(
         user.betsaveId

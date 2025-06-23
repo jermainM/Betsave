@@ -21,6 +21,7 @@ interface SignUpProps {
   lastname: string;
   country: string;
   ipAddress: string;
+  countryCode: string;
   referralCode: string | null;
 }
 // Store tokens in localStorage
@@ -110,14 +111,14 @@ export const authService = {
   },
 
   signup: async (props: SignUpProps) => {  
-    const { email, password, firstname, lastname, country, ipAddress, referralCode } = props;
+    const { email, password, firstname, lastname, country, ipAddress, countryCode, referralCode } = props;
     try {
       const response = await fetch(ENDPOINTS.AUTH.SIGNUP, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password, firstname, lastname, country, ipAddress, referralCode }), 
+        body: JSON.stringify({ email, password, firstname, lastname, country, ipAddress, countryCode, referralCode }), 
       });
       const data = await response.json();
       
@@ -346,14 +347,14 @@ export const authService = {
     }
   },
 
-  handleGoogleLogin: async (credential: string, ipAddress: string, referralCode: string | null) => {
+  handleGoogleLogin: async (credential: string, ipAddress: string, countryCode: string, referralCode: string | null) => {
     try {
       const response = await fetch(ENDPOINTS.AUTH.GOOGLE_LOGIN, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ credential, ipAddress, referralCode }),
+        body: JSON.stringify({ credential, ipAddress, countryCode, referralCode }),
       });
       const data = await response.json();
       return data;

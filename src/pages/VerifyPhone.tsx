@@ -10,10 +10,9 @@ import {
 } from "@mui/material";
 import { BetSaveLogoImg, BetsaveSupermanPng } from "../constants/images";
 import { authService } from "../api/services/authService";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAuthenticated } from "../store/slices/sessionSlice";
-import { fetchIP } from "../utils/fetchIP";
-
+import { RootState } from "../store";
 interface LocationState {
   phone: string;
   country: string;
@@ -29,23 +28,12 @@ const VerifyPhone = () => {
   const [resendDisabled, setResendDisabled] = useState(false);
   const [countdown, setCountdown] = useState(60);
   const [signupData, setSignupData] = useState<any>(null);
-  const [device, setDevice] = useState({
-    ipAddress: "",
-  });
-  const fetchData = async () => {
-    try {
-      const ipAddress = await fetchIP();
-      setDevice({
-        ipAddress: ipAddress,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { isoAlpha2, ipAddress } = useSelector(
+    (state: RootState) => state.device
+  );
 
   useEffect(() => {
     // Get data from session storage
-    fetchData();
     const storedData = sessionStorage.getItem("signupData");
 
     if (storedData) {
@@ -148,7 +136,8 @@ const VerifyPhone = () => {
       // if (response.success) {
       const response = await authService.signup({
         ...signupData,
-        ipAddress: device.ipAddress,
+        ipAddress: ipAddress,
+        countryCode: isoAlpha2,
         referralCode: localStorage.getItem("referralCode"),
       });
       if (response.success) {

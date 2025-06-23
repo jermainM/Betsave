@@ -28,7 +28,8 @@ import CountrySelect from "../../common/CountrySelect";
 import { useNotification } from "../../../provider/notification";
 
 import { useGoogleLogin } from "@react-oauth/google";
-import { fetchIP } from "../../../utils/fetchIP";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
 
 interface DialogProps {
   isOpen: boolean;
@@ -77,6 +78,9 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const { notifyError, notifySuccess } = useNotification();
+  const { isoAlpha2, ipAddress } = useSelector(
+    (state: RootState) => state.device
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -277,11 +281,11 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
 
   const handleGoogleSuccess = async (credential: string) => {
     try {
-      const ipAddress = await fetchIP();
       const referralCode = localStorage.getItem("referralCode");
       const response = await authService.handleGoogleLogin(
         credential,
         ipAddress,
+        isoAlpha2,
         referralCode
       );
 

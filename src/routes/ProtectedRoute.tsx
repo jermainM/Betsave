@@ -10,8 +10,12 @@ interface ProtectedRouteProps {
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { isAuthenticated } = useSelector((state: RootState) => state.session);
   const { notifyError } = useNotification();
+
   if (!isAuthenticated) {
-    notifyError("Session expired. Please login again.");
+    // Add a small delay to prevent notification during logout
+    setTimeout(() => {
+      notifyError("Session expired. Please login again.");
+    }, 100);
     return <Navigate to="/" replace />;
   }
 

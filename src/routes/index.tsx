@@ -13,11 +13,46 @@ import VerifyEmail from "../pages/VerifyEmail";
 import VerifyPhone from "../pages/VerifyPhone";
 import Wallet from "../pages/Wallet";
 import { ResetPassword } from "../pages/ResetPassword";
+import {
+  setCountry,
+  setIpAddress,
+  setIsoAlpha2,
+} from "../store/slices/deviceSlice";
+import { useEffect } from "react";
+import { getGeoLocation } from "../utils/fetchIP";
+import { useDispatch } from "react-redux";
+import { useNotification } from "../provider/notification";
 
 export const RouterComponent = () => {
   const { isAuthenticated } = useSelector((state: RootState) => state.session);
   const [searchParams] = useSearchParams();
   const refCode = searchParams.get("ref");
+
+  const dispatch = useDispatch();
+  const { notifyError } = useNotification();
+
+  useEffect(() => {
+    const fetchDeviceDetails = async () => {
+      try {
+        const geoLocation = await getGeoLocation();
+        const ipAddress = geoLocation.ip;
+        const isoAlpha2 = geoLocation.country_code;
+        console.log({ ipAddress, isoAlpha2 });
+        if (ipAddress != null) {
+          dispatch(setIpAddress(ipAddress));
+          dispatch(setIsoAlpha2(isoAlpha2));
+          dispatch(setCountry(isoAlpha2));
+        }
+      } catch (error) {
+        dispatch(setIpAddress(""));
+        notifyError("Error fetching device details");
+        setTimeout(async () => {
+          await fetchDeviceDetails();
+        }, 3000);
+      }
+    };
+    fetchDeviceDetails();
+  }, []);
 
   return (
     <Routes>

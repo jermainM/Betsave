@@ -34,8 +34,11 @@ export const ReferralProgram = () => {
   const { notifySuccess } = useNotification();
 
   const getReferCode = () => {
-    const betsaveId = user?.betsaveId;
-    if (!betsaveId) return;
+    if (!user || !user.betsaveId) {
+      return;
+    }
+
+    const betsaveId = user.betsaveId;
     const referralCode = betsaveId.split("_")[1];
     setReferCode(referralCode);
   };
@@ -47,6 +50,10 @@ export const ReferralProgram = () => {
   };
 
   const getMetricsData = async () => {
+    if (!user || !user.betsaveId) {
+      return;
+    }
+
     try {
       const response = await referralService.getReferralMetrics(user.betsaveId);
       console.log(response);
@@ -58,7 +65,7 @@ export const ReferralProgram = () => {
 
   useEffect(() => {
     getReferCode();
-    if (user.betsaveId) {
+    if (user && user.betsaveId) {
       getMetricsData();
     }
   }, [user]);

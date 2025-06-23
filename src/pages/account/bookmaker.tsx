@@ -119,11 +119,17 @@ export const PartnerList = () => {
   }, []);
 
   const checkJoined = async (offerId: string) => {
+    // Guard clause to prevent API call when user is null (during logout)
+    if (!user || !user.betsaveId) {
+      return false;
+    }
+
     try {
       const response = await casinoService.checkJoined(offerId, user.betsaveId);
       return response.data;
     } catch (error) {
       console.log(error);
+      return false;
     }
   };
 

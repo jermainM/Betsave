@@ -25,8 +25,8 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { authService } from "../api/services/authService";
 import { useNotification } from "../provider/notification";
 import { setAuthenticated } from "../store/slices/sessionSlice";
-import { useDispatch } from "react-redux";
-import { fetchIP } from "../utils/fetchIP";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store";
 
 interface LandingProps {
   refCode?: string | null;
@@ -39,6 +39,10 @@ export const Landing = ({ refCode }: LandingProps) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { isoAlpha2, ipAddress } = useSelector(
+    (state: RootState) => state.device
+  );
 
   const handleDialogOpen = (type: "login" | "signup") => {
     setAuthDialogOpen(true);
@@ -53,11 +57,11 @@ export const Landing = ({ refCode }: LandingProps) => {
 
   const handleGoogleSuccess = async (credential: string) => {
     try {
-      const ipAddress = await fetchIP();
       const referralCode = localStorage.getItem("referralCode");
       const response = await authService.handleGoogleLogin(
         credential,
         ipAddress,
+        isoAlpha2,
         referralCode
       );
 

@@ -76,16 +76,23 @@ export const Referrals = () => {
   };
 
   const getReferCode = () => {
-    const betsaveId = user?.betsaveId;
-    if (!betsaveId) return;
+    if (!user || !user.betsaveId) {
+      return;
+    }
+
+    const betsaveId = user.betsaveId;
     const referralCode = betsaveId.split("_")[1];
     setReferCode(referralCode);
   };
 
   const getAffiliateMetrics = async () => {
+    if (!user || !user.betsaveId) {
+      return;
+    }
+
     try {
       const response = await referralService.getAffiliateMetrics(
-        user?.betsaveId
+        user.betsaveId
       );
       setMetrics(response.data);
     } catch (error) {

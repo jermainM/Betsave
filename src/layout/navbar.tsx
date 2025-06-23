@@ -31,7 +31,11 @@ import { Footer } from "./footer";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { setActiveItem } from "../store/slices/navbarSlice";
-import { setWalletData, setError } from "../store/slices/walletSlice";
+import {
+  setWalletData,
+  setError,
+  clearWalletData,
+} from "../store/slices/walletSlice";
 import { useNavigate } from "react-router-dom";
 import {
   BetSaveLogoImg,
@@ -136,10 +140,15 @@ export const NavBar = (props: { children: React.ReactNode }) => {
   const handleSignOut = () => {
     handleUserMenuClose();
     dispatch(clearSession());
+    dispatch(clearWalletData());
     navigate("/");
   };
 
   const fetchWalletBalance = async () => {
+    if (!user || !user.betsaveId) {
+      return;
+    }
+
     try {
       const response = await userService.getUserBalance(user.betsaveId);
       const balance = response.data.totalCashback ?? 0;
@@ -164,7 +173,12 @@ export const NavBar = (props: { children: React.ReactNode }) => {
 
   useEffect(() => {
     console.log({ user });
-    fetchWalletBalance();
+    if (user && user.betsaveId) {
+      fetchWalletBalance();
+    } else if (!user) {
+      // Reset balance when user logs out
+      setBalance(0);
+    }
   }, [user]);
 
   return (
@@ -242,7 +256,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
                 src={TempUserIcon}
                 sx={{ width: "25px", height: "25px", marginRight: "8px" }}
               />
-              {user.firstName} {user.lastName}
+              {user ? `${user.firstName} ${user.lastName}` : "User"}
             </UserInfoButton>
             <StyledMenu
               anchorEl={userMenuAnchorEl}

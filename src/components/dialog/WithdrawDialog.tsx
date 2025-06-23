@@ -117,6 +117,10 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
   };
 
   const handleEligibilityCheck = async () => {
+    if (!user || !user.betsaveId) {
+      return;
+    }
+
     try {
       const response = await userService.checkEligibility(user.betsaveId);
       console.log({ response });
@@ -128,9 +132,15 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
 
   useEffect(() => {
     handleEligibilityCheck();
-  }, []);
+  }, [user]);
 
   const handleSubmit = async () => {
+    // Guard clause to prevent API call when user is null (during logout)
+    if (!user || !user.betsaveId) {
+      notifyError("User session not found. Please login again.");
+      return;
+    }
+
     try {
       if (eligibility.length === 0) {
         const response = await transactionService.requestCashback(

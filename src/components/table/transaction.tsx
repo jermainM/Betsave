@@ -92,6 +92,11 @@ export const CashbackHistoryTable = () => {
 
   useEffect(() => {
     const fetchTransactions = async () => {
+      // Guard clause to prevent API call when user is null (during logout)
+      if (!user || !user.betsaveId) {
+        return;
+      }
+
       try {
         const response = await transactionService.getTransactionByBetsaveId(
           user.betsaveId
@@ -103,7 +108,7 @@ export const CashbackHistoryTable = () => {
       }
     };
     fetchTransactions();
-  }, []);
+  }, [user]);
 
   // Table related
 

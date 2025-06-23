@@ -32,6 +32,12 @@ export const CashOfferCard = (props: CardProps) => {
   const [open, setOpen] = useState(false);
 
   const handleClick = async (affiliateLink: string, brandName: string) => {
+    // Guard clause to prevent API call when user is null (during logout)
+    if (!user || !user.betsaveId) {
+      console.error("User session not found");
+      return;
+    }
+
     console.log({ betsaveId: user.betsaveId, id });
     try {
       const response = await casinoService.createAccount(

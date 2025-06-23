@@ -11,8 +11,8 @@ import {
 import { BetSaveLogoImg, BetsaveSupermanPng } from "../constants/images";
 import { authService } from "../api/services/authService";
 import { setAuthenticated } from "../store/slices/sessionSlice";
-import { useDispatch } from "react-redux";
-import { fetchIP } from "../utils/fetchIP";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store";
 
 interface LocationState {
   email: string;
@@ -33,22 +33,11 @@ const VerifyEmail = () => {
   const [userData, setUserData] = useState<LocationState | null>(null);
   const dispatch = useDispatch();
 
-  const [device, setDevice] = useState({
-    ipAddress: "",
-  });
-  const fetchData = async () => {
-    try {
-      const ipAddress = await fetchIP();
-      setDevice({
-        ipAddress: ipAddress,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const { isoAlpha2, ipAddress } = useSelector(
+    (state: RootState) => state.device
+  );
 
   useEffect(() => {
-    fetchData();
     // Get user data from location state or session storage
     const state = location.state as LocationState;
     if (state?.email) {
@@ -145,7 +134,8 @@ const VerifyEmail = () => {
 
         const response = await authService.signup({
           ...userData,
-          ipAddress: device.ipAddress,
+          ipAddress: ipAddress,
+          countryCode: isoAlpha2,
           referralCode: localStorage.getItem("referralCode"),
         });
         if (response.success) {

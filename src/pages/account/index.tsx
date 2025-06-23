@@ -89,7 +89,7 @@ export const AccountManage = () => {
             <ProfileContentContainer>
               <ProfileInfo>
                 <ProfileName>
-                  {user.firstName} {user.lastName}
+                  {user ? `${user.firstName} ${user.lastName}` : "User"}
                 </ProfileName>
                 <RateText>Your Cashback Rate is {cashbackRate}%</RateText>
               </ProfileInfo>

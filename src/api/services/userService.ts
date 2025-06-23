@@ -13,4 +13,8 @@ export const userService = {
     const response = await api.get(`/users`);
     return response.data;
   },
+  getGeoLocation: async (ipAddress: string) => {
+    const response = await api.get(`/users/geo-location/${ipAddress}`);
+    return response.data;
+  },
 };

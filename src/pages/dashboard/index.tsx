@@ -19,6 +19,7 @@ import {
 } from "../../store/slices/deviceSlice";
 import { fetchIP } from "../../utils/fetchIP";
 import { useNotification } from "../../provider/notification";
+import { userService } from "../../api/services/userService";
 
 export const Dashboard = () => {
   const activeItem = useSelector((state: RootState) => state.navbar.activeItem);
@@ -28,16 +29,19 @@ export const Dashboard = () => {
     const fetchDeviceDetails = async () => {
       try {
         const ipAddress = await fetchIP();
-        console.log({ ipAddress });
+        const response = await userService.getGeoLocation(ipAddress);
+        const isoAlpha2 = response.data.countryCode;
         if (ipAddress != null) {
           dispatch(setIpAddress(ipAddress));
+          dispatch(setIsoAlpha2(isoAlpha2));
+          dispatch(setCountry(isoAlpha2));
         }
       } catch (error) {
         dispatch(setIpAddress(""));
         notifyError("Error fetching device details");
         setTimeout(async () => {
           await fetchDeviceDetails();
-        }, 1000);
+        }, 3000);
       }
     };
     fetchDeviceDetails();

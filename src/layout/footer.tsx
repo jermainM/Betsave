@@ -15,146 +15,176 @@ import { Link, useNavigate } from "react-router-dom";
 
 export const Footer = () => {
   return (
-    <FooterContainer>
-      <AboutFooter>
-        <LogoImg src={BetSaveLogoImg} alt="beta-save-logo" />
+    <FooterWrapper>
+      <FooterContainer>
+        <FooterContent>
+          <AboutFooter>
+            <LogoImg src={BetSaveLogoImg} alt="beta-save-logo" />
 
-        <ReviewDetails>
-          <ReviewText>
-            See our <span>150.000+</span> reviews on
-          </ReviewText>
-          <TrustMaryContainer>
-            <TrustMaryLogo>
-              <Img src={TrustmaryIcon} alt="logo" />
-              trustmary
-            </TrustMaryLogo>
-            <StarIcon />
-            <StarIcon />
-            <StarIcon />
-            <StarIcon />
-            <StarIcon />
-          </TrustMaryContainer>
-        </ReviewDetails>
-        <CopyRightText>© 2025 BetSave | All Rights Reserved</CopyRightText>
-      </AboutFooter>
-      <FooterActionCotainer>
-        <FooterActionItem>
-          <FooterActionTitle>Platform</FooterActionTitle>
-          <FooterActionContent>
-            <FooterActionContentItem>VIP Program</FooterActionContentItem>
-            <FooterActionContentItem>
-              Responsible Gambling
-            </FooterActionContentItem>
-            <FooterActionContentItem>Refer a friend</FooterActionContentItem>
-          </FooterActionContent>
-        </FooterActionItem>
-        <FooterActionItem>
-          <FooterActionTitle>About</FooterActionTitle>
-          <FooterActionContent>
-            <FooterActionContentItem>Blog</FooterActionContentItem>
-            <NavLink
-              to="https://betsave.gitbook.io/untitled/terms-and-conditions"
-              target="_blank"
-            >
-              <FooterActionContentItem>
-                Terms & Conditions
-              </FooterActionContentItem>
-            </NavLink>
-            <NavLink
-              to="https://betsave.gitbook.io/untitled/privacy-policy"
-              target="_blank"
-            >
-              <FooterActionContentItem>Privacy Policy</FooterActionContentItem>
-            </NavLink>
-            <FooterActionContentItem>Cookie Policy</FooterActionContentItem>
-          </FooterActionContent>
-        </FooterActionItem>
-        <FooterActionItem>
-          <FooterActionTitle>Support</FooterActionTitle>
-          <FooterActionContent>
-            <FooterActionContentItem>Live Support</FooterActionContentItem>
-            <FooterActionContentItem>FAQ</FooterActionContentItem>
-            <FooterActionContentItem>
-              Business Inquiries
-            </FooterActionContentItem>
-          </FooterActionContent>
-        </FooterActionItem>
-      </FooterActionCotainer>
-      <FooterCommunity>
-        <FooterActionTitle>Community</FooterActionTitle>
-        <FooterCommunityContainer>
-          <Link to="https://x.com/betsaveio" target="_blank">
-            <FooterCommunityItem icon={<FaXTwitter />} />
-          </Link>
-          <Link to="https://www.facebook.com/betsaveio" target="_blank">
-            <FooterCommunityItem icon={<FaFacebookF />} />
-          </Link>
-          <Link to="https://www.instagram.com/betsaveio" target="_blank">
-            <FooterCommunityItem icon={<RiInstagramFill />} />
-          </Link>
-          <Link to="https://t.me/betsave_community" target="_blank">
-            <FooterCommunityItem icon={<BiLogoTelegram />} />
-          </Link>
-          <Link to="https://discord.gg/uxPBNvCx" target="_blank">
-            <FooterCommunityItem icon={<BiLogoDiscordAlt />} />
-          </Link>
-          <Link to="https://messenger.com/t/betsaveio" target="_blank">
-            <FooterCommunityItem icon={<LuMessageCircleMore />} />
-          </Link>
-        </FooterCommunityContainer>
-        <LanguageChoose>
-          <LanguageButton endIcon={<ExpandMore />}>
-            <FlagImg src={EnglishIcon} alt="english-icon" />
-            English
-          </LanguageButton>
-        </LanguageChoose>
-      </FooterCommunity>
-      <MobileFooter>
-        <MobileLogoImg src={BetSaveLogoImg} alt="betsave-logo" />
-        <CopyRightText>© 2025 BetSave | All Rights Reserved</CopyRightText>
-        <MobileLanguageChoose>
-          Language
-          <MobileLanguageButton endIcon={<ExpandMore />}>
-            <FlagImg src={EnglishIcon} alt="english-icon" />
-            English
-          </MobileLanguageButton>
-        </MobileLanguageChoose>
-        <MobileFooterAction>
-          <MobileFooterButtonAction>
-            <MobileFooterButton startIcon={<FaXTwitter />}>
-              Twitter
-            </MobileFooterButton>
-            <MobileFooterButton startIcon={<RiInstagramFill />}>
-              Instagram
-            </MobileFooterButton>
-            <MobileFooterButton startIcon={<FaFacebookF />}>
-              Facebook
-            </MobileFooterButton>
-            <MobileFooterButton startIcon={<BiLogoDiscordAlt />}>
-              Discord
-            </MobileFooterButton>
-          </MobileFooterButtonAction>
-          <MobileFooterReview>
-            <ReviewText>
-              See our <span>150.000+</span> reviews on
-            </ReviewText>
-            <TrustMaryContainer>
-              <TrustMaryLogo>
-                <Img src={TrustmaryIcon} alt="logo" />
-                trustmary
-              </TrustMaryLogo>
-              <StarIcon />
-              <StarIcon />
-              <StarIcon />
-              <StarIcon />
-              <StarIcon />
-            </TrustMaryContainer>
-          </MobileFooterReview>
-        </MobileFooterAction>
-      </MobileFooter>
-    </FooterContainer>
+            <ReviewDetails>
+              <ReviewText>
+                See our <span>150.000+</span> reviews on
+              </ReviewText>
+              <TrustMaryContainer>
+                <TrustMaryLogo>
+                  <Img src={TrustmaryIcon} alt="logo" />
+                  trustmary
+                </TrustMaryLogo>
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+              </TrustMaryContainer>
+            </ReviewDetails>
+            <CopyRightText>© 2025 BetSave | All Rights Reserved</CopyRightText>
+          </AboutFooter>
+          <FooterActionCotainer>
+            <FooterActionItem>
+              <FooterActionTitle>Platform</FooterActionTitle>
+              <FooterActionContent>
+                <FooterActionContentItem>VIP Program</FooterActionContentItem>
+                <FooterActionContentItem>
+                  Responsible Gambling
+                </FooterActionContentItem>
+                <FooterActionContentItem>
+                  Refer a friend
+                </FooterActionContentItem>
+              </FooterActionContent>
+            </FooterActionItem>
+            <FooterActionItem>
+              <FooterActionTitle>About</FooterActionTitle>
+              <FooterActionContent>
+                <FooterActionContentItem>Blog</FooterActionContentItem>
+                <NavLink
+                  to="https://betsave.gitbook.io/untitled/terms-and-conditions"
+                  target="_blank"
+                >
+                  <FooterActionContentItem>
+                    Terms & Conditions
+                  </FooterActionContentItem>
+                </NavLink>
+                <NavLink
+                  to="https://betsave.gitbook.io/untitled/privacy-policy"
+                  target="_blank"
+                >
+                  <FooterActionContentItem>
+                    Privacy Policy
+                  </FooterActionContentItem>
+                </NavLink>
+                <FooterActionContentItem>Cookie Policy</FooterActionContentItem>
+              </FooterActionContent>
+            </FooterActionItem>
+            <FooterActionItem>
+              <FooterActionTitle>Support</FooterActionTitle>
+              <FooterActionContent>
+                <FooterActionContentItem>Live Support</FooterActionContentItem>
+                <FooterActionContentItem>FAQ</FooterActionContentItem>
+                <FooterActionContentItem>
+                  Business Inquiries
+                </FooterActionContentItem>
+              </FooterActionContent>
+            </FooterActionItem>
+          </FooterActionCotainer>
+          <FooterCommunity>
+            <FooterActionTitle>Community</FooterActionTitle>
+            <FooterCommunityContainer>
+              <Link to="https://x.com/betsaveio" target="_blank">
+                <FooterCommunityItem icon={<FaXTwitter />} />
+              </Link>
+              <Link to="https://www.facebook.com/betsaveio" target="_blank">
+                <FooterCommunityItem icon={<FaFacebookF />} />
+              </Link>
+              <Link to="https://www.instagram.com/betsaveio" target="_blank">
+                <FooterCommunityItem icon={<RiInstagramFill />} />
+              </Link>
+              <Link to="https://t.me/betsave_community" target="_blank">
+                <FooterCommunityItem icon={<BiLogoTelegram />} />
+              </Link>
+              <Link to="https://discord.gg/uxPBNvCx" target="_blank">
+                <FooterCommunityItem icon={<BiLogoDiscordAlt />} />
+              </Link>
+              <Link to="https://messenger.com/t/betsaveio" target="_blank">
+                <FooterCommunityItem icon={<LuMessageCircleMore />} />
+              </Link>
+            </FooterCommunityContainer>
+            <LanguageChoose>
+              <LanguageButton endIcon={<ExpandMore />}>
+                <FlagImg src={EnglishIcon} alt="english-icon" />
+                English
+              </LanguageButton>
+            </LanguageChoose>
+          </FooterCommunity>
+        </FooterContent>
+        <FooterBottom>
+          <p>
+            BetSave Ltd is a registered company in Cyprus under registration
+            number HE 476914. Registered office: Aitolon 25, P. Angelides House,
+            Agios Andreas, 1101, Nicosia, Cyprus.
+          </p>
+          <p>
+            Disclaimer: BetSave is not a gambling operator and does not provide
+            or facilitate any form of gaming services. We operate solely as a
+            cashback and marketing platform, offering rewards based on tracked
+            activity with our partnered online casinos. All gameplay services
+            are provided directly by third-party operators. Users must be 18+
+            and comply with the terms of our partners.
+          </p>
+        </FooterBottom>
+        <MobileFooter>
+          <MobileLogoImg src={BetSaveLogoImg} alt="betsave-logo" />
+          <CopyRightText>© 2025 BetSave | All Rights Reserved</CopyRightText>
+          <MobileLanguageChoose>
+            Language
+            <MobileLanguageButton endIcon={<ExpandMore />}>
+              <FlagImg src={EnglishIcon} alt="english-icon" />
+              English
+            </MobileLanguageButton>
+          </MobileLanguageChoose>
+          <MobileFooterAction>
+            <MobileFooterButtonAction>
+              <MobileFooterButton startIcon={<FaXTwitter />}>
+                Twitter
+              </MobileFooterButton>
+              <MobileFooterButton startIcon={<RiInstagramFill />}>
+                Instagram
+              </MobileFooterButton>
+              <MobileFooterButton startIcon={<FaFacebookF />}>
+                Facebook
+              </MobileFooterButton>
+              <MobileFooterButton startIcon={<BiLogoDiscordAlt />}>
+                Discord
+              </MobileFooterButton>
+            </MobileFooterButtonAction>
+            <MobileFooterReview>
+              <ReviewText>
+                See our <span>150.000+</span> reviews on
+              </ReviewText>
+              <TrustMaryContainer>
+                <TrustMaryLogo>
+                  <Img src={TrustmaryIcon} alt="logo" />
+                  trustmary
+                </TrustMaryLogo>
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+                <StarIcon />
+              </TrustMaryContainer>
+            </MobileFooterReview>
+          </MobileFooterAction>
+        </MobileFooter>
+      </FooterContainer>
+    </FooterWrapper>
   );
 };
+
+const FooterWrapper = styled(Box)(({ theme }) => ({
+  width: "100%",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+}));
 
 const FooterContainer = styled(Box)(({ theme }) => ({
   margin: "20px 0px",
@@ -164,17 +194,28 @@ const FooterContainer = styled(Box)(({ theme }) => ({
   backgroundColor: "#0f1629",
   width: "100%",
   display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+  gap: "40px",
+  [theme.breakpoints.down(960)]: {
+    flexDirection: "column-reverse",
+  },
+}));
+
+const FooterContent = styled(Box)(({ theme }) => ({
+  display: "flex",
   alignItems: "flex-start",
   justifyContent: "space-between",
+  gap: "20px",
+  [theme.breakpoints.down(960)]: {
+    display: "none",
+  },
 }));
 
 const AboutFooter = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   gap: "20px",
-  [theme.breakpoints.down(960)]: {
-    display: "none",
-  },
 }));
 
 const LogoImg = styled("img")(({ theme }) => ({
@@ -232,9 +273,6 @@ const CopyRightText = styled(Box)(({ theme }) => ({
 const FooterActionCotainer = styled(Box)(({ theme }) => ({
   display: "flex",
   gap: "20px",
-  [theme.breakpoints.down(960)]: {
-    display: "none",
-  },
 }));
 
 const FooterActionItem = styled(Box)(({ theme }) => ({
@@ -269,9 +307,6 @@ const FooterCommunity = styled(Box)(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   gap: "12px",
-  [theme.breakpoints.down(960)]: {
-    display: "none",
-  },
 }));
 
 const FooterCommunityContainer = styled(Box)(({ theme }) => ({
@@ -389,5 +424,21 @@ const NavLink = styled(Link)(({ theme }) => ({
   color: "#627691",
   "&:hover": {
     color: "#fff",
+  },
+}));
+
+const FooterBottom = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "12px",
+  p: {
+    fontSize: "12px",
+    color: "#627691",
+    textAlign: "center",
+    margin: "0px",
+    [theme.breakpoints.down(960)]: {
+      textAlign: "left",
+    },
   },
 }));

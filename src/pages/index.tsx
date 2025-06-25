@@ -114,9 +114,8 @@ export const Landing = ({ refCode }: LandingProps) => {
               Earn Up to <span>15% Cashback</span>
             </EarnSubTitle>
             <EarnDescription>
-              Whether you're betting on sports or playing casino games, BETSAVE
-              gives you cashback every month based on your Net Gaming Revenue
-              (NGR).
+              If you're playing casino games, BETSAVE gives you cashback every
+              month based on your Net Gaming Revenue (NGR).
             </EarnDescription>
           </EarnTitleContainer>
           <EarnAction>
@@ -223,7 +222,7 @@ export const Landing = ({ refCode }: LandingProps) => {
           ))}
         </CasinoSectionItems>
       </CasinoSection>
-      <CasinoSection>
+      {/* <CasinoSection>
         <CasinoSectionTitleContainer>
           <CasinoSectionTitle>Sportsbook</CasinoSectionTitle>
           <CasinoSectionSubTitle>
@@ -243,7 +242,7 @@ export const Landing = ({ refCode }: LandingProps) => {
             />
           ))}
         </CasinoSectionItems>
-      </CasinoSection>
+      </CasinoSection> */}
       <ReasonSection>
         <ReasonSectionTitleContainer>
           <ReasonSectionTitle>Why Choose BETSAVE?</ReasonSectionTitle>
@@ -398,7 +397,7 @@ const EarnSubTitle = styled(Typography)(({ theme }) => ({
   fontSize: "84px",
   fontWeight: "700",
   color: "#fff",
-  lineHeight: "72px",
+  lineHeight: "100%",
   span: {
     color: "#1AE5A1",
   },

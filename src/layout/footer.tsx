@@ -437,7 +437,6 @@ const LegalContent = styled(Box)(({ theme }) => ({
   display: "grid",
   gridTemplateColumns: "repeat(2, 1fr)",
   gap: "32px",
-  maxWidth: "1200px",
   margin: "0 auto",
 }));
 
@@ -445,6 +444,9 @@ const LegalCard = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   gap: "12px",
+  padding: "20px",
+  backgroundColor: "#0a0f1a",
+  borderRadius: "12px",
 }));
 
 const LegalTitle = styled(Typography)(({ theme }) => ({

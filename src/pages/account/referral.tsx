@@ -73,11 +73,10 @@ export const ReferralProgram = () => {
   return (
     <Container>
       <ReferralTitleContainer>
-        <ReferralTitle>
-          Share & Earn <span>$10</span> per referral!
-        </ReferralTitle>
+        <ReferralTitle>Refer & Earn Cashback Rewards</ReferralTitle>
         <ReferralSubTitle>
-          Share Your Link & Earn Rewards for Every Referral!
+          Invite your friends to BETSAVE and get rewarded when they sign up,
+          deposit, and play at our partnered casinos.
         </ReferralSubTitle>
       </ReferralTitleContainer>
 
@@ -200,19 +199,35 @@ const ReferralTitleContainer = styled(Box)(({ theme }) => ({
 }));
 
 const ReferralTitle = styled(Typography)(({ theme }) => ({
-  fontSize: "18px",
+  fontSize: "24px",
   color: "#fff",
   fontWeight: "normal",
   textAlign: "center",
   span: {
     color: "#1AE5A1",
   },
+  [theme.breakpoints.down(1440)]: {
+    fontSize: "20px",
+  },
+  [theme.breakpoints.down(768)]: {
+    fontSize: "18px",
+  },
 }));
 
 const ReferralSubTitle = styled(Typography)(({ theme }) => ({
-  fontSize: "14px",
+  fontSize: "18px",
   color: "#627691",
   textAlign: "center",
+  maxWidth: "600px",
+  [theme.breakpoints.down(1440)]: {
+    fontSize: "16px",
+  },
+  [theme.breakpoints.down(768)]: {
+    fontSize: "14px",
+  },
+  [theme.breakpoints.down(480)]: {
+    fontSize: "12px",
+  },
 }));
 
 const ReferralLinkContainer = styled(Box)(({ theme }) => ({
@@ -566,12 +581,12 @@ const ReferralRewardsTable = () => {
       meaning: "Confirms they're a real user",
     },
     {
-      action: "Deposits & wagers at least €50",
+      action: "Deposits & wagers at least $50",
       reward: "$2–3 bonus",
       meaning: "Triggers a CPA-style reward",
     },
     {
-      action: "Loses €100+ at the casino (NGR)",
+      action: "Loses $100+ at the casino (NGR)",
       reward: "$5–10 bonus",
       meaning: "Earn more when they're active players",
     },

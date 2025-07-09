@@ -34,6 +34,7 @@ export const OfferDialog: React.FC<OfferDialogProps> = ({
 }) => {
   const { isoAlpha2 } = useSelector((state: RootState) => state.device);
   const isAllowed = allowedCountries.includes(isoAlpha2);
+  console.log({ allowedCountries, isoAlpha2, isAllowed });
 
   return (
     <StyledDialog

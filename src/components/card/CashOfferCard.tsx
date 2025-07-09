@@ -65,7 +65,7 @@ export const CashOfferCard = (props: CardProps) => {
         <CardWrapper>
           <CardTitle>{title}</CardTitle>
           <CardContent>Casino/{title}</CardContent>
-          <CashbackLabel>Cashback: {cashbackRate}%</CashbackLabel>
+          {/* <CashbackLabel>Cashback: {cashbackRate}%</CashbackLabel> */}
           <JoinButton variant="contained" onClick={() => setOpen(true)}>
             Join
           </JoinButton>
@@ -176,6 +176,8 @@ const JoinButton = styled(Button)(({ theme }) => ({
   padding: "5px 25px",
   borderRadius: "8px",
   textTransform: "none",
+  width: "100%",
+  marginTop: "10px",
   "&:hover": {
     backgroundColor: "#15c88c",
   },

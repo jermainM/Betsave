@@ -329,6 +329,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   color: "#fff",
   fontSize: "14px",
   border: "none",
+  textWrap: "nowrap",
   [theme.breakpoints.down(520)]: {
     padding: "8px",
   },
@@ -479,6 +480,10 @@ const EarningText = styled(Box)(({ theme }) => ({
   width: "fit-content",
   backgroundColor: "#171e31",
   borderRadius: "5px",
+  textWrap: "nowrap",
+  [theme.breakpoints.down(450)]: {
+    fontSize: "12px",
+  },
 }));
 
 const PrizeText = styled(Box)(({ theme }) => ({
@@ -488,6 +493,10 @@ const PrizeText = styled(Box)(({ theme }) => ({
   width: "fit-content",
   backgroundColor: "#102A33",
   borderRadius: "5px",
+  textWrap: "nowrap",
+  [theme.breakpoints.down(450)]: {
+    fontSize: "12px",
+  },
 }));
 
 const StyledTabs = styled(Tabs)(({ theme }) => ({

@@ -621,6 +621,21 @@ const RewardsTableContainer = styled(Box)(({ theme }) => ({
   padding: "20px",
   border: "1px solid rgba(255, 255, 255, 0.1)",
   overflowX: "auto",
+  overflowY: "hidden",
+  "&::-webkit-scrollbar": {
+    height: "8px",
+  },
+  "&::-webkit-scrollbar-track": {
+    backgroundColor: "#0d1321",
+    borderRadius: "4px",
+  },
+  "&::-webkit-scrollbar-thumb": {
+    backgroundColor: "#1AE5A1",
+    borderRadius: "4px",
+    "&:hover": {
+      backgroundColor: "#15A373",
+    },
+  },
   [theme.breakpoints.down(768)]: {
     padding: "15px",
   },
@@ -630,7 +645,8 @@ const RewardsTable = styled("table")(({ theme }) => ({
   width: "100%",
   borderCollapse: "separate",
   borderSpacing: "0 8px",
-  minWidth: "600px",
+  minWidth: "700px", // Increased minimum width to ensure scrolling on mobile
+  tableLayout: "fixed", // This helps with consistent column widths
 }));
 
 const RewardsTableHead = styled("thead")(({ theme }) => ({
@@ -691,8 +707,13 @@ const RewardsTableCell = styled("td")(({ theme }) => ({
   textAlign: "left",
   border: "none",
   verticalAlign: "middle",
+  wordWrap: "break-word", // Ensures long text wraps properly
+  overflowWrap: "break-word",
   span: {
     fontWeight: "bold",
+  },
+  [theme.breakpoints.down(1440)]: {
+    fontSize: "14px",
   },
   [theme.breakpoints.down(768)]: {
     padding: "12px 15px",
@@ -711,6 +732,9 @@ const RewardBadge = styled(Box)(({ theme }) => ({
   borderRadius: "8px",
   fontSize: "16px",
   display: "inline-block",
+  [theme.breakpoints.down(1440)]: {
+    fontSize: "14px",
+  },
   [theme.breakpoints.down(480)]: {
     fontSize: "12px",
     padding: "4px 8px",

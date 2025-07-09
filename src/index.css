@@ -39,9 +39,9 @@ code {
 }
 
 /* Styling for the custom scrollbar */
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   display: none;
-}
+} */
 
 .swiper {
   width: 100%;

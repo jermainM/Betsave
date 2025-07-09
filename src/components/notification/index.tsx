@@ -49,7 +49,7 @@ const pulse = keyframes`
   }
 `;
 
-const NotificationWrapper = styled("div")({
+const NotificationWrapper = styled("div")(({ theme }) => ({
   position: "fixed",
   top: "20px",
   right: "20px",
@@ -60,7 +60,13 @@ const NotificationWrapper = styled("div")({
   "&.closing": {
     animation: `${slideOut} 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards`,
   },
-});
+
+  [theme.breakpoints.down(450)]: {
+    top: "10px",
+    right: "10px",
+    maxWidth: "300px",
+  },
+}));
 
 const StyledAlert = styled(Alert)(({ theme, severity }) => ({
   position: "relative",

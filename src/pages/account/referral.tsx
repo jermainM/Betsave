@@ -156,7 +156,10 @@ export const ReferralProgram = () => {
 
       <ExplainContainer>
         <ExplainTitle>How it works</ExplainTitle>
-        <ExplainItemContainer>
+
+        <ReferralRewardsTable />
+
+        {/* <ExplainItemContainer>
           <ExplainItem
             icon={<FaLink />}
             title="Copy your unique referral link"
@@ -175,7 +178,7 @@ export const ReferralProgram = () => {
               content="Earn $10 when your friends sign up and deposit! The more you refer, the more you earn."
             />
           </ExplainItemWrapper>
-        </ExplainItemContainer>
+        </ExplainItemContainer> */}
       </ExplainContainer>
     </Container>
   );
@@ -442,10 +445,11 @@ const ExplainContainer = styled(Box)(({ theme }) => ({
   alignItems: "center",
   gap: "10px",
   marginTop: "20px",
+  width: "100%",
 }));
 
 const ExplainTitle = styled(Typography)(({ theme }) => ({
-  fontSize: "18px",
+  fontSize: "24px",
   color: "#fff",
   fontWeight: "bold",
   [theme.breakpoints.down(360)]: {
@@ -551,5 +555,164 @@ const ExplainItemWrapper = styled(Box)(({ theme }) => ({
   gap: "20px",
   [theme.breakpoints.down(1480)]: {
     flexDirection: "column",
+  },
+}));
+
+const ReferralRewardsTable = () => {
+  const rewardsData = [
+    {
+      action: "Signs up & links a casino account",
+      reward: "$0.50 bonus",
+      meaning: "Confirms they're a real user",
+    },
+    {
+      action: "Deposits & wagers at least €50",
+      reward: "$2–3 bonus",
+      meaning: "Triggers a CPA-style reward",
+    },
+    {
+      action: "Loses €100+ at the casino (NGR)",
+      reward: "$5–10 bonus",
+      meaning: "Earn more when they're active players",
+    },
+    {
+      action: "Stays active for 30+ days",
+      reward: "$3 loyalty reward",
+      meaning: "Rewarded when they keep using BETSAVE",
+    },
+  ];
+
+  return (
+    <RewardsTableContainer>
+      <RewardsTable>
+        <RewardsTableHead>
+          <RewardsTableRow>
+            <RewardsTableCell>
+              <span>Action by Your Referral</span>
+            </RewardsTableCell>
+            <RewardsTableCell>
+              <span>Your Reward</span>
+            </RewardsTableCell>
+            <RewardsTableCell>
+              <span>What it Means</span>
+            </RewardsTableCell>
+          </RewardsTableRow>
+        </RewardsTableHead>
+        <RewardsTableBody>
+          {rewardsData.map((row, index) => (
+            <RewardsTableRow key={index}>
+              <RewardsTableCell>{row.action}</RewardsTableCell>
+              <RewardsTableCell>
+                <RewardBadge>{row.reward}</RewardBadge>
+              </RewardsTableCell>
+              <RewardsTableCell>{row.meaning}</RewardsTableCell>
+            </RewardsTableRow>
+          ))}
+        </RewardsTableBody>
+      </RewardsTable>
+    </RewardsTableContainer>
+  );
+};
+
+const RewardsTableContainer = styled(Box)(({ theme }) => ({
+  width: "100%",
+  borderRadius: "15px",
+  backgroundColor: "#0f1629",
+  padding: "20px",
+  border: "1px solid rgba(255, 255, 255, 0.1)",
+  overflowX: "auto",
+  [theme.breakpoints.down(768)]: {
+    padding: "15px",
+  },
+}));
+
+const RewardsTable = styled("table")(({ theme }) => ({
+  width: "100%",
+  borderCollapse: "separate",
+  borderSpacing: "0 8px",
+  minWidth: "600px",
+}));
+
+const RewardsTableHead = styled("thead")(({ theme }) => ({
+  tr: {
+    backgroundColor: "transparent",
+  },
+  th: {
+    padding: "16px 20px",
+    fontSize: "16px",
+    color: "#fff",
+    fontWeight: "600",
+    textAlign: "left",
+    border: "none",
+    [theme.breakpoints.down(768)]: {
+      padding: "12px 15px",
+      fontSize: "15px",
+    },
+    [theme.breakpoints.down(480)]: {
+      padding: "10px 12px",
+      fontSize: "14px",
+    },
+  },
+}));
+
+const RewardsTableBody = styled("tbody")(({ theme }) => ({
+  tr: {
+    backgroundColor: "#0d1321",
+    borderRadius: "10px",
+    "&:hover": {
+      backgroundColor: "#172235",
+    },
+  },
+}));
+
+const RewardsTableRow = styled("tr")(({ theme }) => ({
+  "&:first-child": {
+    "td:first-child": {
+      borderTopLeftRadius: "10px",
+    },
+    "td:last-child": {
+      borderTopRightRadius: "10px",
+    },
+  },
+  "&:last-child": {
+    "td:first-child": {
+      borderBottomLeftRadius: "10px",
+    },
+    "td:last-child": {
+      borderBottomRightRadius: "10px",
+    },
+  },
+}));
+
+const RewardsTableCell = styled("td")(({ theme }) => ({
+  padding: "16px 20px",
+  fontSize: "16px",
+  color: "#fff",
+  textAlign: "left",
+  border: "none",
+  verticalAlign: "middle",
+  span: {
+    fontWeight: "bold",
+  },
+  [theme.breakpoints.down(768)]: {
+    padding: "12px 15px",
+    fontSize: "13px",
+  },
+  [theme.breakpoints.down(480)]: {
+    padding: "10px 12px",
+    fontSize: "12px",
+  },
+}));
+
+const RewardBadge = styled(Box)(({ theme }) => ({
+  backgroundColor: "#102A33",
+  color: "#1AE5A1",
+  padding: "6px 12px",
+  borderRadius: "8px",
+  fontSize: "16px",
+  display: "inline-block",
+  [theme.breakpoints.down(480)]: {
+    fontSize: "12px",
+    padding: "4px 8px",
   },
 }));

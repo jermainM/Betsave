@@ -13,9 +13,9 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   if (!isAuthenticated) {
     // Add a small delay to prevent notification during logout
-    setTimeout(() => {
-      notifyError("Session expired. Please login again.");
-    }, 100);
+    // setTimeout(() => {
+    //   notifyError("Session expired. Please login again.");
+    // }, 100);
     return <Navigate to="/" replace />;
   }
 

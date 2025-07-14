@@ -470,11 +470,11 @@ export const STATIC_DATA = {
       title: "Streak Bonuses",
       subTitle: "Bet consistently and earn extra rewards!",
     },
-    {
-      navTitle: "Loyalty Program",
-      title: "Loyalty Program",
-      subTitle: "The more you bet, the higher your rewards.",
-    },
+    // {
+    //   navTitle: "Loyalty Program",
+    //   title: "Loyalty Program",
+    //   subTitle: "The more you bet, the higher your rewards.",
+    // },
   ],
 };
 

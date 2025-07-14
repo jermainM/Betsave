@@ -33,8 +33,6 @@ import { RootState } from "../../store";
 export const PromotionalOffer = () => {
   const [offers, setOffers] = useState<Row[]>([]);
   const { notifyError } = useNotification();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const country = useSelector((state: RootState) => state.device.country);
   const fetchOffers = async () => {
     try {
@@ -50,16 +48,8 @@ export const PromotionalOffer = () => {
         brands: offer.brands,
         allowedCountries: offer.allowedCountries,
       }));
-      console.log({
-        allowedCountries: offersData[0].allowedCountries,
-        country,
-        isAllowed:
-          offersData[0].allowedCountries.includes(country) && country !== "",
-      });
       setOffers(offersData);
     } catch (error) {
-      dispatch(clearSession());
-      navigate("/");
       console.error("Error fetching offers:", error);
       notifyError(`Error fetching offers: ${error}`);
     }

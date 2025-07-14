@@ -27,9 +27,6 @@ export const AvailableOffer = () => {
   const country = useSelector((state: RootState) => state.device.country);
 
   const { notifyError } = useNotification();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   const fetchOffers = async () => {
     try {
       const offers = await offerService.getOffers();
@@ -47,8 +44,6 @@ export const AvailableOffer = () => {
       setOffers(offersData);
     } catch (error) {
       console.error("Error fetching offers:", error);
-      dispatch(clearSession());
-      navigate("/");
       notifyError(`Error fetching offers: ${error}`);
     }
   };

@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Avatar,
   Box,
@@ -28,7 +30,6 @@ import { IconInput } from "../components/input/IconInput";
 
 import { STATIC_DATA } from "../constants/static-data";
 import { Footer } from "./footer";
-import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { setActiveItem } from "../store/slices/navbarSlice";
 import {
@@ -36,7 +37,6 @@ import {
   setError,
   clearWalletData,
 } from "../store/slices/walletSlice";
-import { useNavigate } from "react-router-dom";
 import {
   BetSaveLogoImg,
   ExpandSidebarIcon,
@@ -49,38 +49,6 @@ import { clearSession } from "../store/slices/sessionSlice";
 import { userService } from "../api/services/userService";
 import { useNotification } from "../provider/notification";
 import { formatEarningWithCommas } from "../utils/number";
-const StyledMenu = styled(Menu)(({ theme }) => ({
-  "& .MuiPaper-root": {
-    backgroundColor: "#0f1629",
-    backgroundImage: "none",
-    border: "1px solid rgba(255, 255, 255, 0.1)",
-    borderRadius: "8px",
-    marginTop: "8px",
-    minWidth: "200px",
-    padding: "8px",
-    ul: {
-      paddingTop: "0px",
-      paddingBottom: "0px",
-    },
-  },
-}));
-
-const MenuListItem = styled(MenuItem)(({ theme }) => ({
-  color: "#627691",
-  padding: "12px 16px",
-  borderRadius: "8px",
-  margin: "4px 0",
-  display: "flex",
-  alignItems: "center",
-  gap: "8px",
-  "&:hover": {
-    backgroundColor: "rgba(255, 255, 255, 0.08)",
-  },
-  "& .MuiListItemIcon-root": {
-    minWidth: "24px",
-    color: "#627691",
-  },
-}));
 
 export const NavBar = (props: { children: React.ReactNode }) => {
   const { children } = props;
@@ -924,3 +892,36 @@ const SmallSidebarItem = (props: MobileSidebarItemProps) => {
     </MobileSidebarItemContainer>
   );
 };
+
+const StyledMenu = styled(Menu)(({ theme }) => ({
+  "& .MuiPaper-root": {
+    backgroundColor: "#0f1629",
+    backgroundImage: "none",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    borderRadius: "8px",
+    marginTop: "8px",
+    minWidth: "200px",
+    padding: "8px",
+    ul: {
+      paddingTop: "0px",
+      paddingBottom: "0px",
+    },
+  },
+}));
+
+const MenuListItem = styled(MenuItem)(({ theme }) => ({
+  color: "#627691",
+  padding: "12px 16px",
+  borderRadius: "8px",
+  margin: "4px 0",
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+  "&:hover": {
+    backgroundColor: "rgba(255, 255, 255, 0.08)",
+  },
+  "& .MuiListItemIcon-root": {
+    minWidth: "24px",
+    color: "#627691",
+  },
+}));

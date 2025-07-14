@@ -11,6 +11,7 @@ interface CardProps {
   image: string;
   title: string;
   description: string;
+  termsAndConditions: string;
   allowedCountries: string[];
   cashbackRate: number;
   cashbackType: string;
@@ -23,6 +24,7 @@ export const CashOfferCard = (props: CardProps) => {
     image,
     title,
     description,
+    termsAndConditions,
     allowedCountries,
     cashbackRate,
     cashbackType,
@@ -75,6 +77,7 @@ export const CashOfferCard = (props: CardProps) => {
         open={open}
         title={title}
         description={description}
+        termsAndConditions={termsAndConditions}
         cashbackRate={cashbackRate}
         cashbackType={cashbackType}
         brands={brands}

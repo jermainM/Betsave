@@ -52,8 +52,9 @@ import { formatEarningWithCommas } from "../utils/number";
 
 export const NavBar = (props: { children: React.ReactNode }) => {
   const { children } = props;
+  const { user } = useSelector((state: RootState) => state.session);
+  const activeItem = useSelector((state: RootState) => state.navbar.activeItem);
   const [searchText, setSearchText] = useState("");
-  const [selectedItem, setSelectedItem] = useState(0);
   const [balance, setBalance] = useState(0);
   const [isExpand, setExpand] = useState(true);
   const [sidebarAnchorEl, setSidebarAnchorEl] = useState<null | HTMLElement>(
@@ -66,7 +67,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  const { user } = useSelector((state: RootState) => state.session);
+  const [selectedItem, setSelectedItem] = useState(activeItem);
 
   const { notifyError } = useNotification();
 

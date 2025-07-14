@@ -15,6 +15,7 @@ interface OfferDialogProps {
   onClick: (affiliateLink: string, brandName: string) => void;
   allowedCountries: string[];
   description: string;
+  termsAndConditions: string;
   cashbackRate: number;
   cashbackType: string;
   brands: Brand[];
@@ -28,6 +29,7 @@ export const OfferDialog: React.FC<OfferDialogProps> = ({
   onClick,
   allowedCountries,
   description,
+  termsAndConditions,
   cashbackRate,
   cashbackType,
   brands,
@@ -101,10 +103,7 @@ export const OfferDialog: React.FC<OfferDialogProps> = ({
         <SectionBox>
           <SectionTitle>Terms And Conditions</SectionTitle>
           <SectionText sx={{ paddingBottom: "32px" }}>
-            Hit GO! Roll the dice! Interact with your friends, family members
-            and fellow Tycoons from around the world as you explore the
-            expanding universe of MONOPOLY GO! It's the new way to play - board
-            flipping cleanup not required!
+            {termsAndConditions}
           </SectionText>
         </SectionBox>
       </DialogContainer>

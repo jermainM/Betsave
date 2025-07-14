@@ -37,16 +37,21 @@ export const MyOffer = () => {
   const { notifyError } = useNotification();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const country = useSelector((state: RootState) => state.device.country);
+  const { user } = useSelector((state: RootState) => state.session);
   const fetchOffers = async () => {
     try {
-      const offers = await offerService.getOffers();
+      if (!user || !user.betsaveId) {
+        return;
+      }
+      const offers = await offerService.getMyOffer(user.betsaveId);
       const offersData = offers.data.map((offer: any, idx: number) => ({
         id: idx,
         _id: offer._id,
         image: offer.image,
         title: offer.title,
         description: offer.description,
+        termsAndConditions: offer.termsAndConditions,
+        type: offer.type,
         cashbackRate: offer.cashbackRate,
         cashbackType: offer.cashbackType,
         brands: offer.brands,
@@ -62,8 +67,12 @@ export const MyOffer = () => {
   };
 
   useEffect(() => {
-    fetchOffers();
-  }, []);
+    if (user) {
+      fetchOffers();
+    } else {
+      notifyError("Something went wrong");
+    }
+  }, [user]);
   return (
     <MyOfferContainer>
       {/* <MyOfferHeader>
@@ -126,6 +135,7 @@ export const MyOffer = () => {
                   image={offer.image}
                   title={offer.title}
                   description={offer.description}
+                  termsAndConditions={offer.termsAndConditions}
                   cashbackRate={offer.cashbackRate}
                   cashbackType={offer.cashbackType}
                   brands={offer.brands}

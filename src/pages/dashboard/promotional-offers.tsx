@@ -43,6 +43,8 @@ export const PromotionalOffer = () => {
         image: offer.image,
         title: offer.title,
         description: offer.description,
+        type: offer.type,
+        termsAndConditions: offer.termsAndConditions,
         cashbackRate: offer.cashbackRate,
         cashbackType: offer.cashbackType,
         brands: offer.brands,
@@ -104,20 +106,23 @@ export const PromotionalOffer = () => {
             modules={[Keyboard, Pagination, Navigation, Autoplay, FreeMode]}
             className="mySwiper"
           >
-            {offers.map((offer, idx) => (
-              <SwiperSlide key={idx}>
-                <CashOfferCard
-                  image={offer.image}
-                  title={offer.title}
-                  id={offer._id}
-                  description={offer.description}
-                  cashbackRate={offer.cashbackRate}
-                  cashbackType={offer.cashbackType}
-                  brands={offer.brands}
-                  allowedCountries={offer.allowedCountries}
-                />
-              </SwiperSlide>
-            ))}
+            {offers
+              .filter((offer) => offer.type === "promotional")
+              .map((offer, idx) => (
+                <SwiperSlide key={idx}>
+                  <CashOfferCard
+                    image={offer.image}
+                    title={offer.title}
+                    id={offer._id}
+                    description={offer.description}
+                    termsAndConditions={offer.termsAndConditions}
+                    cashbackRate={offer.cashbackRate}
+                    cashbackType={offer.cashbackType}
+                    brands={offer.brands}
+                    allowedCountries={offer.allowedCountries}
+                  />
+                </SwiperSlide>
+              ))}
           </CustomSwiper>
         </PromotionalOfferwiper>
       )}

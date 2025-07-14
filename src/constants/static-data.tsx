@@ -236,7 +236,7 @@ export const STATIC_DATA = {
     },
     {
       icon: <IconImg src={GreenAbleOfferPng} alt="nav-item-img" />,
-      name: "Available Offers",
+      name: "Offers",
       hasBadge: true,
       idx: 1,
     },

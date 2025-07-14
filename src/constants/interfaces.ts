@@ -17,8 +17,10 @@ export interface Row {
   image: string;
   title: string;
   description: string;
+  termsAndConditions: string;
   cashbackRate: number;
   cashbackType: string;
   allowedCountries: string[];
+  type: "available" | "promotional"
   brands: Brand[];
 }

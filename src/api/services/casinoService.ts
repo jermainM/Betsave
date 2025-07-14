@@ -1,4 +1,3 @@
-import { ENDPOINTS } from "../endpoints";
 import api from "./api";
 
 export const casinoService = {

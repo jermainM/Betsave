@@ -14,12 +14,9 @@ import { GreenAbleOfferPng } from "../../constants/images";
 import { CashOfferCard } from "../../components/card/CashOfferCard";
 import { Row } from "../../constants/interfaces";
 import { offerService } from "../../api/services/offerService";
-import { calculateOfferStatus } from "../../utils/offer";
 import { EmptyBox } from "../../components/box/EmptyBox";
 import { useNotification } from "../../provider/notification";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { clearSession } from "../../store/slices/sessionSlice";
+import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 
 export const AvailableOffer = () => {
@@ -36,6 +33,8 @@ export const AvailableOffer = () => {
         image: offer.image,
         title: offer.title,
         description: offer.description,
+        termsAndConditions: offer.termsAndConditions,
+        type: offer.type,
         allowedCountries: offer.allowedCountries,
         cashbackRate: offer.cashbackRate,
         cashbackType: offer.cashbackType,
@@ -59,7 +58,7 @@ export const AvailableOffer = () => {
             <HeadingTitleIcon>
               <img src={GreenAbleOfferPng} alt="title-icon" />
             </HeadingTitleIcon>
-            Available Offers
+            Offers
           </HeadingTitle>
           <HeadingContent>
             Discover exclusive deals waiting for you. Claim your rewards before
@@ -95,20 +94,23 @@ export const AvailableOffer = () => {
             modules={[Keyboard, Pagination, Navigation, Autoplay, FreeMode]}
             className="mySwiper"
           >
-            {offers.map((offer, idx) => (
-              <SwiperSlide key={idx}>
-                <CashOfferCard
-                  id={offer._id}
-                  image={offer.image}
-                  title={offer.title}
-                  description={offer.description}
-                  cashbackRate={offer.cashbackRate}
-                  cashbackType={offer.cashbackType}
-                  brands={offer.brands}
-                  allowedCountries={offer.allowedCountries}
-                />
-              </SwiperSlide>
-            ))}
+            {offers
+              .filter((offer) => offer.type === "available")
+              .map((offer, idx) => (
+                <SwiperSlide key={idx}>
+                  <CashOfferCard
+                    id={offer._id}
+                    image={offer.image}
+                    title={offer.title}
+                    description={offer.description}
+                    termsAndConditions={offer.termsAndConditions}
+                    cashbackRate={offer.cashbackRate}
+                    cashbackType={offer.cashbackType}
+                    brands={offer.brands}
+                    allowedCountries={offer.allowedCountries}
+                  />
+                </SwiperSlide>
+              ))}
           </CustomSwiper>
         </AvailableOfferwiper>
       )}

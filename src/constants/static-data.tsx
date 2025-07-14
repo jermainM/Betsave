@@ -463,7 +463,7 @@ export const STATIC_DATA = {
       navTitle: "Referral Missions",
       title: "Referral Missions",
       subTitle:
-        "Loren Ipsum Loren Ipsum Loren Ipsum Loren Ipsum Loren Ipsum Loren Ipsum",
+        "Refer friends and earn rewards when they make a minimum $20 deposit.",
     },
     {
       navTitle: "Streak Bonuses",

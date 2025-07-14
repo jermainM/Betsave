@@ -68,7 +68,7 @@ api.interceptors.response.use(
     }
 
     // Show error notification
-    window.dispatchEvent(createNotificationEvent(errorMessage, 'error'));
+    // window.dispatchEvent(createNotificationEvent(errorMessage, 'error'));
 
     return Promise.reject(new Error(errorMessage));
   }

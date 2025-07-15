@@ -110,6 +110,7 @@ import CashbackPng from "../assets/cashback.png";
 import CalendarPng from '../assets/calendar.png'
 
 import AmazonIcon from "../assets/payment/amazon.png";
+import VisaIcon from "../assets/payment/visa.png"
 import PaypalIcon from "../assets/payment/paypal.png";
 import BitcoinIcon from "../assets/payment/bitcoin.png";
 
@@ -231,6 +232,7 @@ export {
   CashbackPng,
   CalendarPng,
   AmazonIcon,
+  VisaIcon,
   PaypalIcon,
   BitcoinIcon,
   ADAIcon,

@@ -24,6 +24,7 @@ import {
   USDTIcon,
   XRPIcon,
   BTCIcon,
+  VisaIcon,
 } from "../../constants/images";
 import { KeyboardArrowDown } from "@mui/icons-material";
 import api from "../../api/services/api";
@@ -46,7 +47,7 @@ interface WithdrawDialogProps {
   availableCashback: number;
 }
 
-type PaymentMethod = "Amazon" | "PayPal" | "Crypto";
+type PaymentMethod = "Amazon" | "PayPal" | "Crypto" | "Gift Card";
 
 interface PaymentMethodOption {
   id: PaymentMethod;
@@ -54,26 +55,30 @@ interface PaymentMethodOption {
   placeholder: string;
   icon: string;
   tag?: string;
+  comingSoon?: boolean; // <-- add this
 }
 
 const paymentMethods: PaymentMethodOption[] = [
   {
-    id: "Amazon",
+    id: "Crypto",
+    label: "Payment method",
+    placeholder: "Select Token",
+    icon: BitcoinIcon,
+    comingSoon: false,
+  },
+  {
+    id: "Gift Card",
     label: "Payment method",
     placeholder: "Enter your Email address",
-    icon: AmazonIcon,
+    icon: VisaIcon,
+    comingSoon: true, // <-- add this
   },
   {
     id: "PayPal",
     label: "Payment method",
     placeholder: "Enter your PayPal Address",
     icon: PaypalIcon,
-  },
-  {
-    id: "Crypto",
-    label: "Payment method",
-    placeholder: "Select Token",
-    icon: BitcoinIcon,
+    comingSoon: true, // <-- add this
   },
 ];
 
@@ -90,6 +95,9 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
   const [selectedToken, setSelectedToken] = useState<Token | null>(null);
   const [address, setAddress] = useState("");
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [methodSelectWidth, setMethodSelectWidth] = useState<
+    number | undefined
+  >(undefined);
   const [eligibility, setEligibility] = useState([]);
 
   const { notifyError, notifySuccess } = useNotification();
@@ -97,6 +105,7 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
 
   const handleMethodClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
+    setMethodSelectWidth(event.currentTarget.offsetWidth);
   };
 
   const handleMethodSelect = (method: PaymentMethod) => {
@@ -206,8 +215,8 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
                 backgroundColor: "#172236",
                 backgroundImage: "none",
                 mt: 1,
-                width: anchorEl?.offsetWidth,
-                minWidth: anchorEl?.offsetWidth,
+                width: methodSelectWidth,
+                minWidth: methodSelectWidth,
               },
             }}
           >
@@ -215,10 +224,23 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
               {paymentMethods.map((method) => (
                 <MethodOption
                   key={method.id}
-                  onClick={() => handleMethodSelect(method.id)}
+                  onClick={() => {
+                    if (!method.comingSoon) handleMethodSelect(method.id);
+                  }}
+                  style={{
+                    // opacity: method.comingSoon ? 0.6 : 1,
+                    cursor: method.comingSoon ? "not-allowed" : "pointer",
+                    position: "relative",
+                  }}
                 >
                   <MethodIcon src={method.icon} alt={method.id} />
                   <span>{method.id}</span>
+                  {method.comingSoon && (
+                    <ComingSoonBadge>
+                      <span>Coming Soon</span>
+                      <Sparkle>✨</Sparkle>
+                    </ComingSoonBadge>
+                  )}
                 </MethodOption>
               ))}
             </MethodsList>
@@ -396,4 +418,30 @@ const MethodTag = styled(Box)({
   fontSize: "12px",
   marginLeft: "8px",
   color: "#8A8D98",
+});
+
+const ComingSoonBadge = styled(Box)({
+  marginLeft: "auto",
+  background: "linear-gradient(90deg, #1AE5A1 0%, #15cc8f 100%)",
+  color: "#000",
+  borderRadius: "12px",
+  padding: "2px 12px",
+  fontWeight: 700,
+  fontSize: "12px",
+  display: "flex",
+  alignItems: "center",
+  gap: "6px",
+  boxShadow: "0 2px 8px rgba(26,229,161,0.15)",
+  letterSpacing: "0.5px",
+  animation: "pulse 1.5s infinite",
+  "@keyframes pulse": {
+    "0%": { boxShadow: "0 0 0 0 rgba(26,229,161,0.4)" },
+    "70%": { boxShadow: "0 0 0 10px rgba(26,229,161,0)" },
+    "100%": { boxShadow: "0 0 0 0 rgba(26,229,161,0)" },
+  },
+});
+
+const Sparkle = styled("span")({
+  fontSize: "14px",
+  marginLeft: "4px",
 });

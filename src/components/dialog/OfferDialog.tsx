@@ -102,9 +102,10 @@ export const OfferDialog: React.FC<OfferDialogProps> = ({
         <DividerLine />
         <SectionBox>
           <SectionTitle>Terms And Conditions</SectionTitle>
-          <SectionText sx={{ paddingBottom: "32px" }}>
-            {termsAndConditions}
-          </SectionText>
+          <SectionText
+            sx={{ paddingBottom: "32px" }}
+            dangerouslySetInnerHTML={{ __html: termsAndConditions }}
+          />
         </SectionBox>
       </DialogContainer>
     </StyledDialog>

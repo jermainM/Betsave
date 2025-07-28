@@ -131,13 +131,13 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 const DialogContainer = styled(Box)(({ theme }) => ({
   position: "relative",
   width: "100%",
-  padding: "24px",
+  padding: "16px 20px",
   display: "flex",
   flexDirection: "column",
-  gap: "24px",
+  gap: "12px",
   [theme.breakpoints.down(450)]: {
-    gap: "16px",
-    padding: "16px",
+    gap: "12px",
+    padding: "12px 16px",
   },
 }));
 
@@ -147,13 +147,14 @@ const CloseButton = styled(IconButton)(({ theme }) => ({
   right: 16,
   color: "#627691",
   zIndex: 2,
+  padding: 0,
 }));
 
 const TitleBox = styled(Box)(({ theme }) => ({}));
 
 const TitleText = styled(Typography)(({ theme }) => ({
   fontWeight: 700,
-  fontSize: 22,
+  fontSize: "18px",
   color: "#fff",
 }));
 
@@ -186,7 +187,7 @@ const CasinoSection = styled(Box)(({ theme }) => ({
 
 const CasinoTitle = styled(Typography)(({ theme }) => ({
   fontWeight: 700,
-  fontSize: 18,
+  fontSize: "16px",
   color: "#fff",
 }));
 
@@ -239,8 +240,9 @@ const SectionBox = styled(Box)(({ theme }) => ({
 
 const SectionTitle = styled(Typography)(({ theme }) => ({
   fontWeight: 700,
-  fontSize: 16,
+  fontSize: "16px",
   color: "#fff",
+  marginBottom: "4px",
 }));
 
 const SectionText = styled(Typography)(({ theme }) => ({

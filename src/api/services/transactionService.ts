@@ -12,7 +12,7 @@ interface HistoryItem {
 
 export const transactionService = {
   requestCashback: async (betsaveId: string, method: string, token: string, requestedAmount: number, address: string, tier: string, cashbackRate: number, history: HistoryItem[]) => {
-    const response = await api.post("/transaction/request", {
+    const response = await api.post("/transactions/request", {
       betsaveId,
       method,
       token,

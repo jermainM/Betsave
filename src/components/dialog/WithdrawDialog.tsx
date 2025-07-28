@@ -162,6 +162,7 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
           user.cashbackRate,
           _history
         );
+        onClose();
         notifySuccess("Cashback requested successfully");
         console.log(response);
       } else {
@@ -258,7 +259,6 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
             type="number"
             placeholder="Enter withdrawal amount"
             value={availableCashback}
-            disabled={true}
           />
 
           <InputLabel>Your {selectedMethod} address</InputLabel>

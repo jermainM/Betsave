@@ -30,14 +30,7 @@ import { ReferralProgram } from "./referral";
 import { PromoCode } from "./promocode";
 import { HelpCenter } from "./helpcenter";
 
-import {
-  NetImg,
-  TempUserIcon,
-  BronzeIcon,
-  SilverIcon,
-  GoldIcon,
-  PlatinumIcon,
-} from "../../constants/images";
+import { NetImg, TempUserIcon } from "../../constants/images";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { formatEarningWithCommas } from "../../utils/number";
@@ -48,9 +41,7 @@ export const AccountManage = () => {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { user } = useSelector((state: RootState) => state.session);
-  const { totalCashback, availableCashback } = useSelector(
-    (state: RootState) => state.wallet
-  );
+  const { totalCashback } = useSelector((state: RootState) => state.wallet);
 
   const { tier, maxLossAmount, cashbackRate } =
     calculateTierAndCashback(totalCashback);
@@ -98,11 +89,11 @@ export const AccountManage = () => {
                   <HiCash />
                   <WalletInfo>
                     <WalletBalance>
-                      ${formatEarningWithCommas(availableCashback)}
+                      ${formatEarningWithCommas(totalCashback)}
                     </WalletBalance>
                     <WalletStatus>Available</WalletStatus>
                   </WalletInfo>
-                  <WalletButton disabled={availableCashback === 0}>
+                  <WalletButton disabled={totalCashback === 0}>
                     Withdraw
                   </WalletButton>
                 </WalletBox>

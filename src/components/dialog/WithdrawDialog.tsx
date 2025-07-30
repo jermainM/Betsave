@@ -43,8 +43,8 @@ interface Token {
 
 interface WithdrawDialogProps {
   open: boolean;
-  onClose: () => void;
-  availableCashback: number;
+  onClose: () => Promise<void>;
+  cashback: number;
 }
 
 type PaymentMethod = "Amazon" | "PayPal" | "Crypto" | "Gift Card";
@@ -85,10 +85,9 @@ const paymentMethods: PaymentMethodOption[] = [
 export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
   open,
   onClose,
-  availableCashback,
 }) => {
   const { user } = useSelector((state: RootState) => state.session);
-  const { history } = useSelector((state: RootState) => state.wallet);
+  const { history, balance } = useSelector((state: RootState) => state.wallet);
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(
     paymentMethods[0].id
   );
@@ -98,10 +97,10 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
   const [methodSelectWidth, setMethodSelectWidth] = useState<
     number | undefined
   >(undefined);
-  const [eligibility, setEligibility] = useState([]);
+  const [eligibility, setEligibility] = useState<string[]>([]);
 
   const { notifyError, notifySuccess } = useNotification();
-  const _history = history.filter((item) => item.withdrawable);
+  const _history = history.filter((item) => !item.isPaid);
 
   const handleMethodClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -133,7 +132,7 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
     try {
       const response = await userService.checkEligibility(user.betsaveId);
       console.log({ response });
-      setEligibility(response);
+      setEligibility(response.data);
     } catch (error: any) {
       console.log(error);
     }
@@ -151,25 +150,28 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
     }
 
     try {
-      if (eligibility.length === 0) {
-        const response = await transactionService.requestCashback(
-          user.betsaveId,
-          selectedMethod,
-          selectedToken?.symbol || "",
-          availableCashback,
-          address,
-          user.tier,
-          user.cashbackRate,
-          _history
-        );
-        onClose();
+      // if (eligibility.length === 0) {
+      const response = await transactionService.requestCashback(
+        user.betsaveId,
+        selectedMethod,
+        selectedToken?.symbol || "",
+        balance,
+        address,
+        user.tier,
+        user.cashbackRate,
+        _history
+      );
+
+      if (response.success) {
+        await onClose();
         notifySuccess("Cashback requested successfully");
-        console.log(response);
-      } else {
-        notifyError(
-          "You are not eligible for cashback. Reason: " + eligibility
-        );
       }
+
+      // } else {
+      //   notifyError(
+      //     "You are not eligible for cashback. Reason: " + eligibility.join(",")
+      //   );
+      // }
     } catch (error) {
       console.error(error);
     }
@@ -258,7 +260,7 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
           <StyledInput
             type="number"
             placeholder="Enter withdrawal amount"
-            value={availableCashback}
+            value={balance}
           />
 
           <InputLabel>Your {selectedMethod} address</InputLabel>

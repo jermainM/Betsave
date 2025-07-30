@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface WalletState {
+  balance: number;
   totalCashback: number;
-  availableCashback: number;
   history: Array<{
     offerId: string;
     offerImage: string;
@@ -10,15 +10,15 @@ interface WalletState {
     brandName: string;
     lossAmount: number;
     dateTime: string;
-    withdrawable: boolean;
+    isPaid: boolean;
   }>;
   isLoading: boolean;
   error: string | null;
 }
 
 const initialState: WalletState = {
+  balance: 0,
   totalCashback: 0,
-  availableCashback: 0,
   history: [],
   isLoading: false,
   error: null,
@@ -29,12 +29,12 @@ const walletSlice = createSlice({
   initialState,
   reducers: {
     setWalletData: (state, action: PayloadAction<{
+      balance: number;
       totalCashback: number;
-      availableCashback: number;
       history: WalletState["history"];
     }>) => {
+      state.balance = action.payload.balance;
       state.totalCashback = action.payload.totalCashback;
-      state.availableCashback = action.payload.availableCashback;
       state.history = action.payload.history;
       state.isLoading = false;
       state.error = null;
@@ -47,14 +47,17 @@ const walletSlice = createSlice({
       state.isLoading = false;
     },
     clearWalletData: (state) => {
+      state.balance = 0;
       state.totalCashback = 0;
-      state.availableCashback = 0;
       state.history = [];
       state.isLoading = false;
       state.error = null;
     },
+    updateWalletBalance: (state, action: PayloadAction<number>) => {
+      state.balance = action.payload;
+    },
   },
 });
 
-export const { setWalletData, setLoading, setError, clearWalletData } = walletSlice.actions;
+export const { setWalletData, setLoading, setError, clearWalletData, updateWalletBalance } = walletSlice.actions;
 export default walletSlice.reducer; 

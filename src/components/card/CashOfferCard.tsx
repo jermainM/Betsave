@@ -5,6 +5,7 @@ import { casinoService } from "../../api/services/casinoService";
 import { useState } from "react";
 import { OfferDialog } from "../dialog/OfferDialog";
 import { Brand } from "../../constants/interfaces";
+import { NewOfferDialog } from "../dialog/NewOffeDialog";
 
 interface CardProps {
   id: string;
@@ -73,7 +74,7 @@ export const CashOfferCard = (props: CardProps) => {
           </JoinButton>
         </CardWrapper>
       </CardContainer>
-      <OfferDialog
+      {/* <OfferDialog
         open={open}
         title={title}
         description={description}
@@ -85,7 +86,8 @@ export const CashOfferCard = (props: CardProps) => {
         image={image}
         onClick={handleClick}
         allowedCountries={allowedCountries}
-      />
+      /> */}
+      <NewOfferDialog open={open} setOpen={setOpen} />
     </>
   );
 };

@@ -6,7 +6,7 @@ interface HistoryItem {
   offerTitle: string;
   lossAmount: number;
   dateTime: string;
-  withdrawable: boolean;
+  isPaid: boolean;
 }
 
 
@@ -25,9 +25,7 @@ export const transactionService = {
     return response.data;
   },
   getTransactionByBetsaveId: async (betsaveId: string) => {
-    const response = await api.get("/transactions/betsaveId", {
-      params: { betsaveId },
-    });
+    const response = await api.get(`/transactions/user/${betsaveId}`);
     return response.data;
   },
   getLeaderBoardData: async () => {

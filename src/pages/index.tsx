@@ -187,17 +187,17 @@ export const Landing = ({ refCode }: LandingProps) => {
           <TierItem
             icon={SilverIcon}
             title="Silver"
-            content="$1000 NGR + 5% Cashback"
+            content="<$1000 NGR + 7.5% Cashback"
           />
           <TierItem
             icon={GoldIcon}
             title="Gold"
-            content="$2000 NGR + 7% Cashback "
+            content="<$2000 NGR + 10% Cashback "
           />
           <TierItem
             icon={PlatinumIcon}
             title="Platinum"
-            content="$5000 NGR + 10% Cashback"
+            content="<$5000 NGR + 12.5% Cashback"
           />
         </TierItemContainer>
       </TierSection>

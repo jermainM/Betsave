@@ -500,7 +500,7 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
                           onChange={handleInputChange("acceptTerms")}
                         />
                       }
-                      label="I confirm that I have read, understood, and accepted the BETSAVE Terms & Conditions. By checking this box, I also confirm that I am at least 18 years old."
+                      label="I confirm that I have read, understood, and accepted the BETSAVE Terms & Conditions. By checking this box, I also confirm that I am at least 18 years old and agree to receive promotional emails about cashback offers, rewards, and exclusive deals."
                     />
                     {errors.acceptTerms && (
                       <FormHelperText error>

@@ -130,6 +130,16 @@ import DiscordIcon from "../assets/social/discord.png";
 import StarIcon from "../assets/social/star.png";
 import CommunityPng from "../assets/community.png";
 
+import OfferCameraIcon from "../assets/offer/camera-icon.png";
+import OfferGameIcon from "../assets/offer/game-icon.png";
+import OfferGiftIcon from "../assets/offer/gift-icon.png";
+import OfferCasinoIcon from "../assets/offer/live-casino-icon.png";
+import OfferLockIcon from "../assets/offer/lock-icon.png";
+import OfferSlotsIcon from "../assets/offer/slots-icon.png";
+import OfferStarIcon from "../assets/offer/star-icon.png";
+import OfferPeopleIcon from "../assets/offer/people-icon.png";
+import BetfuryLogoIcon from "../assets/offer/betfury-logo.png";
+
 export {
   GreenTransparentPayoutIcon,
   GreenMaxmizeWinIcon,
@@ -249,5 +259,14 @@ export {
   XIcon,
   DiscordIcon,
   StarIcon,
-  CommunityPng
+  CommunityPng,
+  OfferCameraIcon,
+  OfferGameIcon,
+  OfferGiftIcon,
+  OfferCasinoIcon,
+  OfferLockIcon,
+  OfferSlotsIcon,
+  OfferStarIcon,
+  OfferPeopleIcon,
+  BetfuryLogoIcon
 };

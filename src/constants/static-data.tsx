@@ -482,25 +482,25 @@ export const TIER_CONFIG = {
   BRONZE: {
     min: 0,
     max: 499,
-    cashbackRate: 3,
+    cashbackRate: 5,
     name: "Bronze",
   },
   SILVER: {
     min: 500,
     max: 1499,
-    cashbackRate: 6,
+    cashbackRate: 7.5,
     name: "Silver",
   },
   GOLD: {
     min: 1500,
     max: 9999,
-    cashbackRate: 9,
+    cashbackRate: 10,
     name: "Gold",
   },
   PLATINUM: {
     min: 10000,
     max: Infinity,
-    cashbackRate: 12,
+    cashbackRate: 12.5,
     name: "Platinum",
   },
 };

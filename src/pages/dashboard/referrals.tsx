@@ -50,9 +50,7 @@ export const Referrals = () => {
     newBettors: 0,
   });
   const navigate = useNavigate();
-  const { totalCashback, availableCashback } = useSelector(
-    (state: RootState) => state.wallet
-  );
+  const { totalCashback } = useSelector((state: RootState) => state.wallet);
   const { user } = useSelector((state: RootState) => state.session);
 
   const { tier, cashbackRate } = calculateTierAndCashback(totalCashback);
@@ -155,7 +153,7 @@ export const Referrals = () => {
                   </ClaimIcon>
                   <ClaimInfo>
                     <ClaimValue>
-                      ${formatEarningWithCommas(availableCashback)}
+                      ${formatEarningWithCommas(totalCashback)}
                     </ClaimValue>
                     <ClaimStatus>Available</ClaimStatus>
                   </ClaimInfo>

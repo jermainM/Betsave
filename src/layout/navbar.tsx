@@ -46,22 +46,25 @@ import {
   TempUserIcon,
 } from "../constants/images";
 import { clearSession } from "../store/slices/sessionSlice";
-import { userService } from "../api/services/userService";
 import { useNotification } from "../provider/notification";
 import { formatEarningWithCommas } from "../utils/number";
+import { getUserBalance, getUserBetHistory } from "../api/functions";
 
 export const NavBar = (props: { children: React.ReactNode }) => {
   const { children } = props;
   const { user } = useSelector((state: RootState) => state.session);
   const activeItem = useSelector((state: RootState) => state.navbar.activeItem);
   const [searchText, setSearchText] = useState("");
-  const [balance, setBalance] = useState(0);
   const [isExpand, setExpand] = useState(true);
   const [sidebarAnchorEl, setSidebarAnchorEl] = useState<null | HTMLElement>(
     null
   );
   const [userMenuAnchorEl, setUserMenuAnchorEl] = useState<null | HTMLElement>(
     null
+  );
+
+  const { balance, totalCashback } = useSelector(
+    (state: RootState) => state.wallet
   );
 
   const navigate = useNavigate();
@@ -119,15 +122,13 @@ export const NavBar = (props: { children: React.ReactNode }) => {
     }
 
     try {
-      const response = await userService.getUserBalance(user.betsaveId);
-      const balance = response.data.totalCashback ?? 0;
-      console.log({ response: response.data });
-      setBalance(balance);
+      const { balance, totalCashback } = await getUserBalance(user);
+      const history = await getUserBetHistory(user);
       dispatch(
         setWalletData({
-          totalCashback: response.data.totalCashback ?? 0,
-          availableCashback: response.data.availableCashback ?? 0,
-          history: response.data.history ?? [],
+          balance: balance,
+          totalCashback: totalCashback,
+          history: history,
         })
       );
     } catch (error) {
@@ -146,7 +147,13 @@ export const NavBar = (props: { children: React.ReactNode }) => {
       fetchWalletBalance();
     } else if (!user) {
       // Reset balance when user logs out
-      setBalance(0);
+      dispatch(
+        setWalletData({
+          balance: 0,
+          totalCashback: 0,
+          history: [],
+        })
+      );
     }
   }, [user]);
 

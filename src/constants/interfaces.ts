@@ -11,16 +11,26 @@ export interface Brand {
   userCount: number;
 }
 
-export interface Row {
-  id: number;
+export interface OfferProps {
+  id: string;
   _id: string;
   image: string;
   title: string;
   description: string;
-  termsAndConditions: string;
-  cashbackRate: number;
   cashbackType: string;
+  cashbackRate: number;
   allowedCountries: string[];
-  type: "available" | "promotional"
-  brands: Brand[];
+  termsAndConditions: string;
+  rewards: Array<{
+    amount: string;
+    title: string;
+  }>;
+  offerRate: number;
+  bonusesRating: number;
+  gameVarietyRating: number;
+  trustScoreRating: number;
+  depositBonus: string;
+  apiEndpoint: string;
+  apiKey: string;
+  affiliateLink: string;
 }

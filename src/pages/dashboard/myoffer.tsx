@@ -24,7 +24,7 @@ import { EmptyBox } from "../../components/box/EmptyBox";
 import { GreenMyOfferPng } from "../../constants/images";
 import { offerService } from "../../api/services/offerService";
 import { calculateOfferStatus } from "../../utils/offer";
-import { Row } from "../../constants/interfaces";
+import { OfferProps } from "../../constants/interfaces";
 import { useNotification } from "../../provider/notification";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -33,7 +33,7 @@ import { RootState } from "../../store";
 
 export const MyOffer = () => {
   const [isEmpty, setEmpty] = useState(false);
-  const [offers, setOffers] = useState<Row[]>([]);
+  const [offers, setOffers] = useState<OfferProps[]>([]);
   const { notifyError } = useNotification();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -51,11 +51,18 @@ export const MyOffer = () => {
         title: offer.title,
         description: offer.description,
         termsAndConditions: offer.termsAndConditions,
-        type: offer.type,
         cashbackRate: offer.cashbackRate,
         cashbackType: offer.cashbackType,
-        brands: offer.brands,
+        offerRate: offer.offerRate,
+        bonusesRating: offer.bonusesRating,
+        gameVarietyRating: offer.gameVarietyRating,
+        trustScoreRating: offer.trustScoreRating,
+        depositBonus: offer.depositBonus,
+        apiEndpoint: offer.apiEndpoint,
+        apiKey: offer.apiKey,
+        affiliateLink: offer.affiliateLink,
         allowedCountries: offer.allowedCountries,
+        rewards: offer.rewards,
       }));
       setOffers(offersData);
     } catch (error) {
@@ -130,17 +137,7 @@ export const MyOffer = () => {
           >
             {offers.map((offer, idx) => (
               <SwiperSlide key={idx}>
-                <CashOfferCard
-                  id={offer._id}
-                  image={offer.image}
-                  title={offer.title}
-                  description={offer.description}
-                  termsAndConditions={offer.termsAndConditions}
-                  cashbackRate={offer.cashbackRate}
-                  cashbackType={offer.cashbackType}
-                  brands={offer.brands}
-                  allowedCountries={offer.allowedCountries}
-                />
+                <CashOfferCard offer={offer} />
               </SwiperSlide>
             ))}
           </CustomSwiper>

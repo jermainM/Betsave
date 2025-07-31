@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { Button, Typography, Box, styled } from "@mui/material";
+import { Button, Typography, Box, styled, Rating } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import {
-  OfferCameraIcon,
   OfferGameIcon,
   OfferGiftIcon,
   OfferCasinoIcon,
@@ -18,17 +17,18 @@ import {
 } from "../../constants/images";
 import { FaStar } from "react-icons/fa";
 import { MoreInfoDialog } from "./MoreInfoDialog";
+import { OfferProps } from "../../constants/interfaces";
 
 interface NewOfferDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  isPromotional?: boolean;
+  offer: OfferProps;
 }
 
 export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
   open,
   setOpen,
-  isPromotional = false,
+  offer,
 }) => {
   const [moreInfoOpen, setMoreInfoOpen] = useState(false);
 
@@ -45,23 +45,21 @@ export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
         <HeaderContainer>
           <HeaderSection>
             <BrandLogoWrapper>
-              <BrandLogo src={OfferCameraIcon} alt="camera" />
+              <BrandLogo src={offer.image} alt="camera" />
             </BrandLogoWrapper>
 
             <BrandLogoContainer>
-              <BrandTitle>BETFURY</BrandTitle>
+              <BrandTitle>{offer.title}</BrandTitle>
               <RatingBox>
                 <StarsContainer>
-                  {Array.from({ length: 4 }).map((_, i) => (
-                    <Star key={i}>
-                      <FaStar />
-                    </Star>
-                  ))}
-                  <HalfStar>
-                    <FaStar />
-                  </HalfStar>
+                  <Rating
+                    name="half-rating-read"
+                    value={offer.offerRate}
+                    precision={0.5}
+                    readOnly
+                  />
                 </StarsContainer>
-                <RatingText>4.6 / 5</RatingText>
+                <RatingText>{offer.offerRate} / 5</RatingText>
               </RatingBox>
             </BrandLogoContainer>
           </HeaderSection>
@@ -78,7 +76,7 @@ export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
                 <GiftIcon src={OfferGiftIcon} alt="gift" />
                 <ExclusiveText>EXCLUSIVE BONUS</ExclusiveText>
               </OfferContent>
-              <BonusText>100% DEPOSIT BONUS UP TO $10,000</BonusText>
+              <BonusText>{offer.title}</BonusText>
             </OfferContainer>
             <LogoBox>
               <LogoImage src={BetfuryLogoIcon} alt="Betfury Logo" />
@@ -87,10 +85,12 @@ export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
 
           {/* Cashback Section */}
           <CashbackSection>
-            <CashbackText>Cashback: Up to 12.5% on Net Losses</CashbackText>
+            <CashbackText>
+              Cashback: Up to {offer.cashbackRate}% on Net Losses
+            </CashbackText>
           </CashbackSection>
 
-          {isPromotional && (
+          {offer.cashbackType === "Promo" && offer.rewards.length > 0 && (
             <RewardSection>
               <RewardTitle>Rewards</RewardTitle>
               <RewardDescription>
@@ -98,14 +98,20 @@ export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
                 step.
               </RewardDescription>
               <RewardItemsContainer>
-                <RewardItem>
+                {offer.rewards.map((reward) => (
+                  <RewardItem key={reward.title}>
+                    <RewardAmount>{reward.amount}</RewardAmount>
+                    <RewardText>{reward.title}</RewardText>
+                  </RewardItem>
+                ))}
+                {/* <RewardItem>
                   <RewardAmount>$0.50</RewardAmount>
                   <RewardText>Sign up and KYC</RewardText>
                 </RewardItem>
                 <RewardItem>
                   <RewardAmount>$20.00</RewardAmount>
                   <RewardText>Minimum $100 USD Deposit</RewardText>
-                </RewardItem>
+                </RewardItem> */}
               </RewardItemsContainer>
             </RewardSection>
           )}
@@ -131,7 +137,7 @@ export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
             <RatingItem>
               <RatingIcon src={OfferStarIcon} alt="bonuses" />
               <RatingLabel>Bonuses:</RatingLabel>
-              <RatingScore>9</RatingScore>
+              <RatingScore>{offer.bonusesRating}</RatingScore>
               <RatingStar>
                 <FaStar />
               </RatingStar>
@@ -139,15 +145,15 @@ export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
             <RatingItem>
               <RatingIcon src={OfferGameIcon} alt="game variety" />
               <RatingLabel>Game Variety:</RatingLabel>
-              <RatingScore>9.1</RatingScore>
+              <RatingScore>{offer.gameVarietyRating}</RatingScore>
               <RatingStar>
                 <FaStar />
               </RatingStar>
             </RatingItem>
             <RatingItem>
               <RatingIcon src={OfferPeopleIcon} alt="bonuses" />
-              <RatingLabel>Bonuses:</RatingLabel>
-              <RatingScore>9.3</RatingScore>
+              <RatingLabel>Trust Scoring:</RatingLabel>
+              <RatingScore>{offer.trustScoreRating}</RatingScore>
               <RatingStar>
                 <FaStar />
               </RatingStar>
@@ -180,13 +186,28 @@ export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
       </StyledDialog>
 
       {/* More Info Dialog */}
-      <MoreInfoDialog open={moreInfoOpen} setOpen={setMoreInfoOpen} />
+      <MoreInfoDialog
+        open={moreInfoOpen}
+        setOpen={setMoreInfoOpen}
+        description={offer.description}
+        depositBonus={offer.depositBonus}
+        termsAndConditions={offer.termsAndConditions}
+        image={offer.image}
+        offerRate={offer.offerRate}
+        title={offer.title}
+      />
     </>
   );
 };
 
 // Styled Components
 const StyledDialog = styled(Dialog)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  margin: "auto",
+  width: "100%",
+  height: "100%",
   "& .MuiPaper-root": {
     borderRadius: "17px",
     backgroundColor: "#151A30",
@@ -261,8 +282,8 @@ const BrandLogoWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const BrandLogo = styled("img")(({ theme }) => ({
-  width: "24px",
-  height: "24px",
+  width: "100%",
+  height: "100%",
   objectFit: "contain",
 }));
 
@@ -333,6 +354,7 @@ const MainOfferSection = styled(Box)(({ theme }) => ({
   },
   display: "flex",
   alignItems: "center",
+  justifyContent: "space-between",
   gap: "12px",
 }));
 

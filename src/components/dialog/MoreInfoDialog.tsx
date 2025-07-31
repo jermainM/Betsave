@@ -2,7 +2,7 @@ import React from "react";
 import Dialog from "@mui/material/Dialog";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { Button, Typography, Box, styled } from "@mui/material";
+import { Button, Typography, Box, styled, Rating } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import {
   OfferCameraIcon,
@@ -14,41 +14,49 @@ import { FaStar } from "react-icons/fa";
 interface MoreInfoDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
+  description: string;
+  depositBonus: string;
+  termsAndConditions: string;
+  image: string;
+  offerRate: number;
+  title: string;
 }
 
 export const MoreInfoDialog: React.FC<MoreInfoDialogProps> = ({
   open,
   setOpen,
+  description,
+  depositBonus,
+  termsAndConditions,
+  image,
+  offerRate,
+  title,
 }) => {
   return (
     <StyledDialog
       open={open}
       onClose={() => setOpen(false)}
-      maxWidth="sm"
-      fullWidth
       TransitionComponent={SlideTransition}
     >
       {/* Header Section */}
       <HeaderContainer>
         <HeaderSection>
           <BrandLogoWrapper>
-            <BrandLogo src={OfferCameraIcon} alt="camera" />
+            <BrandLogo src={image} alt="camera" />
           </BrandLogoWrapper>
 
           <BrandLogoContainer>
-            <BrandTitle>BETFURY</BrandTitle>
+            <BrandTitle>{title}</BrandTitle>
             <RatingBox>
               <StarsContainer>
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <Star key={i}>
-                    <FaStar />
-                  </Star>
-                ))}
-                <HalfStar>
-                  <FaStar />
-                </HalfStar>
+                <Rating
+                  name="half-rating-read"
+                  value={offerRate}
+                  precision={0.5}
+                  readOnly
+                />
               </StarsContainer>
-              <RatingText>4.6 / 5</RatingText>
+              <RatingText>{offerRate} / 5</RatingText>
             </RatingBox>
           </BrandLogoContainer>
         </HeaderSection>
@@ -61,21 +69,14 @@ export const MoreInfoDialog: React.FC<MoreInfoDialogProps> = ({
         {/* Description Section */}
         <ContentSection>
           <SectionTitle>Description</SectionTitle>
-          <DescriptionText>
-            Pin-Up Casino is a top-tier online casino with nearly a decade of
-            experience. It features a vibrant design, trusted platform, and
-            thousands of games including classic slots, table games, exclusive
-            titles, and live dealers. Available across multiple countries, it
-            appeals to players seeking fast payouts, exciting bonuses, and
-            smooth mobile gameplay.
-          </DescriptionText>
+          <DescriptionText>{description}</DescriptionText>
         </ContentSection>
 
         {/* Deposit Bonus Section */}
         <DepositBonusSection>
           <BonusLeft>
             <BonusTitle>Deposit Bonus</BonusTitle>
-            <BonusAmount>150% for $500</BonusAmount>
+            <BonusAmount>{depositBonus}</BonusAmount>
           </BonusLeft>
           <BonusRight>
             <PartnerTitle>BetSave</PartnerTitle>
@@ -88,74 +89,7 @@ export const MoreInfoDialog: React.FC<MoreInfoDialogProps> = ({
         {/* Terms And Conditions Section */}
         <TermsSection>
           <SectionTitle>Terms And Conditions</SectionTitle>
-          <TermsList>
-            <TermItem>
-              <TermNumber>1.</TermNumber>
-              <TermText>
-                Offer valid for new users registering via the BETSAVE platform.
-              </TermText>
-            </TermItem>
-            <TermItem>
-              <TermNumber>2.</TermNumber>
-              <TermText>Minimum deposit of $50 required for cashback.</TermText>
-            </TermItem>
-            <TermItem>
-              <TermNumber>3.</TermNumber>
-              <TermText>
-                Cashback based on Net Gaming Revenue (NGR) and applies only if
-                NGR is negative (losses incurred).
-              </TermText>
-            </TermItem>
-            <TermItem>
-              <TermNumber>4.</TermNumber>
-              <TermText>
-                Cashback calculated monthly and credited to BETSAVE wallet
-                within 7 days after month end.
-              </TermText>
-            </TermItem>
-            <TermItem>
-              <TermNumber>5.</TermNumber>
-              <TermText>
-                Suspected abuse (multiple accounts, fraud, bonus manipulation)
-                leads to disqualification.
-              </TermText>
-            </TermItem>
-            <TermItem>
-              <TermNumber>6.</TermNumber>
-              <TermText>
-                BETSAVE reserves the right to modify, pause, or cancel the offer
-                without prior notice.
-              </TermText>
-            </TermItem>
-            <TermItem>
-              <TermNumber>7.</TermNumber>
-              <TermText>
-                Participation implies agreement to BETSAVE's platform terms and
-                partner casino terms.
-              </TermText>
-            </TermItem>
-            <TermItem>
-              <TermNumber>8.</TermNumber>
-              <TermText>
-                Offer available only to users residing in Azerbaijan,
-                Bangladesh, Canada, Chile, Ecuador, India, Kazakhstan, Mexico,
-                and Uzbekistan.
-              </TermText>
-            </TermItem>
-            <TermItem>
-              <TermNumber>9.</TermNumber>
-              <TermText>
-                Users are responsible for ensuring online gambling legality in
-                their jurisdiction.
-              </TermText>
-            </TermItem>
-            <TermItem>
-              <TermNumber>10.</TermNumber>
-              <TermText>
-                BETSAVE's decision on cashback eligibility is final and binding.
-              </TermText>
-            </TermItem>
-          </TermsList>
+          <TermsText dangerouslySetInnerHTML={{ __html: termsAndConditions }} />
         </TermsSection>
       </DialogContainer>
 
@@ -179,6 +113,12 @@ export const MoreInfoDialog: React.FC<MoreInfoDialogProps> = ({
 
 // Styled Components
 const StyledDialog = styled(Dialog)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  margin: "auto",
+  width: "100%",
+  height: "100%",
   "& .MuiPaper-root": {
     borderRadius: "17px",
     backgroundColor: "#151A30",
@@ -253,8 +193,8 @@ const BrandLogoWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const BrandLogo = styled("img")(({ theme }) => ({
-  width: "24px",
-  height: "24px",
+  width: "100%",
+  height: "100%",
   objectFit: "contain",
 }));
 
@@ -478,3 +418,9 @@ const SlideTransition = React.forwardRef<HTMLDivElement, TransitionProps>(
     );
   }
 );
+
+const TermsText = styled(Typography)(({ theme }) => ({
+  fontSize: "14px",
+  color: "#8A8D98",
+  lineHeight: 1.4,
+}));

@@ -23,7 +23,7 @@ import { EmptyBox } from "../../components/box/EmptyBox";
 import { GreenPromoOfferPng } from "../../constants/images";
 import { offerService } from "../../api/services/offerService";
 import { calculateOfferStatus } from "../../utils/offer";
-import { Row } from "../../constants/interfaces";
+import { OfferProps } from "../../constants/interfaces";
 import { useNotification } from "../../provider/notification";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -31,7 +31,7 @@ import { clearSession } from "../../store/slices/sessionSlice";
 import { RootState } from "../../store";
 
 export const PromotionalOffer = () => {
-  const [offers, setOffers] = useState<Row[]>([]);
+  const [offers, setOffers] = useState<OfferProps[]>([]);
   const { notifyError } = useNotification();
   const country = useSelector((state: RootState) => state.device.country);
   const fetchOffers = async () => {
@@ -43,12 +43,18 @@ export const PromotionalOffer = () => {
         image: offer.image,
         title: offer.title,
         description: offer.description,
-        type: offer.type,
         termsAndConditions: offer.termsAndConditions,
         cashbackRate: offer.cashbackRate,
         cashbackType: offer.cashbackType,
-        brands: offer.brands,
-        allowedCountries: offer.allowedCountries,
+        offerRate: offer.offerRate,
+        bonusesRating: offer.bonusesRating,
+        gameVarietyRating: offer.gameVarietyRating,
+        trustScoreRating: offer.trustScoreRating,
+        depositBonus: offer.depositBonus,
+        apiEndpoint: offer.apiEndpoint,
+        apiKey: offer.apiKey,
+        affiliateLink: offer.affiliateLink,
+        rewards: offer.rewards,
       }));
       setOffers(offersData);
     } catch (error) {
@@ -107,20 +113,10 @@ export const PromotionalOffer = () => {
             className="mySwiper"
           >
             {offers
-              .filter((offer) => offer.type === "promotional")
+              .filter((offer) => offer.cashbackType === "Promo")
               .map((offer, idx) => (
                 <SwiperSlide key={idx}>
-                  <CashOfferCard
-                    image={offer.image}
-                    title={offer.title}
-                    id={offer._id}
-                    description={offer.description}
-                    termsAndConditions={offer.termsAndConditions}
-                    cashbackRate={offer.cashbackRate}
-                    cashbackType={offer.cashbackType}
-                    brands={offer.brands}
-                    allowedCountries={offer.allowedCountries}
-                  />
+                  <CashOfferCard offer={offer} />
                 </SwiperSlide>
               ))}
           </CustomSwiper>

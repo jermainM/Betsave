@@ -1,13 +1,12 @@
 import api from "./api";
 
 export const casinoService = {
-  createAccount: async (betsaveId: string, offerId: string, brandName: string) => {
+  createAccount: async (betsaveId: string, offerId: string) => {
     try {
       console.log({ betsaveId })
-      const response = await api.post('casino/create-account', {
+      const response = await api.post('pinup/create-account', {
         betsaveId,
         offerId,
-        brandName
       });
       return response.data;
     } catch (error) {

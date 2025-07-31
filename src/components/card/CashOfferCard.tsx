@@ -3,34 +3,38 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { casinoService } from "../../api/services/casinoService";
 import { useState } from "react";
-import { OfferDialog } from "../dialog/OfferDialog";
-import { Brand } from "../../constants/interfaces";
-import { NewOfferDialog } from "../dialog/NewOffeDialog";
+import { NewOfferDialog } from "../dialog/NewOfferDialog";
 
-interface CardProps {
+interface OfferProps {
   id: string;
+  _id: string;
   image: string;
   title: string;
   description: string;
-  termsAndConditions: string;
-  allowedCountries: string[];
-  cashbackRate: number;
   cashbackType: string;
-  brands: Brand[];
+  cashbackRate: number;
+  allowedCountries: string[];
+  termsAndConditions: string;
+  rewards: Array<{
+    amount: string;
+    title: string;
+  }>;
+  offerRate: number;
+  bonusesRating: number;
+  gameVarietyRating: number;
+  trustScoreRating: number;
+  depositBonus: string;
+  apiEndpoint: string;
+  apiKey: string;
+  affiliateLink: string;
+}
+
+interface CardProps {
+  offer: OfferProps;
 }
 
 export const CashOfferCard = (props: CardProps) => {
-  const {
-    id,
-    image,
-    title,
-    description,
-    termsAndConditions,
-    allowedCountries,
-    cashbackRate,
-    cashbackType,
-    brands,
-  } = props;
+  const { offer } = props;
   const { user } = useSelector((state: RootState) => state.session);
   const [open, setOpen] = useState(false);
 
@@ -41,12 +45,10 @@ export const CashOfferCard = (props: CardProps) => {
       return;
     }
 
-    console.log({ betsaveId: user.betsaveId, id });
     try {
       const response = await casinoService.createAccount(
         user.betsaveId,
-        id,
-        brandName
+        offer.id
       );
       console.log(response);
       if (user.referrer) {
@@ -64,30 +66,17 @@ export const CashOfferCard = (props: CardProps) => {
   return (
     <>
       <CardContainer>
-        <CardImg src={image} alt="promo-logo" />
+        <CardImg src={offer.image} alt="promo-logo" />
         <CardWrapper>
-          <CardTitle>{title}</CardTitle>
-          <CardContent>Casino/{title}</CardContent>
+          <CardTitle>{offer.title}</CardTitle>
+          <CardContent>Casino/{offer.title}</CardContent>
           {/* <CashbackLabel>Cashback: {cashbackRate}%</CashbackLabel> */}
           <JoinButton variant="contained" onClick={() => setOpen(true)}>
             Join
           </JoinButton>
         </CardWrapper>
       </CardContainer>
-      {/* <OfferDialog
-        open={open}
-        title={title}
-        description={description}
-        termsAndConditions={termsAndConditions}
-        cashbackRate={cashbackRate}
-        cashbackType={cashbackType}
-        brands={brands}
-        setOpen={setOpen}
-        image={image}
-        onClick={handleClick}
-        allowedCountries={allowedCountries}
-      /> */}
-      <NewOfferDialog open={open} setOpen={setOpen} />
+      <NewOfferDialog open={open} setOpen={setOpen} offer={offer} />
     </>
   );
 };

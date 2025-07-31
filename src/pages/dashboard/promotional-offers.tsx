@@ -22,18 +22,12 @@ import { CashOfferCard } from "../../components/card/CashOfferCard";
 import { EmptyBox } from "../../components/box/EmptyBox";
 import { GreenPromoOfferPng } from "../../constants/images";
 import { offerService } from "../../api/services/offerService";
-import { calculateOfferStatus } from "../../utils/offer";
 import { OfferProps } from "../../constants/interfaces";
 import { useNotification } from "../../provider/notification";
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { clearSession } from "../../store/slices/sessionSlice";
-import { RootState } from "../../store";
 
 export const PromotionalOffer = () => {
   const [offers, setOffers] = useState<OfferProps[]>([]);
   const { notifyError } = useNotification();
-  const country = useSelector((state: RootState) => state.device.country);
   const fetchOffers = async () => {
     try {
       const offers = await offerService.getOffers();
@@ -46,6 +40,7 @@ export const PromotionalOffer = () => {
         termsAndConditions: offer.termsAndConditions,
         cashbackRate: offer.cashbackRate,
         cashbackType: offer.cashbackType,
+        allowedCountries: offer.allowedCountries,
         offerRate: offer.offerRate,
         bonusesRating: offer.bonusesRating,
         gameVarietyRating: offer.gameVarietyRating,
@@ -56,6 +51,7 @@ export const PromotionalOffer = () => {
         affiliateLink: offer.affiliateLink,
         rewards: offer.rewards,
       }));
+      console.log({ offersData });
       setOffers(offersData);
     } catch (error) {
       console.error("Error fetching offers:", error);

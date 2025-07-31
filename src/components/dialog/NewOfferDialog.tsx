@@ -18,19 +18,27 @@ import {
 import { FaStar } from "react-icons/fa";
 import { MoreInfoDialog } from "./MoreInfoDialog";
 import { OfferProps } from "../../constants/interfaces";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 
 interface NewOfferDialogProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   offer: OfferProps;
+  handleClick: (affiliateLink: string) => void;
 }
 
 export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
   open,
   setOpen,
   offer,
+  handleClick,
 }) => {
   const [moreInfoOpen, setMoreInfoOpen] = useState(false);
+  const country = useSelector((state: RootState) => state.device.country);
+
+  console.log({ allowedCountries: offer.allowedCountries });
+  console.log({ country });
 
   return (
     <>
@@ -162,7 +170,14 @@ export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
 
           {/* Action Buttons */}
           <ActionButtonsSection>
-            <StartEarningButton>Start Earning</StartEarningButton>
+            <StartEarningButton
+              onClick={() => handleClick(offer.affiliateLink)}
+              disabled={!offer.allowedCountries?.includes(country)}
+            >
+              {offer.allowedCountries?.includes(country)
+                ? "Start Earning"
+                : "Not Available in your country"}
+            </StartEarningButton>
             <MoreInfoButton onClick={() => setMoreInfoOpen(true)}>
               More Information
             </MoreInfoButton>
@@ -544,6 +559,11 @@ const StartEarningButton = styled(Button)(({ theme }) => ({
   "&:hover": {
     background: "#15c88c",
     transform: "translateY(-2px)",
+  },
+  "&:disabled": {
+    background: "#8A8D98",
+    color: "#171e30",
+    cursor: "not-allowed",
   },
 }));
 

@@ -38,7 +38,7 @@ export const CashOfferCard = (props: CardProps) => {
   const { user } = useSelector((state: RootState) => state.session);
   const [open, setOpen] = useState(false);
 
-  const handleClick = async (affiliateLink: string, brandName: string) => {
+  const handleClick = async (affiliateLink: string) => {
     // Guard clause to prevent API call when user is null (during logout)
     if (!user || !user.betsaveId) {
       console.error("User session not found");
@@ -48,7 +48,7 @@ export const CashOfferCard = (props: CardProps) => {
     try {
       const response = await casinoService.createAccount(
         user.betsaveId,
-        offer.id
+        offer._id
       );
       console.log(response);
       if (user.referrer) {
@@ -76,7 +76,12 @@ export const CashOfferCard = (props: CardProps) => {
           </JoinButton>
         </CardWrapper>
       </CardContainer>
-      <NewOfferDialog open={open} setOpen={setOpen} offer={offer} />
+      <NewOfferDialog
+        open={open}
+        setOpen={setOpen}
+        offer={offer}
+        handleClick={handleClick}
+      />
     </>
   );
 };

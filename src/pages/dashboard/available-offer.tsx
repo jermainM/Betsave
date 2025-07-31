@@ -16,12 +16,9 @@ import { OfferProps } from "../../constants/interfaces";
 import { offerService } from "../../api/services/offerService";
 import { EmptyBox } from "../../components/box/EmptyBox";
 import { useNotification } from "../../provider/notification";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
 
 export const AvailableOffer = () => {
   const [offers, setOffers] = useState<OfferProps[]>([]);
-  const country = useSelector((state: RootState) => state.device.country);
 
   const { notifyError } = useNotification();
   const fetchOffers = async () => {
@@ -47,6 +44,7 @@ export const AvailableOffer = () => {
         affiliateLink: offer.affiliateLink,
         rewards: offer.rewards,
       }));
+      console.log({ offersData });
       setOffers(offersData);
     } catch (error) {
       console.error("Error fetching offers:", error);
@@ -57,6 +55,7 @@ export const AvailableOffer = () => {
   useEffect(() => {
     fetchOffers();
   }, []);
+
   return (
     <Container>
       <Heading>

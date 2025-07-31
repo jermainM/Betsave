@@ -23,7 +23,6 @@ import { CashOfferCard } from "../../components/card/CashOfferCard";
 import { EmptyBox } from "../../components/box/EmptyBox";
 import { GreenMyOfferPng } from "../../constants/images";
 import { offerService } from "../../api/services/offerService";
-import { calculateOfferStatus } from "../../utils/offer";
 import { OfferProps } from "../../constants/interfaces";
 import { useNotification } from "../../provider/notification";
 import { useNavigate } from "react-router-dom";
@@ -64,6 +63,7 @@ export const MyOffer = () => {
         allowedCountries: offer.allowedCountries,
         rewards: offer.rewards,
       }));
+      console.log({ offersData });
       setOffers(offersData);
     } catch (error) {
       console.error("Error fetching offers:", error);
@@ -80,6 +80,7 @@ export const MyOffer = () => {
       notifyError("Something went wrong");
     }
   }, [user]);
+
   return (
     <MyOfferContainer>
       {/* <MyOfferHeader>

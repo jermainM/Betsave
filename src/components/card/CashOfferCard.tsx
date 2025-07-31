@@ -51,13 +51,9 @@ export const CashOfferCard = (props: CardProps) => {
         offer._id
       );
       console.log(response);
-      if (user.referrer) {
-        const newLink = `${affiliateLink}?subId1=${user.betsaveId}&subId2=${user.referrer}`;
-        window.open(newLink, "_blank", "noopener,noreferrer");
-      } else {
-        const newLink = `${affiliateLink}?subId1=${user.betsaveId}`;
-        window.open(newLink, "_blank", "noopener,noreferrer");
-      }
+
+      const newLink = `${affiliateLink}?subid=${user.betsaveId}&partner_id=${offer._id}`;
+      window.open(newLink, "_blank", "noopener,noreferrer");
     } catch (error) {
       console.log(error);
     }

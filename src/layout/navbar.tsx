@@ -161,9 +161,9 @@ export const NavBar = (props: { children: React.ReactNode }) => {
     <Container>
       <NavBarContainer>
         <NavBarWrapper>
-          <SidebarButton onClick={() => setExpand(!isExpand)}>
+          {/* <SidebarButton onClick={() => setExpand(!isExpand)}>
             <Img src={ExpandSidebarIcon} alt="expand-sidebar-icon" />
-          </SidebarButton>
+          </SidebarButton> */}
           <Logo
             src={BetSaveLogoImg}
             alt="betsave-logo"
@@ -278,8 +278,8 @@ export const NavBar = (props: { children: React.ReactNode }) => {
       <MainboardContainer>
         <SideBarContainer
           sx={{
-            minWidth: `${isExpand ? 320 : 64}px`,
-            width: `${isExpand ? 320 : 64}px`,
+            minWidth: `${isExpand ? 280 : 64}px`,
+            width: `${isExpand ? 280 : 64}px`,
             transition: "all 0.3s ease",
             overflowX: "hidden",
           }}
@@ -324,7 +324,6 @@ export const NavBar = (props: { children: React.ReactNode }) => {
                 >
                   <SideBarListItemIcon
                     sx={{
-                      marginLeft: "18px",
                       filter:
                         selectedItem === item.idx ? "none" : "grayScale(100%)",
                     }}
@@ -344,7 +343,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
           </SideBarList>
         </SideBarContainer>
         <MainboardContent expand={isExpand ? 1 : 0}>
-          {children}
+          <Box sx={{ minHeight: "calc(100vh - 150px)" }}>{children}</Box>
           <FooterContainer>
             <Footer />
           </FooterContainer>
@@ -416,10 +415,13 @@ const NavBarContainer = styled(Box)(({ theme }) => ({
   borderWidth: "0px 0px 1px 0px",
   borderStyle: "solid",
   borderColor: "#627691",
-  padding: "20px 30px",
+  padding: "15px 20px",
   backgroundColor: "#0F1629",
-  [theme.breakpoints.down(450)]: {
+  [theme.breakpoints.down(1280)]: {
     padding: "10px 20px",
+  },
+  [theme.breakpoints.down(450)]: {
+    padding: "10px 15px",
   },
 }));
 
@@ -456,10 +458,10 @@ const Img = styled("img")(({ theme }) => ({
 const Logo = styled("img")(({ theme }) => ({
   width: "180px",
   height: "auto",
-  marginLeft: "15px",
+  marginLeft: "5px",
   cursor: "pointer",
-  [theme.breakpoints.down(1240)]: {
-    marginLeft: "5px",
+  [theme.breakpoints.down(1280)]: {
+    width: "150px",
   },
 
   [theme.breakpoints.down(1096)]: {
@@ -469,7 +471,7 @@ const Logo = styled("img")(({ theme }) => ({
 
 const SearchBarContainer = styled(Box)(({ theme }) => ({
   marginLeft: "80px",
-  [theme.breakpoints.down(1240)]: {
+  [theme.breakpoints.down(1280)]: {
     marginLeft: "10px",
   },
   [theme.breakpoints.down(1096)]: {
@@ -696,6 +698,7 @@ const SideBarListItemButton = styled(ListItemButton)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  paddingLeft: "12px",
   gap: "20px",
   "&.Mui-selected": {
     background: `linear-gradient(
@@ -711,10 +714,10 @@ const SideBarListItemButton = styled(ListItemButton)(({ theme }) => ({
 }));
 
 const SideBarListItemIcon = styled(ListItemIcon)(({ theme }) => ({
-  width: "36px",
-  height: "36px",
+  width: "32px",
+  height: "32px",
   color: "inherit",
-  minWidth: "36px",
+  minWidth: "32px",
 }));
 
 const SideBarListItemText = styled(ListItemText)(({ theme }) => ({

@@ -36,6 +36,7 @@ export const PromotionalOffer = () => {
         _id: offer._id,
         image: offer.image,
         title: offer.title,
+        subTitle: offer.subTitle,
         description: offer.description,
         termsAndConditions: offer.termsAndConditions,
         cashbackRate: offer.cashbackRate,

@@ -16,6 +16,7 @@ export interface OfferProps {
   _id: string;
   image: string;
   title: string;
+  subTitle: string;
   description: string;
   cashbackType: string;
   cashbackRate: number;

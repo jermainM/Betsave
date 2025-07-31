@@ -13,7 +13,6 @@ import {
   OfferStarIcon,
   OfferPeopleIcon,
   BetSaveLogoImg,
-  BetfuryLogoIcon,
 } from "../../constants/images";
 import { FaStar } from "react-icons/fa";
 import { MoreInfoDialog } from "./MoreInfoDialog";
@@ -65,6 +64,10 @@ export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
                     value={offer.offerRate}
                     precision={0.5}
                     readOnly
+                    size="small"
+                    sx={{
+                      fontSize: "18px",
+                    }}
                   />
                 </StarsContainer>
                 <RatingText>{offer.offerRate} / 5</RatingText>
@@ -84,10 +87,10 @@ export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
                 <GiftIcon src={OfferGiftIcon} alt="gift" />
                 <ExclusiveText>EXCLUSIVE BONUS</ExclusiveText>
               </OfferContent>
-              <BonusText>{offer.title}</BonusText>
+              <BonusText>{offer.subTitle}</BonusText>
             </OfferContainer>
             <LogoBox>
-              <LogoImage src={BetfuryLogoIcon} alt="Betfury Logo" />
+              <LogoImage src={offer.image} alt="Betfury Logo" />
             </LogoBox>
           </MainOfferSection>
 
@@ -112,14 +115,6 @@ export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
                     <RewardText>{reward.title}</RewardText>
                   </RewardItem>
                 ))}
-                {/* <RewardItem>
-                  <RewardAmount>$0.50</RewardAmount>
-                  <RewardText>Sign up and KYC</RewardText>
-                </RewardItem>
-                <RewardItem>
-                  <RewardAmount>$20.00</RewardAmount>
-                  <RewardText>Minimum $100 USD Deposit</RewardText>
-                </RewardItem> */}
               </RewardItemsContainer>
             </RewardSection>
           )}
@@ -234,7 +229,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
     position: "relative",
     maxHeight: "90vh",
     overflow: "hidden",
-    [theme.breakpoints.down(540)]: {
+    [theme.breakpoints.down(450)]: {
       width: "100%",
       margin: "24px",
     },
@@ -243,10 +238,10 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 
 const DialogContainer = styled(Box)(({ theme }) => ({
   width: "100%",
-  padding: "16px 20px",
+  padding: "0px 20px 16px 20px",
   display: "flex",
   flexDirection: "column",
-  gap: "16px",
+  gap: "12px",
   overflowY: "auto",
   maxHeight: "calc(90vh - 32px)",
   [theme.breakpoints.down(450)]: {
@@ -275,7 +270,6 @@ const HeaderContainer = styled(Box)(({ theme }) => ({
   width: "100%",
   background: "linear-gradient(0deg, #151A30 0%, #151A30 20%, #1a2e3a 100%)",
   padding: "16px",
-  marginBottom: "8px",
 }));
 
 const HeaderSection = styled(Box)(({ theme }) => ({
@@ -299,7 +293,8 @@ const BrandLogoWrapper = styled(Box)(({ theme }) => ({
 const BrandLogo = styled("img")(({ theme }) => ({
   width: "100%",
   height: "100%",
-  objectFit: "contain",
+  objectFit: "fill",
+  borderRadius: "4px",
 }));
 
 const BrandLogoContainer = styled(Box)(({ theme }) => ({
@@ -337,12 +332,6 @@ const Star = styled("span")(({ theme }) => ({
   },
 }));
 
-const HalfStar = styled(Star)(({ theme }) => ({
-  opacity: 0.3,
-  display: "flex",
-  alignItems: "center",
-}));
-
 const RatingText = styled(Typography)(({ theme }) => ({
   fontSize: "14px",
   color: "#8A8D98",
@@ -353,9 +342,9 @@ const RatingText = styled(Typography)(({ theme }) => ({
 const MainOfferSection = styled(Box)(({ theme }) => ({
   background: "linear-gradient(135deg, #0f1a2a 0%, #1a3e4a 50%, #17a777 100%)",
   borderRadius: "12px",
-  padding: "20px",
+  padding: "10px",
   position: "relative",
-  height: "280px",
+  height: "fit-content",
   "&::before": {
     content: '""',
     position: "absolute",
@@ -376,14 +365,14 @@ const MainOfferSection = styled(Box)(({ theme }) => ({
 const OfferContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  gap: "12px",
+  gap: "6px",
+  padding: "10px",
 }));
 
 const OfferContent = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   gap: "8px",
-  marginBottom: "12px",
 }));
 
 const GiftIcon = styled("img")(({ theme }) => ({
@@ -401,35 +390,45 @@ const BonusText = styled(Typography)(({ theme }) => ({
   fontSize: "22px",
   color: "#fff",
   fontWeight: 700,
-  marginBottom: "16px",
   lineHeight: 1.4,
+  [theme.breakpoints.down(450)]: {
+    fontSize: "18px",
+  },
 }));
 
 const LogoBox = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  alignSelf: "flex-end",
   width: "120px",
   height: "120px",
+  [theme.breakpoints.down(450)]: {
+    width: "100px",
+    height: "100px",
+  },
 }));
 
 const LogoImage = styled("img")(({ theme }) => ({
   width: "120px",
   height: "120px",
-  objectFit: "contain",
+  objectFit: "fill",
+  borderRadius: "8px",
+  [theme.breakpoints.down(450)]: {
+    width: "100px",
+    height: "100px",
+  },
 }));
 
 const CashbackSection = styled(Box)(({ theme }) => ({
   background: "#21262E",
   borderRadius: "10px",
   border: "1px solid #585B22",
-  padding: "12px 16px",
+  padding: "8px 16px",
   textAlign: "center",
 }));
 
 const CashbackText = styled(Typography)(({ theme }) => ({
-  fontSize: "16px",
+  fontSize: "14px",
   color: "#FFFC00",
   fontWeight: 400,
 }));
@@ -448,7 +447,7 @@ const CategoryButton = styled(Button)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   gap: "6px",
-  padding: "4px 12px",
+  padding: "4px 8px",
   borderRadius: "20px",
   backgroundColor: "#080F29",
   border: "1px solid #222940",
@@ -468,13 +467,13 @@ const CategoryButton = styled(Button)(({ theme }) => ({
 }));
 
 const CategoryIcon = styled("img")(({ theme }) => ({
-  width: "20px",
+  width: "18px",
   height: "fit-content",
   objectFit: "none",
 }));
 
 const CategoryText = styled(Typography)(({ theme }) => ({
-  fontSize: "16px",
+  fontSize: "14px",
   fontWeight: 500,
   textWrap: "nowrap",
   [theme.breakpoints.down(540)]: {
@@ -520,21 +519,21 @@ const RatingIcon = styled("img")(({ theme }) => ({
 }));
 
 const RatingLabel = styled(Typography)(({ theme }) => ({
-  fontSize: "16px",
+  fontSize: "14px",
   color: "#8A8D98",
   fontWeight: 500,
   flex: 1,
 }));
 
 const RatingScore = styled(Typography)(({ theme }) => ({
-  fontSize: "16px",
+  fontSize: "14px",
   color: "#fff",
   fontWeight: 600,
 }));
 
 const RatingStar = styled("span")(({ theme }) => ({
   color: "#FFD600",
-  fontSize: "16px",
+  fontSize: "14px",
   marginLeft: "4px",
   display: "flex",
   alignItems: "center",
@@ -550,11 +549,11 @@ const StartEarningButton = styled(Button)(({ theme }) => ({
   background: "#1AE5A1",
   color: "#171e30",
   fontWeight: 600,
-  fontSize: "18px",
+  fontSize: "16px",
   borderRadius: "10px",
   fontFamily: "SpaceGrotesk",
   textTransform: "none",
-  padding: "8px 24px",
+  padding: "6px 24px",
   transition: "all 0.3s ease",
   "&:hover": {
     background: "#15c88c",
@@ -572,10 +571,10 @@ const MoreInfoButton = styled(Button)(({ theme }) => ({
   color: "#fff",
   fontWeight: 600,
   fontFamily: "SpaceGrotesk",
-  fontSize: "18px",
+  fontSize: "16px",
   borderRadius: "10px",
   textTransform: "none",
-  padding: "8px 24px",
+  padding: "6px 24px",
   border: "1px solid #1AE5A1",
   transition: "all 0.3s ease",
   "&:hover": {
@@ -662,11 +661,11 @@ const SlideTransition = React.forwardRef<HTMLDivElement, TransitionProps>(
 const RewardSection = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  gap: "12px",
+  gap: "8px",
 }));
 
 const RewardTitle = styled(Typography)(({ theme }) => ({
-  fontSize: "20px",
+  fontSize: "18px",
   color: "#fff",
   fontWeight: 700,
 }));
@@ -680,7 +679,7 @@ const RewardDescription = styled(Typography)(({ theme }) => ({
 const RewardItemsContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  gap: "12px",
+  gap: "8px",
 }));
 
 const RewardItem = styled(Box)(({ theme }) => ({
@@ -688,7 +687,7 @@ const RewardItem = styled(Box)(({ theme }) => ({
   alignItems: "center",
   borderRadius: "8px",
   border: "1px solid #222940",
-  padding: "8px",
+  padding: "4px",
   gap: "12px",
 }));
 
@@ -696,14 +695,23 @@ const RewardAmount = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: "90px",
-  height: "30px",
+  width: "70px",
+  height: "25px",
+  fontSize: "14px",
   backgroundColor: "rgba(26, 229, 161, 0.1)",
   borderRadius: "5px",
   color: "#1AE5A1",
+  [theme.breakpoints.down(450)]: {
+    width: "60px",
+    height: "20px",
+    fontSize: "12px",
+  },
 }));
 
 const RewardText = styled(Typography)(({ theme }) => ({
   fontSize: "14px",
   color: "#8A8D98",
+  [theme.breakpoints.down(450)]: {
+    fontSize: "12px",
+  },
 }));

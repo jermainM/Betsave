@@ -355,6 +355,7 @@ const MainOfferSection = styled(Box)(({ theme }) => ({
     background:
       "radial-gradient(circle at 20% 80%, rgba(26, 229, 161, 0.1) 0%, transparent 50%)",
     pointerEvents: "none",
+    borderRadius: "12px",
   },
   display: "flex",
   alignItems: "center",

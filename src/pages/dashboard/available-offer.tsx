@@ -16,13 +16,16 @@ import { OfferProps } from "../../constants/interfaces";
 import { offerService } from "../../api/services/offerService";
 import { EmptyBox } from "../../components/box/EmptyBox";
 import { useNotification } from "../../provider/notification";
+import { LoadingBox } from "../../components/loader/LoadingBox";
 
 export const AvailableOffer = () => {
   const [offers, setOffers] = useState<OfferProps[]>([]);
+  const [isLoading, setLoading] = useState(false);
 
   const { notifyError } = useNotification();
   const fetchOffers = async () => {
     try {
+      setLoading(true);
       const offers = await offerService.getOffers();
       const offersData = offers.data.map((offer: OfferProps, idx: number) => ({
         id: idx,
@@ -50,6 +53,8 @@ export const AvailableOffer = () => {
     } catch (error) {
       console.error("Error fetching offers:", error);
       notifyError(`Error fetching offers: ${error}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -84,7 +89,9 @@ export const AvailableOffer = () => {
           </HeadingAction>
         )}
       </Heading>
-      {offers.length === 0 ? (
+      {isLoading ? (
+        <LoadingBox />
+      ) : offers.length === 0 ? (
         <EmptyBox />
       ) : (
         <AvailableOfferwiper>

@@ -29,6 +29,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { clearSession } from "../../store/slices/sessionSlice";
 import { RootState } from "../../store";
+import { LoadingBox } from "../../components/loader/LoadingBox";
 
 export const MyOffer = () => {
   const [isEmpty, setEmpty] = useState(false);
@@ -37,11 +38,13 @@ export const MyOffer = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootState) => state.session);
+  const [isLoading, setLoading] = useState(false);
   const fetchOffers = async () => {
     try {
       if (!user || !user.betsaveId) {
         return;
       }
+      setLoading(true);
       const offers = await offerService.getMyOffer(user.betsaveId);
       const offersData = offers.data.map((offer: any, idx: number) => ({
         id: idx,
@@ -71,6 +74,8 @@ export const MyOffer = () => {
       dispatch(clearSession());
       navigate("/");
       notifyError(`Error fetching offers: ${error}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -120,7 +125,9 @@ export const MyOffer = () => {
           </MyOfferContentAction>
         )}
       </Heading>
-      {isEmpty ? (
+      {isLoading ? (
+        <LoadingBox />
+      ) : isEmpty ? (
         <EmptyBox />
       ) : (
         <CashOfferSwiper>

@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 
 import { CashOfferCard } from "../../components/card/CashOfferCard";
 import { EmptyBox } from "../../components/box/EmptyBox";
+import { LoadingBox } from "../../components/loader/LoadingBox";
 import { GreenPromoOfferPng } from "../../constants/images";
 import { offerService } from "../../api/services/offerService";
 import { OfferProps } from "../../constants/interfaces";
@@ -27,9 +28,11 @@ import { useNotification } from "../../provider/notification";
 
 export const PromotionalOffer = () => {
   const [offers, setOffers] = useState<OfferProps[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { notifyError } = useNotification();
   const fetchOffers = async () => {
     try {
+      setIsLoading(true);
       const offers = await offerService.getOffers();
       const offersData = offers.data.map((offer: any, idx: number) => ({
         id: idx,
@@ -57,6 +60,8 @@ export const PromotionalOffer = () => {
     } catch (error) {
       console.error("Error fetching offers:", error);
       notifyError(`Error fetching offers: ${error}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -92,7 +97,9 @@ export const PromotionalOffer = () => {
           </HeadingAction>
         )}
       </Heading>
-      {offers.length === 0 ? (
+      {isLoading ? (
+        <LoadingBox />
+      ) : offers.length === 0 ? (
         <EmptyBox />
       ) : (
         <PromotionalOfferwiper>

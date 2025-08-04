@@ -1,7 +1,31 @@
-import { KeyboardArrowDown } from "@mui/icons-material";
-import { Box, Button, Menu, MenuItem, styled, Typography } from "@mui/material";
-import { useState } from "react";
-import { AmazonIcon, PaypalIcon, BitcoinIcon } from "../../constants/images";
+import {
+  KeyboardArrowDown,
+  Visibility,
+  VisibilityOff,
+  CloudUpload,
+} from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  Menu,
+  MenuItem,
+  styled,
+  Typography,
+  IconButton,
+} from "@mui/material";
+import { useEffect, useState } from "react";
+import {
+  AmazonIcon,
+  PaypalIcon,
+  BitcoinIcon,
+  TempUserIcon,
+} from "../../constants/images";
+import CountrySelect from "../../components/common/CountrySelect";
+import { userService } from "../../api/services/userService";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { useNotification } from "../../provider/notification";
+import { updateUser } from "../../store/slices/sessionSlice";
 
 type PaymentMethod = "Amazon" | "PayPal" | "Crypto";
 
@@ -37,14 +61,25 @@ const paymentMethods: PaymentMethodOption[] = [
 export const Setting = () => {
   const [data, setData] = useState({
     email: "",
-    firstname: "",
-    lastname: "",
-    username: "",
-    phone: "",
-    city: "",
+    firstName: "",
+    lastName: "",
     country: "",
-    payment: "",
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
+
+  const [isLoading, setLoading] = useState(false);
+
+  const [showPasswords, setShowPasswords] = useState({
+    current: false,
+    new: false,
+    confirm: false,
+  });
+
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const { notifySuccess, notifyError } = useNotification();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(
@@ -52,8 +87,50 @@ export const Setting = () => {
   );
   const isMenuOpen = Boolean(anchorEl);
 
+  const allowedTypes = [
+    "image/svg+xml",
+    "image/SVG+XML",
+    "image/png",
+    "image/PNG",
+    "image/jpeg",
+    "image/JPEG",
+    "image/jpg",
+    "image/JPG",
+  ];
+
   const handleData = (event: React.ChangeEvent<HTMLInputElement>) => {
     setData({ ...data, [event.target.name]: event.target.value });
+  };
+
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state: RootState) => state.session);
+
+  const handleCountryChange = (countryCode: string) => {
+    setData({ ...data, country: countryCode });
+  };
+
+  const handlePasswordVisibility = (field: "current" | "new" | "confirm") => {
+    setShowPasswords((prev) => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
+
+  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (!allowedTypes.includes(file.type)) {
+        notifyError("Invalid file type");
+        return;
+      }
+      setAvatarFile(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setAvatarPreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -69,111 +146,217 @@ export const Setting = () => {
     handleMenuClose();
   };
 
+  const handleUpdate = async () => {
+    try {
+      if (
+        data.newPassword != null &&
+        data.newPassword !== data.confirmPassword
+      ) {
+        notifyError("New password and confirm password do not match");
+        return;
+      }
+      setLoading(true);
+      const response = await userService.updateUserInfo(user?.betsaveId, {
+        file: avatarFile,
+        ...data,
+      });
+      if (response.success) {
+        dispatch(updateUser(response.data));
+      }
+      notifySuccess("Profile updated successfully");
+      setLoading(false);
+    } catch (error) {
+      notifyError("Failed to update profile: " + (error as Error).message);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      setData({
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        country: user.country,
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+      });
+      setAvatarPreview(user.avatar);
+    }
+  }, [user]);
+
   return (
     <SettingContainer>
       <SettingTitleContainer>
         <SettingTitle>Personal Info</SettingTitle>
-        <SettingSubTitle>Fill in your details</SettingSubTitle>
+        <SettingSubTitle>Update your profile information</SettingSubTitle>
       </SettingTitleContainer>
+
       <SettingForm>
-        <EmailInputContainer>
-          <EmailInput
+        {/* Avatar Upload Section */}
+        <AvatarSection>
+          <AvatarTitle>Profile Picture</AvatarTitle>
+          <AvatarUploadContainer>
+            <AvatarPreviewContainer>
+              <AvatarPreview
+                src={avatarPreview || TempUserIcon}
+                alt="Profile"
+              />
+              <AvatarOverlay>
+                <CloudUpload sx={{ fontSize: 24, color: "#1AE5A1" }} />
+              </AvatarOverlay>
+            </AvatarPreviewContainer>
+            <AvatarInput
+              type="file"
+              id="avatar-input"
+              accept="image/*"
+              onChange={handleAvatarChange}
+            />
+            <AvatarLabel htmlFor="avatar-input">Change Photo</AvatarLabel>
+          </AvatarUploadContainer>
+        </AvatarSection>
+
+        {/* Email Section */}
+        <SectionContainer>
+          <SectionTitle>Email Address</SectionTitle>
+          <SettingFormInput
+            placeholder="Enter your email address"
             name="email"
-            placeholder="Enter your e-mail"
             value={data.email}
             onChange={handleData}
           />
-          <ConfirmButton>Confirm</ConfirmButton>
-        </EmailInputContainer>
+        </SectionContainer>
 
-        <InputWrapper>
-          <SettingFormInput
-            placeholder="Enter your first name"
-            name="firstname"
-            value={data.firstname}
-            onChange={handleData}
-          />
-          <SettingFormInput
-            placeholder="Enter your last name"
-            name="lastname"
-            value={data.lastname}
-            onChange={handleData}
-          />
-        </InputWrapper>
+        {/* Personal Information */}
+        <SectionContainer>
+          <SectionTitle>Personal Information</SectionTitle>
+          <InputWrapper>
+            <SettingFormInput
+              placeholder="Enter your first name"
+              name="firstName"
+              value={data.firstName}
+              onChange={handleData}
+            />
+            <SettingFormInput
+              placeholder="Enter your last name"
+              name="lastName"
+              value={data.lastName}
+              onChange={handleData}
+            />
+          </InputWrapper>
 
-        <InputWrapper>
-          <SettingFormInput
-            placeholder="Enter your user name"
-            name="username"
-            value={data.username}
-            onChange={handleData}
-          />
-          <SettingFormInput
-            placeholder="Enter your phone number"
-            name="phone"
-            value={data.phone}
-            onChange={handleData}
-          />
-        </InputWrapper>
+          <CountrySelectWrapper>
+            <CountrySelect
+              value={data.country}
+              onChange={handleCountryChange}
+            />
+          </CountrySelectWrapper>
+        </SectionContainer>
 
-        <InputWrapper>
-          <SettingFormInput
-            placeholder="Enter your city"
-            name="city"
-            value={data.city}
-            onChange={handleData}
-          />
-          <SettingFormInput
-            placeholder="Enter your country"
-            name="country"
-            value={data.country}
-            onChange={handleData}
-          />
-        </InputWrapper>
+        {/* Password Update Section */}
+        <SectionContainer>
+          <SectionTitle>Password Update</SectionTitle>
+          <PasswordInputContainer>
+            <PasswordInput
+              name="currentPassword"
+              placeholder="Enter current password"
+              value={data.currentPassword}
+              onChange={handleData}
+              type={showPasswords.current ? "text" : "password"}
+            />
+            <PasswordToggleButton
+              onClick={() => handlePasswordVisibility("current")}
+              type="button"
+            >
+              {showPasswords.current ? <VisibilityOff /> : <Visibility />}
+            </PasswordToggleButton>
+          </PasswordInputContainer>
 
-        <PaymentOptionContainer>
-          <PreferenceInput
-            name="payment"
-            placeholder="Payment Preferences"
-            value={selectedMethod}
-            onChange={handleData}
-            disabled
-          />
-          <SelectButton
-            endIcon={<KeyboardArrowDown />}
-            onClick={handleMenuClick}
-          >
-            Select
-          </SelectButton>
-          <StyledMenu
-            anchorEl={anchorEl}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "left",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-          >
-            {paymentMethods.map((method) => (
-              <StyledMenuItem
-                key={method.id}
-                onClick={() => handleMethodSelect(method.id)}
-                selected={selectedMethod === method.id}
+          <InputWrapper>
+            <PasswordInputContainer>
+              <PasswordInput
+                name="newPassword"
+                placeholder="Enter new password"
+                value={data.newPassword}
+                onChange={handleData}
+                type={showPasswords.new ? "text" : "password"}
+              />
+              <PasswordToggleButton
+                onClick={() => handlePasswordVisibility("new")}
+                type="button"
               >
-                <MenuItemContent>
-                  <MethodIcon src={method.icon} alt={method.id} />
-                  {method.id}
-                </MenuItemContent>
-              </StyledMenuItem>
-            ))}
-          </StyledMenu>
-        </PaymentOptionContainer>
+                {showPasswords.new ? <VisibilityOff /> : <Visibility />}
+              </PasswordToggleButton>
+            </PasswordInputContainer>
 
-        <SaveButton>Save</SaveButton>
+            <PasswordInputContainer>
+              <PasswordInput
+                name="confirmPassword"
+                placeholder="Confirm new password"
+                value={data.confirmPassword}
+                onChange={handleData}
+                type={showPasswords.confirm ? "text" : "password"}
+              />
+              <PasswordToggleButton
+                onClick={() => handlePasswordVisibility("confirm")}
+                type="button"
+              >
+                {showPasswords.confirm ? <VisibilityOff /> : <Visibility />}
+              </PasswordToggleButton>
+            </PasswordInputContainer>
+          </InputWrapper>
+        </SectionContainer>
+
+        {/* Payment Preferences */}
+        <SectionContainer>
+          <SectionTitle>Payment Preferences</SectionTitle>
+          <PaymentOptionContainer>
+            <PreferenceInput
+              name="payment"
+              placeholder="Payment Preferences"
+              value={selectedMethod}
+              onChange={handleData}
+              disabled
+            />
+            <SelectButton
+              endIcon={<KeyboardArrowDown />}
+              onClick={handleMenuClick}
+            >
+              Select
+            </SelectButton>
+            <StyledMenu
+              anchorEl={anchorEl}
+              open={isMenuOpen}
+              onClose={handleMenuClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+            >
+              {paymentMethods.map((method) => (
+                <StyledMenuItem
+                  key={method.id}
+                  onClick={() => handleMethodSelect(method.id)}
+                  selected={selectedMethod === method.id}
+                >
+                  <MenuItemContent>
+                    <MethodIcon src={method.icon} alt={method.id} />
+                    {method.id}
+                  </MenuItemContent>
+                </StyledMenuItem>
+              ))}
+            </StyledMenu>
+          </PaymentOptionContainer>
+        </SectionContainer>
+
+        <SaveButton onClick={handleUpdate} disabled={isLoading}>
+          Save Changes
+        </SaveButton>
       </SettingForm>
     </SettingContainer>
   );
@@ -206,9 +389,95 @@ const SettingSubTitle = styled(Typography)(({ theme }) => ({
 const SettingForm = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  gap: "20px",
+  gap: "24px",
 }));
 
+const SectionContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "16px",
+}));
+
+const SectionTitle = styled(Typography)(({ theme }) => ({
+  fontSize: "16px",
+  color: "#fff",
+  fontWeight: "500",
+  marginBottom: "8px",
+}));
+
+// Avatar Section Styles
+const AvatarSection = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "16px",
+  alignItems: "center",
+  padding: "24px",
+  backgroundColor: "#0f1629",
+  borderRadius: "12px",
+  border: "1px solid rgba(255, 255, 255, 0.1)",
+}));
+
+const AvatarTitle = styled(Typography)(({ theme }) => ({
+  fontSize: "16px",
+  color: "#fff",
+  fontWeight: "500",
+}));
+
+const AvatarUploadContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "12px",
+}));
+
+const AvatarPreviewContainer = styled(Box)(({ theme }) => ({
+  position: "relative",
+  width: "100px",
+  height: "100px",
+  borderRadius: "50%",
+  overflow: "hidden",
+  cursor: "pointer",
+  transition: "all 0.3s ease",
+  "&:hover .avatar-overlay": {
+    opacity: 1,
+  },
+}));
+
+const AvatarPreview = styled("img")(({ theme }) => ({
+  width: "100%",
+  height: "100%",
+  objectFit: "cover",
+}));
+
+const AvatarOverlay = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: "rgba(0, 0, 0, 0.6)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  opacity: 0,
+  transition: "opacity 0.3s ease",
+}));
+
+const AvatarInput = styled("input")(({ theme }) => ({
+  display: "none",
+}));
+
+const AvatarLabel = styled("label")(({ theme }) => ({
+  color: "#1AE5A1",
+  cursor: "pointer",
+  fontSize: "14px",
+  fontWeight: "500",
+  "&:hover": {
+    textDecoration: "underline",
+  },
+}));
+
+// Email Section Styles
 const EmailInputContainer = styled(Box)(({ theme }) => ({
   backgroundColor: "#0f1629",
   border: "1px solid rgba(255, 255, 255, 0.1)",
@@ -219,6 +488,10 @@ const EmailInputContainer = styled(Box)(({ theme }) => ({
   justifyContent: "space-between",
   width: "100%",
   gap: "30px",
+  [theme.breakpoints.down(480)]: {
+    flexDirection: "column",
+    gap: "16px",
+  },
 }));
 
 const EmailInput = styled("input")(({ theme }) => ({
@@ -233,8 +506,8 @@ const EmailInput = styled("input")(({ theme }) => ({
   "::placeholder": {
     color: "#627691",
   },
-  [theme.breakpoints.down(540)]: {
-    fontSize: "16px",
+  [theme.breakpoints.down(480)]: {
+    width: "100%",
   },
   [theme.breakpoints.down(390)]: {
     fontSize: "14px",
@@ -253,16 +526,12 @@ const ConfirmButton = styled(Button)(({ theme }) => ({
   fontSize: "14px",
   fontWeight: "bold",
   textTransform: "none",
-  //   [theme.breakpoints.down(540)]: {
-  //     width: '100px',
-  //     height: '35px',
-  //     fontSize: '16px',
-  //   },
-  //   [theme.breakpoints.down(390)]: {
-  //     fontSize: '14px',
-  //   },
+  [theme.breakpoints.down(480)]: {
+    width: "100%",
+  },
 }));
 
+// Input Styles
 const InputWrapper = styled(Box)(({ theme }) => ({
   width: "100%",
   display: "flex",
@@ -270,25 +539,23 @@ const InputWrapper = styled(Box)(({ theme }) => ({
   gap: "20px",
   [theme.breakpoints.down(480)]: {
     flexDirection: "column",
+    gap: "16px",
   },
 }));
 
 const SettingFormInput = styled("input")(({ theme }) => ({
   border: "none",
   outline: "none",
-  width: "80%",
+  width: "100%",
   backgroundColor: "#0f1629",
   borderRadius: "10px",
   fontSize: "16px",
   color: "#fff",
   fontFamily: "SpaceGrotesk, sans-serif",
-  padding: "16px 18px ",
+  padding: "16px 18px",
   "::placeholder": {
     color: "#627691",
   },
-  //   [theme.breakpoints.down(540)]: {
-  //     fontSize: '16px',
-  //   },
   [theme.breakpoints.down(480)]: {
     width: "100%",
   },
@@ -297,6 +564,37 @@ const SettingFormInput = styled("input")(({ theme }) => ({
   },
 }));
 
+const PasswordInput = styled("input")(({ theme }) => ({
+  border: "none",
+  outline: "none",
+  width: "100%",
+  backgroundColor: "#0f1629",
+  borderRadius: "10px",
+  fontSize: "16px",
+  color: "#fff",
+  fontFamily: "SpaceGrotesk, sans-serif",
+  padding: "16px 18px",
+  "::placeholder": {
+    color: "#627691",
+  },
+  [theme.breakpoints.down(480)]: {
+    width: "100%",
+  },
+  [theme.breakpoints.down(390)]: {
+    fontSize: "14px",
+  },
+}));
+
+const CountrySelectWrapper = styled(Box)(({ theme }) => ({
+  width: "100%",
+  [theme.breakpoints.down(480)]: {
+    "& .MuiAutocomplete-root": {
+      width: "100%",
+    },
+  },
+}));
+
+// Payment Section Styles
 const PaymentOptionContainer = styled(Box)(({ theme }) => ({
   backgroundColor: "#0f1629",
   border: "1px solid rgba(255, 255, 255, 0.1)",
@@ -347,7 +645,7 @@ const SelectButton = styled(Button)(({ theme }) => ({
 const SaveButton = styled(Button)(({ theme }) => ({
   backgroundColor: "#1AE5A1",
   borderRadius: "7px",
-  width: "120px",
+  width: "240px",
   height: "45px",
   display: "flex",
   alignItems: "center",
@@ -413,3 +711,20 @@ const MethodIcon = styled("img")({
   height: "24px",
   objectFit: "contain",
 });
+
+const PasswordInputContainer = styled(Box)(({ theme }) => ({
+  position: "relative",
+  width: "100%",
+}));
+
+const PasswordToggleButton = styled(IconButton)(({ theme }) => ({
+  position: "absolute",
+  right: "12px",
+  top: "50%",
+  transform: "translateY(-50%)",
+  color: "#627691",
+  padding: "4px",
+  "&:hover": {
+    color: "#1AE5A1",
+  },
+}));

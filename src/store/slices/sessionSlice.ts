@@ -72,8 +72,20 @@ const sessionSlice = createSlice({
         }));
       }
     },
+    updateUser: (state, action: PayloadAction<any>) => {
+      state.user = action.payload;
+      // Update localStorage
+      const serializedState = localStorage.getItem('session');
+      if (serializedState) {
+        const currentState = JSON.parse(serializedState);
+        localStorage.setItem('session', JSON.stringify({
+          ...currentState,
+          user: action.payload,
+        }));
+      }
+    },
   },
 });
 
-export const { setAuthenticated, clearSession, updateTokens } = sessionSlice.actions;
+export const { setAuthenticated, clearSession, updateTokens, updateUser } = sessionSlice.actions;
 export default sessionSlice.reducer; 

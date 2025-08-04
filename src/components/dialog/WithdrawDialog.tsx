@@ -100,7 +100,6 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
   const [eligibility, setEligibility] = useState<string[]>([]);
 
   const { notifyError, notifySuccess } = useNotification();
-  const _history = history.filter((item) => !item.isPaid);
 
   const handleMethodClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -159,7 +158,7 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
         address,
         user.tier,
         user.cashbackRate,
-        _history
+        history
       );
 
       if (response.success) {

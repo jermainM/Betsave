@@ -48,7 +48,7 @@ import {
 import { clearSession } from "../store/slices/sessionSlice";
 import { useNotification } from "../provider/notification";
 import { formatEarningWithCommas } from "../utils/number";
-import { getUserBalance, getUserBetHistory } from "../api/functions";
+import { getUserWalletData } from "../api/functions";
 
 export const NavBar = (props: { children: React.ReactNode }) => {
   const { children } = props;
@@ -116,19 +116,22 @@ export const NavBar = (props: { children: React.ReactNode }) => {
     navigate("/");
   };
 
-  const fetchWalletBalance = async () => {
+  const fetchWalletData = async () => {
     if (!user || !user.betsaveId) {
       return;
     }
 
     try {
-      const { balance, totalCashback } = await getUserBalance(user);
-      const history = await getUserBetHistory(user);
+      const walletData = await getUserWalletData(user.betsaveId);
       dispatch(
         setWalletData({
-          balance: balance,
-          totalCashback: totalCashback,
-          history: history,
+          balance: walletData.balance,
+          totalCashback: walletData.totalCashback,
+          history: {
+            cashbackDetails: walletData.cashbackDetails,
+            cpaDetails: walletData.cpaDetails,
+            referralDetails: walletData.referralDetails,
+          },
         })
       );
     } catch (error) {
@@ -144,14 +147,18 @@ export const NavBar = (props: { children: React.ReactNode }) => {
   useEffect(() => {
     console.log({ user });
     if (user && user.betsaveId) {
-      fetchWalletBalance();
+      fetchWalletData();
     } else if (!user) {
       // Reset balance when user logs out
       dispatch(
         setWalletData({
           balance: 0,
           totalCashback: 0,
-          history: [],
+          history: {
+            cashbackDetails: [],
+            cpaDetails: [],
+            referralDetails: [],
+          },
         })
       );
     }

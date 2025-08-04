@@ -3,15 +3,29 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface WalletState {
   balance: number;
   totalCashback: number;
-  history: Array<{
-    offerId: string;
-    offerImage: string;
-    offerTitle: string;
-    brandName: string;
-    lossAmount: number;
-    dateTime: string;
-    isPaid: boolean;
-  }>;
+  history: {
+    cashbackDetails: Array<{
+      offerId: string;
+      offerImage: string;
+      offerTitle: string;
+      lossAmount: number;
+      dateTime: string;
+    }>;
+    cpaDetails: Array<{
+      offerId: string;
+      offerImage: string;
+      offerTitle: string;
+      brandName: string;
+      lossAmount: number;
+      dateTime: string;
+    }>;
+    referralDetails: Array<{
+      referralId: string;
+      referralName: string;
+      referralAmount: number;
+      dateTime: string;
+    }>;
+  };
   isLoading: boolean;
   error: string | null;
 }
@@ -19,7 +33,11 @@ interface WalletState {
 const initialState: WalletState = {
   balance: 0,
   totalCashback: 0,
-  history: [],
+  history: {
+    cashbackDetails: [],
+    cpaDetails: [],
+    referralDetails: [],
+  },
   isLoading: false,
   error: null,
 };
@@ -49,7 +67,11 @@ const walletSlice = createSlice({
     clearWalletData: (state) => {
       state.balance = 0;
       state.totalCashback = 0;
-      state.history = [];
+      state.history = {
+        cashbackDetails: [],
+        cpaDetails: [],
+        referralDetails: [],
+      };
       state.isLoading = false;
       state.error = null;
     },

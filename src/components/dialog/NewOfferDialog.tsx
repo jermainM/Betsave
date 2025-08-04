@@ -167,11 +167,17 @@ export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
           <ActionButtonsSection>
             <StartEarningButton
               onClick={() => handleClick(offer.affiliateLink)}
-              disabled={!offer.allowedCountries?.includes(country)}
+              disabled={
+                offer.allowedCountries?.includes("ALL")
+                  ? false
+                  : !offer.allowedCountries?.includes(country)
+              }
             >
-              {offer.allowedCountries?.includes(country)
+              {offer.allowedCountries?.includes("ALL")
                 ? "Start Earning"
-                : "Not Available in your country"}
+                : offer.allowedCountries?.includes(country)
+                  ? "Start Earning"
+                  : "Not Available in your country"}
             </StartEarningButton>
             <MoreInfoButton onClick={() => setMoreInfoOpen(true)}>
               More Information

@@ -12,7 +12,7 @@ interface Partner {
   id: string;
   name: string;
   logo: string;
-  userCount: number;
+  rate: number;
   isJoined: boolean;
 }
 
@@ -86,12 +86,13 @@ export const PartnerList = () => {
       const _partnerList = await Promise.all(
         response.data.map(async (item: any) => {
           const joinedStatus = await checkJoined(item._id);
+
           return {
             id: item._id,
             name: item.title,
             logo: item.image,
-            userCount: item.userCount,
-            isJoined: joinedStatus,
+            rate: item.offerRate,
+            isJoined: joinedStatus.data,
           };
         })
       );
@@ -148,15 +149,13 @@ export const PartnerList = () => {
         ) : (
           <>
             {partnerList.map((item) => {
-              const rate =
-                Number((item.userCount / numberOfUsers).toFixed(1)) * 5;
               return (
                 <BookMakerItem
                   key={item.id}
                   id={item.id}
                   name={item.name}
                   logo={item.logo}
-                  rate={rate}
+                  rate={item.rate}
                   isJoined={item.isJoined}
                 />
               );

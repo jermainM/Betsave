@@ -16,7 +16,7 @@ export const casinoService = {
   },
   checkJoined: async (offerId: string, betsaveId: string) => {
     try {
-      const response = await api.get(`casino/check-user-joined-offer/${offerId}/${betsaveId}`);
+      const response = await api.get(`pinup/check-user-joined-offer/${offerId}/${betsaveId}`);
       return response.data;
     } catch (error) {
       console.log(error);

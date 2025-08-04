@@ -65,7 +65,7 @@ const float = keyframes`
     opacity: 0.3;
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
     opacity: 1;
   }
 `;
@@ -85,8 +85,8 @@ const LoadingContainer = styled(Box)<{ size: string }>(({ theme, size }) => ({
   alignItems: "center",
   justifyContent: "center",
   position: "relative",
-  width: size === "small" ? "200px" : size === "large" ? "400px" : "300px",
-  height: size === "small" ? "200px" : size === "large" ? "400px" : "300px",
+  width: size === "small" ? "200px" : size === "large" ? "320px" : "250px",
+  height: size === "small" ? "200px" : size === "large" ? "320px" : "300px",
   background:
     "linear-gradient(135deg, rgba(26, 229, 161, 0.05) 0%, rgba(68, 8, 102, 0.05) 100%)",
   borderRadius: "20px",
@@ -158,13 +158,11 @@ const LoadingText = styled(Typography)(({ theme }) => ({
 
 const FloatingDots = styled(Box)(({ theme }) => ({
   position: "absolute",
-  top: "20px",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   display: "flex",
   gap: "8px",
-  [theme.breakpoints.down(640)]: {
-    top: "15px",
-    gap: "6px",
-  },
 }));
 
 const Dot = styled(Box)<{ delay: number }>(({ theme, delay }) => ({

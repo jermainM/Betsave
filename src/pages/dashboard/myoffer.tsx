@@ -32,7 +32,6 @@ import { RootState } from "../../store";
 import { LoadingBox } from "../../components/loader/LoadingBox";
 
 export const MyOffer = () => {
-  const [isEmpty, setEmpty] = useState(false);
   const [offers, setOffers] = useState<OfferProps[]>([]);
   const { notifyError } = useNotification();
   const navigate = useNavigate();
@@ -113,7 +112,7 @@ export const MyOffer = () => {
             Enjoy your exclusive perks
           </HeadingContent>
         </HeadingTitleContainer>
-        {!isEmpty && (
+        {offers.length > 0 && (
           <MyOfferContentAction>
             <p>View All</p>
             <MyOfferNavButton className="cashoffer-swiper-button-prev">
@@ -127,7 +126,7 @@ export const MyOffer = () => {
       </Heading>
       {isLoading ? (
         <LoadingBox />
-      ) : isEmpty ? (
+      ) : offers.length === 0 ? (
         <EmptyBox />
       ) : (
         <CashOfferSwiper>

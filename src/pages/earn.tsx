@@ -74,7 +74,7 @@ export const EarnMoney = () => {
               content={item.content}
               action={item.action}
               link={item.link}
-              key={idx}
+              key={"Category-" + idx}
             />
           ))}
         </CategoryCardContainer>
@@ -114,7 +114,7 @@ export const EarnMoney = () => {
               icon={item.icon}
               title={item.title}
               content={item.content}
-              key={idx}
+              key={"EarnCashbackCard-" + idx}
             />
           ))}
         </EarnCashbackContent>
@@ -142,7 +142,7 @@ export const EarnMoney = () => {
               title={item.title}
               content={item.content}
               link={item.link}
-              key={idx}
+              key={"Reason-" + idx}
             />
           ))}
         </ReasonCardContainer>

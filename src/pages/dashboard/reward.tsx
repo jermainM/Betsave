@@ -347,7 +347,7 @@ export const Reward = () => {
                         {subcards.map((item, subIdx) => (
                           <ChallengeCard
                             initialTimer={item.initialTimer}
-                            key={subIdx}
+                            key={"ChallengeCard-" + subIdx}
                           />
                         ))}
                       </CardContainer>
@@ -362,7 +362,7 @@ export const Reward = () => {
                             goal={item.goal}
                             current={item.current}
                             earn={item.earn}
-                            key={subIdx}
+                            key={"ReferCard-" + subIdx}
                           />
                         ))}
                       </CardContainer>
@@ -380,7 +380,7 @@ export const Reward = () => {
                             hasBadge={item.hasBadge}
                             streak={item.streak}
                             subTitle={item.subTitle}
-                            key={subIdx}
+                            key={"StreakCard-" + subIdx}
                           />
                         ))}
                       </StreakCardContainer>
@@ -714,7 +714,7 @@ const LoyaltyProgram = () => {
         <StructureTitle>Tiered Structure</StructureTitle>
         <StructureWrapper>
           {strcutureData.map((item, idx) => (
-            <Structure key={idx}>
+            <Structure key={"TieredStructure-" + idx}>
               <StructureImage
                 src={item.img}
                 alt="structure-image"

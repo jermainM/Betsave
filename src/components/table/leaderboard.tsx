@@ -241,7 +241,7 @@ export const LeaderBoardTable = () => {
             {rows
               .slice((page - 1) * rowsPerPage, page * rowsPerPage)
               .map((row) => (
-                <StyledTableRow key={row.rank}>
+                <StyledTableRow key={"Leaderboard-" + row.rank}>
                   <StyledTableCell width={30}>
                     <RankItem label={row.rank} />
                   </StyledTableCell>

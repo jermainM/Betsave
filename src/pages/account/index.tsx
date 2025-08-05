@@ -140,7 +140,10 @@ export const AccountManage = () => {
           >
             <SideBarList>
               {STATIC_DATA.accountListItems.map((item) => (
-                <SideBarListItem key={item.idx} disablePadding>
+                <SideBarListItem
+                  key={"AccountListItem-" + item.idx}
+                  disablePadding
+                >
                   <SideBarListItemButton
                     selected={selectedItem === item.idx}
                     onClick={() => handleNavItemClick(item.idx)}
@@ -158,7 +161,10 @@ export const AccountManage = () => {
         <SideBarListContainer>
           <SideBarList>
             {STATIC_DATA.accountListItems.map((item) => (
-              <SideBarListItem key={item.idx} disablePadding>
+              <SideBarListItem
+                key={"AccountListItem2-" + item.idx}
+                disablePadding
+              >
                 <SideBarListItemButton
                   selected={selectedItem === item.idx}
                   onClick={() => handleNavItemClick(item.idx)}

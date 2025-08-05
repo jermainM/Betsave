@@ -38,7 +38,7 @@ const FeaturedPartners: React.FC = () => {
       >
         {Images.map((img, index) => (
           <ImageBox
-            key={index}
+            key={"Partner-" + index}
             sx={{
               backgroundImage: `url(${img})`,
             }}

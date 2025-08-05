@@ -324,7 +324,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
 
           <SideBarList>
             {STATIC_DATA.navListItems.map((item) => (
-              <SideBarListItem key={item.idx} disablePadding>
+              <SideBarListItem key={"Sidebar-" + item.idx} disablePadding>
                 <SideBarListItemButton
                   selected={selectedItem === item.idx}
                   onClick={() => handleNavItemClick(item.idx)}
@@ -364,7 +364,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
             onClick={() => handleNavItemClick(item.idx)}
             icon={item.icon}
             name={item.name}
-            key={item.idx}
+            key={"MobileSidebar-" + item.idx}
           />
         ))}
       </MobileSidebarContainer>
@@ -389,7 +389,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
                 onClick={() => handleNavItemClick(item.idx)}
                 icon={item.icon}
                 name={item.name}
-                key={item.idx}
+                key={"SmallSidebar-" + item.idx}
               />
             ))}
           </SmallSidebarItemContainer>
@@ -400,7 +400,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
             onClick={() => handleNavItemClick(item.idx)}
             icon={item.icon}
             name={item.name}
-            key={item.idx}
+            key={"MobileSmallSidebar-" + item.idx}
           />
         ))}
       </MobileSmallSidebarContainer>

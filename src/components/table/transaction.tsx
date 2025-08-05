@@ -29,17 +29,32 @@ import { transactionService } from "../../api/services/transactionService";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { formatEarningWithCommas } from "../../utils/number";
+import { formatDate } from "../../utils/date";
 
 interface HistoryItem {
-  offerId: string;
-  offerImage: string;
-  offerTitle: string;
-  lossAmount: number;
-  dateTime: string;
-  withdrawable: boolean;
+  cashbackDetails: Array<{
+    offerId: string;
+    offerImage: string;
+    offerTitle: string;
+    lossAmount: number;
+    dateTime: string;
+  }>;
+  cpaDetails: Array<{
+    offerId: string;
+    offerImage: string;
+    offerTitle: string;
+    lossAmount: number;
+    dateTime: string;
+  }>;
+  referralDetails: Array<{
+    referralName: string;
+    referralAmount: number;
+    dateTime: string;
+  }>;
 }
 
 interface Row {
+  _id: string;
   betsaveId: string;
   userName: string;
   userEmail: string;
@@ -51,7 +66,7 @@ interface Row {
   claimDate: string;
   paymentMethod: string;
   paymentAddress: string;
-  history: HistoryItem[];
+  history: HistoryItem;
 }
 
 export const CashbackHistoryTable = () => {
@@ -247,13 +262,6 @@ export const CashbackHistoryTable = () => {
                 <StyledTableCell>Platform</StyledTableCell>
                 <StyledTableCell>Date</StyledTableCell>
                 <StyledTableCell>
-                  <BetsaveTooltip title="This is the amount you lost on this partner platform that we tracked.">
-                    <CustomTableCell>
-                      Tracked Loss <HiArrowRight />
-                    </CustomTableCell>
-                  </BetsaveTooltip>
-                </StyledTableCell>
-                <StyledTableCell>
                   <BetsaveTooltip title="This is your share of our affiliate commission.">
                     <CustomTableCell>
                       Cashback Earned <HiArrowRight />
@@ -261,15 +269,16 @@ export const CashbackHistoryTable = () => {
                   </BetsaveTooltip>
                 </StyledTableCell>
                 <StyledTableCell align="left">Cashback Rate</StyledTableCell>
+                <StyledTableCell align="left">Status</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {rows
                 .slice((page - 1) * rowsPerPage, page * rowsPerPage)
-                .map((row, idx) =>
-                  row.history.map((item, historyIdx) => (
-                    <StyledTableRow key={`${idx}-${historyIdx}`}>
-                      <StyledTableCell width={100}>
+                .map((row) =>
+                  row.history.cashbackDetails.map((item, historyIdx) => (
+                    <StyledTableRow key={`${row._id}-${historyIdx}`}>
+                      <StyledTableCell>
                         <OfferCell>
                           <OfferImage
                             src={item.offerImage}
@@ -278,18 +287,19 @@ export const CashbackHistoryTable = () => {
                           <OfferName>{item.offerTitle}</OfferName>
                         </OfferCell>
                       </StyledTableCell>
-                      <StyledTableCell>{row.claimDate}</StyledTableCell>
                       <StyledTableCell>
-                        ${formatEarningWithCommas(item.lossAmount)}
+                        {formatDate(item.dateTime)}
                       </StyledTableCell>
                       <StyledTableCell>
-                        $
-                        {formatEarningWithCommas(
-                          (item.lossAmount * row.cashbackRate) / 100
-                        )}
+                        ${formatEarningWithCommas(row.totalRequestedAmount)}
                       </StyledTableCell>
                       <StyledTableCell>
                         <PlusText>{row.cashbackRate}</PlusText>
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <StatusBadge status={row.status}>
+                          {row.status}
+                        </StatusBadge>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))
@@ -495,12 +505,12 @@ const CustomTableCell = styled(Box)(({ theme }) => ({
 const OfferCell = styled(Box)({
   display: "flex",
   alignItems: "center",
-  gap: "12px",
+  gap: "8px",
 });
 
 const OfferImage = styled("img")({
-  width: "40px",
-  height: "40px",
+  width: "32px",
+  height: "32px",
   borderRadius: "8px",
   objectFit: "cover",
 });
@@ -509,3 +519,30 @@ const OfferName = styled(Typography)({
   color: "#fff",
   fontWeight: 500,
 });
+
+const StatusBadge = styled(Box)<{ status: string }>(({ theme, status }) => ({
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "6px",
+  padding: "6px 12px",
+  borderRadius: "8px",
+  fontSize: "14px",
+  fontWeight: "600",
+  color: "#fff",
+  textTransform: "capitalize",
+  backgroundColor:
+    status === "paid"
+      ? "#1AE5A1"
+      : status === "pending"
+        ? "#FFA500"
+        : status === "not-paid"
+          ? "#4CAF50"
+          : status === "rejected"
+            ? "#F44336"
+            : "#8A8D98",
+  transition: "all 0.3s ease",
+  "&:hover": {
+    transform: "translateY(-1px)",
+    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.2)",
+  },
+}));

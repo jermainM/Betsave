@@ -90,7 +90,7 @@ export const BetSmart = () => {
               icon={item.icon}
               title={item.title}
               content={item.content}
-              key={idx}
+              key={"EarnCashback-" + idx}
             />
           ))}
         </EarnCashbackContent>

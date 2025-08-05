@@ -90,67 +90,67 @@ export const CashOfferCard = (props: CardProps) => {
   );
 };
 
-const CardContainer = styled(Box)<{ isPromo?: boolean }>(
-  ({ theme, isPromo }) => ({
-    position: "relative",
+const CardContainer = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "isPromo",
+})<{ isPromo?: boolean }>(({ theme, isPromo }) => ({
+  position: "relative",
+  background: isPromo
+    ? "linear-gradient(135deg, rgba(26, 229, 161, 0.15) 0%, rgba(138, 43, 226, 0.15) 50%, rgba(255, 107, 53, 0.15) 100%)"
+    : "linear-gradient(135deg, rgba(26, 229, 161, 0.12) 0%, rgba(0, 255, 255, 0.12) 50%, rgba(26, 229, 161, 0.12) 100%)",
+  borderRadius: "16px",
+  display: "flex",
+  flexDirection: "column",
+  padding: "25px 20px 20px 20px",
+  gap: "12px",
+  width: "190px",
+  height: "fit-content",
+  marginTop: "12px",
+  marginBottom: "8px",
+  cursor: "pointer",
+  transition: "transform 0.2s ease-in-out",
+  "&:hover": {
+    transform: "translateY(-4px)",
+  },
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    padding: "1px",
     background: isPromo
-      ? "linear-gradient(135deg, rgba(26, 229, 161, 0.15) 0%, rgba(138, 43, 226, 0.15) 50%, rgba(255, 107, 53, 0.15) 100%)"
-      : "linear-gradient(135deg, rgba(26, 229, 161, 0.12) 0%, rgba(0, 255, 255, 0.12) 50%, rgba(26, 229, 161, 0.12) 100%)",
+      ? "linear-gradient(180deg, #171E31 0%, #1AE5A1 100%)"
+      : "linear-gradient(135deg, #1AE5A1 0%, #00FFFF 50%, #1AE5A1 100%)",
     borderRadius: "16px",
-    display: "flex",
-    flexDirection: "column",
-    padding: "25px 20px 20px 20px",
-    gap: "12px",
-    width: "190px",
-    height: "fit-content",
-    marginTop: "12px",
-    marginBottom: "8px",
-    cursor: "pointer",
-    transition: "transform 0.2s ease-in-out",
-    "&:hover": {
-      transform: "translateY(-4px)",
+    WebkitMask:
+      "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+    maskComposite: "exclude",
+    pointerEvents: "none",
+  },
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    padding: "4px",
+    background: isPromo
+      ? "linear-gradient(90deg, transparent, rgba(26, 229, 161, 0.6), rgba(26, 229, 161, 1), rgba(26, 229, 161, 0.6), transparent, transparent, rgba(0, 255, 255, 0.5), rgba(0, 255, 255, 0.9), rgba(0, 255, 255, 0.5), transparent, transparent, rgba(138, 43, 226, 0.4), rgba(138, 43, 226, 0.8), rgba(138, 43, 226, 0.4), transparent)"
+      : "linear-gradient(90deg, transparent, rgba(26, 229, 161, 0.7), rgba(26, 229, 161, 1), rgba(26, 229, 161, 0.7), transparent, transparent, rgba(0, 255, 255, 0.6), rgba(0, 255, 255, 1), rgba(0, 255, 255, 0.6), transparent, transparent, rgba(26, 229, 161, 0.7), rgba(26, 229, 161, 1), rgba(26, 229, 161, 0.7), transparent)",
+    borderRadius: "16px",
+    WebkitMask:
+      "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+    maskComposite: "exclude",
+    pointerEvents: "none",
+    animation: "shimmer 16s linear infinite",
+    backgroundSize: "400% 100%",
+    opacity: 1,
+  },
+  "@keyframes shimmer": {
+    "0%": {
+      backgroundPosition: "500% 0",
     },
-    "&::before": {
-      content: '""',
-      position: "absolute",
-      inset: 0,
-      padding: "1px",
-      background: isPromo
-        ? "linear-gradient(180deg, #171E31 0%, #1AE5A1 100%)"
-        : "linear-gradient(135deg, #1AE5A1 0%, #00FFFF 50%, #1AE5A1 100%)",
-      borderRadius: "16px",
-      WebkitMask:
-        "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-      maskComposite: "exclude",
-      pointerEvents: "none",
+    "100%": {
+      backgroundPosition: "0% 0",
     },
-    "&::after": {
-      content: '""',
-      position: "absolute",
-      inset: 0,
-      padding: "4px",
-      background: isPromo
-        ? "linear-gradient(90deg, transparent, rgba(26, 229, 161, 0.6), rgba(26, 229, 161, 1), rgba(26, 229, 161, 0.6), transparent, transparent, rgba(0, 255, 255, 0.5), rgba(0, 255, 255, 0.9), rgba(0, 255, 255, 0.5), transparent, transparent, rgba(138, 43, 226, 0.4), rgba(138, 43, 226, 0.8), rgba(138, 43, 226, 0.4), transparent)"
-        : "linear-gradient(90deg, transparent, rgba(26, 229, 161, 0.7), rgba(26, 229, 161, 1), rgba(26, 229, 161, 0.7), transparent, transparent, rgba(0, 255, 255, 0.6), rgba(0, 255, 255, 1), rgba(0, 255, 255, 0.6), transparent, transparent, rgba(26, 229, 161, 0.7), rgba(26, 229, 161, 1), rgba(26, 229, 161, 0.7), transparent)",
-      borderRadius: "16px",
-      WebkitMask:
-        "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-      maskComposite: "exclude",
-      pointerEvents: "none",
-      animation: "shimmer 16s linear infinite",
-      backgroundSize: "400% 100%",
-      opacity: 1,
-    },
-    "@keyframes shimmer": {
-      "0%": {
-        backgroundPosition: "500% 0",
-      },
-      "100%": {
-        backgroundPosition: "0% 0",
-      },
-    },
-  })
-);
+  },
+}));
 
 const PromoBadge = styled(Box)(({ theme }) => ({
   position: "absolute",
@@ -183,7 +183,9 @@ const PromoLabel = styled(Typography)(({ theme }) => ({
   textAlign: "center",
 }));
 
-const CardImg = styled("img")<{ isPromo?: boolean }>(({ theme, isPromo }) => ({
+const CardImg = styled("img", {
+  shouldForwardProp: (prop) => prop !== "isPromo",
+})<{ isPromo?: boolean }>(({ theme, isPromo }) => ({
   width: "100px",
   height: "100px",
   borderRadius: "16px",
@@ -207,31 +209,31 @@ const CardWrapper = styled(Box)(({ theme }) => ({
   textAlign: "center",
 }));
 
-const CardTitle = styled(Typography)<{ isPromo?: boolean }>(
-  ({ theme, isPromo }) => ({
-    fontSize: "15px",
-    fontWeight: "600",
-    color: isPromo ? "#FF6B35" : "#fff",
-    lineHeight: 1.2,
-    ...(isPromo && {
-      textShadow: "0 0 8px rgba(255, 107, 53, 0.5)",
-    }),
-  })
-);
+const CardTitle = styled(Typography, {
+  shouldForwardProp: (prop) => prop !== "isPromo",
+})<{ isPromo?: boolean }>(({ theme, isPromo }) => ({
+  fontSize: "15px",
+  fontWeight: "600",
+  color: isPromo ? "#FF6B35" : "#fff",
+  lineHeight: 1.2,
+  ...(isPromo && {
+    textShadow: "0 0 8px rgba(255, 107, 53, 0.5)",
+  }),
+}));
 
-const CardContent = styled("a")<{ isPromo?: boolean }>(
-  ({ theme, isPromo }) => ({
-    fontSize: "10px",
-    color: "#627690",
-    marginBottom: "4px",
-    cursor: "pointer",
-    textDecoration: "none",
-    "&:hover": {
-      textDecoration: "underline",
-      color: "#7b92b4",
-    },
-  })
-);
+const CardContent = styled("a", {
+  shouldForwardProp: (prop) => prop !== "isPromo",
+})<{ isPromo?: boolean }>(({ theme, isPromo }) => ({
+  fontSize: "10px",
+  color: "#627690",
+  marginBottom: "4px",
+  cursor: "pointer",
+  textDecoration: "none",
+  "&:hover": {
+    textDecoration: "underline",
+    color: "#7b92b4",
+  },
+}));
 
 const CashbackLabel = styled(Typography)(({ theme }) => ({
   fontSize: "16px",
@@ -248,28 +250,28 @@ const CashbackValue = styled("span")(({ theme }) => ({
   color: "#1ae5a1",
 }));
 
-const JoinButton = styled(Button)<{ isPromo?: boolean }>(
-  ({ theme, isPromo }) => ({
-    backgroundColor: isPromo ? "#FF6B35" : "#1ae5a1",
-    color: isPromo ? "#fff" : "#171e30",
-    fontSize: "15px",
-    fontWeight: "bold",
-    padding: "5px 25px",
-    borderRadius: "8px",
-    textTransform: "none",
-    width: "100%",
-    marginTop: "10px",
-    transition: "all 0.3s ease",
-    ...(isPromo && {
-      boxShadow: "0 4px 15px rgba(255, 107, 53, 0.4)",
-      "&:hover": {
-        backgroundColor: "#E55A2B",
-        boxShadow: "0 6px 20px rgba(255, 107, 53, 0.6)",
-        transform: "translateY(-2px)",
-      },
-    }),
+const JoinButton = styled(Button, {
+  shouldForwardProp: (prop) => prop !== "isPromo",
+})<{ isPromo?: boolean }>(({ theme, isPromo }) => ({
+  backgroundColor: isPromo ? "#FF6B35" : "#1ae5a1",
+  color: isPromo ? "#fff" : "#171e30",
+  fontSize: "15px",
+  fontWeight: "bold",
+  padding: "5px 25px",
+  borderRadius: "8px",
+  textTransform: "none",
+  width: "100%",
+  marginTop: "10px",
+  transition: "all 0.3s ease",
+  ...(isPromo && {
+    boxShadow: "0 4px 15px rgba(255, 107, 53, 0.4)",
     "&:hover": {
-      backgroundColor: isPromo ? "#E55A2B" : "#15c88c",
+      backgroundColor: "#E55A2B",
+      boxShadow: "0 6px 20px rgba(255, 107, 53, 0.6)",
+      transform: "translateY(-2px)",
     },
-  })
-);
+  }),
+  "&:hover": {
+    backgroundColor: isPromo ? "#E55A2B" : "#15c88c",
+  },
+}));

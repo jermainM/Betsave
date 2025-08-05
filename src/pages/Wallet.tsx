@@ -195,7 +195,7 @@ const Wallet = () => {
   history?.cashbackDetails.map((detail) => {
     const _detail = {
       description: (
-        <OfferCell>
+        <OfferCell key={"OfferCell-" + detail.offerId}>
           <OfferImage src={detail.offerImage} alt={detail.offerTitle} />
           <OfferName>{detail.offerTitle}</OfferName>
         </OfferCell>
@@ -209,7 +209,7 @@ const Wallet = () => {
   history?.cpaDetails.map((detail) => {
     const _detail = {
       description: (
-        <OfferCell>
+        <OfferCell key={"OfferCell-" + detail.offerId}>
           <OfferImage src={detail.offerImage} alt={detail.offerTitle} />
           <OfferName>{detail.offerTitle}</OfferName>
         </OfferCell>
@@ -565,7 +565,7 @@ const Wallet = () => {
                   totalDetails
                     .slice((page - 1) * rowsPerPage, page * rowsPerPage)
                     .map((item: any, index: any) => (
-                      <TableRow key={index}>
+                      <TableRow key={"CashbackHistory-" + index}>
                         <StyledTableCell>{item.description}</StyledTableCell>
                         <StyledTableCell align="left">
                           ${item.amount.toFixed(2)}
@@ -661,7 +661,7 @@ const Wallet = () => {
                       transactionPage * transactionRowsPerPage
                     )
                     .map((transaction, index) => (
-                      <TableRow key={index}>
+                      <TableRow key={"Transaction-" + index}>
                         <StyledTableCell>
                           {formatDateTime(transaction.requestedDate)}
                         </StyledTableCell>

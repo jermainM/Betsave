@@ -144,7 +144,7 @@ export const MyOffer = () => {
             className="mySwiper"
           >
             {offers.map((offer, idx) => (
-              <SwiperSlide key={idx}>
+              <SwiperSlide key={"MyOffer-" + idx}>
                 <CashOfferCard offer={offer} />
               </SwiperSlide>
             ))}

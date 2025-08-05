@@ -75,7 +75,7 @@ export const PromoCodeTable = () => {
         onClick={() => handlePageClick(1)}
       >
         1
-      </PaginationButton>,
+      </PaginationButton>
     );
 
     if (page > 3) {
@@ -85,7 +85,7 @@ export const PromoCodeTable = () => {
           onClick={() => handlePageClick(page - 2)}
         >
           ...
-        </PaginationButton>,
+        </PaginationButton>
       );
     }
 
@@ -100,7 +100,7 @@ export const PromoCodeTable = () => {
           onClick={() => handlePageClick(i)}
         >
           {i}
-        </PaginationButton>,
+        </PaginationButton>
       );
     }
 
@@ -111,7 +111,7 @@ export const PromoCodeTable = () => {
           onClick={() => handlePageClick(page + 2)}
         >
           ...
-        </PaginationButton>,
+        </PaginationButton>
       );
     }
 
@@ -122,7 +122,7 @@ export const PromoCodeTable = () => {
         onClick={() => handlePageClick(totalPages)}
       >
         {totalPages}
-      </PaginationButton>,
+      </PaginationButton>
     );
 
     return pagination;
@@ -210,7 +210,7 @@ export const PromoCodeTable = () => {
             {rows
               .slice((page - 1) * rowsPerPage, page * rowsPerPage)
               .map((row, idx) => (
-                <StyledTableRow key={idx}>
+                <StyledTableRow key={"PromoCode-" + idx}>
                   <StyledTableCell width={150}>
                     <IDItem label={row.usedCode} />
                   </StyledTableCell>

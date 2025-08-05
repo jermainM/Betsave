@@ -119,7 +119,7 @@ export const PromotionalOffer = () => {
             {offers
               .filter((offer) => offer.cashbackType === "Promo")
               .map((offer, idx) => (
-                <SwiperSlide key={idx}>
+                <SwiperSlide key={"PromoOffer-" + idx}>
                   <CashOfferCard offer={offer} />
                 </SwiperSlide>
               ))}

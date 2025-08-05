@@ -50,7 +50,7 @@ export const PromoCode = () => {
             className="mySwiper"
           >
             {[...Array(5)].map((_, idx) => (
-              <SwiperSlide key={idx}>
+              <SwiperSlide key={"PromoCardSlide-" + idx}>
                 <PromoCard />
               </SwiperSlide>
             ))}
@@ -63,7 +63,7 @@ export const PromoCode = () => {
         <ActiveCodeItemContainer>
           {[...Array(8)].map((_, idx) => (
             <ActiveCodeItem
-              key={idx}
+              key={"ActiveCodeItem-" + idx}
               id={idx + 1}
               content="WELCOME10: Extra 10% cashback for January"
             />

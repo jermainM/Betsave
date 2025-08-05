@@ -111,7 +111,7 @@ export const AvailableOffer = () => {
             {offers
               .filter((offer) => offer.cashbackType === "NGR")
               .map((offer, idx) => (
-                <SwiperSlide key={idx}>
+                <SwiperSlide key={"Offer-" + idx}>
                   <CashOfferCard offer={offer} />
                 </SwiperSlide>
               ))}

@@ -23,7 +23,11 @@ import {
 } from "../constants/images";
 import { useNotification } from "../provider/notification";
 import { transactionService } from "../api/services/transactionService";
-import { setError, updateWalletBalance } from "../store/slices/walletSlice";
+import {
+  setError,
+  setWalletData,
+  updateWalletBalance,
+} from "../store/slices/walletSlice";
 import { getUserWalletData } from "../api/functions";
 import { formatEarningWithCommas } from "../utils/number";
 import { TIER_CONFIG } from "../constants/static-data";
@@ -84,7 +88,9 @@ const Wallet = () => {
   const [transactions, setTransactions] = useState<TransactionType[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isWalletRefreshing, setIsWalletRefreshing] = useState(false);
-  const [pendingAmount, setPendingAmount] = useState(0);
+  const [isTransactionsLoading, setIsTransactionsLoading] = useState(false);
+  const [isCashbackHistoryLoading, setIsCashbackHistoryLoading] =
+    useState(false);
   const [page, setPage] = useState<number>(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [transactionPage, setTransactionPage] = useState<number>(1);
@@ -107,19 +113,23 @@ const Wallet = () => {
     if (user) {
       try {
         setIsWalletRefreshing(true);
+        setIsTransactionsLoading(true);
+        setIsCashbackHistoryLoading(true);
         await Promise.all([getTransactions(true), fetchWalletBalance()]);
       } catch (error) {
         console.error("Error refreshing data after withdrawal:", error);
         notifyError("Failed to refresh wallet data after withdrawal");
       } finally {
         setIsWalletRefreshing(false);
+        setIsTransactionsLoading(false);
+        setIsCashbackHistoryLoading(false);
       }
     }
   };
 
   const getTransactions = async (showLoading = false) => {
     if (showLoading) {
-      setIsRefreshing(true);
+      setIsTransactionsLoading(true);
     }
 
     try {
@@ -132,14 +142,23 @@ const Wallet = () => {
       notifyError("Failed to fetch transaction data");
     } finally {
       if (showLoading) {
-        setIsRefreshing(false);
+        setIsTransactionsLoading(false);
       }
     }
   };
 
   useEffect(() => {
     if (user) {
-      getTransactions();
+      setIsTransactionsLoading(true);
+      getTransactions().finally(() => {
+        setIsTransactionsLoading(false);
+      });
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      fetchWalletBalance();
     }
   }, [user]);
 
@@ -149,18 +168,31 @@ const Wallet = () => {
     }
 
     try {
+      setIsCashbackHistoryLoading(true);
       const walletData = await getUserWalletData(user.betsaveId);
-      dispatch(updateWalletBalance(walletData.balance));
+      dispatch(
+        setWalletData({
+          balance: walletData.balance,
+          totalCashback: walletData.totalCashback,
+          history: {
+            cashbackDetails: walletData.cashbackDetails,
+            cpaDetails: walletData.cpaDetails,
+            referralDetails: walletData.referralDetails,
+          },
+        })
+      );
     } catch (error) {
       console.error("Error fetching wallet balance:", error);
       notifyError("Error fetching wallet balance");
       dispatch(setError("Error fetching wallet balance"));
+    } finally {
+      setIsCashbackHistoryLoading(false);
     }
   };
 
   const totalDetails: DetailsType[] = [];
 
-  history.cashbackDetails.map((detail) => {
+  history?.cashbackDetails.map((detail) => {
     const _detail = {
       description: (
         <OfferCell>
@@ -174,7 +206,7 @@ const Wallet = () => {
     totalDetails.push(_detail);
   });
 
-  history.cpaDetails.map((detail) => {
+  history?.cpaDetails.map((detail) => {
     const _detail = {
       description: (
         <OfferCell>
@@ -189,7 +221,7 @@ const Wallet = () => {
     totalDetails.push(_detail);
   });
 
-  history.referralDetails.map((detail) => {
+  history?.referralDetails.map((detail) => {
     const _detail = {
       description: `Referral Reward for referring ${detail.referralName} to Betsave`,
       amount: detail.referralAmount,
@@ -488,9 +520,9 @@ const Wallet = () => {
             <ActionContainer>
               <WithdrawButton
                 onClick={handleWithdrawClick}
-                disabled={balance <= 0 || pendingAmount !== 0}
+                disabled={balance <= 0}
               >
-                {pendingAmount !== 0 ? "Withdrawing" : "Withdraw Now"}
+                Withdraw Now
               </WithdrawButton>
               <ExportButton>Export</ExportButton>
             </ActionContainer>
@@ -505,12 +537,6 @@ const Wallet = () => {
 
         <TableWrapper>
           <TransactionTableContainer>
-            {isRefreshing && (
-              <RefreshOverlay>
-                <RefreshSpinner />
-                <RefreshText>Refreshing withdrawal status...</RefreshText>
-              </RefreshOverlay>
-            )}
             <TransactionTable>
               <TableHead>
                 <TableRow>
@@ -526,7 +552,16 @@ const Wallet = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {totalDetails.length > 0 &&
+                {isCashbackHistoryLoading ? (
+                  <TableRow>
+                    <StyledTableCell colSpan={3} align="center">
+                      <LoadingTransactionState>
+                        <LoadingSpinner />
+                        <LoadingText>Loading cashback history...</LoadingText>
+                      </LoadingTransactionState>
+                    </StyledTableCell>
+                  </TableRow>
+                ) : totalDetails.length > 0 ? (
                   totalDetails
                     .slice((page - 1) * rowsPerPage, page * rowsPerPage)
                     .map((item: any, index: any) => (
@@ -551,11 +586,26 @@ const Wallet = () => {
                           })()}
                         </StyledTableCell>
                       </TableRow>
-                    ))}
+                    ))
+                ) : (
+                  <TableRow>
+                    <StyledTableCell colSpan={3} align="center">
+                      <EmptyTransactionState>
+                        <EmptyTransactionIcon>📊</EmptyTransactionIcon>
+                        <EmptyTransactionText>
+                          No cashback history yet
+                        </EmptyTransactionText>
+                        <EmptyTransactionSubtext>
+                          Your cashback history will appear here
+                        </EmptyTransactionSubtext>
+                      </EmptyTransactionState>
+                    </StyledTableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </TransactionTable>
           </TransactionTableContainer>
-          {totalDetails.length > 0 && (
+          {totalDetails.length > 0 && !isCashbackHistoryLoading && (
             <PaginationContainer>
               <PaginationButton
                 key="prev"
@@ -595,7 +645,16 @@ const Wallet = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {transactions.length > 0 ? (
+                {isTransactionsLoading ? (
+                  <TableRow>
+                    <StyledTableCell colSpan={7} align="center">
+                      <LoadingTransactionState>
+                        <LoadingSpinner />
+                        <LoadingText>Loading transactions...</LoadingText>
+                      </LoadingTransactionState>
+                    </StyledTableCell>
+                  </TableRow>
+                ) : transactions.length > 0 ? (
                   transactions
                     .slice(
                       (transactionPage - 1) * transactionRowsPerPage,
@@ -647,7 +706,7 @@ const Wallet = () => {
               </TableBody>
             </TransactionTable>
           </TransactionTableContainer>
-          {transactions.length > 0 && (
+          {transactions.length > 0 && !isTransactionsLoading && (
             <PaginationContainer>
               <PaginationButton
                 key="prev"
@@ -1438,4 +1497,43 @@ const EmptyTransactionSubtext = styled(Typography)(({ theme }) => ({
   fontSize: "14px",
   color: "rgba(255, 255, 255, 0.7)",
   lineHeight: "1.5",
+}));
+
+const LoadingTransactionState = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  padding: "40px 20px",
+  color: "#8A8D98",
+  fontSize: "18px",
+  fontWeight: "500",
+  textAlign: "center",
+  [theme.breakpoints.down(480)]: {
+    padding: "30px 15px",
+    fontSize: "16px",
+  },
+}));
+
+const LoadingSpinner = styled(Box)(({ theme }) => ({
+  width: "40px",
+  height: "40px",
+  border: "3px solid rgba(26, 229, 161, 0.3)",
+  borderTop: "3px solid #1AE5A1",
+  borderRadius: "50%",
+  animation: "spin 1s linear infinite",
+  marginBottom: "15px",
+  "@keyframes spin": {
+    "0%": { transform: "rotate(0deg)" },
+    "100%": { transform: "rotate(360deg)" },
+  },
+}));
+
+const LoadingText = styled(Typography)(({ theme }) => ({
+  fontSize: "16px",
+  color: "#1AE5A1",
+  fontWeight: "500",
+  textAlign: "center",
+  [theme.breakpoints.down(480)]: {
+    fontSize: "14px",
+  },
 }));

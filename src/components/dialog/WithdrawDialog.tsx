@@ -98,6 +98,7 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
     number | undefined
   >(undefined);
   const [eligibility, setEligibility] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { notifyError, notifySuccess } = useNotification();
 
@@ -129,7 +130,10 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
     }
 
     try {
-      const response = await userService.checkEligibility(user.betsaveId);
+      const response = await userService.checkEligibility(
+        user.betsaveId,
+        balance
+      );
       console.log({ response });
       setEligibility(response.data);
     } catch (error: any) {
@@ -138,10 +142,13 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
   };
 
   useEffect(() => {
-    handleEligibilityCheck();
-  }, [user]);
+    if (user && balance) {
+      handleEligibilityCheck();
+    }
+  }, [user, balance]);
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     // Guard clause to prevent API call when user is null (during logout)
     if (!user || !user.betsaveId) {
       notifyError("User session not found. Please login again.");
@@ -173,6 +180,8 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
       // }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -279,7 +288,8 @@ export const WithdrawDialog: React.FC<WithdrawDialogProps> = ({
             disabled={
               !selectedMethod ||
               !address ||
-              (selectedMethod === "Crypto" && !selectedToken)
+              (selectedMethod === "Crypto" && !selectedToken) ||
+              isLoading
             }
           >
             Withdraw

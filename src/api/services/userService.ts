@@ -6,8 +6,10 @@ export const userService = {
     const response = await api.get(`/pinup/wallet-balance/${betsaveId}`);
     return response.data;
   },
-  checkEligibility: async (betsaveId: string) => {
-    const response = await api.get(`/users/eligibility/${betsaveId}`);
+  checkEligibility: async (betsaveId: string, balance: number) => {
+    const response = await api.get(
+      `/users/eligibility/${betsaveId}/${balance}`
+    );
     return response.data;
   },
   getUsers: async () => {

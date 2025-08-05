@@ -35,3 +35,20 @@ export interface OfferProps {
   apiKey: string;
   affiliateLink: string;
 }
+
+export interface TransactionType {
+  betsaveId: string;
+  userName: string;
+  userEmail: string;
+  totalRequestedAmount: number;
+  tier: string;
+  cashbackRate: number;
+  status: "not-paid" | "pending" | "rejected" | "paid";
+  requestedDate: string;
+  paymentMethod: string;
+  paymentAddress: string;
+  history: any;
+  createdAt: string;
+  updatedAt: string;
+  claimDate: string;
+}

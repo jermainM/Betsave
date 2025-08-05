@@ -28,6 +28,8 @@ import { getUserWalletData } from "../api/functions";
 import { formatEarningWithCommas } from "../utils/number";
 import { TIER_CONFIG } from "../constants/static-data";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
+import { TransactionType } from "../constants/interfaces";
+import { formatDateTime } from "../utils/date";
 
 interface DetailsType {
   description: string | React.ReactNode;
@@ -79,12 +81,14 @@ const Wallet = () => {
   const [withdrawDialogOpen, setWithdrawDialogOpen] = useState(false);
   const { user } = useSelector((state: RootState) => state.session);
 
-  const [transactions, setTransactions] = useState<any[]>([]);
+  const [transactions, setTransactions] = useState<TransactionType[]>([]);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isWalletRefreshing, setIsWalletRefreshing] = useState(false);
   const [pendingAmount, setPendingAmount] = useState(0);
   const [page, setPage] = useState<number>(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [transactionPage, setTransactionPage] = useState<number>(1);
+  const [transactionRowsPerPage, setTransactionRowsPerPage] = useState(5);
   const dispatch = useDispatch();
   const { balance, history, totalCashback } = useSelector(
     (state: RootState) => state.wallet
@@ -200,6 +204,10 @@ const Wallet = () => {
     setPage(newPage);
   };
 
+  const handleTransactionPageClick = (newPage: number) => {
+    setTransactionPage(newPage);
+  };
+
   const renderPagination = () => {
     const pagination: React.ReactElement[] = [];
 
@@ -260,6 +268,76 @@ const Wallet = () => {
           onClick={() => handlePageClick(totalPages)}
         >
           {totalPages}
+        </PaginationButton>
+      );
+    }
+
+    return pagination;
+  };
+
+  const renderTransactionPagination = () => {
+    const totalTransactionPages: number = Math.ceil(
+      transactions.length / transactionRowsPerPage
+    );
+    const pagination: React.ReactElement[] = [];
+
+    if (totalTransactionPages === 0) return pagination;
+
+    pagination.push(
+      <PaginationButton
+        key={1}
+        className={transactionPage === 1 ? "active" : ""}
+        onClick={() => handleTransactionPageClick(1)}
+      >
+        1
+      </PaginationButton>
+    );
+
+    if (transactionPage > 3) {
+      pagination.push(
+        <PaginationButton
+          key="more-left"
+          onClick={() => handleTransactionPageClick(transactionPage - 2)}
+        >
+          ...
+        </PaginationButton>
+      );
+    }
+
+    const startPage = Math.max(2, transactionPage - 1);
+    const endPage = Math.min(totalTransactionPages - 1, transactionPage + 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+      pagination.push(
+        <PaginationButton
+          key={i}
+          className={transactionPage === i ? "active" : ""}
+          onClick={() => handleTransactionPageClick(i)}
+        >
+          {i}
+        </PaginationButton>
+      );
+    }
+
+    if (transactionPage < totalTransactionPages - 2) {
+      pagination.push(
+        <PaginationButton
+          key="more-right"
+          onClick={() => handleTransactionPageClick(transactionPage + 2)}
+        >
+          ...
+        </PaginationButton>
+      );
+    }
+
+    if (totalTransactionPages > 1) {
+      pagination.push(
+        <PaginationButton
+          key={totalTransactionPages}
+          className={transactionPage === totalTransactionPages ? "active" : ""}
+          onClick={() => handleTransactionPageClick(totalTransactionPages)}
+        >
+          {totalTransactionPages}
         </PaginationButton>
       );
     }
@@ -426,25 +504,25 @@ const Wallet = () => {
         />
 
         <TableWrapper>
-          <TableContainer component={StyledPaper}>
+          <TransactionTableContainer>
             {isRefreshing && (
               <RefreshOverlay>
                 <RefreshSpinner />
                 <RefreshText>Refreshing withdrawal status...</RefreshText>
               </RefreshOverlay>
             )}
-            <Table>
+            <TransactionTable>
               <TableHead>
                 <TableRow>
-                  <TableCell sx={{ textWrap: "nowrap" }}>
+                  <StyledTableCell sx={{ textWrap: "nowrap" }}>
                     Cashback From
-                  </TableCell>
-                  <TableCell align="left" sx={{ textWrap: "nowrap" }}>
+                  </StyledTableCell>
+                  <StyledTableCell align="left" sx={{ textWrap: "nowrap" }}>
                     Amount
-                  </TableCell>
-                  <TableCell align="left" sx={{ textWrap: "nowrap" }}>
+                  </StyledTableCell>
+                  <StyledTableCell align="left" sx={{ textWrap: "nowrap" }}>
                     Date
-                  </TableCell>
+                  </StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -453,12 +531,12 @@ const Wallet = () => {
                     .slice((page - 1) * rowsPerPage, page * rowsPerPage)
                     .map((item: any, index: any) => (
                       <TableRow key={index}>
-                        <TableCell>{item.description}</TableCell>
-                        <TableCell align="left">
+                        <StyledTableCell>{item.description}</StyledTableCell>
+                        <StyledTableCell align="left">
                           ${item.amount.toFixed(2)}
-                        </TableCell>
+                        </StyledTableCell>
 
-                        <TableCell align="left">
+                        <StyledTableCell align="left">
                           {(() => {
                             const date = new Date(item.date);
                             const year = date.getFullYear();
@@ -471,12 +549,12 @@ const Wallet = () => {
                               .padStart(2, "0");
                             return `${year}/${month}/${day}`;
                           })()}
-                        </TableCell>
+                        </StyledTableCell>
                       </TableRow>
                     ))}
               </TableBody>
-            </Table>
-          </TableContainer>
+            </TransactionTable>
+          </TransactionTableContainer>
           {totalDetails.length > 0 && (
             <PaginationContainer>
               <PaginationButton
@@ -498,6 +576,103 @@ const Wallet = () => {
           )}
         </TableWrapper>
       </PageWrapper>
+
+      <TransactionSection>
+        <Header>
+          <Title>Transactions</Title>
+        </Header>
+        <TransactionContainer>
+          <TransactionTableContainer>
+            <TransactionTable>
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Date</StyledTableCell>
+                  <StyledTableCell>Address</StyledTableCell>
+                  <StyledTableCell>Tier</StyledTableCell>
+                  <StyledTableCell>Cashback Rate</StyledTableCell>
+                  <StyledTableCell>Amount</StyledTableCell>
+                  <StyledTableCell>Status</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {transactions.length > 0 ? (
+                  transactions
+                    .slice(
+                      (transactionPage - 1) * transactionRowsPerPage,
+                      transactionPage * transactionRowsPerPage
+                    )
+                    .map((transaction, index) => (
+                      <TableRow key={index}>
+                        <StyledTableCell>
+                          {formatDateTime(transaction.requestedDate)}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {transaction.paymentAddress || "N/A"}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <TierBadge tier={transaction.tier || user?.tier}>
+                            {transaction.tier || user?.tier}
+                          </TierBadge>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {transaction.cashbackRate || user?.cashbackRate}%
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          $
+                          {transaction.totalRequestedAmount?.toFixed(2) ||
+                            "0.00"}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <StatusBadge status={transaction.status}>
+                            {transaction.status}
+                          </StatusBadge>
+                        </StyledTableCell>
+                      </TableRow>
+                    ))
+                ) : (
+                  <TableRow>
+                    <StyledTableCell colSpan={7} align="center">
+                      <EmptyTransactionState>
+                        <EmptyTransactionIcon>📊</EmptyTransactionIcon>
+                        <EmptyTransactionText>
+                          No transactions yet
+                        </EmptyTransactionText>
+                        <EmptyTransactionSubtext>
+                          Your transaction history will appear here
+                        </EmptyTransactionSubtext>
+                      </EmptyTransactionState>
+                    </StyledTableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </TransactionTable>
+          </TransactionTableContainer>
+          {transactions.length > 0 && (
+            <PaginationContainer>
+              <PaginationButton
+                key="prev"
+                onClick={() => handleTransactionPageClick(transactionPage - 1)}
+                disabled={transactionPage === 1}
+              >
+                <KeyboardArrowLeft fontSize="small" />
+              </PaginationButton>
+              <PaginationWrapper>
+                {renderTransactionPagination()}
+              </PaginationWrapper>
+              <PaginationButton
+                key="next"
+                onClick={() => handleTransactionPageClick(transactionPage + 1)}
+                disabled={
+                  transactionPage ===
+                  Math.ceil(transactions.length / transactionRowsPerPage)
+                }
+              >
+                <KeyboardArrowRight fontSize="small" />
+              </PaginationButton>
+            </PaginationContainer>
+          )}
+        </TransactionContainer>
+      </TransactionSection>
     </PageContainer>
   );
 };
@@ -512,6 +687,9 @@ const PageContainer = styled(Box)(({ theme }) => ({
   borderRadius: "12px",
   [theme.breakpoints.down(840)]: {
     padding: "16px",
+  },
+  [theme.breakpoints.down(480)]: {
+    padding: "0px",
   },
 }));
 
@@ -528,6 +706,10 @@ const PageWrapper = styled(Box)(({ theme }) => ({
   display: "flex",
   gap: "24px",
   width: "100%",
+  [theme.breakpoints.down(1370)]: {
+    flexDirection: "column",
+    alignItems: "center",
+  },
 }));
 
 const Title = styled(Typography)(({ theme }) => ({
@@ -543,7 +725,9 @@ const StatsContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "flex-start",
   gap: "24px",
-  marginBottom: "32px",
+  [theme.breakpoints.down(480)]: {
+    width: "100%",
+  },
 }));
 
 const StatCard = styled(Paper)(({ theme }) => ({
@@ -554,13 +738,14 @@ const StatCard = styled(Paper)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  width: "480px",
+  width: "420px",
   height: "fit-content",
   justifyContent: "space-between",
   [theme.breakpoints.down(480)]: {
     padding: "16px",
     flexDirection: "column",
     alignItems: "flex-start",
+    width: "100%",
   },
 }));
 
@@ -576,11 +761,8 @@ const StatCardValue = styled(Box)(({ theme }) => ({
   },
 }));
 
-const StatDivider = styled(Box)(({ theme }) => ({
-  width: "100%",
-  height: "1px",
-  backgroundColor: "#2E3340",
-  margin: "16px 0",
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  padding: "8px 12px",
 }));
 
 const StatTitle = styled(Typography)(({ theme }) => ({
@@ -684,8 +866,8 @@ const OfferCell = styled(Box)({
 });
 
 const OfferImage = styled("img")({
-  width: "40px",
-  height: "40px",
+  width: "36px",
+  height: "36px",
   borderRadius: "8px",
   objectFit: "cover",
 });
@@ -702,29 +884,37 @@ const TierBadgeContainer = styled(Box)({
 });
 
 const TierBadge = styled(Box)<{ tier: string }>(({ theme, tier }) => ({
-  display: "flex",
+  display: "inline-flex",
   alignItems: "center",
-  gap: "8px",
-  padding: "6px 12px",
-  borderRadius: "8px",
-  fontSize: "14px",
-  fontWeight: 600,
-  background: "rgba(23, 34, 54, 0.5)",
-  backdropFilter: "blur(10px)",
-  border: "1px solid rgba(255, 255, 255, 0.1)",
+  gap: "4px",
+  padding: "4px 8px",
+  borderRadius: "6px",
+  fontSize: "12px",
+  fontWeight: "600",
   color: "#fff",
-  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+  backgroundColor:
+    tier === "Bronze"
+      ? "#CD7F32"
+      : tier === "Silver"
+        ? "#C0C0C0"
+        : tier === "Gold"
+          ? "#FFD700"
+          : tier === "Platinum"
+            ? "#E5E4E2"
+            : "#8A8D98",
+  textTransform: "uppercase",
+  letterSpacing: "0.5px",
+  boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
   transition: "all 0.3s ease",
-  width: "120px",
   "&:hover": {
-    transform: "translateY(-2px)",
-    boxShadow: "0 6px 8px rgba(0, 0, 0, 0.15)",
+    transform: "translateY(-1px)",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.3)",
   },
 }));
 
 const TierIcon = styled("img")(({ theme }) => ({
-  width: "40px",
-  height: "40px",
+  width: "36px",
+  height: "36px",
   objectFit: "contain",
   filter: "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))",
   transition: "all 0.3s ease",
@@ -743,12 +933,13 @@ const StatusBadge = styled(Box)<{ status: string }>(({ theme, status }) => ({
   fontSize: "14px",
   fontWeight: "600",
   color: "#fff",
+  textTransform: "capitalize",
   backgroundColor:
-    status === "approved"
+    status === "paid"
       ? "#1AE5A1"
       : status === "pending"
         ? "#FFA500"
-        : status === "paid"
+        : status === "not-paid"
           ? "#4CAF50"
           : status === "rejected"
             ? "#F44336"
@@ -922,7 +1113,7 @@ const StatItem = styled(Box)(({ theme }) => ({
   alignItems: "center",
   gap: "12px",
   flex: 1,
-  padding: "12px",
+  padding: "5px 8px",
   borderRadius: "12px",
   background: "rgba(255, 255, 255, 0.05)",
   backdropFilter: "blur(10px)",
@@ -940,8 +1131,8 @@ const StatIconContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: "48px",
-  height: "48px",
+  width: "40px",
+  height: "40px",
   borderRadius: "12px",
   flexShrink: 0,
   filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))",
@@ -956,8 +1147,8 @@ const TierIconContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  width: "48px",
-  height: "48px",
+  width: "36px",
+  height: "36px",
   borderRadius: "12px",
   flexShrink: 0,
   filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))",
@@ -969,7 +1160,7 @@ const TierIconContainer = styled(Box)(({ theme }) => ({
 }));
 
 const StatIcon = styled("span")({
-  fontSize: "36px",
+  fontSize: "28px",
   objectFit: "contain",
   filter: "drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2))",
   transition: "all 0.3s ease",
@@ -1001,7 +1192,7 @@ const StatLabel = styled(Typography)(({ theme }) => ({
 }));
 
 const StatValueText = styled(Typography)(({ theme }) => ({
-  fontSize: "20px",
+  fontSize: "16px",
   color: "#fff",
   fontWeight: "700",
   lineHeight: "1.2",
@@ -1014,17 +1205,6 @@ const StatDescription = styled(Typography)(({ theme }) => ({
   lineHeight: "1.3",
 }));
 
-const VerticalDivider = styled(Box)(({ theme }) => ({
-  width: "1px",
-  height: "60px",
-  background:
-    "linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.2), transparent)",
-  [theme.breakpoints.down("sm")]: {
-    width: "100%",
-    height: "1px",
-  },
-}));
-
 const TierDisplay = styled(Box)<{ tier: string }>(({ theme, tier }) => ({
   display: "flex",
   flexDirection: "column",
@@ -1032,7 +1212,7 @@ const TierDisplay = styled(Box)<{ tier: string }>(({ theme, tier }) => ({
 }));
 
 const TierName = styled(Typography)(({ theme }) => ({
-  fontSize: "18px",
+  fontSize: "16px",
   color: "#fff",
   fontWeight: "700",
   lineHeight: "1.2",
@@ -1166,4 +1346,96 @@ const TableWrapper = styled(Box)(({ theme }) => ({
   gap: "16px",
   width: "100%",
   alignItems: "center",
+}));
+
+const TransactionSection = styled(Box)(({ theme }) => ({
+  marginTop: "20px",
+  display: "flex",
+  flexDirection: "column",
+  gap: "10px",
+}));
+
+const TransactionContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+}));
+
+const TransactionTableContainer = styled(Box)(({ theme }) => ({
+  width: "100%",
+  overflowX: "auto",
+  borderRadius: "12px",
+  backgroundColor: "#0f1629",
+  border: "1px solid rgba(255, 255, 255, 0.1)",
+  boxShadow: "0 4px 15px rgba(0, 0, 0, 0.3)",
+  [theme.breakpoints.down(480)]: {
+    borderRadius: "8px",
+  },
+}));
+
+const TransactionTable = styled(Table)(({ theme }) => ({
+  width: "100%",
+  borderCollapse: "collapse",
+  "& th": {
+    fontSize: "14px",
+    color: "#8A8D98",
+    fontWeight: "500",
+    textTransform: "uppercase",
+    letterSpacing: "0.5px",
+    padding: "12px 16px",
+    borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+    textAlign: "left",
+    [theme.breakpoints.down(480)]: {
+      padding: "8px 12px",
+    },
+  },
+  "& td": {
+    fontSize: "14px",
+    color: "#fff",
+    padding: "12px 16px",
+    borderBottom: "1px solid rgba(255, 255, 255, 0.05)",
+    [theme.breakpoints.down(480)]: {
+      padding: "8px 12px",
+    },
+  },
+  "& tr:last-child td": {
+    borderBottom: "none",
+  },
+}));
+
+const EmptyTransactionState = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  padding: "40px 20px",
+  color: "#8A8D98",
+  fontSize: "18px",
+  fontWeight: "500",
+  textAlign: "center",
+  [theme.breakpoints.down(480)]: {
+    padding: "30px 15px",
+    fontSize: "16px",
+  },
+}));
+
+const EmptyTransactionIcon = styled("span")({
+  fontSize: "48px",
+  marginBottom: "15px",
+  color: "#8A8D98",
+});
+
+const EmptyTransactionText = styled(Typography)(({ theme }) => ({
+  fontSize: "24px",
+  fontWeight: "700",
+  color: "#fff",
+  marginBottom: "10px",
+  [theme.breakpoints.down(480)]: {
+    fontSize: "20px",
+  },
+}));
+
+const EmptyTransactionSubtext = styled(Typography)(({ theme }) => ({
+  fontSize: "14px",
+  color: "rgba(255, 255, 255, 0.7)",
+  lineHeight: "1.5",
 }));

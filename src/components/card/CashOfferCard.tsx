@@ -45,6 +45,8 @@ export const CashOfferCard = (props: CardProps) => {
       console.error("User session not found");
       return;
     }
+    const newLink = `${affiliateLink}?subid=${user.betsaveId}&partner_id=${offer._id}`;
+    window.open(newLink, "_blank", "noopener,noreferrer");
 
     try {
       const response = await casinoService.createAccount(
@@ -52,9 +54,6 @@ export const CashOfferCard = (props: CardProps) => {
         offer._id
       );
       console.log(response);
-
-      const newLink = `${affiliateLink}?subid=${user.betsaveId}&partner_id=${offer._id}`;
-      window.open(newLink, "_blank", "noopener,noreferrer");
     } catch (error) {
       console.log(error);
     }

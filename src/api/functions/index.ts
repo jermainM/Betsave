@@ -1,18 +1,5 @@
 import { userService } from "../services/userService";
 
-export const getUserBetHistory = async (user: any): Promise<any[]> => {
-    if (!user || !user.betsaveId) {
-        return [];
-    }
-    try {
-        const response = await userService.getUserBalance(user.betsaveId);
-        const history = response.data.cashbackDetails ?? [];
-        return history;
-    } catch (err) {
-        throw err;
-    }
-}
-
 export const getUserWalletData = async (betsaveId: string): Promise<any> => {
     if (!betsaveId) {
         return {

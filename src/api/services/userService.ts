@@ -2,10 +2,6 @@ import { createImmutableStateInvariantMiddleware } from "@reduxjs/toolkit";
 import api from "./api";
 
 export const userService = {
-  getUserBalance: async (betsaveId: string) => {
-    const response = await api.get(`/pinup/wallet-balance/${betsaveId}`);
-    return response.data;
-  },
   checkEligibility: async (betsaveId: string, balance: number) => {
     const response = await api.get(
       `/users/eligibility/${betsaveId}/${balance}`
@@ -14,10 +10,6 @@ export const userService = {
   },
   getUsers: async () => {
     const response = await api.get(`/users`);
-    return response.data;
-  },
-  getGeoLocation: async (ipAddress: string) => {
-    const response = await api.get(`/users/geo-location/${ipAddress}`);
     return response.data;
   },
 

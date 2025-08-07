@@ -134,7 +134,7 @@ export const STATIC_DATA = {
     {
       img: GreenSignupOfferIcon,
       title: "Sign-Up Offers",
-      content: "Join new sportsbooks and get exclusive cashback deals.",
+      content: "Join and get exclusive cashback deals.",
       action: "View Signup Offers",
       link: "/",
     },
@@ -434,7 +434,7 @@ export const STATIC_DATA = {
     {
       icon: TopBetPng,
       title: "Top Betting & Casino Brands",
-      subTitle: "Access leading sportsbooks and online casinos. ",
+      subTitle: "Access and online casinos. ",
     },
     {
       icon: CashbackPng,

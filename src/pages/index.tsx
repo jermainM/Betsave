@@ -154,7 +154,7 @@ export const Landing = ({ refCode }: LandingProps) => {
             <ProcessActionItem
               id={1}
               title="Create a fee account!"
-              text="Sign up for free to access exclusive sportsbook and casino offers. "
+              text="Sign up for free to access exclusive casino offers. "
             />
             <ProcessActionItem
               id={2}
@@ -164,7 +164,7 @@ export const Landing = ({ refCode }: LandingProps) => {
             <ProcessActionItem
               id={3}
               title="Bet and play!"
-              text="Bet on sports or play casino games through partner platforms."
+              text="Bet and play casino games through partner platforms."
             />
           </ProcessActionItemContainer>
           <ProcessActionImage1 src={Present1Png} alt="present" />
@@ -174,8 +174,7 @@ export const Landing = ({ refCode }: LandingProps) => {
         <TierSectionTitleContainer>
           <TierSectionTitle>NGR-Based Cashback Tier</TierSectionTitle>
           <TierSectionSubTitle>
-            Your total cashback is based on your monthly NGR across sportsbook
-            and casino combined.{" "}
+            Your total cashback is based on your monthly NGR across casino.{" "}
           </TierSectionSubTitle>
         </TierSectionTitleContainer>
         <TierItemContainer>

@@ -95,11 +95,11 @@ export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
           </MainOfferSection>
 
           {/* Cashback Section */}
-          <CashbackSection>
+          {/* <CashbackSection>
             <CashbackText>
               Cashback: Up to {offer.cashbackRate}% on Net Losses
             </CashbackText>
-          </CashbackSection>
+          </CashbackSection> */}
 
           {offer.cashbackType === "Promo" && offer.rewards.length > 0 && (
             <RewardSection>

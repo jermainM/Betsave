@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -15,6 +15,10 @@ import DateRangePicker from "../date/RangePicker";
 import { GiMoneyStack } from "react-icons/gi";
 import { formatEarningWithCommas } from "../../utils/number";
 import { BetsaveTooltip } from "../tooltip";
+import { transactionService } from "../../api/services/transactionService";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { useNotification } from "../../provider/notification";
 
 const data = [
   { month: "Jan", cashback: 0, lossTracked: 10 },
@@ -49,12 +53,51 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export const AccountDashboardChart = () => {
+  const [isTransactionsLoading, setIsTransactionsLoading] = useState(false);
   const [isPickerOpen, setPickerOpen] = useState(false);
   const [selectedRange, setSelectedRange] = useState({
     startDate: new Date(2025, 0, 1),
     endDate: new Date(2025, 11, 31),
     key: "selection",
   });
+
+  const [totalCashback, setTotalCashback] = useState(0);
+
+  const { user } = useSelector((state: RootState) => state.session);
+  const { notifyError } = useNotification();
+  const getTransactions = async (showLoading = false) => {
+    if (showLoading) {
+      setIsTransactionsLoading(true);
+    }
+
+    try {
+      const response = await transactionService.getTransactionByBetsaveId(
+        user.betsaveId
+      );
+
+      const _totalCashback = response.data.reduce((acc: number, curr: any) => {
+        if (curr.status === "paid") {
+          return acc + curr.totalRequestedAmount;
+        }
+        return acc;
+      }, 0);
+
+      setTotalCashback(_totalCashback);
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+      notifyError("Failed to fetch transaction data");
+    } finally {
+      if (showLoading) {
+        setIsTransactionsLoading(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      getTransactions();
+    }
+  }, [user]);
 
   return (
     <ChartContainer>
@@ -67,10 +110,12 @@ export const AccountDashboardChart = () => {
               <span>Total cashback Earned</span>
             </Title>
             <RevenueContainer>
-              <RevenueValue>$ {formatEarningWithCommas(2408)}</RevenueValue>
-              <RevenueBadge>
+              <RevenueValue>
+                $ {formatEarningWithCommas(totalCashback)}
+              </RevenueValue>
+              {/* <RevenueBadge>
                 24.6% <MdArrowOutward />
-              </RevenueBadge>
+              </RevenueBadge> */}
             </RevenueContainer>
           </Box>
         </BetsaveTooltip>

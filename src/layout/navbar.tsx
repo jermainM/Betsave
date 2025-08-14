@@ -236,7 +236,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
               onClick={handleUserMenuClick}
             >
               <Avatar
-                src={TempUserIcon}
+                src={user.avatar || TempUserIcon}
                 sx={{ width: "25px", height: "25px", marginRight: "8px" }}
               />
               {user ? `${user.firstName} ${user.lastName}` : "User"}

@@ -74,7 +74,7 @@ export const AccountManage = () => {
         <ProfileInfoCard>
           <VectorImg src={NetImg} alt="vector-img" />
           <UserAvatar>
-            <AvatarImg src={TempUserIcon} alt="avatar-img" />
+            <AvatarImg src={user.avatar || TempUserIcon} alt="avatar-img" />
           </UserAvatar>
           <ProfileContent>
             <ProfileContentContainer>

@@ -1,5 +1,6 @@
 import { createImmutableStateInvariantMiddleware } from "@reduxjs/toolkit";
 import api from "./api";
+import { API_CONFIG } from "../../config/api.config";
 
 export const userService = {
   checkEligibility: async (betsaveId: string, balance: number) => {
@@ -42,7 +43,13 @@ export const userService = {
     console.log("formData: ", formData);
     
     // For FormData, don't set Content-Type manually - let the browser set it with boundary
-    const response = await api.put(`/users/info/${betsaveId}`, formData);
-    return response.data;
+    const response = await fetch(`${API_CONFIG.BASE_URL}/users/info/${betsaveId}`, {
+      method: 'PUT',
+      body: formData,
+    });
+
+    const res =  await response.json();
+    console.log("res: ", res);
+    return res;
   },
 };

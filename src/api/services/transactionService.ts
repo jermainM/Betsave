@@ -32,4 +32,9 @@ export const transactionService = {
     const response = await api.get("transactions/leaderboard");
     return response.data;
   },
+
+  getMonthlyScheduling: async () => {
+    const response = await api.get("users/test-monthly-scheduling");
+    return response.data;
+  },
 };

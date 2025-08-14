@@ -32,4 +32,7 @@ const DashboardContainer = styled(Box)(({ theme }) => ({
   width: "100%",
   padding: "20px 0px",
   marginTop: "20px",
+  [theme.breakpoints.down(640)]: {
+    padding: "0px",
+  },
 }));

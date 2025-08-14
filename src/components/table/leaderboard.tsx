@@ -162,7 +162,7 @@ export const LeaderBoardTable = () => {
   return (
     <Container>
       <LeaderBoardAction>
-        <TabbarContainer>
+        {/* <TabbarContainer>
           <StyledTabs value={tab} onChange={handleTabChange}>
             <StyledTab
               icon={<LuBadgeDollarSign />}
@@ -178,8 +178,8 @@ export const LeaderBoardTable = () => {
               {...a11yProps(1)}
               value={5000}
             />
-          </StyledTabs>
-        </TabbarContainer>
+          </StyledTabs> 
+        </TabbarContainer> */}
         <OptionButton
           ref={anchorRef}
           id="composition-button"

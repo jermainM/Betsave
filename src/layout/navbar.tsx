@@ -55,7 +55,6 @@ export const NavBar = (props: { children: React.ReactNode }) => {
   const { user } = useSelector((state: RootState) => state.session);
   const activeItem = useSelector((state: RootState) => state.navbar.activeItem);
   const [searchText, setSearchText] = useState("");
-  const [isExpand, setExpand] = useState(true);
   const [sidebarAnchorEl, setSidebarAnchorEl] = useState<null | HTMLElement>(
     null
   );
@@ -141,7 +140,7 @@ export const NavBar = (props: { children: React.ReactNode }) => {
     }
   };
 
-  const mobileListItem = STATIC_DATA.navListItems.slice(0, 4);
+  const mobileListItem = STATIC_DATA.navListItems;
   const restListItem = STATIC_DATA.navListItems.slice(4);
 
   useEffect(() => {
@@ -285,23 +284,21 @@ export const NavBar = (props: { children: React.ReactNode }) => {
       <MainboardContainer>
         <SideBarContainer
           sx={{
-            minWidth: `${isExpand ? 280 : 64}px`,
-            width: `${isExpand ? 280 : 64}px`,
+            minWidth: `280px`,
+            width: `280px`,
             transition: "all 0.3s ease",
             overflowX: "hidden",
           }}
         >
-          <GiftClaimContainer
+          {/* <GiftClaimContainer
             sx={{
-              background: !isExpand
-                ? "none"
-                : `
+              background: `
                   linear-gradient(90deg, #0D1422 0%, #141C30 60%, transparent 100%),
                   radial-gradient(circle at 75% 100%, rgba(14, 247, 169, 0.3) 0%, rgba(20, 28, 48, 0) 64%)
                 `,
             }}
           >
-            <GiftClaimValueContainer sx={{ opacity: isExpand ? 1 : 0 }}>
+            <GiftClaimValueContainer>
               <GiftCount>0 / 1000</GiftCount>
               <GiftDuration>
                 <AccessTime fontSize="small" />
@@ -312,15 +309,15 @@ export const NavBar = (props: { children: React.ReactNode }) => {
               src={GiftIcon}
               alt="gift-img"
               sx={{
-                width: isExpand ? "120px" : "45px",
+                width: "120px",
                 height: "auto",
                 position: "absolute",
-                bottom: isExpand ? "-35px" : "22px",
-                left: isExpand ? "unset" : 0,
-                right: isExpand ? 0 : "unset",
+                bottom: "-35px",
+                left: "unset",
+                right: 0,
               }}
             />
-          </GiftClaimContainer>
+          </GiftClaimContainer> */}
 
           <SideBarList>
             {STATIC_DATA.navListItems.map((item) => (
@@ -328,6 +325,11 @@ export const NavBar = (props: { children: React.ReactNode }) => {
                 <SideBarListItemButton
                   selected={selectedItem === item.idx}
                   onClick={() => handleNavItemClick(item.idx)}
+                  disabled={item.comingSoon}
+                  sx={{
+                    opacity: "1 !important",
+                    cursor: item.comingSoon ? "not-allowed" : "pointer",
+                  }}
                 >
                   <SideBarListItemIcon
                     sx={{
@@ -339,17 +341,27 @@ export const NavBar = (props: { children: React.ReactNode }) => {
                   </SideBarListItemIcon>
                   <SideBarListItemText
                     sx={{
-                      opacity: isExpand ? 1 : 0,
+                      opacity: 1,
                     }}
                   >
                     {item.name}
                   </SideBarListItemText>
+                  {item.comingSoon && (
+                    <ComingSoonBadge
+                      sx={{
+                        opacity: 1,
+                        transition: "all 0.3s ease",
+                      }}
+                    >
+                      Coming Soon
+                    </ComingSoonBadge>
+                  )}
                 </SideBarListItemButton>
               </SideBarListItem>
             ))}
           </SideBarList>
         </SideBarContainer>
-        <MainboardContent expand={isExpand ? 1 : 0}>
+        <MainboardContent>
           <Box sx={{ minHeight: "calc(100vh - 150px)" }}>{children}</Box>
           <FooterContainer>
             <Footer />
@@ -364,13 +376,14 @@ export const NavBar = (props: { children: React.ReactNode }) => {
             onClick={() => handleNavItemClick(item.idx)}
             icon={item.icon}
             name={item.name}
+            comingSoon={item.comingSoon}
             key={"MobileSidebar-" + item.idx}
           />
         ))}
       </MobileSidebarContainer>
 
       <MobileSmallSidebarContainer>
-        <SidebarMenuButton onClick={handleSidebarMenuClick}>
+        {/* <SidebarMenuButton onClick={handleSidebarMenuClick}>
           <MenuImg src={ExpandSidebarIcon} alt="expand-sidebar-icon" />
         </SidebarMenuButton>
         <StyledMenu
@@ -390,16 +403,18 @@ export const NavBar = (props: { children: React.ReactNode }) => {
                 icon={item.icon}
                 name={item.name}
                 key={"SmallSidebar-" + item.idx}
+                comingSoon={item.comingSoon}
               />
             ))}
           </SmallSidebarItemContainer>
-        </StyledMenu>
+        </StyledMenu> */}
         {mobileListItem.map((item) => (
           <MobileSidebarItem
             isSelected={selectedItem === item.idx}
             onClick={() => handleNavItemClick(item.idx)}
             icon={item.icon}
             name={item.name}
+            comingSoon={item.comingSoon}
             key={"MobileSmallSidebar-" + item.idx}
           />
         ))}
@@ -705,8 +720,8 @@ const SideBarListItemButton = styled(ListItemButton)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  paddingLeft: "12px",
-  gap: "20px",
+  paddingLeft: "6px",
+  gap: "14px",
   "&.Mui-selected": {
     background: `linear-gradient(
       to right,
@@ -729,6 +744,48 @@ const SideBarListItemIcon = styled(ListItemIcon)(({ theme }) => ({
 
 const SideBarListItemText = styled(ListItemText)(({ theme }) => ({
   textWrap: "nowrap",
+}));
+
+const ComingSoonBadge = styled(Box)(({ theme }) => ({
+  padding: "2px 8px",
+  borderRadius: "8px",
+  fontSize: "9px",
+  fontWeight: "800",
+  textTransform: "uppercase",
+  letterSpacing: "0.8px",
+  background: "linear-gradient(135deg, #1AE5A1 0%, #01A482 50%, #0ef7a9 100%)",
+  color: "#fff",
+  boxShadow:
+    "0 2px 8px rgba(26, 229, 161, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.15)",
+  transform: "rotate(-8deg)",
+  whiteSpace: "nowrap",
+  textAlign: "center",
+  position: "relative",
+  overflow: "hidden",
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: "8px",
+    background:
+      "linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, transparent 60%)",
+    pointerEvents: "none",
+  },
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    top: "2px",
+    left: "2px",
+    right: "2px",
+    bottom: "2px",
+    borderRadius: "6px",
+    background:
+      "linear-gradient(135deg, transparent 0%, rgba(0, 0, 0, 0.1) 100%)",
+    pointerEvents: "none",
+  },
 }));
 
 const MobileSidebarContainer = styled(Box)(({ theme }) => ({
@@ -763,6 +820,7 @@ const MobileSmallSidebarContainer = styled(Box)(({ theme }) => ({
   bottom: 0,
   width: "100%",
   height: "auto",
+  overflowX: "auto",
   backgroundColor: "#0E1629",
   justifyContent: "center",
   boxShadow: "0px -1px 4px 0px rgba(5,5,5,0.75);",
@@ -784,17 +842,21 @@ interface MobileSidebarItemProps {
   icon: React.ReactNode;
   name: string;
   onClick: () => void;
+  comingSoon?: boolean;
 }
 
 const MobileSidebarItem = (props: MobileSidebarItemProps) => {
-  const { isSelected, icon, name, onClick } = props;
+  const { isSelected, icon, name, onClick, comingSoon = false } = props;
   return (
     <MobileSidebarItemContainer
       sx={{
         backgroundColor: isSelected ? "#01A482" : "none",
         color: isSelected ? "#fff" : "#627691",
+        opacity: "1 !important",
+        cursor: comingSoon ? "not-allowed" : "pointer",
       }}
-      onClick={onClick}
+      onClick={comingSoon ? undefined : onClick}
+      disabled={comingSoon}
     >
       <MobileSidebarIcon
         sx={{ filter: isSelected ? "none" : "grayScale(100%)" }}
@@ -802,6 +864,7 @@ const MobileSidebarItem = (props: MobileSidebarItemProps) => {
         {icon}
       </MobileSidebarIcon>
       <MobileSidebarItemText>{name}</MobileSidebarItemText>
+      {comingSoon && <MobileComingSoonBadge>Soon</MobileComingSoonBadge>}
     </MobileSidebarItemContainer>
   );
 };
@@ -843,25 +906,71 @@ const MobileSidebarItemText = styled(Box)(({ theme }) => ({
   },
 }));
 
+const MobileComingSoonBadge = styled(Box)(({ theme }) => ({
+  position: "absolute",
+  top: "-2px",
+  right: "-2px",
+  padding: "1px 4px",
+  borderRadius: "5px",
+  fontSize: "7px",
+  fontWeight: "800",
+  textTransform: "uppercase",
+  letterSpacing: "0.6px",
+  background: "linear-gradient(135deg, #1AE5A1 0%, #01A482 50%, #0ef7a9 100%)",
+  color: "#fff",
+  boxShadow:
+    "0 1px 4px rgba(26, 229, 161, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1)",
+  transform: "rotate(-12deg)",
+  whiteSpace: "nowrap",
+  textAlign: "center",
+  overflow: "hidden",
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: "5px",
+    background:
+      "linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, transparent 60%)",
+    pointerEvents: "none",
+  },
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    top: "1px",
+    left: "1px",
+    right: "1px",
+    bottom: "1px",
+    borderRadius: "4px",
+    background:
+      "linear-gradient(135deg, transparent 0%, rgba(0, 0, 0, 0.1) 100%)",
+    pointerEvents: "none",
+  },
+}));
+
 const MainboardContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   gap: "20px",
   width: "100%",
 }));
 
-const MainboardContent = styled(Box)<{ expand: number }>(
-  ({ theme, expand }) => ({
-    display: "flex",
-    flexDirection: "column",
-    gap: "20px",
-    width: `calc(100% - 20px - ${expand === 1 ? 320 : 64}px)`,
-    padding: "0 20px 20px 20px",
-    maxWidth: "1500px",
-    [theme.breakpoints.down(1096)]: {
-      width: "100%",
-    },
-  })
-);
+const MainboardContent = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "20px",
+  width: `calc(100% - 20px - 320px)`,
+  padding: "0 20px 20px 20px",
+  maxWidth: "1500px",
+  [theme.breakpoints.down(1096)]: {
+    width: "100%",
+  },
+
+  [theme.breakpoints.down(640)]: {
+    padding: "0px 10px 10px 10px",
+  },
+}));
 
 const FooterContainer = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down(540)]: {
@@ -892,14 +1001,17 @@ const MenuImg = styled("img")(({ theme }) => ({
 }));
 
 const SmallSidebarItem = (props: MobileSidebarItemProps) => {
-  const { isSelected, icon, name, onClick } = props;
+  const { isSelected, icon, name, onClick, comingSoon = false } = props;
   return (
     <MobileSidebarItemContainer
       sx={{
         backgroundColor: isSelected ? "#01A482" : "none",
         color: isSelected ? "#fff" : "#627691",
+        opacity: "1 !important",
+        cursor: comingSoon ? "not-allowed" : "pointer",
       }}
-      onClick={onClick}
+      onClick={comingSoon ? undefined : onClick}
+      disabled={comingSoon}
     >
       <MobileSidebarIcon
         sx={{ filter: isSelected ? "none" : "grayScale(100%)" }}
@@ -907,6 +1019,7 @@ const SmallSidebarItem = (props: MobileSidebarItemProps) => {
         {icon}
       </MobileSidebarIcon>
       <MobileSidebarItemText>{name}</MobileSidebarItemText>
+      {comingSoon && <MobileComingSoonBadge>Soon</MobileComingSoonBadge>}
     </MobileSidebarItemContainer>
   );
 };

@@ -107,7 +107,9 @@ export const LeaderBoard = () => {
               <PrizeLabel>Monthly Prize Pool</PrizeLabel>
               <PrizeIcon>🏆</PrizeIcon>
             </PrizeHeader>
-            <PrizeAmount>${totalPrize}</PrizeAmount>
+            <PrizeAmount>
+              ${formatEarningWithCommas(Number(totalPrize))}
+            </PrizeAmount>
             <PrizeSubtext>Total rewards up for grabs</PrizeSubtext>
           </PrizeCard>
 

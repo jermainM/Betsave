@@ -237,7 +237,6 @@ export const STATIC_DATA = {
     {
       icon: <IconImg src={GreenAbleOfferPng} alt="nav-item-img" />,
       name: "Offers",
-      hasBadge: true,
       idx: 1,
     },
     {
@@ -254,16 +253,19 @@ export const STATIC_DATA = {
       icon: <IconImg src={GreenLeaderboardPng} alt="nav-item-img" />,
       name: "Leaderboard",
       idx: 4,
+      comingSoon: true,
     },
     {
       icon: <IconImg src={GreenRewardPng} alt="nav-item-img" />,
       name: "Rewards",
       idx: 5,
+      comingSoon: true,
     },
     {
       icon: <IconImg src={GreenAffiliatePng} alt="nav-item-img" />,
       name: "Affiliates",
       idx: 6,
+      comingSoon: true,
     },
   ],
   accountListItems: [

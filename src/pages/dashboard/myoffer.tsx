@@ -30,9 +30,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearSession } from "../../store/slices/sessionSlice";
 import { RootState } from "../../store";
 import { LoadingBox } from "../../components/loader/LoadingBox";
+import CountrySelect from "../../components/common/CountrySelect";
 
 export const MyOffer = () => {
   const [offers, setOffers] = useState<OfferProps[]>([]);
+  const [countryFilter, setCountryFilter] = useState("");
   const { notifyError } = useNotification();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -77,6 +79,16 @@ export const MyOffer = () => {
       setLoading(false);
     }
   };
+
+  // Filter offers by country
+  const filteredOffers = offers.filter((offer) => {
+    const matchesCountry =
+      !countryFilter ||
+      offer.allowedCountries.includes("ALL") ||
+      (offer.allowedCountries &&
+        offer.allowedCountries.includes(countryFilter));
+    return matchesCountry;
+  });
 
   useEffect(() => {
     if (user) {
@@ -124,33 +136,44 @@ export const MyOffer = () => {
           </MyOfferContentAction>
         )}
       </Heading>
-      {isLoading ? (
-        <LoadingBox />
-      ) : offers.length === 0 ? (
-        <EmptyBox />
-      ) : (
-        <CashOfferSwiper>
-          <CustomSwiper
-            slidesPerView={"auto"}
-            freeMode={true}
-            keyboard={{
-              enabled: true,
-            }}
-            navigation={{
-              nextEl: ".cashoffer-swiper-button-next",
-              prevEl: ".cashoffer-swiper-button-prev",
-            }}
-            modules={[Keyboard, Pagination, Navigation, Autoplay, FreeMode]}
-            className="mySwiper"
-          >
-            {offers.map((offer, idx) => (
-              <SwiperSlide key={"MyOffer-" + idx}>
-                <CashOfferCard offer={offer} />
-              </SwiperSlide>
-            ))}
-          </CustomSwiper>
-        </CashOfferSwiper>
-      )}
+      <OfferContainer>
+        <FilterContainer>
+          <CountrySelectWrapper>
+            <CountrySelect
+              value={countryFilter}
+              onChange={setCountryFilter}
+              placeholder="Filter offers by country"
+            />
+          </CountrySelectWrapper>
+        </FilterContainer>
+        {isLoading ? (
+          <LoadingBox size="small" />
+        ) : offers.length === 0 ? (
+          <EmptyBox />
+        ) : (
+          <CashOfferSwiper>
+            <CustomSwiper
+              slidesPerView={"auto"}
+              freeMode={true}
+              keyboard={{
+                enabled: true,
+              }}
+              navigation={{
+                nextEl: ".cashoffer-swiper-button-next",
+                prevEl: ".cashoffer-swiper-button-prev",
+              }}
+              modules={[Keyboard, Pagination, Navigation, Autoplay, FreeMode]}
+              className="mySwiper"
+            >
+              {filteredOffers.map((offer, idx) => (
+                <SwiperSlide key={"MyOffer-" + idx}>
+                  <CashOfferCard offer={offer} />
+                </SwiperSlide>
+              ))}
+            </CustomSwiper>
+          </CashOfferSwiper>
+        )}
+      </OfferContainer>
     </MyOfferContainer>
   );
 };
@@ -371,5 +394,24 @@ const HeadingContent = styled(Typography)(({ theme }) => ({
   fontSize: "16px",
   [theme.breakpoints.down(480)]: {
     fontSize: "14px",
+  },
+}));
+
+const OfferContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "20px",
+}));
+
+const FilterContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "flex-start",
+  width: "100%",
+}));
+
+const CountrySelectWrapper = styled(Box)(({ theme }) => ({
+  width: "300px",
+  [theme.breakpoints.down(480)]: {
+    width: "100%",
   },
 }));

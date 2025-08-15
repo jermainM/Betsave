@@ -6,12 +6,14 @@ interface CountrySelectProps {
   value: string;
   onChange: (countryCode: string) => void;
   error?: boolean;
+  placeholder?: string;
 }
 
 const CountrySelect: React.FC<CountrySelectProps> = ({
   value,
   onChange,
   error,
+  placeholder,
 }) => {
   const theme = useTheme();
 
@@ -47,7 +49,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
         renderInput={(params) => (
           <TextField
             {...params}
-            placeholder="Select your country"
+            placeholder={placeholder || "Select your country"}
             error={error}
             InputProps={{
               ...params.InputProps,

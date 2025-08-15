@@ -85,8 +85,8 @@ const LoadingContainer = styled(Box)<{ size: string }>(({ theme, size }) => ({
   alignItems: "center",
   justifyContent: "center",
   position: "relative",
-  width: size === "small" ? "200px" : size === "large" ? "320px" : "250px",
-  height: size === "small" ? "200px" : size === "large" ? "320px" : "300px",
+  width: size === "small" ? "230px" : size === "large" ? "320px" : "250px",
+  height: size === "small" ? "256px" : size === "large" ? "320px" : "300px",
   background:
     "linear-gradient(135deg, rgba(26, 229, 161, 0.05) 0%, rgba(68, 8, 102, 0.05) 100%)",
   borderRadius: "20px",

@@ -17,10 +17,12 @@ import { offerService } from "../../api/services/offerService";
 import { EmptyBox } from "../../components/box/EmptyBox";
 import { useNotification } from "../../provider/notification";
 import { LoadingBox } from "../../components/loader/LoadingBox";
+import CountrySelect from "../../components/common/CountrySelect";
 
 export const AvailableOffer = () => {
   const [offers, setOffers] = useState<OfferProps[]>([]);
   const [isLoading, setLoading] = useState(false);
+  const [countryFilter, setCountryFilter] = useState("");
 
   const { notifyError } = useNotification();
   const fetchOffers = async () => {
@@ -58,6 +60,17 @@ export const AvailableOffer = () => {
     }
   };
 
+  // Filter offers by country and cashback type
+  const filteredOffers = offers.filter((offer) => {
+    const isNGR = offer.cashbackType === "NGR";
+    const matchesCountry =
+      !countryFilter ||
+      offer.allowedCountries.includes("ALL") ||
+      (offer.allowedCountries &&
+        offer.allowedCountries.includes(countryFilter));
+    return isNGR && matchesCountry;
+  });
+
   useEffect(() => {
     fetchOffers();
   }, []);
@@ -89,35 +102,44 @@ export const AvailableOffer = () => {
           </HeadingAction>
         )}
       </Heading>
-      {isLoading ? (
-        <LoadingBox />
-      ) : offers.length === 0 ? (
-        <EmptyBox />
-      ) : (
-        <AvailableOfferwiper>
-          <CustomSwiper
-            slidesPerView={"auto"}
-            freeMode={true}
-            keyboard={{
-              enabled: true,
-            }}
-            navigation={{
-              nextEl: ".myoffer-swiper-button-next",
-              prevEl: ".myoffer-swiper-button-prev",
-            }}
-            modules={[Keyboard, Pagination, Navigation, Autoplay, FreeMode]}
-            className="mySwiper"
-          >
-            {offers
-              .filter((offer) => offer.cashbackType === "NGR")
-              .map((offer, idx) => (
+      <OfferContainer>
+        <FilterContainer>
+          <CountrySelectWrapper>
+            <CountrySelect
+              value={countryFilter}
+              onChange={setCountryFilter}
+              placeholder="Filter offers by country"
+            />
+          </CountrySelectWrapper>
+        </FilterContainer>
+        {isLoading ? (
+          <LoadingBox size="small" />
+        ) : offers.length === 0 ? (
+          <EmptyBox />
+        ) : (
+          <AvailableOfferwiper>
+            <CustomSwiper
+              slidesPerView={"auto"}
+              freeMode={true}
+              keyboard={{
+                enabled: true,
+              }}
+              navigation={{
+                nextEl: ".myoffer-swiper-button-next",
+                prevEl: ".myoffer-swiper-button-prev",
+              }}
+              modules={[Keyboard, Pagination, Navigation, Autoplay, FreeMode]}
+              className="mySwiper"
+            >
+              {filteredOffers.map((offer, idx) => (
                 <SwiperSlide key={"Offer-" + idx}>
                   <CashOfferCard offer={offer} />
                 </SwiperSlide>
               ))}
-          </CustomSwiper>
-        </AvailableOfferwiper>
-      )}
+            </CustomSwiper>
+          </AvailableOfferwiper>
+        )}
+      </OfferContainer>
     </Container>
   );
 };
@@ -215,5 +237,24 @@ const CustomSwiper = styled(Swiper)(({ theme }) => ({
   },
   ".swiper-slide": {
     width: "auto",
+  },
+}));
+
+const OfferContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "20px",
+}));
+
+const FilterContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  justifyContent: "flex-start",
+  width: "100%",
+}));
+
+const CountrySelectWrapper = styled(Box)(({ theme }) => ({
+  width: "300px",
+  [theme.breakpoints.down(480)]: {
+    width: "100%",
   },
 }));

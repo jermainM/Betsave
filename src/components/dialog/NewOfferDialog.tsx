@@ -13,6 +13,10 @@ import {
   OfferStarIcon,
   OfferPeopleIcon,
   BetSaveLogoImg,
+  BronzeIcon,
+  SilverIcon,
+  GoldIcon,
+  PlatinumIcon,
 } from "../../constants/images";
 import { FaStar } from "react-icons/fa";
 import { MoreInfoDialog } from "./MoreInfoDialog";
@@ -119,6 +123,31 @@ export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
             </RewardSection>
           )}
 
+          {offer.cashbackType !== "Promo" && (
+            <TierCardContainer>
+              <TierCard
+                icon={BronzeIcon}
+                title="Bronze"
+                content="<$500 NGR + 5% Cashback"
+              />
+              <TierCard
+                icon={SilverIcon}
+                title="Silver"
+                content="<$1000 NGR + 7.5% Cashback"
+              />
+              <TierCard
+                icon={GoldIcon}
+                title="Gold"
+                content="<$2000 NGR + 10% Cashback "
+              />
+              <TierCard
+                icon={PlatinumIcon}
+                title="Platinum"
+                content="<$5000 NGR + 12.5% Cashback"
+              />
+            </TierCardContainer>
+          )}
+
           {/* Game Categories */}
           <GameCategoriesSection>
             <CategoryButton>
@@ -190,8 +219,7 @@ export const NewOfferDialog: React.FC<NewOfferDialogProps> = ({
           <FooterLogo src={BetSaveLogoImg} alt="BetSave" />
           <FooterInfo>
             <FooterItem>T&C's apply</FooterItem>
-            <FooterItem>Min $10 Deposit</FooterItem>
-            <FooterItem>KYC Req</FooterItem>
+            <FooterItem>Min $20 Deposit</FooterItem>
           </FooterInfo>
           <FooterDivider />
           <FooterBottom>
@@ -719,6 +747,129 @@ const RewardText = styled(Typography)(({ theme }) => ({
   fontSize: "14px",
   color: "#8A8D98",
   [theme.breakpoints.down(450)]: {
+    fontSize: "12px",
+  },
+}));
+
+const TierCardContainer = styled(Box)(({ theme }) => ({
+  display: "grid",
+  gridTemplateColumns: "repeat(2, 1fr)",
+  gap: "8px",
+}));
+
+interface TierCardProps {
+  icon: string;
+  title: string;
+  content: string;
+}
+
+const TierCard = (props: TierCardProps) => {
+  const { icon, title, content } = props;
+  return (
+    <TierItemWrapper>
+      <TierItemIcon src={icon} alt="tier" />
+      <TierItemContent>
+        <TierItemTitle>{title}</TierItemTitle>
+        <TierItemSubTitle>{content}</TierItemSubTitle>
+      </TierItemContent>
+    </TierItemWrapper>
+  );
+};
+
+const TierItemWrapper = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "4px",
+  justifyContent: "center",
+  width: "100%",
+  padding: "10px",
+  background: "linear-gradient(180deg, #14393C 0%, #152330 100%)",
+  position: "relative",
+  borderRadius: "4px",
+  transition: "all 0.3s ease-in-out",
+  cursor: "pointer",
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    padding: "1px",
+    borderRadius: "4px",
+    background: "linear-gradient(180deg, #1AE5A1 0%, #0D1321 100%)",
+    WebkitMask:
+      "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+    WebkitMaskComposite: "xor",
+    maskComposite: "exclude",
+    transition: "all 0.3s ease-in-out",
+  },
+  "&::after": {
+    content: '""',
+    position: "absolute",
+    inset: 0,
+    borderRadius: "4px",
+    background:
+      "radial-gradient(circle at 50% 0%, rgba(26, 229, 161, 0.15), transparent 70%)",
+    pointerEvents: "none",
+    transition: "all 0.3s ease-in-out",
+  },
+  "&:hover": {
+    transform: "translateY(-1px)",
+    boxShadow: "0 20px 40px rgba(26, 229, 161, 0.15)",
+    "&::before": {
+      background: "linear-gradient(180deg, #1AE5A1 0%, #1AE5A1 100%)",
+    },
+    "&::after": {
+      background:
+        "radial-gradient(circle at 50% 0%, rgba(26, 229, 161, 0.3), transparent 70%)",
+    },
+    "& img": {
+      transform: "scale(1.1)",
+    },
+    "& h6": {
+      color: "#1AE5A1",
+    },
+  },
+
+  [theme.breakpoints.down(450)]: {
+    padding: "4px",
+  },
+}));
+
+const TierItemIcon = styled("img")(({ theme }) => ({
+  width: "60px",
+  height: "60px",
+  objectFit: "contain",
+  transition: "transform 0.3s ease-in-out",
+
+  [theme.breakpoints.down(640)]: {
+    width: "45px",
+    height: "45px",
+  },
+}));
+
+const TierItemContent = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "2px",
+  alignItems: "center",
+}));
+
+const TierItemTitle = styled(Typography)(({ theme }) => ({
+  fontSize: "18px",
+  fontWeight: "500",
+  color: "#fff",
+  transition: "color 0.3s ease-in-out",
+
+  [theme.breakpoints.down(640)]: {
+    fontSize: "16px",
+  },
+}));
+
+const TierItemSubTitle = styled(Typography)(({ theme }) => ({
+  fontSize: "14px",
+  fontWeight: "500",
+  color: "#627691",
+  textAlign: "center",
+  [theme.breakpoints.down(640)]: {
     fontSize: "12px",
   },
 }));

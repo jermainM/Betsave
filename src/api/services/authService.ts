@@ -23,6 +23,7 @@ interface SignUpProps {
   ipAddress: string;
   countryCode: string;
   referralCode: string | null;
+  subscribe: boolean;
 }
 // Store tokens in localStorage
 export const storeTokens = (accessToken: string) => {
@@ -111,14 +112,14 @@ export const authService = {
   },
 
   signup: async (props: SignUpProps) => {  
-    const { email, password, firstname, lastname, country, ipAddress, countryCode, referralCode } = props;
+    const { email, password, firstname, lastname, country, ipAddress, countryCode, referralCode, subscribe } = props;
     try {
       const response = await fetch(ENDPOINTS.AUTH.SIGNUP, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password, firstname, lastname, country, ipAddress, countryCode, referralCode }), 
+        body: JSON.stringify({ email, password, firstname, lastname, country, ipAddress, countryCode, referralCode, subscribe }), 
       });
       const data = await response.json();
       

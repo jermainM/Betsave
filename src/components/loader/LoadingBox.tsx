@@ -85,8 +85,9 @@ const LoadingContainer = styled(Box)<{ size: string }>(({ theme, size }) => ({
   alignItems: "center",
   justifyContent: "center",
   position: "relative",
-  width: size === "small" ? "230px" : size === "large" ? "320px" : "250px",
-  height: size === "small" ? "256px" : size === "large" ? "320px" : "300px",
+  marginTop: "20px",
+  width: size === "small" ? "190px" : size === "large" ? "320px" : "200px",
+  height: size === "small" ? "226px" : size === "large" ? "320px" : "250px",
   background:
     "linear-gradient(135deg, rgba(26, 229, 161, 0.05) 0%, rgba(68, 8, 102, 0.05) 100%)",
   borderRadius: "20px",
@@ -100,8 +101,8 @@ const LoadingContainer = styled(Box)<{ size: string }>(({ theme, size }) => ({
 
 const PulseRing = styled(Box)(({ theme }) => ({
   position: "absolute",
-  width: "80px",
-  height: "80px",
+  width: "60px",
+  height: "60px",
   borderRadius: "50%",
   border: "2px solid rgba(26, 229, 161, 0.3)",
   animation: `${pulse} 2s ease-in-out infinite`,
@@ -113,8 +114,8 @@ const PulseRing = styled(Box)(({ theme }) => ({
 
 const SpinnerRing = styled(Box)(({ theme }) => ({
   position: "absolute",
-  width: "60px",
-  height: "60px",
+  width: "40px",
+  height: "40px",
   borderRadius: "50%",
   border: "3px solid transparent",
   borderTop: "3px solid #1AE5A1",
@@ -128,8 +129,8 @@ const SpinnerRing = styled(Box)(({ theme }) => ({
 
 const GradientRing = styled(Box)(({ theme }) => ({
   position: "absolute",
-  width: "100px",
-  height: "100px",
+  width: "80px",
+  height: "80px",
   borderRadius: "50%",
   background:
     "conic-gradient(from 0deg, transparent, rgba(26, 229, 161, 0.3), transparent)",
@@ -162,7 +163,7 @@ const FloatingDots = styled(Box)(({ theme }) => ({
   left: "50%",
   transform: "translate(-50%, -50%)",
   display: "flex",
-  gap: "8px",
+  gap: "4px",
 }));
 
 const Dot = styled(Box)<{ delay: number }>(({ theme, delay }) => ({

@@ -44,6 +44,7 @@ interface FormData {
   firstname: string;
   lastname: string;
   country: string;
+  subscribe: boolean;
 }
 
 interface FormErrors {
@@ -53,6 +54,7 @@ interface FormErrors {
   firstname: string;
   lastname: string;
   country: string;
+  subscribe: string;
 }
 
 export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
@@ -67,6 +69,7 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
     firstname: "",
     lastname: "",
     country: "",
+    subscribe: false,
   });
   const [errors, setErrors] = useState<FormErrors>({
     email: "",
@@ -75,6 +78,7 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
     firstname: "",
     lastname: "",
     country: "",
+    subscribe: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const { notifyError, notifySuccess } = useNotification();
@@ -98,6 +102,7 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
         firstname: "",
         lastname: "",
         country: "",
+        subscribe: false,
       });
       setErrors({
         email: "",
@@ -106,6 +111,7 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
         firstname: "",
         lastname: "",
         country: "",
+        subscribe: "",
       });
     }
   }, [isOpen, isSignIn]);
@@ -127,6 +133,7 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       firstname: "",
       lastname: "",
       country: "",
+      subscribe: "",
     };
 
     if (!formData.email) {
@@ -192,6 +199,7 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       firstname: "",
       lastname: "",
       country: "",
+      subscribe: false,
     });
     setErrors({
       email: "",
@@ -200,6 +208,7 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
       firstname: "",
       lastname: "",
       country: "",
+      subscribe: "",
     });
   }, [setOpen]);
 
@@ -256,6 +265,7 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
               lastname: formData.lastname,
               country: formData.country,
               password: formData.password,
+              subscribe: formData.subscribe,
             },
           });
         }
@@ -500,13 +510,26 @@ export const AuthDialog = ({ isOpen, setOpen, isLogin }: DialogProps) => {
                           onChange={handleInputChange("acceptTerms")}
                         />
                       }
-                      label="I confirm that I have read, understood, and accepted the BETSAVE Terms & Conditions. By checking this box, I also confirm that I am at least 18 years old and agree to receive promotional emails about cashback offers, rewards, and exclusive deals."
+                      label="I confirm that I have read, understood, and accepted the BETSAVE Terms & Conditions."
                     />
                     {errors.acceptTerms && (
                       <FormHelperText error>
                         {errors.acceptTerms}
                       </FormHelperText>
                     )}
+                  </>
+                )}
+                {!isSignIn && (
+                  <>
+                    <TermsCheckbox
+                      control={
+                        <StyledCheckbox
+                          checked={formData.subscribe}
+                          onChange={handleInputChange("subscribe")}
+                        />
+                      }
+                      label="By checking this box, I confirm that I am at least 18 years old and agree to receive promotional emails about cashback offers, rewards, and exclusive deals."
+                    />
                   </>
                 )}
                 <ActionRow>

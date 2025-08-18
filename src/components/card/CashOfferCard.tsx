@@ -101,7 +101,7 @@ const CardContainer = styled(Box, {
   flexDirection: "column",
   padding: "25px 20px 20px 20px",
   gap: "12px",
-  width: "190px",
+  width: "170px",
   height: "fit-content",
   marginTop: "12px",
   marginBottom: "8px",
@@ -185,8 +185,8 @@ const PromoLabel = styled(Typography)(({ theme }) => ({
 const CardImg = styled("img", {
   shouldForwardProp: (prop) => prop !== "isPromo",
 })<{ isPromo?: boolean }>(({ theme, isPromo }) => ({
-  width: "100px",
-  height: "100px",
+  width: "80px",
+  height: "80px",
   borderRadius: "16px",
   alignSelf: "center",
   padding: "6px",

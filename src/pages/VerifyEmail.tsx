@@ -20,6 +20,7 @@ interface LocationState {
   lastname: string;
   country: string;
   password: string;
+  subscribe: boolean;
 }
 
 const VerifyEmail = () => {
@@ -53,6 +54,7 @@ const VerifyEmail = () => {
           lastname: parsedData.lastname,
           country: parsedData.country,
           password: parsedData.password,
+          subscribe: parsedData.subscribe,
         });
       } else {
         // No data available, redirect back to signup
@@ -137,6 +139,7 @@ const VerifyEmail = () => {
           ipAddress: ipAddress,
           countryCode: isoAlpha2,
           referralCode: localStorage.getItem("referralCode"),
+          subscribe: userData.subscribe,
         });
         if (response.success) {
           dispatch(

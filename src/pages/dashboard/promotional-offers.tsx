@@ -154,7 +154,7 @@ export const PromotionalOffer = () => {
 const PromotionalOfferContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  gap: "40px",
+  gap: "20px",
   width: "100%",
 }));
 
@@ -233,7 +233,7 @@ const CustomSwiper = styled(Swiper)(({ theme }) => ({
 const HeadingTitleContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  gap: "30px",
+  gap: "15px",
 }));
 
 const HeadingContent = styled(Typography)(({ theme }) => ({
@@ -247,7 +247,7 @@ const HeadingContent = styled(Typography)(({ theme }) => ({
 const OfferContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-  gap: "20px",
+  gap: "15px",
 }));
 
 const FilterContainer = styled(Box)(({ theme }) => ({

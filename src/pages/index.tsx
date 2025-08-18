@@ -869,17 +869,17 @@ const TierItemWrapper = styled(Box)(({ theme }) => ({
 }));
 
 const TierItemIcon = styled("img")(({ theme }) => ({
-  width: "180px",
-  height: "180px",
+  width: "140px",
+  height: "140px",
   objectFit: "contain",
   transition: "transform 0.3s ease-in-out",
   [theme.breakpoints.down(1800)]: {
-    width: "140px",
-    height: "140px",
+    width: "120px",
+    height: "120px",
   },
   [theme.breakpoints.down(840)]: {
-    width: "100px",
-    height: "100px",
+    width: "80px",
+    height: "80px",
   },
 }));
 
@@ -891,12 +891,12 @@ const TierItemContent = styled(Box)(({ theme }) => ({
 }));
 
 const TierItemTitle = styled(Typography)(({ theme }) => ({
-  fontSize: "40px",
+  fontSize: "32px",
   fontWeight: "500",
   color: "#fff",
   transition: "color 0.3s ease-in-out",
   [theme.breakpoints.down(1800)]: {
-    fontSize: "32px",
+    fontSize: "28px",
   },
   [theme.breakpoints.down(840)]: {
     fontSize: "24px",
@@ -904,11 +904,11 @@ const TierItemTitle = styled(Typography)(({ theme }) => ({
 }));
 
 const TierItemSubTitle = styled(Typography)(({ theme }) => ({
-  fontSize: "25px",
+  fontSize: "20px",
   fontWeight: "500",
   color: "#627691",
   [theme.breakpoints.down(1800)]: {
-    fontSize: "20px",
+    fontSize: "18px",
   },
   [theme.breakpoints.down(840)]: {
     fontSize: "16px",

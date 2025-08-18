@@ -93,7 +93,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
               [theme.breakpoints.down(1024)]: {
                 "& .MuiOutlinedInput-root input": {
                   fontSize: "14px",
-                  padding: "10px 16px",
+                  padding: "8px 12px",
                 },
               },
               [theme.breakpoints.down(840)]: {
@@ -121,7 +121,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
           },
           "& .MuiOutlinedInput-root": {
             "& .MuiAutocomplete-input": {
-              padding: "3px 0px 3px 9px",
+              padding: "3px 0px 3px 6px",
             },
           },
           "& .MuiAutocomplete-popper": {

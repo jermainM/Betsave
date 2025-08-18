@@ -90,12 +90,10 @@ export const PromotionalOffer = () => {
             <HeadingTitleIcon>
               <img src={GreenPromoOfferPng} alt="title-icon" />
             </HeadingTitleIcon>
-            Promotional Offers
+            Instant Cashback
           </HeadingTitle>
           <HeadingContent>
-            Unlock exclusive deals and rewards tailored just for you.
-            <br />
-            Don't miss out on limited-time offers
+            Get rewarded instantly when you meet our partners criteria
           </HeadingContent>
         </HeadingTitleContainer>
         {offers.length > 0 && (

@@ -83,11 +83,10 @@ export const AvailableOffer = () => {
             <HeadingTitleIcon>
               <img src={GreenAbleOfferPng} alt="title-icon" />
             </HeadingTitleIcon>
-            Offers
+            Tiered Cashback
           </HeadingTitle>
           <HeadingContent>
-            Discover exclusive deals waiting for you. Claim your rewards before
-            they expire
+            Advance through tiers to maximize your cashback rewards
           </HeadingContent>
         </HeadingTitleContainer>
         {offers.length > 0 && (

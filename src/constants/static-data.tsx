@@ -231,12 +231,12 @@ export const STATIC_DATA = {
   navListItems: [
     {
       icon: <IconImg src={GreenPromoOfferPng} alt="nav-item-img" />,
-      name: "Promotional Offers",
+      name: "Instant Cashback",
       idx: 0,
     },
     {
       icon: <IconImg src={GreenAbleOfferPng} alt="nav-item-img" />,
-      name: "Offers",
+      name: "Tiered Cashback",
       idx: 1,
     },
     {

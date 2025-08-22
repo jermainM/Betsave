@@ -34,6 +34,7 @@ import { TIER_CONFIG } from "../constants/static-data";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import { TransactionType } from "../constants/interfaces";
 import { formatDateTime } from "../utils/date";
+import { rewardService } from "../api/services/rewardService";
 
 interface DetailsType {
   description: string | React.ReactNode;
@@ -95,6 +96,13 @@ const Wallet = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [transactionPage, setTransactionPage] = useState<number>(1);
   const [transactionRowsPerPage, setTransactionRowsPerPage] = useState(5);
+
+  const [promoCode, setPromoCode] = useState("");
+  const [promoCodeError, setPromoCodeError] = useState("");
+  const [promoCodeSuccess, setPromoCodeSuccess] = useState("");
+
+  const [isPromoActive, setIsPromoActive] = useState(false);
+
   const dispatch = useDispatch();
   const { balance, history, totalCashback } = useSelector(
     (state: RootState) => state.wallet
@@ -159,6 +167,7 @@ const Wallet = () => {
   useEffect(() => {
     if (user) {
       fetchWalletBalance();
+      checkPromoCode();
     }
   }, [user]);
 
@@ -377,6 +386,43 @@ const Wallet = () => {
     return pagination;
   };
 
+  const handleRedeemPromo = async () => {
+    if (!promoCode.trim()) {
+      setPromoCodeError("Please enter a promo code");
+      return;
+    }
+
+    try {
+      setPromoCodeError("");
+      setPromoCodeSuccess("");
+      if (user?.email) {
+        const response = await rewardService.activatePromoCode(
+          promoCode,
+          user.email
+        );
+
+        setPromoCodeSuccess(response.message);
+        setPromoCode("");
+        setIsPromoActive(true);
+
+        await fetchWalletBalance();
+      }
+    } catch (error: any) {
+      setPromoCodeError(error.message || "Failed to redeem promo code");
+    }
+  };
+
+  const checkPromoCode = async () => {
+    try {
+      const response = await rewardService.isActivePromo(user.email);
+      console.log({ isActive: response });
+      setIsPromoActive(response.data);
+    } catch (error) {
+      console.error("Error checking promo code:", error);
+      setIsPromoActive(false);
+    }
+  };
+
   return (
     <PageContainer>
       <Header>
@@ -407,19 +453,35 @@ const Wallet = () => {
                   <StatLabelContainer>
                     <StatLabel>Cashback Rate</StatLabel>
                     <StatValueText>
-                      {user?.cashbackRate}% →{" "}
-                      {(() => {
-                        const currentTier = getCurrentTierInfo(
-                          totalCashback || 0
-                        );
-                        const nextTier = getNextTierInfo(currentTier);
-                        return nextTier
-                          ? `${nextTier.cashbackRate}%`
-                          : `${currentTier.cashbackRate}%`;
-                      })()}
+                      {isPromoActive ? (
+                        <PromoEnhancedRate>
+                          <BaseRate>{user?.cashbackRate + 5}%</BaseRate>
+                          <PromoBoost>
+                            <PromoBadge>
+                              <PromoBadgeIcon>⚡</PromoBadgeIcon>
+                              <PromoBadgeText>+5% PROMO</PromoBadgeText>
+                            </PromoBadge>
+                          </PromoBoost>
+                        </PromoEnhancedRate>
+                      ) : (
+                        <>{user?.cashbackRate}%</>
+                      )}
                     </StatValueText>
                   </StatLabelContainer>
-                  <StatDescription>Current → Next tier rate</StatDescription>
+                  <StatDescription>
+                    {isPromoActive ? (
+                      <PromoDescription>
+                        <PromoActiveIndicator>
+                          <PromoActiveDot />
+                          <span>Promo Active (+5% boost)</span>
+                        </PromoActiveIndicator>
+                      </PromoDescription>
+                    ) : (
+                      <StatDescription>
+                        Get +5% bonus cashback with valid promo codes
+                      </StatDescription>
+                    )}
+                  </StatDescription>
                 </StatContent>
               </StatItem>
 
@@ -515,6 +577,35 @@ const Wallet = () => {
                     })()}
                   </StatDescription>
                 </StatContent>
+              </StatItem>
+
+              <StatItem>
+                <PromoCodeContainer>
+                  <PromoCodeInputWrapper>
+                    <PromoCodeInput
+                      placeholder="Enter promo code"
+                      value={promoCode}
+                      onChange={(e) => setPromoCode(e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter") {
+                          handleRedeemPromo();
+                        }
+                      }}
+                    />
+                    <RedeemButton
+                      onClick={handleRedeemPromo}
+                      disabled={!promoCode.trim()}
+                    >
+                      Redeem
+                    </RedeemButton>
+                  </PromoCodeInputWrapper>
+                  {promoCodeError && (
+                    <PromoCodeError>{promoCodeError}</PromoCodeError>
+                  )}
+                  {promoCodeSuccess && (
+                    <PromoCodeSuccess>{promoCodeSuccess}</PromoCodeSuccess>
+                  )}
+                </PromoCodeContainer>
               </StatItem>
             </WalletStatsContainer>
             <ActionContainer>
@@ -822,6 +913,7 @@ const StatCardValue = styled(Box)(({ theme }) => ({
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   padding: "8px 12px",
+  textWrap: "nowrap",
 }));
 
 const StatTitle = styled(Typography)(({ theme }) => ({
@@ -1172,7 +1264,7 @@ const StatItem = styled(Box)(({ theme }) => ({
   alignItems: "center",
   gap: "12px",
   flex: 1,
-  padding: "5px 8px",
+  padding: "5px",
   borderRadius: "12px",
   background: "rgba(255, 255, 255, 0.05)",
   backdropFilter: "blur(10px)",
@@ -1250,14 +1342,14 @@ const StatLabel = styled(Typography)(({ theme }) => ({
   letterSpacing: "0.5px",
 }));
 
-const StatValueText = styled(Typography)(({ theme }) => ({
+const StatValueText = styled(Box)(({ theme }) => ({
   fontSize: "16px",
   color: "#fff",
   fontWeight: "700",
   lineHeight: "1.2",
 }));
 
-const StatDescription = styled(Typography)(({ theme }) => ({
+const StatDescription = styled(Box)(({ theme }) => ({
   fontSize: "11px",
   color: "rgba(255, 255, 255, 0.7)",
   fontWeight: "400",
@@ -1535,5 +1627,278 @@ const LoadingText = styled(Typography)(({ theme }) => ({
   textAlign: "center",
   [theme.breakpoints.down(480)]: {
     fontSize: "14px",
+  },
+}));
+
+const PromoCodeContainer = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "8px",
+  width: "100%",
+}));
+
+const PromoCodeInputWrapper = styled(Box)(({ theme }) => ({
+  position: "relative",
+  display: "flex",
+  alignItems: "center",
+  backgroundColor: "#0f1629",
+  borderRadius: "12px",
+  border: "1px solid #2a3441",
+  overflow: "hidden",
+  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+  "&:focus-within": {
+    borderColor: "#1AE5A1",
+    boxShadow: "0 0 0 2px rgba(26, 229, 161, 0.2)",
+  },
+  "&:hover": {
+    borderColor: "#3a4a5a",
+  },
+}));
+
+const PromoCodeInput = styled("input")(({ theme }) => ({
+  flex: 1,
+  padding: "14px 16px",
+  fontSize: "16px",
+  color: "#fff",
+  background: "none",
+  border: "none",
+  outline: "none",
+  "&::placeholder": {
+    color: "#627691",
+    opacity: 1,
+  },
+  [theme.breakpoints.down(480)]: {
+    fontSize: "14px",
+    padding: "12px 14px",
+  },
+}));
+
+const RedeemButton = styled(Button)(({ theme }) => ({
+  background: "linear-gradient(135deg, #1AE5A1 0%, #00D4AA 100%)",
+  color: "#141C30",
+  padding: "6px 4px",
+  borderRadius: "6px",
+  fontSize: "14px",
+  fontWeight: "700",
+  marginRight: "5px",
+  textTransform: "none",
+  minWidth: "90px",
+  boxShadow: "0 2px 8px rgba(26, 229, 161, 0.3)",
+  transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+  position: "relative",
+  overflow: "hidden",
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: "-100%",
+    width: "100%",
+    background:
+      "linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent)",
+    transition: "left 0.5s ease",
+  },
+  "&:hover": {
+    background: "linear-gradient(135deg, #15cc8f 0%, #00b894 100%)",
+    transform: "translateY(-1px)",
+    boxShadow: "0 4px 15px rgba(26, 229, 161, 0.5)",
+    "&::before": {
+      left: "100%",
+    },
+  },
+  "&:active": {
+    transform: "translateY(0px)",
+  },
+  "&.Mui-disabled": {
+    background: "linear-gradient(135deg, #172236 0%, #1a2338 100%)",
+    color: "#8A8D98",
+    opacity: 1,
+    boxShadow: "none",
+    transform: "none",
+  },
+  [theme.breakpoints.down(480)]: {
+    padding: "6px 4px",
+    fontSize: "12px",
+    minWidth: "70px",
+  },
+}));
+
+const PromoCodeError = styled(Typography)(({ theme }) => ({
+  color: "#ff6b6b",
+  fontSize: "14px",
+  fontWeight: "500",
+  marginLeft: "4px",
+  animation: "fadeIn 0.3s ease-in",
+  "@keyframes fadeIn": {
+    from: {
+      opacity: 0,
+      transform: "translateY(-5px)",
+    },
+    to: {
+      opacity: 1,
+      transform: "translateY(0)",
+    },
+  },
+}));
+
+const PromoCodeSuccess = styled(Typography)(({ theme }) => ({
+  color: "#1AE5A1",
+  fontSize: "14px",
+  fontWeight: "500",
+  marginLeft: "4px",
+  animation: "fadeIn 0.3s ease-in",
+  "@keyframes fadeIn": {
+    from: {
+      opacity: 0,
+      transform: "translateY(-5px)",
+    },
+    to: {
+      opacity: 1,
+      transform: "translateY(0)",
+    },
+  },
+}));
+
+const PromoEnhancedRate = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+  flexWrap: "wrap",
+  width: "100%",
+}));
+
+const BaseRate = styled(Box)(({ theme }) => ({
+  fontSize: "18px",
+  fontWeight: "700",
+  color: "#fff",
+}));
+
+const PromoBoost = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "4px",
+  position: "relative",
+}));
+
+const PromoPlus = styled(Box)(({ theme }) => ({
+  fontSize: "16px",
+  fontWeight: "700",
+  color: "#1AE5A1",
+  animation: "pulse 2s infinite",
+  "@keyframes pulse": {
+    "0%": {
+      transform: "scale(1)",
+    },
+    "50%": {
+      transform: "scale(1.1)",
+    },
+    "100%": {
+      transform: "scale(1)",
+    },
+  },
+}));
+
+const PromoAmount = styled(Box)(({ theme }) => ({
+  fontSize: "16px",
+  fontWeight: "700",
+  color: "#1AE5A1",
+  background: "linear-gradient(135deg, #1AE5A1 0%, #00D4AA 100%)",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+}));
+
+const PromoBadge = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "2px",
+  padding: "2px 6px",
+  borderRadius: "8px",
+  background: "linear-gradient(135deg, #1AE5A1 0%, #00D4AA 100%)",
+  boxShadow: "0 2px 8px rgba(26, 229, 161, 0.4)",
+  animation: "glow 2s ease-in-out infinite alternate",
+  "@keyframes glow": {
+    from: {
+      boxShadow: "0 2px 8px rgba(26, 229, 161, 0.4)",
+    },
+    to: {
+      boxShadow: "0 4px 16px rgba(26, 229, 161, 0.6)",
+    },
+  },
+}));
+
+const PromoBadgeIcon = styled(Box)(({ theme }) => ({
+  fontSize: "14px",
+  color: "#141C30",
+  fontWeight: "900",
+}));
+
+const PromoBadgeText = styled(Box)(({ theme }) => ({
+  fontSize: "12px",
+  color: "#141C30",
+  fontWeight: "900",
+  letterSpacing: "0.5px",
+}));
+
+const PromoArrow = styled(Box)(({ theme }) => ({
+  fontSize: "16px",
+  fontWeight: "700",
+  color: "#627691",
+  margin: "0 4px",
+}));
+
+const EnhancedRate = styled(Box)(({ theme }) => ({
+  fontSize: "18px",
+  fontWeight: "700",
+  color: "#1AE5A1",
+  background: "linear-gradient(135deg, #1AE5A1 0%, #00D4AA 100%)",
+  WebkitBackgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  backgroundClip: "text",
+  animation: "bounce 1s ease-in-out",
+  "@keyframes bounce": {
+    "0%, 20%, 50%, 80%, 100%": {
+      transform: "translateY(0)",
+    },
+    "40%": {
+      transform: "translateY(-3px)",
+    },
+    "60%": {
+      transform: "translateY(-1px)",
+    },
+  },
+}));
+
+const PromoDescription = styled(Box)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  gap: "4px",
+  "& > span": {
+    color: "#627691",
+    fontSize: "14px",
+  },
+}));
+
+const PromoActiveIndicator = styled(Box)(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  gap: "6px",
+  fontSize: "12px",
+  color: "#1AE5A1",
+  fontWeight: "600",
+}));
+
+const PromoActiveDot = styled(Box)(({ theme }) => ({
+  width: "6px",
+  height: "6px",
+  borderRadius: "50%",
+  background: "#1AE5A1",
+  animation: "blink 1.5s infinite",
+  "@keyframes blink": {
+    "0%, 50%": {
+      opacity: 1,
+    },
+    "51%, 100%": {
+      opacity: 0.3,
+    },
   },
 }));

@@ -1,8 +1,17 @@
-// import api from "./api";
+import api from "./api";
 
 export const rewardService = {
-  // getCpaReward: async (betsaveId: string) => {
-  //   const response = await api.get(`/rewards/cpa-rewards/${betsaveId}`);
-  //   return response.data;
-  // },
+  activatePromoCode: async (promoCode: string, email: string) => {
+    const response = await api.post("/promo/activate", {
+      code: promoCode,
+      email,
+    });
+    return response.data;
+  },
+  isActivePromo: async (email: string) => {
+    const response = await api.post("/promo/is-active/", {
+      email
+    });
+    return response.data;
+  },
 };

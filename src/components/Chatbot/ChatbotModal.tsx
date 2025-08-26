@@ -153,7 +153,10 @@ const ChatbotModal = ({
         <ChatHeader>
           <Box display="flex" alignItems="center" gap={1}>
             <SmartToy sx={{ color: "#1AE5A1", fontSize: "24px" }} />
-            <Typography variant="h6" sx={{ color: "#fff", fontWeight: "600" }}>
+            <Typography
+              variant="subtitle1"
+              sx={{ color: "#fff", fontWeight: "600" }}
+            >
               BetSave AI Assistant
             </Typography>
           </Box>
@@ -232,13 +235,14 @@ const ChatbotModal = ({
             maxRows={3}
             sx={{
               "& .MuiOutlinedInput-root": {
-                borderRadius: "20px",
+                borderRadius: "12px",
                 backgroundColor: "#0f1629",
                 border: "1px solid #2a3441",
+                padding: "12px",
                 "&:hover": { borderColor: "#3a4a5a" },
                 "&.Mui-focused": {
-                  borderColor: "#1AE5A1",
-                  boxShadow: "0 0 0 2px rgba(26, 229, 161, 0.2)",
+                  //   borderColor: "#1AE5A1",
+                  //   boxShadow: "0 0 0 2px rgba(26, 229, 161, 0.2)",
                 },
                 "& input, & textarea": {
                   color: "#fff",
@@ -273,15 +277,21 @@ const ChatbotModal = ({
 
 const StyledModal = styled(Modal)(({ theme }) => ({
   display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  alignItems: "flex-end",
+  justifyContent: "flex-end",
   padding: "16px",
+  marginBottom: "90px",
+  [theme.breakpoints.down(1096)]: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: "0px",
+  },
   [theme.breakpoints.down(480)]: { padding: "8px" },
 }));
 
 const ChatContainer = styled(Box)(({ theme }) => ({
   width: "100%",
-  maxWidth: "500px",
+  maxWidth: "420px",
   height: "600px",
   backgroundColor: "#0f1629",
   borderRadius: "16px",
@@ -297,7 +307,7 @@ const ChatHeader = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: "16px 20px",
+  padding: "5px 15px",
   borderBottom: "1px solid #2a3441",
   backgroundColor: "rgba(255, 255, 255, 0.02)",
 }));
@@ -315,10 +325,13 @@ const MessagesContainer = styled(Box)(({ theme }) => ({
   "&::-webkit-scrollbar-thumb:hover": { background: "#3a4a5a" },
 }));
 
-const MessageBubble = styled(Box)<{ isUser: boolean }>(({ theme, isUser }) => ({
+const MessageBubble = styled(Box, {
+  shouldForwardProp: (prop) => prop !== "isUser",
+})<{ isUser: boolean }>(({ theme, isUser }) => ({
   display: "flex",
   flexDirection: "column",
   maxWidth: "80%",
+  minWidth: "120px",
   padding: "12px 16px",
   borderRadius: "16px",
   alignSelf: isUser ? "flex-end" : "flex-start",
@@ -328,6 +341,8 @@ const MessageBubble = styled(Box)<{ isUser: boolean }>(({ theme, isUser }) => ({
   border: isUser ? "none" : "1px solid #2a3441",
   color: isUser ? "#141C30" : "#fff",
   wordWrap: "break-word",
+  overflowWrap: "break-word",
+  hyphens: "auto",
   animation: "fadeIn 0.3s ease-in",
   "@keyframes fadeIn": {
     from: { opacity: 0, transform: "translateY(10px)" },
@@ -358,7 +373,7 @@ const InputContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   gap: "8px",
-  padding: "16px",
+  padding: "8px",
   borderTop: "1px solid #2a3441",
   backgroundColor: "rgba(255, 255, 255, 0.02)",
 }));

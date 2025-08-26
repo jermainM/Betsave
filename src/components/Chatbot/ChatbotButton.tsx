@@ -40,8 +40,8 @@ const StyledFab = styled(Fab)(({ theme }) => ({
   "&:hover": {
     boxShadow: "0 8px 30px rgba(26, 229, 161, 0.6)",
   },
-  [theme.breakpoints.down(480)]: {
-    bottom: "16px",
+  [theme.breakpoints.down(1096)]: {
+    bottom: "96px",
     right: "16px",
   },
 }));

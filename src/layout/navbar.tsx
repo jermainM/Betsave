@@ -17,7 +17,6 @@ import {
   MenuItem,
 } from "@mui/material";
 import {
-  AccessTime,
   AccountBalanceWallet,
   KeyboardArrowDown,
   Notifications,
@@ -39,8 +38,6 @@ import {
 } from "../store/slices/walletSlice";
 import {
   BetSaveLogoImg,
-  ExpandSidebarIcon,
-  GiftIcon,
   HandMoneyIcon,
   JonahAvatarIcon,
   TempUserIcon,
@@ -49,6 +46,8 @@ import { clearSession } from "../store/slices/sessionSlice";
 import { useNotification } from "../provider/notification";
 import { formatEarningWithCommas } from "../utils/number";
 import { getUserWalletData } from "../api/functions";
+
+import { ChatbotButton } from "../components/Chatbot/ChatbotButton";
 
 export const NavBar = (props: { children: React.ReactNode }) => {
   const { children } = props;
@@ -419,6 +418,8 @@ export const NavBar = (props: { children: React.ReactNode }) => {
           />
         ))}
       </MobileSmallSidebarContainer>
+
+      <ChatbotButton />
     </Container>
   );
 };

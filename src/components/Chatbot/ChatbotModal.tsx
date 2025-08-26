@@ -49,7 +49,9 @@ const ChatbotModal = ({
 
   const fetchTestMessage = async () => {
     try {
-      const response = await fetch(`${API_CONFIG.AI_BACKEND_URL}/chatbot/test`);
+      const response = await fetch(
+        `${API_CONFIG.AI_BACKEND_URL}/api/chatbot/test`
+      );
       const data = await response.json();
       if (data.success) {
         const welcomeMessage: Message = {
@@ -95,7 +97,7 @@ const ChatbotModal = ({
       ];
 
       const response = await fetch(
-        `${API_CONFIG.AI_BACKEND_URL}/chatbot/chat`,
+        `${API_CONFIG.AI_BACKEND_URL}/api/chatbot/chat`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -253,19 +253,19 @@ export const STATIC_DATA = {
       icon: <IconImg src={GreenLeaderboardPng} alt="nav-item-img" />,
       name: "Leaderboard",
       idx: 4,
-      comingSoon: true,
+      comingSoon: false,
     },
     {
       icon: <IconImg src={GreenRewardPng} alt="nav-item-img" />,
       name: "Rewards",
       idx: 5,
-      comingSoon: true,
+      comingSoon: false,
     },
     {
       icon: <IconImg src={GreenAffiliatePng} alt="nav-item-img" />,
       name: "Affiliates",
       idx: 6,
-      comingSoon: true,
+      comingSoon: false,
     },
   ],
   accountListItems: [

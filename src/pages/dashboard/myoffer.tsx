@@ -1,23 +1,6 @@
 import { Box, IconButton, styled, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { FaCircleCheck } from "react-icons/fa6";
+import { useEffect, useState } from "react";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-
-// import required modules
-import {
-  Keyboard,
-  Pagination,
-  Navigation,
-  Autoplay,
-  FreeMode,
-} from "swiper/modules";
 
 import { CashOfferCard } from "../../components/card/CashOfferCard";
 import { EmptyBox } from "../../components/box/EmptyBox";
@@ -100,16 +83,6 @@ export const MyOffer = () => {
 
   return (
     <MyOfferContainer>
-      {/* <MyOfferHeader>
-        <MyOfferHeaderText>
-          Earn <span>on</span>
-        </MyOfferHeaderText>
-        <MyOfferBadgeWrapper>
-          <MyOfferBadge icon={<DiAndroid />} text={'Android'} />
-          <MyOfferBadge icon={<FaDesktop />} text={'Desktop'} />
-          <MyOfferBadge icon={<FaApple />} text={'iOS'} />
-        </MyOfferBadgeWrapper>
-      </MyOfferHeader> */}
       <Heading>
         <HeadingTitleContainer>
           <HeadingTitle>
@@ -151,27 +124,11 @@ export const MyOffer = () => {
         ) : offers.length === 0 ? (
           <EmptyBox />
         ) : (
-          <CashOfferSwiper>
-            <CustomSwiper
-              slidesPerView={"auto"}
-              freeMode={true}
-              keyboard={{
-                enabled: true,
-              }}
-              navigation={{
-                nextEl: ".cashoffer-swiper-button-next",
-                prevEl: ".cashoffer-swiper-button-prev",
-              }}
-              modules={[Keyboard, Pagination, Navigation, Autoplay, FreeMode]}
-              className="mySwiper"
-            >
-              {filteredOffers.map((offer, idx) => (
-                <SwiperSlide key={"MyOffer-" + idx}>
-                  <CashOfferCard offer={offer} />
-                </SwiperSlide>
-              ))}
-            </CustomSwiper>
-          </CashOfferSwiper>
+          <CashOfferContainer>
+            {filteredOffers.map((offer, idx) => (
+              <CashOfferCard offer={offer} key={"MyOffer-" + idx} />
+            ))}
+          </CashOfferContainer>
         )}
       </OfferContainer>
     </MyOfferContainer>
@@ -216,132 +173,6 @@ const HeadingTitleIcon = styled(Box)(({ theme }) => ({
   },
 }));
 
-const MyOfferHeader = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  gap: "16px",
-  [theme.breakpoints.down(640)]: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-  },
-}));
-
-const MyOfferHeaderText = styled(Typography)(({ theme }) => ({
-  fontSize: "28px",
-  color: "#fff",
-  fontWeight: "600",
-  span: {
-    color: "#627691",
-    fontSize: "18px",
-    fontWeight: "500",
-  },
-}));
-
-const MyOfferBadgeWrapper = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  gap: "8px",
-  flexWrap: "wrap",
-}));
-
-interface MyOfferBadgeIcon {
-  icon: React.ReactNode;
-  text: string;
-}
-
-const MyOfferBadge = (props: MyOfferBadgeIcon) => {
-  const { icon, text } = props;
-  return (
-    <MyOfferBadgeContainer>
-      <MyOfferIcon>{icon}</MyOfferIcon>
-      <MyOfferText>{text}</MyOfferText>
-      <MyOfferStatusIcon>
-        <FaCircleCheck />
-      </MyOfferStatusIcon>
-    </MyOfferBadgeContainer>
-  );
-};
-
-const MyOfferBadgeContainer = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  gap: "8px",
-  padding: "8px 10px",
-  borderRadius: "24px",
-  backgroundColor: "#171e31",
-}));
-
-const MyOfferIcon = styled(Box)(({ theme }) => ({
-  color: "#fff",
-  fontSize: "20px",
-  display: "flex",
-  alignItems: "center",
-  [theme.breakpoints.down(480)]: {
-    fontSize: "16px",
-  },
-}));
-
-const MyOfferText = styled(Typography)(({ theme }) => ({
-  fontSize: "18px",
-  color: "#627691",
-  [theme.breakpoints.down(480)]: {
-    fontSize: "16px",
-  },
-}));
-
-const MyOfferStatusIcon = styled(Box)(({ theme }) => ({
-  color: "#1ae5a1",
-  fontSize: "20px",
-  display: "flex",
-  alignItems: "center",
-  [theme.breakpoints.down(480)]: {
-    fontSize: "16px",
-  },
-}));
-
-const MyOfferContent = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  flexDirection: "column",
-  width: "100%",
-  gap: "10px",
-}));
-
-const MyOfferContentHeader = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-  width: "100%",
-  height: "63px",
-  [theme.breakpoints.down(390)]: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-    gap: "8px",
-    height: "auto",
-  },
-}));
-
-const MyOfferContentTitle = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  gap: "12px",
-  fontSize: "18px",
-  color: "#fff",
-  [theme.breakpoints.down(480)]: {
-    fontSize: "16px",
-    gap: "8px",
-  },
-}));
-
-const MyOfferTitleIcon = styled(Box)(({ theme }) => ({
-  width: "36px",
-  height: "36px",
-  img: {
-    width: "100%",
-    height: "auto",
-  },
-}));
-
 const MyOfferContentAction = styled(Box)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -365,21 +196,6 @@ const MyOfferNavButton = styled(IconButton)(({ theme }) => ({
     fontSize: "14px",
     width: "32px",
     height: "32px",
-  },
-}));
-
-const CashOfferSwiper = styled(Box)(({ theme }) => ({
-  display: "flex",
-  width: "100%",
-}));
-
-const CustomSwiper = styled(Swiper)(({ theme }) => ({
-  ".swiper-wrapper": {
-    width: "auto",
-    gap: "10px",
-  },
-  ".swiper-slide": {
-    width: "auto",
   },
 }));
 
@@ -414,4 +230,11 @@ const CountrySelectWrapper = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down(480)]: {
     width: "100%",
   },
+}));
+
+const CashOfferContainer = styled(Box)(({ theme }) => ({
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+  gap: "15px",
+  width: "100%",
 }));

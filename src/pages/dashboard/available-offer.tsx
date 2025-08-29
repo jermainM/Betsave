@@ -1,14 +1,6 @@
 import { Box, IconButton, styled, Typography } from "@mui/material";
-import { Keyboard } from "swiper/modules";
 import { useEffect, useState } from "react";
 import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { FreeMode, Autoplay, Navigation, Pagination } from "swiper/modules";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 
 import { GreenAbleOfferPng } from "../../constants/images";
 import { CashOfferCard } from "../../components/card/CashOfferCard";
@@ -116,27 +108,11 @@ export const AvailableOffer = () => {
         ) : offers.length === 0 ? (
           <EmptyBox />
         ) : (
-          <AvailableOfferwiper>
-            <CustomSwiper
-              slidesPerView={"auto"}
-              freeMode={true}
-              keyboard={{
-                enabled: true,
-              }}
-              navigation={{
-                nextEl: ".myoffer-swiper-button-next",
-                prevEl: ".myoffer-swiper-button-prev",
-              }}
-              modules={[Keyboard, Pagination, Navigation, Autoplay, FreeMode]}
-              className="mySwiper"
-            >
-              {filteredOffers.map((offer, idx) => (
-                <SwiperSlide key={"Offer-" + idx}>
-                  <CashOfferCard offer={offer} />
-                </SwiperSlide>
-              ))}
-            </CustomSwiper>
-          </AvailableOfferwiper>
+          <AvailableOfferContainer>
+            {filteredOffers.map((offer, idx) => (
+              <CashOfferCard offer={offer} key={"Offer-" + idx} />
+            ))}
+          </AvailableOfferContainer>
         )}
       </OfferContainer>
     </Container>
@@ -224,21 +200,6 @@ const HeadingActionButton = styled(IconButton)(({ theme }) => ({
   },
 }));
 
-const AvailableOfferwiper = styled(Box)(({ theme }) => ({
-  display: "flex",
-  width: "100%",
-}));
-
-const CustomSwiper = styled(Swiper)(({ theme }) => ({
-  ".swiper-wrapper": {
-    width: "auto",
-    gap: "10px",
-  },
-  ".swiper-slide": {
-    width: "auto",
-  },
-}));
-
 const OfferContainer = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -256,4 +217,11 @@ const CountrySelectWrapper = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down(480)]: {
     width: "100%",
   },
+}));
+
+const AvailableOfferContainer = styled(Box)(({ theme }) => ({
+  display: "grid",
+  gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+  gap: "15px",
+  width: "100%",
 }));
